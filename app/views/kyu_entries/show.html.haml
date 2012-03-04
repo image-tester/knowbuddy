@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Subject:
+  = @kyu_entry.subject
+%p
+  %b Content:
+  = @kyu_entry.content
+%p
+  %b Publish by:
+  = @kyu_entry.user.email
+%p
+  %b Publish at:
+  = @kyu_entry.publish_at
+
+= link_to 'Edit', edit_kyu_entry_path(@kyu_entry)
+\|
+= link_to 'Back', kyu_entries_path

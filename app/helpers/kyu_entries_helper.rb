@@ -1,0 +1,2 @@
+module KyuEntriesHelper
+end

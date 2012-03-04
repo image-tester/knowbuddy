@@ -43,7 +43,16 @@ module KYU
     config.assets.enabled = true
 
     # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.0'
+    config.assets.version = '1.1'
+    
+    
+    # Added by Rohan on 04-Mar-2012
+    # Start
+    #config.assets.paths << "#{Rails.root}/public/assets/fonts" 
+    #config.assets.paths << Rails.root.join("app", "assets", "stylesheets")
+    #config.assets.paths << Rails.root.join("app", "assets", "javascripts")
+    # End
+    
     
     #Added by Rohan on 03-Mar-2012
     #Start Add

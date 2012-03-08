@@ -25,7 +25,6 @@
 
 body {
   color: #111111;
-  background: #c4c4c4 url("images/bgd.jpg");
   font-family: "MuseoSans500", helvetica, arial, sans-serif;
 }
 
@@ -35,8 +34,12 @@ h1, h2, h3 {
   font-family: "Museo700", helvetica, arial, sans-serif;
 }
 
-a:link, a:visited, a:hover, a:active {
+a:link, a:visited, a:active {
   color: #111111;
+}
+
+a:hover{
+  color: #111111;	
 }
 
 a {
@@ -59,7 +62,7 @@ hr {
 #header h1 {
   padding: 15px 5px;
   float: left;
-  font-size: 40px;
+  font-size: 25px;
   font-style: normal;
   text-transform: normal;
   letter-spacing: -1px;
@@ -398,6 +401,11 @@ ul.list li .item .avatar {
 #box {
   width: 480px;
 }
+#authentication-page
+{
+	background: #c4c4c4 url("images/bgd.jpg"); 
+	color: #111111;
+}
 #box .block {
   background: white;
   text-shadow: 0 1px 0 white;
@@ -460,4 +468,27 @@ a.button:active, button.button:active {
 .login div.right, .signup div div.right {
   width: 74%;
   float: right;
+}
+
+#kyu-subject
+{
+	font-size: 16px;
+	margin-top: 10px;
+	margin-bottom:10px;
+}
+#kyu-content
+{
+	padding: 20px;
+	margin-bottom: 50px;
+	-webkit-box-shadow: -1px 7px 14px rgba(70, 50, 50, 0.73);
+	-moz-box-shadow:    -1px 7px 14px rgba(70, 50, 50, 0.73);
+	box-shadow:         -1px 7px 14px rgba(70, 50, 50, 0.73);
+}
+#kyu-header 
+{
+	font-size: 9px;
+	margin: 2px;
+	position: relative;
+	margin-bottom:20px;
+	float: right;
 }

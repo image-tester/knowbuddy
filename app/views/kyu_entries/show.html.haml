@@ -1,17 +1,15 @@
 %p#notice= notice
 
-%p
-  %b Subject:
-  = @kyu_entry.subject
-%p
-  %b Content:
-  = @kyu_entry.content
-%p
-  %b Publish by:
+#kyu-header
+  %b Posted by: 	
   = @kyu_entry.user.email
-%p
-  %b Publish at:
-  = @kyu_entry.publish_at
+  %b On: 
+  = @kyu_entry.publish_at.strftime('%d-%b-%Y')
+#kyu-subject
+  = @kyu_entry.subject
+#kyu-content
+  = @kyu_entry.content
+
 
 = link_to 'Edit', edit_kyu_entry_path(@kyu_entry)
 \|

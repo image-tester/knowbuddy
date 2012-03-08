@@ -17,7 +17,7 @@
         - @kyu_entries.each do |kyu_entry|
           %tr{:class => cycle("odd", "even")}
             %td
-              = link_to kyu_entry.subject, kyu_entry_path(kyu_entry)
+              = link_to truncate(kyu_entry.subject, :length => 70), kyu_entry_path(kyu_entry)
             %td
               = kyu_entry.created_at.strftime('%d-%b-%Y')
             %td

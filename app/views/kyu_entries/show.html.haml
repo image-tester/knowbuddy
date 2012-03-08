@@ -8,8 +8,7 @@
 #kyu-subject
   = @kyu_entry.subject
 #kyu-content
-  = @kyu_entry.content
-
+  = raw RedCloth.new(@kyu_entry.content).to_html 
 
 = link_to 'Edit', edit_kyu_entry_path(@kyu_entry)
 \|

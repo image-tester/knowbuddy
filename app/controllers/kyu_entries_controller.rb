@@ -81,4 +81,20 @@ class KyuEntriesController < ApplicationController
       format.json { head :ok }
     end
   end
+  
+  
+  # This is default value for textArea value of KYU entry
+  # This is done so that users will be able to quickly know that the content text is enabled with textile markup
+  # so that they can use textile
+  $text_area_default_value = 'h1. This is Textile markup. Give it a try!
+
+  A *simple* paragraph with
+  a line break, some _emphasis_ and a "link":http://redcloth.org
+
+  * an item
+  * and another
+
+  # one
+  # two
+  '
 end

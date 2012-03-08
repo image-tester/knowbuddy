@@ -2,10 +2,10 @@
   = f.label :subject, t("activerecord.attributes.kyu_entry.subject", :default => "Subject"), :class => :label
   = f.text_field :subject, :class => 'text_field'
 .group
-  = f.label :content, t("activerecord.attributes.kyu_entry.content", :default => "Content"), :class => :label
-  = f.text_area :content, :class => 'text_area'
+  = f.label :content, t("activerecord.attributes.kyu_entry.content", :default => "Content (Textile markup enabled)"), :class => :label
+  = f.text_area :content, :value => $text_area_default_value, :class => 'text_area'
 .group
-  = f.label :publish_at, t("activerecord.attributes.kyu_entry.publish_at", :default => "Publish at"), :class => :label
+  = f.label :publish_at, t("activerecord.attributes.kyu_entry.publish_at", :default => "Publish Date"), :class => :label
   = f.datetime_select :publish_at, :class => 'datetime_select'
 .group.navform.wat-cf
   %button.button{:type => "submit"}

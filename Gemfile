@@ -5,6 +5,7 @@ gem 'rails', '3.1.0'
 gem 'devise'
 gem 'haml'
 gem 'kaminari'
+gem 'RedCloth'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'

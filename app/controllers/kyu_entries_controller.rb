@@ -42,6 +42,7 @@ class KyuEntriesController < ApplicationController
   def create
     @kyu_entry = KyuEntry.new(params[:kyu_entry])
     @kyu_entry.user = current_user
+    @kyu_entry.publish_at = Time.now
     
     respond_to do |format|
       if @kyu_entry.save

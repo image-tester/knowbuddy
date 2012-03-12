@@ -48,12 +48,15 @@ class KyuEntriesController < ApplicationController
       if @kyu_entry.save
         format.html { redirect_to @kyu_entry, notice: 'KYU was successfully created.' }
         format.json { render json: @kyu_entry, status: :created, location: @kyu_entry }
+        
+        #send email notifications to everyone
+        UserMailer.send_notification_on_new_KYU(User.all, @kyu_entry).deliver
       else
         format.html { render action: "new" }
         format.json { render json: @kyu_entry.errors, status: :unprocessable_entity }
       end
     end
-  end
+  end  
 
   # PUT /kyu_entries/1
   # PUT /kyu_entries/1.json

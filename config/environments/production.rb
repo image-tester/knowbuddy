@@ -58,4 +58,11 @@ KYU::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+  
+  # Added by Rohan on 12-Mar-2012 to provide smtp host for sending emails from this portal
+  # START
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = SMTP_SETTINGS
+  # END
 end

@@ -3,9 +3,10 @@ $(document).ready(function() {
    // define a default textile template so that user can understand simple format as we have not used HTML editor purposely here
    var strDefaultValForKYUTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
 
-   // set this default value to textarea
-   $(".text_area").addClass("watermarkOn").val(strDefaultValForKYUTextarea);
-
+   // set this default value to textarea if its empty
+   if ($(".text_area").val() == ""){
+   	$(".text_area").addClass("watermarkOn").val(strDefaultValForKYUTextarea);
+   }
 
 // Watermark snippet for text area
 // Start snippet

@@ -10,6 +10,7 @@ class UserMailer < ActionMailer::Base
   
   def send_notification_on_new_KYU(users, kyu_entry) 
     @content = kyu_entry.content
+    @posted_by = kyu_entry.user
     @url  = "http://localhost:3000"
     @link_to_kyu = @url + kyu_entry_path(kyu_entry)
     @users_list = ""

@@ -1,0 +1,11 @@
+development:
+  url: "http://localhost:3000"
+  host: "0.0.0.0:3000"
+  
+test:
+  url: "http://localhost:3000"
+  host: "0.0.0.0:3000"
+  
+production:
+  url: "http://knowbuddy.kiprosh.com"
+  host: "knowbuddy.kiprosh.com"

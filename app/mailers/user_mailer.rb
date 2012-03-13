@@ -3,15 +3,14 @@ class UserMailer < ActionMailer::Base
   
   def welcome_email(user)
     @user = user
-    @url  = "http://localhost:3000/users/sign_in"
+    @url  = APP_CONFIG['url'] + "users/sign_in"
     mail(:to => user.email, :subject => "Welcome to KnowBuddy")
   end
-  
   
   def send_notification_on_new_KYU(users, kyu_entry) 
     @content = kyu_entry.content
     @posted_by = kyu_entry.user
-    @url  = "http://localhost:3000"
+    @url  = APP_CONFIG['url']
     @link_to_kyu = @url + kyu_entry_path(kyu_entry)
     @users_list = ""
     users.each do |user_to_notify|

@@ -25,7 +25,6 @@
 
 body {
   color: #111111;
-  background: #c4c4c4 url("<%= asset_path "web-app-theme/themes/default/images/bgd.jpg" %>");
   font-family: "MuseoSans500", helvetica, arial, sans-serif;
 }
 
@@ -59,7 +58,7 @@ hr {
 #header h1 {
   padding: 15px 5px;
   float: left;
-  font-size: 40px;
+  font-size: 25px;
   font-style: normal;
   text-transform: normal;
   letter-spacing: -1px;
@@ -462,6 +461,14 @@ a.button:active, button.button:active {
   float: right;
 }
 
+
+#authentication-page
+{
+  background: #c4c4c4 url("images/bgd.jpg"); 
+  background: #c4c4c4 url("<%= asset_path "web-app-theme/themes/default/images/bgd.jpg" %>") top;
+  color: #111111;
+}
+
 #kyu-subject
 {
 	font-size: 16px;
@@ -483,4 +490,8 @@ a.button:active, button.button:active {
 	position: relative;
 	margin-bottom:20px;
 	float: right;
+}
+
+.form textarea.text_area {
+  height: 250px;
 }

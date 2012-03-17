@@ -1,8 +1,8 @@
 /* Activo 2 by David Francisco (activo.dmfranc.com) - tiny version for web-app-theme */
 @font-face {
   font-family: "MuseoSans500";
-  src: url(<%= asset_path 'web-app-theme/themes/default/fonts/museosans_500-webfont.eot' %>);
-  src: local("☺"), url(<%= asset_path 'web-app-theme/themes/default/fonts/museosans_500-webfont.woff' %>) format("woff"), url(<%= asset_path "web-app-theme/themes/default/fonts/museosans_500-webfont.ttf" %>) format("truetype"), url("<%= asset_path "web-app-theme/themes/default/fonts/museosans_500-webfont.svg" %>") format("svg");
+  src: url("<%= asset_path "web-app-theme/themes/default/fonts/museosans_500-webfont.eot" %>");
+  src: local("☺"), url("<%= asset_path "web-app-theme/themes/default/fonts/museosans_500-webfont.woff" %>") format("woff"), url("<%= asset_path "web-app-theme/themes/default/fonts/museosans_500-webfont.ttf" %>") format("truetype"), url("<%= asset_path "web-app-theme/themes/default/fonts/museosans_500-webfont.svg" %>") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -25,6 +25,7 @@
 
 body {
   color: #111111;
+  background: #c4c4c4 url("<%= asset_path "web-app-theme/themes/default/images/bgd.jpg" %>");
   font-family: "MuseoSans500", helvetica, arial, sans-serif;
 }
 
@@ -34,12 +35,8 @@ h1, h2, h3 {
   font-family: "Museo700", helvetica, arial, sans-serif;
 }
 
-a:link, a:visited, a:active {
+a:link, a:visited, a:hover, a:active {
   color: #111111;
-}
-
-a:hover{
-  color: #111111;	
 }
 
 a {
@@ -62,7 +59,7 @@ hr {
 #header h1 {
   padding: 15px 5px;
   float: left;
-  font-size: 25px;
+  font-size: 40px;
   font-style: normal;
   text-transform: normal;
   letter-spacing: -1px;
@@ -128,7 +125,7 @@ hr {
 }
 
 .secondary-navigation {
-  background: #e0e0e0 url("images/boxbar-background.png") top;
+  background: #e0e0e0 url("<%= asset_path "web-app-theme/themes/default/images/boxbar-background.png" %>") top;
   border-bottom-width: 0px;
   -moz-border-radius-topleft: 6px;
   -webkit-border-top-left-radius: 6px;
@@ -242,7 +239,7 @@ hr {
 #sidebar ul li {
   background-position: 0 11px;
   background-repeat: no-repeat;
-  background-image: url("images/arrow.png");
+  background-image: url("<%= asset_path "web-app-theme/themes/default/images/arrow.png" %>");
   border-bottom: 1px dashed #777777;
   list-style-type: none;
 }
@@ -271,7 +268,7 @@ hr {
   min-width: 15px;
   text-align: center;
   background: #dddddd;
-  background-image: url("images/button-background.png");
+  background-image: url("<%= asset_path "web-app-theme/themes/default/images/button-background.png" %>");
   color: #111111;
 }
 .pagination a:hover {
@@ -287,7 +284,7 @@ hr {
 }
 
 .pagination a:active {
-  background-image: url("images/button-background-active.png");
+  background-image: url("<%= asset_path "web-app-theme/themes/default/images/button-background-active.png" %>");
   outline: none;
 }
 
@@ -321,9 +318,6 @@ hr {
   -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-.form textarea.text_area {
-	height: 250px;
 }
 .form input.button {
   background: #dddddd;
@@ -363,17 +357,17 @@ hr {
 }
 .flash .error, .flash .error-list, .flash .alert {
   border: 1px solid #993624;
-  background: #cc4831 url("images/messages/error.png") no-repeat 10px center;
+  background: #cc4831 url("<%= asset_path "web-app-theme/themes/default/images/messages/error.png" %>") no-repeat 10px center;
 }
 .flash .warning {
   border: 1px solid #bb9004;
-  background: #f9c006 url("images/messages/warning.png") no-repeat 10px center;
+  background: #f9c006 url("<%= asset_path "web-app-theme/themes/default/images/messages/warning.png" %>") no-repeat 10px center;
 }
 .flash .notice {
   color: #28485e;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
   border: 1px solid #8a9daa;
-  background: #b8d1e2 url("images/messages/notice.png") no-repeat 10px center;
+  background: #b8d1e2 url("<%= asset_path "web-app-theme/themes/default/images/messages/notice.png" %>") no-repeat 10px center;
 }
 .flash .error-list {
   text-align: left;
@@ -404,11 +398,6 @@ ul.list li .item .avatar {
 #box {
   width: 480px;
 }
-#authentication-page
-{
-	background: #c4c4c4 url("images/bgd.jpg"); 
-	color: #111111;
-}
 #box .block {
   background: white;
   text-shadow: 0 1px 0 white;
@@ -432,7 +421,7 @@ ul.list li .item .avatar {
 }
 
 a.button, button.button {
-  background: #edeeed url("images/button-background.png") top;
+  background: #edeeed url("<%= asset_path "web-app-theme/themes/default/images/button-background.png" %>") top;
   border: 1px solid #c3c4ba;
   font-family: "MuseoSans500", helvetica, arial, sans-serif;
   font-weight: normal;
@@ -445,11 +434,11 @@ a.button, button.button {
 }
 a.button:link, a.button:visited, a.button:hover, a.button:active, button.button:link, button.button:visited, button.button:hover, button.button:active {
   font-weight: normal;
-  background: #edeeed url("images/button-background.png") top;
+  background: #edeeed url("<%= asset_path "web-app-theme/themes/default/images/button-background.png" %>") top;
 }
 
 a.button:active, button.button:active {
-  background: #eaeaea url("images/button-background-active.png") top;
+  background: #eaeaea url("<%= asset_path "web-app-theme/themes/default/images/button-background-active.png" %>") top;
   outline: none;
   margin-top: 1px;
   margin-bottom: -1px;

@@ -3,7 +3,7 @@ class UserMailer < ActionMailer::Base
   
   def welcome_email(user)
     @user = user
-    @url  = APP_CONFIG['url'] + "users/sign_in"
+    @url  = APP_CONFIG['url'] + "/users/sign_in"
     mail(:to => user.email, :subject => "Welcome to KnowBuddy")
   end
   

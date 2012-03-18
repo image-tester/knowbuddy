@@ -14,6 +14,7 @@
             = t("activerecord.attributes.kyu_entry.subject", :default => t("activerecord.labels.subject", :default => "Subject"))
           %th= t("web-app-theme.created_at", :default => "Date")
           %th= t("web-app-theme.created_at", :default => "Contributor")
+          %th= t("web-app-theme.created_at", :default => "")
         - @kyu_entries.each do |kyu_entry|
           %tr{:class => cycle("odd", "even")}
             %td
@@ -22,6 +23,8 @@
               = kyu_entry.created_at.strftime('%d-%b-%Y')
             %td
               = kyu_entry.user.email
+            %td
+              = image_tag avatar_url(kyu_entry.user, 45) 
             -# %td.last
             -#  = link_to "#{t("web-app-theme.show", :default => "View")}", kyu_entry_path(kyu_entry)
             -#  |

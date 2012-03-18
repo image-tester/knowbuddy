@@ -16,6 +16,7 @@
         .rightCorner  
 %br
 #kyu-edit-back-link
-  = link_to 'Edit', edit_kyu_entry_path(@kyu_entry)
-  \|
-  = link_to 'Back', kyu_entries_path
+  - if current_user == @kyu_entry.user
+    = link_to 'Edit', edit_kyu_entry_path(@kyu_entry)
+    \|
+  = link_to_function 'Back', 'history.back()'

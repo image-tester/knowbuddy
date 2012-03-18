@@ -1,19 +1,20 @@
 #kyu-post
   #kyu-header
     .contributor_pic
-      = image_tag avatar_url(@kyu_entry.user, 120) 
+      = image_tag avatar_url(@kyu_entry.user, 70) 
     .postDetails
-      = @kyu_entry.user.email
-      %br
+      -# = @kyu_entry.user.email
       %b On: 
       = @kyu_entry.publish_at.strftime('%d-%b-%Y')
-  #kyu-subject
-    = @kyu_entry.subject
-  #kyu-content
-    = raw RedCloth.new(@kyu_entry.content).to_html 
+  #kyu-details
+    #kyu-subject
+      = @kyu_entry.subject
+    #kyu-content 
+      .kyuContent
+        = raw RedCloth.new(@kyu_entry.content).to_html 
+      #right 
+        .rightCorner  
 %br
-
-
 #kyu-edit-back-link
   = link_to 'Edit', edit_kyu_entry_path(@kyu_entry)
   \|

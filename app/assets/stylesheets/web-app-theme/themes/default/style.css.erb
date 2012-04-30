@@ -587,6 +587,9 @@ a.button:active, button.button:active {
 
 #kyu-tag {
  background: -moz-linear-gradient(center top , #FFFFFF 0%, #CCCCCC 100%) repeat scroll 0 0 transparent;
+ background: -webkit-linear-gradient(#FFFFFF, #CCCCCC);
+ background: -ms-linear-gradient(#FFFFFF, #CCCCCC);
+ background: -o-linear-gradient(#FFFFFF, #CCCCCC);
     cursor: pointer;
     float: left;
     margin-right: 5px;
@@ -598,6 +601,9 @@ a.button:active, button.button:active {
 
 #kyu-tag-els {
  background: -moz-linear-gradient(center top , #FFFFFF 0%, #CCCCCC 100%) repeat scroll 0 0 transparent;
+ background: -webkit-linear-gradient(#FFFFFF, #CCCCCC);
+ background: -ms-linear-gradient(#FFFFFF, #CCCCCC);
+ background: -o-linear-gradient(#FFFFFF, #CCCCCC);
     float: left;
     margin-right: 5px;
     margin-top: 3px;
@@ -607,11 +613,12 @@ a.button:active, button.button:active {
 }
 
 #tag_cloud {
-    display: block
-    width: 600px
-    margin-left: auto
-    margin-right: auto
+    display: block;
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
+
 .cloud_element {
     display: inline;
     line-height: 22px;

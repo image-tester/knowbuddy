@@ -8,28 +8,3 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require_tree .
-// Added on 21st April 2012 by yatish to delete tags on dblclick
-// Start  
-$(document).ready(function(){
-$("div.kyuContent span#kyu-tag").dblclick(function(){ 
-var tag = $(this).text().trim();
-var id = $(this).parent().attr("kyu_id");
-var temp = $(this);
-$.ajax({
-       type: "POST",
-       url: "/kyu_entries/remove_tag",
-       dataType: "json",
-       data: {"id": id, "tag": tag}, 
-       success: function (html) {
-                temp.hide();
-             },
-       error: function (html) {
-                alert('error');
-             }
-       });
-      
-  });
-});
-// End
-
-

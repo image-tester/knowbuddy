@@ -1,20 +1,25 @@
 class KyuEntriesController < ApplicationController
   # GET /kyu_entries
   # GET /kyu_entries.json
-  
+  autocomplete :tag, :name, :class_name => 'ActsAsTaggableOn::Tag', :full => true
+
   def index
-    @kyu_entries = KyuEntry.order('created_at DESC').page(params[:page])    
+    @kyu_entries = KyuEntry.order('created_at DESC').page(params[:page])
+    @list = tag_cloud
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @kyu_entries }
     end
   end
 
+  def related_tag
+   @related_tags = KyuEntry.tagged_with(params[:name])
+  end
+  
   # GET /kyu_entries/1
   # GET /kyu_entries/1.json
   def show
     @kyu_entry = KyuEntry.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @kyu_entry }
@@ -24,8 +29,8 @@ class KyuEntriesController < ApplicationController
   # GET /kyu_entries/new
   # GET /kyu_entries/new.json
   def new
-    @kyu_entry = KyuEntry.new
-
+    @kyu_entry = KyuEntry.new 
+    @list = tag_cloud
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @kyu_entry }
@@ -35,6 +40,7 @@ class KyuEntriesController < ApplicationController
   # GET /kyu_entries/1/edit
   def edit
     @kyu_entry = KyuEntry.find(params[:id])
+    @list = tag_cloud
   end
 
   # POST /kyu_entries
@@ -42,8 +48,7 @@ class KyuEntriesController < ApplicationController
   def create
     @kyu_entry = KyuEntry.new(params[:kyu_entry])
     @kyu_entry.user = current_user
-    @kyu_entry.publish_at = Time.now
-    
+    @kyu_entry.publish_at = Time.now   
     respond_to do |format|
       if @kyu_entry.save
         format.html { redirect_to @kyu_entry, notice: 'KYU was successfully created.' }
@@ -62,7 +67,6 @@ class KyuEntriesController < ApplicationController
   # PUT /kyu_entries/1.json
   def update
     @kyu_entry = KyuEntry.find(params[:id])
-
     respond_to do |format|
       if @kyu_entry.update_attributes(params[:kyu_entry])
         format.html { redirect_to @kyu_entry, notice: 'KYU was successfully updated.' }
@@ -79,14 +83,22 @@ class KyuEntriesController < ApplicationController
   def destroy
     @kyu_entry = KyuEntry.find(params[:id])
     @kyu_entry.destroy
-
     respond_to do |format|
       format.html { redirect_to kyu_entries_url }
       format.json { head :ok }
     end
   end
-  
-  
+
+  # Added on 23rd April 2012 by yatish to delete tags
+  # Start  
+  def remove_tag
+    @kyu_entry = KyuEntry.find(params[:id])
+    @kyu_entry.tag_list.remove(params[:tag])
+    @kyu_entry.save
+    render :json => true
+  end
+  # End
+
   # This is default value for textArea value of KYU entry
   # This is done so that users will be able to quickly know that the content text is enabled with textile markup
   # so that they can use textile

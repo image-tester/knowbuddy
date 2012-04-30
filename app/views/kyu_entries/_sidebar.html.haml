@@ -9,3 +9,9 @@
     - @users.each do |user|
       %li
         = link_to user.email, kyu_entries_path
+#tag_cloud
+  %h3
+    Tag Cloud
+  - if @tag_cloud_hash != nil
+    - @tag_cloud_hash.each_pair do |tag,size|
+      .cloud_element= content_tag(:a, tag.name.downcase, {:href => "#{related_tag_path}?name=#{tag.name}",:style => "font-size:#{size}px;"})

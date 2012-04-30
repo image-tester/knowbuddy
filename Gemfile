@@ -45,3 +45,6 @@ group :test do
   # Pretty printed test output
   gem 'turn', :require => false
 end
+
+gem 'acts-as-taggable-on', '~> 2.2.2'
+gem 'rails3-jquery-autocomplete'

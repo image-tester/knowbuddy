@@ -4,6 +4,9 @@
 .group
   = f.label :content, t("activerecord.attributes.kyu_entry.content", :default => "Content (Textile markup enabled)"), :class => :label
   = f.text_area :content, :class => 'text_area'
+.group
+  = f.label :tag, :class => :label
+  = f.autocomplete_field :tag_list, autocomplete_tag_name_kyu_entries_path, :"data-delimiter" => ', ', :class => 'text_field' 
 -# .group
 -#   = f.label :publish_at, t("activerecord.attributes.kyu_entry.publish_at", :default => "Publish Date"), :class => :label
 -#   = f.datetime_select :publish_at, :class => 'datetime_select'

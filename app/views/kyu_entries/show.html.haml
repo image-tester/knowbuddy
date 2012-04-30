@@ -11,7 +11,21 @@
       = @kyu_entry.subject
     #kyu-content 
       .kyuContent
-        = raw RedCloth.new(@kyu_entry.content).to_html 
+        = raw RedCloth.new(@kyu_entry.content).to_html
+    -# Added on 21st April 2012 by yatish to display tags
+    -# Start  
+    #kyu-content 
+      - if current_user == @kyu_entry.user
+        .kyuContent{:kyu_id => @kyu_entry.id}
+          - @kyu_entry.tag_list.each do |tag|
+            %span#kyu-tag
+              = tag
+      - else
+        .kyuContent
+          - @kyu_entry.tag_list.each do |tag|
+            %span#kyu-tag-els
+              = tag
+    -# End
       #right 
         .rightCorner  
 %br

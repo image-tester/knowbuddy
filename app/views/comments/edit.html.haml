@@ -1,0 +1,11 @@
+%h1 Edit Comment
+%h4 KYU: #{@comment.kyu_entry.subject} 
+
+= form_for([:kyu_entry,@comment],:html => { :class => :form }) do |f|
+  .group
+    = f.hidden_field :user_id, {:value => current_user.id }
+  .group
+    = f.text_area :comment, :class => 'comment_field' 
+    %br
+    = f.submit "Update"
+    = button_to_function "Cancel", "history.back()"

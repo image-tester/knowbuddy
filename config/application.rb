@@ -52,8 +52,7 @@ module KYU
     #config.assets.paths << "#{Rails.root}/public/assets/fonts" 
     #config.assets.paths << Rails.root.join("app", "assets", "stylesheets")
     #config.assets.paths << Rails.root.join("app", "assets", "javascripts")
-    # End
-    
+    # End  
     
     #Added by Rohan on 03-Mar-2012
     #Start Add
@@ -62,6 +61,11 @@ module KYU
           Devise::RegistrationsController.layout "sign"
     end
     #End Add
+
+    # Added by yatish on 09-May-2012 for observer
+    # Start
+    config.active_record.observers = :auditor_observer
+    #end 
     
   end
 end

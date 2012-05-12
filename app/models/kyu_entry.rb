@@ -1,5 +1,7 @@
 class KyuEntry < ActiveRecord::Base
-    belongs_to :user
+   acts_as_taggable_on :tags
+   has_many :comments, :dependent => :destroy
+   belongs_to :user
     validates_presence_of :content, :subject
     
     paginates_per 10

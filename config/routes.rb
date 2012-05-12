@@ -1,5 +1,14 @@
-KYU::Application.routes.draw do
-  resources :kyu_entries
+KYU::Application.routes.draw do  
+  match '/kyu_entries/remove_tag' => 'kyu_entries#remove_tag'
+  
+  match '/kyu_entries/related_tag' => 'kyu_entries#related_tag', :as => 'related_tag'
+
+  resources :kyu_entries do
+    get :autocomplete_tag_name, :on => :collection
+    resources :comments    
+  end
+
+  
 
   devise_for :users
 

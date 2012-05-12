@@ -4,8 +4,11 @@ KYU::Application.routes.draw do
   match '/kyu_entries/related_tag' => 'kyu_entries#related_tag', :as => 'related_tag'
 
   resources :kyu_entries do
-    get :autocomplete_tag_name, :on => :collection    
+    get :autocomplete_tag_name, :on => :collection
+    resources :comments    
   end
+
+  
 
   devise_for :users
 

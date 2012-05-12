@@ -4,16 +4,16 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   </head>
   <body>
-    <h4>New KYU has been posted by <%= @posted_by.email %> </h4>
+    <h4>New comment has been posted by <%= @posted_by.email %></h4>
      <div style="width:auto;height:auto;border:1px solid #555555;border-radius:25px;padding:20px 20px;background: #DDDDDD">
       <p>
-         <%= @content %>
-           <br/><br/>
-          <a href= "<%= @link_to_kyu%>"> Click here </a> to view this post on KnowBuddy portal.
+          <%= @comment %>
+	    <br/><br/>
+	  <a href= "<%= @link_to_comment%>"> Click here </a> to view this post on KnowBuddy portal.
       </p>
      </div>
-	<br/></br>
-	<p><i>Powered by Kiprosh.</i></p>
+	  <br/></br>
+      <p><i>Powered by Kiprosh.</i></p>
   </body>
 </html>
 

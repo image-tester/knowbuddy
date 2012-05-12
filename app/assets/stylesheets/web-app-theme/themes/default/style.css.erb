@@ -473,17 +473,18 @@ a.button:active, button.button:active {
   height: 250px;
 }
 
-#kyu-post
-{
-	float:left;
+#kyu-post {
 	padding: 5px;
 	margin-bottom: 20px;
-	margin-top: 20px;
 	width: 100%;
 	min-height: 150px;
 	padding: 0 0 1px 0;
 	position: relative;
+        overflow: auto;
 	background: -webkit-gradient(linear, 0% 20%, 0% 92%, from(white), to(#F3F3F3), color-stop(.1,white));
+        background: -moz-linear-gradient(white,#F3F3F3);
+        -moz-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.3);
+        -moz-border-radius-bottomright: 60px 60px;
 	border-top: 1px solid #CCC;
 	border-right: 1px solid #CCC;
 	border-left: 1px solid #CCC;
@@ -496,7 +497,7 @@ a.button:active, button.button:active {
 	float: left;
 	padding: 5px;
 	margin-right: 20px;
-    width:10%;
+        width:10%;
 }
 
 #kyu-header .postDetails
@@ -528,15 +529,14 @@ a.button:active, button.button:active {
 	padding-top: 10px;
 }
 
-#kyu-content .kyuContent
-{	
-}
 
 #kyu-edit-back-link
 {
-	float: left;
-	margin-top: 50px;
+	margin-left:927px;
+	margin-top: 20px;
 	font-size: 15px;
+        width:10%;
+        margin-bottom: 5px;
 }
 
 #right .rightCorner
@@ -562,6 +562,11 @@ a.button:active, button.button:active {
 	position: absolute;
 	bottom: 0;
 	right: 0;
+        -moz-border-radius-bottomright: 30px;
+        -moz-box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.3);
+        -moz-transform: rotate(-13deg)
+	translate(-9px,-9px)
+	skew(-40deg,-3deg);
 	-webkit-border-bottom-right-radius: 30px;
 	-webkit-box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.3);
 	-webkit-transform: rotate(-20deg)
@@ -579,42 +584,54 @@ a.button:active, button.button:active {
 	right: 0;
 	background: rgba(0, 0, 0, 0.2);
 	display: inline-block;
+        -moz-box-shadow: 20px 20px 8px rgba(0, 0, 0, 0.3);
+        -moz-transform: rotate(0deg)
+	translate(-45px,-20px)
+	skew(20deg);
 	-webkit-box-shadow: 20px 20px 8px rgba(0, 0, 0, 0.2);
 	-webkit-transform: rotate(0deg)
 	translate(-45px,-20px)
 	skew(20deg);
 }
 
+#tag_head{
+  height:auto;
+  overflow:auto;
+}
+
 #kyu-tag {
- background: -moz-linear-gradient(center top , #FFFFFF 0%, #CCCCCC 100%) repeat scroll 0 0 transparent;
- background: -webkit-linear-gradient(#FFFFFF, #CCCCCC);
- background: -ms-linear-gradient(#FFFFFF, #CCCCCC);
- background: -o-linear-gradient(#FFFFFF, #CCCCCC);
-    cursor: pointer;
+    background: none repeat scroll 0 0 #DDD;
+    border: 1px solid #BBB;
+    border-radius: 15px 15px 15px 15px;
+    color: #555;
+    display: block;
     float: left;
+    font-family: helvetica;
+    font-size: 13px;
+    margin-bottom: 5px;
     margin-right: 5px;
-    margin-top: 3px;
-    padding: 4px 3px;
-    color: #272727;
-    font-size: 12px;
+    padding: 3px 10px;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 #kyu-tag-els {
- background: -moz-linear-gradient(center top , #FFFFFF 0%, #CCCCCC 100%) repeat scroll 0 0 transparent;
- background: -webkit-linear-gradient(#FFFFFF, #CCCCCC);
- background: -ms-linear-gradient(#FFFFFF, #CCCCCC);
- background: -o-linear-gradient(#FFFFFF, #CCCCCC);
+ background: none repeat scroll 0 0 #DDD;
+    border: 1px solid #BBB;
+    border-radius: 15px 15px 15px 15px;
+    color: #555;
+    display: block;
     float: left;
+    font-family: helvetica;
+    font-size: 13px;
+    margin-bottom: 5px;
     margin-right: 5px;
-    margin-top: 3px;
-    padding: 4px 3px;
-    color: #272727;
-    font-size: 12px;
+    padding: 3px 10px;
+    text-decoration: none;
 }
 
 #tag_cloud {
     display: block;
-    width: 600px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -631,4 +648,131 @@ a.button:active, button.button:active {
 
 #tag_cloud .cloud_element a:hover{
     background-color: transparent;
+}
+
+.form textarea.comment_field {
+   height: 80px;
+   width: 100%;
+   border: 1px solid #dddddd;
+   -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+   -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#comment_head{
+   margin-left:42px;
+   margin-top:30px;
+}
+
+
+#comment {
+    overflow: hidden;
+    padding: 0 0 1em;
+    border-bottom: 1px solid #ddd;
+    margin: 0 0 1em;
+    margin-left: 40px;
+    *zoom: 1;
+    width: 65%;
+    font: 16px/1.4 Arial,sans-serif;
+}
+
+#comment_image {
+   float: left;
+    margin-right: 33px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#comment_image img {
+ display: block;
+}
+
+#comment_email {
+   margin: 0.5em 9.5em 0;
+    font-size: 11px;
+    color: #666;
+   width: 400px;
+ position: absolute;
+}
+
+#comment_edit {
+  margin-left:580px;
+  width:100px;
+  position: relative;
+}
+
+#comment #comment_edit a:link,#comment_edit a:visited,#comment_edit a:hover,#comment_edit a:active {
+  text-decoration: none;
+  background-color: transparent;
+}
+
+#comment_body {
+  overflow: hidden;
+}
+
+#comment_edit a:link,#comment_edit a:visited,#comment_edit a:hover,#comment_edit a:active {
+  color: #888888;
+}
+
+#comment_body #text {
+   padding: 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+    background: #fff;
+}
+
+#comment_body #text p {
+   margin:5px 0;
+}
+
+#comment #text :last-child { 
+   margin: 0;
+} 
+
+#comments, #comment { 
+   position: relative; 
+}
+
+#comments:before, #comment:before, #comment #text:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 85px;
+}
+
+
+#comments:before {
+    width: 3px;
+    left: 125px;
+    bottom: 0px;
+    background: rgba(0,0,0,0.1);
+}
+
+#comment:before {
+    width: 9px;
+    height: 9px;
+    border: 3px solid #fff;
+    border-radius: 100px;
+    margin: 16px 0 0 -6px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.2), inset 0 1px 1px rgba(0,0,0,0.1);
+    background: #ccc;
+}
+
+#comment:hover:before {
+   background: #3b5998;
+}
+
+#comment #text:before {
+    top: 18px;
+    left: 98px;
+    width: 9px;
+    height: 9px;
+    border-width: 0 0 1px 1px;
+    border-style: solid;
+    border-color: #e5e5e5;
+    background: #fff;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
 }

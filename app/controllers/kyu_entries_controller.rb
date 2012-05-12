@@ -20,6 +20,7 @@ class KyuEntriesController < ApplicationController
   # GET /kyu_entries/1.json
   def show
     @kyu_entry = KyuEntry.find(params[:id])
+    @comment = Comment.new 
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @kyu_entry }
@@ -55,7 +56,7 @@ class KyuEntriesController < ApplicationController
         format.json { render json: @kyu_entry, status: :created, location: @kyu_entry }
         
         #send email notifications to everyone
-        UserMailer.send_notification_on_new_KYU(User.all, @kyu_entry).deliver
+       
       else
         format.html { render action: "new" }
         format.json { render json: @kyu_entry.errors, status: :unprocessable_entity }

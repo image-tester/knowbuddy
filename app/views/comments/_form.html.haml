@@ -1,0 +1,7 @@
+= form_for([@kyu_entry,Comment.new],:html => { :class => :form }) do |f|
+  .group
+    = f.hidden_field :user_id, {:value => current_user.id }
+  .group
+    = f.text_area :comment, :class => 'comment_field' 
+    %br
+    = f.submit "Post"

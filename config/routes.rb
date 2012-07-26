@@ -1,20 +1,19 @@
-KYU::Application.routes.draw do  
+KYU::Application.routes.draw do
+  mount Resque::Server.new, at: "/resque"
+
   match '/kyu_entries/remove_tag' => 'kyu_entries#remove_tag'
-  
+
   match '/kyu_entries/related_tag' => 'kyu_entries#related_tag', :as => 'related_tag'
 
   resources :kyu_entries do
     get :autocomplete_tag_name, :on => :collection
-    resources :comments    
+    resources :comments
   end
-
-  
 
   devise_for :users
 
   get "home/index"
-  
-  
+
   #root :to => "home#index"
   root :to => "kyu_entries#index"
 

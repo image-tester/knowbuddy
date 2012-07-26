@@ -10,6 +10,7 @@ gem 'mysql2'
 gem 'rails3-jquery-autocomplete'
 gem 'RedCloth'
 gem 'sass'
+gem 'resque', :require => 'resque/server'
 
 group :development, :test do
   gem 'capybara'

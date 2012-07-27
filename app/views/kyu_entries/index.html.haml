@@ -1,36 +1,30 @@
 .block
   .secondary-navigation
     %ul.wat-cf
-      %li.first.active= link_to "#{t("web-app-theme.list", :default => "List")}", kyu_entries_path
-      %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_kyu_entry_path
+      %li.first.active= link_to "#{t("web-app-theme.list", :default => "List")}", kyu_entries_path, :title => "All KYU Entries"
+      %li= link_to "#{t("web-app-theme.new", :default => "New")}", new_kyu_entry_path, :title => "write new post here"
   .content
     %h2.title
       = t("web-app-theme.all", :default => "All")
       KYU's
     .inner
       %table.table
-        %tr         
+        %tr
+          %th= t("web-app-theme.created_at", :default => "")
           %th
             = t("activerecord.attributes.kyu_entry.subject", :default => t("activerecord.labels.subject", :default => "Subject"))
           %th= t("web-app-theme.created_at", :default => "Date")
           %th= t("web-app-theme.created_at", :default => "Contributor")
-          %th= t("web-app-theme.created_at", :default => "")
         - @kyu_entries.each do |kyu_entry|
           %tr{:class => cycle("odd", "even")}
+            %td
+              = image_tag avatar_url(kyu_entry.user, 45)
             %td
               = link_to truncate(kyu_entry.subject, :length => 70), kyu_entry_path(kyu_entry)
             %td
               = kyu_entry.created_at.strftime('%d-%b-%Y')
             %td
-              = kyu_entry.user.email
-            %td
-              = image_tag avatar_url(kyu_entry.user, 45) 
-            -# %td.last
-            -#  = link_to "#{t("web-app-theme.show", :default => "View")}", kyu_entry_path(kyu_entry)
-            -#  |
-            -#  \#{link_to "#{t("web-app-theme.edit", :default => "Edit")}", edit_kyu_entry_path(kyu_entry)} 
-            -#  |
-            -#  \#{link_to "#{t("web-app-theme.delete", :default => "Delete")}", kyu_entry_path(kyu_entry), 	-#:method => :delete, :confirm => "#{t("web-app-theme.confirm", :default => "Are you sure?")}"}
+              = kyu_entry.user.name.capitalize
       .actions-bar.wat-cf
         .actions
         = paginate @kyu_entries

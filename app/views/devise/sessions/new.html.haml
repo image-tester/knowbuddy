@@ -6,13 +6,13 @@
       - flash.each do |type, message|
         %div{ :class => "message #{type}" }
           %p= message
-    = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "form login" }) do |f|
+    = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :id => "formID", :class => "form login" }) do |f|
       .group.wat-cf
         .left= f.label :email, :class => "label right"
-        .right= f.text_field :email, :class => "text_field"
+        .right= f.text_field :email, :class => "validate[required, custom[email]]"
       .group.wat-cf
         .left= f.label :password, :class => "label right"
-        .right= f.password_field :password, :class => "text_field"
+        .right= f.password_field :password, :class => "validate[required] text-input"
       - if devise_mapping.rememberable?
         .group.wat-cf
           .right
@@ -23,4 +23,4 @@
           %button.button{ :type => "submit" }
             = image_tag "web-app-theme/icons/key.png"
             Login
-    = render :partial => "devise/links"
+    = render :partial => "devise/shared/links"

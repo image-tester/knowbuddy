@@ -1,7 +1,7 @@
-= form_for([@kyu_entry,Comment.new],:html => { :class => :form }) do |f|
+= form_for([@kyu_entry,Comment.new],:html => { :class => :form, :id => "formID" }) do |f|
   .group
     = f.hidden_field :user_id, {:value => current_user.id }
   .group
-    = f.text_area :comment, :class => 'comment_field' 
+    = f.text_area :comment, :class => 'comment_field validate[required] text-input'
     %br
     = f.submit "Post"

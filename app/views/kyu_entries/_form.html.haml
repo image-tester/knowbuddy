@@ -1,6 +1,6 @@
 .group
   = f.label :subject, t("activerecord.attributes.kyu_entry.subject", :default => "Subject"), :class => :label
-  = f.text_field :subject, :class => 'text_field'
+  = f.text_field :subject, :class => 'text_field validate[required] text-input'
 .group
   = f.label :content, t("activerecord.attributes.kyu_entry.content", :default => "Content (Textile markup enabled)"), :class => :label
   = f.text_area :content, :class => 'text_area'

@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :timeoutable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :name
 
   scope :top3, lambda{ joins(:kyu_entries).select('users.name, COUNT(*) as total').
                             group('kyu_entries.user_id').order('total DESC').limit(3)}

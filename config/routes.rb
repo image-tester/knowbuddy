@@ -5,6 +5,8 @@ KYU::Application.routes.draw do
 
   match '/kyu_entries/related_tag' => 'kyu_entries#related_tag', :as => 'related_tag'
 
+  match '/kyu_entries/search' => 'kyu_entries#search'
+
   resources :kyu_entries do
     get :autocomplete_tag_name, :on => :collection
     resources :comments

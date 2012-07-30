@@ -3,47 +3,6 @@ class KyuEntriesController < ApplicationController
   # GET /kyu_entries.json
   autocomplete :tag, :name, :class_name => 'ActsAsTaggableOn::Tag', :full => true
 
-  def index
-    @kyu_entries = KyuEntry.order('created_at DESC').page(params[:page])
-    @list = tag_cloud
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @kyu_entries }
-    end
-  end
-
-  def related_tag
-   @related_tags = KyuEntry.tagged_with(params[:name])
-  end
-  
-  # GET /kyu_entries/1
-  # GET /kyu_entries/1.json
-  def show
-    @kyu_entry = KyuEntry.find(params[:id])
-    @comment = Comment.new 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @kyu_entry }
-    end
-  end
-
-  # GET /kyu_entries/new
-  # GET /kyu_entries/new.json
-  def new
-    @kyu_entry = KyuEntry.new 
-    @list = tag_cloud
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @kyu_entry }
-    end
-  end
-
-  # GET /kyu_entries/1/edit
-  def edit
-    @kyu_entry = KyuEntry.find(params[:id])
-    @list = tag_cloud
-  end
-
   # POST /kyu_entries
   # POST /kyu_entries.json
   def create
@@ -62,7 +21,80 @@ class KyuEntriesController < ApplicationController
         format.json { render json: @kyu_entry.errors, status: :unprocessable_entity }
       end
     end
-  end  
+  end
+
+  # DELETE /kyu_entries/1
+  # DELETE /kyu_entries/1.json
+  def destroy
+    @kyu_entry = KyuEntry.find(params[:id])
+    @kyu_entry.destroy
+    respond_to do |format|
+      format.html { redirect_to kyu_entries_url }
+      format.json { head :ok }
+    end
+  end
+
+  # GET /kyu_entries/1/edit
+  def edit
+    @kyu_entry = KyuEntry.find(params[:id])
+    @list = tag_cloud
+  end
+
+  def index
+    @kyu_entries = KyuEntry.order('created_at DESC').page(params[:page])
+    @list = tag_cloud
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @kyu_entries }
+    end
+  end
+
+  # GET /kyu_entries/new
+  # GET /kyu_entries/new.json
+  def new
+    @kyu_entry = KyuEntry.new 
+    @list = tag_cloud
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @kyu_entry }
+    end
+  end
+
+  def related_tag
+   @related_tags = KyuEntry.tagged_with(params[:name])
+   @list = tag_cloud
+  end
+
+  # Added on 23rd April 2012 by yatish to delete tags
+  # Start  
+  def remove_tag
+    @kyu_entry = KyuEntry.find(params[:id])
+    @kyu_entry.tag_list.remove(params[:tag])
+    @kyu_entry.save
+    render :json => true
+  end
+  # End
+
+  # GET /kyu_entries/1
+  # GET /kyu_entries/1.json
+  def show
+    @kyu_entry = KyuEntry.find(params[:id])
+    @comment = Comment.new 
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @kyu_entry }
+    end
+  end
+
+  def search
+    @list = tag_cloud
+    unless params[:search].blank?
+      @search = Sunspot.search(KyuEntry) do
+        fulltext params[:search]
+      end
+      @kyu = @search.results
+    end
+  end
 
   # PUT /kyu_entries/1
   # PUT /kyu_entries/1.json
@@ -78,27 +110,6 @@ class KyuEntriesController < ApplicationController
       end
     end
   end
-
-  # DELETE /kyu_entries/1
-  # DELETE /kyu_entries/1.json
-  def destroy
-    @kyu_entry = KyuEntry.find(params[:id])
-    @kyu_entry.destroy
-    respond_to do |format|
-      format.html { redirect_to kyu_entries_url }
-      format.json { head :ok }
-    end
-  end
-
-  # Added on 23rd April 2012 by yatish to delete tags
-  # Start  
-  def remove_tag
-    @kyu_entry = KyuEntry.find(params[:id])
-    @kyu_entry.tag_list.remove(params[:tag])
-    @kyu_entry.save
-    render :json => true
-  end
-  # End
 
   # This is default value for textArea value of KYU entry
   # This is done so that users will be able to quickly know that the content text is enabled with textile markup

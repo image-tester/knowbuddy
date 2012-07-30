@@ -8,4 +8,10 @@ class KyuEntry < ActiveRecord::Base
 
    paginates_per 10
 
+   searchable do
+     text :content, :subject
+     text :comments do
+      comments.map(&:comment)
+     end
+   end
 end

@@ -37,7 +37,7 @@ class UserMailer < ActionMailer::Base
       @users_list << user["email"]
     end
     @subject_name = kyu_entry["subject"]
-    @subject = "[New KYU] " + kyu_entry["subject"]
+    @subject = "New KYU posted by " + @posted_by
     mail(:bcc => @users_list, :subject => @subject)
   end
 end

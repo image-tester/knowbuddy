@@ -12,6 +12,7 @@ gem 'sass'
 gem 'resque', :require => 'resque/server'
 gem "friendly_id", "~> 4.0.7"
 gem "activeadmin", "~> 0.4.4"
+gem 'sunspot_rails'
 
 group :development, :test do
   gem 'debugger'
@@ -24,6 +25,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'selenium'
   gem 'web-app-theme', '~> 0.8.0'
+  gem 'sunspot_solr'
 end
 
 group :assets do
@@ -37,5 +39,6 @@ group :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'shoulda',          git: 'git://github.com/3den/shoulda.git'
+  gem 'sunspot_matchers'
 end
 

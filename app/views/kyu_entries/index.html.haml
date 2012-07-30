@@ -24,7 +24,8 @@
             %td
               = kyu_entry.created_at.strftime('%d-%b-%Y')
             %td
-              = kyu_entry.user.name.capitalize
+              - if kyu_entry.user.name
+                = kyu_entry.user.name.capitalize
       .actions-bar.wat-cf
         .actions
         = paginate @kyu_entries

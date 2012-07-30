@@ -6,27 +6,27 @@
 #kyu-post
   #kyu-header
     .contributor_pic
-      = image_tag avatar_url(@kyu_entry.user, 70) 
+      = image_tag avatar_url(@user.find(@kyu_entry.user_id), 70)
     .postDetails
       -# = @kyu_entry.user.email
-      %b On: 
+      %b On:
       = @kyu_entry.publish_at.strftime('%d-%b-%Y')
   #kyu-details
     #kyu-subject
       = @kyu_entry.subject
-    #kyu-content 
+    #kyu-content
       .kyuContent
         = raw RedCloth.new(@kyu_entry.content).to_html
-      #right 
-        .rightCorner  
+      #right
+        .rightCorner
 
   %br
 
 #tag_head
   %h3 Tags
   -# Added on 21st April 2012 by yatish to display tags
-  -# Start  
-  #kyu-content 
+  -# Start
+  #kyu-content
     - if current_user == @kyu_entry.user
       .kyuContent{:kyu_id => @kyu_entry.id}
         - @kyu_entry.tag_list.each do |tag|
@@ -44,4 +44,5 @@
   = render :partial =>"comments/form"
   %br
   %br
-= render :partial => "comments/comment", :locals => { :comments => @kyu_entry.comments.order("comments.created_at DESC"), :kyu_entry => @kyu_entry} 
+= render :partial => "comments/comment", :locals => { :comments => @kyu_entry.comments.order("comments.created_at DESC"), :kyu_entry => @kyu_entry}
+

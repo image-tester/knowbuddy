@@ -12,8 +12,11 @@
   %ul.navigation
     - @top3_contributors = User.top3
     - @top3_contributors.each do |top|
-      - if top.name
-        %li= link_to "#{top.name.capitalize} (#{top.total})", kyu_entries_path
+      %li
+        - if top.name
+          = link_to "#{top.name.capitalize} (#{top.total})", kyu_entries_path
+        - else
+          = link_to "#{top.email} (#{top.total})", kyu_entries_path
 #tag_cloud
   %h3
     Tag Cloud
@@ -26,5 +29,8 @@
   %ul.navigation
     - @users = User.all(:order => 'name')
     - @users.each do |user|
-      - if user.name
-        %li= link_to user.name.capitalize, kyu_entries_path
+      %li
+        - if user.name
+          = link_to user.name.capitalize, kyu_entries_path
+        - else
+          = link_to user.email, kyu_entries_path

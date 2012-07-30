@@ -18,14 +18,16 @@
         - @kyu_entries.each do |kyu_entry|
           %tr{:class => cycle("odd", "even")}
             %td
-              = image_tag avatar_url(kyu_entry.user, 45)
+              = image_tag avatar_url(@user.find(kyu_entry.user_id), 45)
             %td
               = link_to truncate(kyu_entry.subject, :length => 70), kyu_entry_path(kyu_entry)
             %td
               = kyu_entry.created_at.strftime('%d-%b-%Y')
             %td
-              - if kyu_entry.user.name
-                = kyu_entry.user.name.capitalize
+              - if @user.find(kyu_entry.user_id).name
+                = @user.find(kyu_entry.user_id).name.capitalize
+              - else
+                = @user.find(kyu_entry.user_id).email
       .actions-bar.wat-cf
         .actions
         = paginate @kyu_entries

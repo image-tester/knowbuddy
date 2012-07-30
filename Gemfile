@@ -1,22 +1,23 @@
 source 'http://rubygems.org'
 
+gem "activeadmin", "~> 0.4.4"
 gem 'acts-as-taggable-on', '~> 2.2.2'
 gem 'devise'
+gem "friendly_id", "~> 4.0.7"
 gem 'haml'
 gem 'jquery-rails'
 gem 'kaminari'
 gem 'mysql2'
+gem "rails3_acts_as_paranoid", "~>0.1.4"
 gem 'rails3-jquery-autocomplete'
 gem 'RedCloth'
-gem 'sass'
 gem 'resque', :require => 'resque/server'
-gem "friendly_id", "~> 4.0.7"
-gem "activeadmin", "~> 0.4.4"
+gem 'sass'
 gem 'sunspot_rails'
 
 group :development, :test do
-  gem 'debugger'
   gem 'capybara'
+  gem 'debugger'
   gem 'faker'
   gem 'factory_girl_rails'
   gem 'haml-rails'
@@ -24,8 +25,8 @@ group :development, :test do
   gem 'rails_best_practices'
   gem 'rspec-rails'
   gem 'selenium'
-  gem 'web-app-theme', '~> 0.8.0'
   gem 'sunspot_solr'
+  gem 'web-app-theme', '~> 0.8.0'
 end
 
 group :assets do

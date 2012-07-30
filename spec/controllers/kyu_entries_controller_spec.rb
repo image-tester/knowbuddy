@@ -4,22 +4,35 @@ describe KyuEntriesController do
   before :each do
     User.delete_all
     KyuEntry.delete_all
-    @user = User.create(email: 'test@kiprosh.com', password: 'password', password_conformation: 'password')
+    @user = User.create(name: 'user1', email: 'test@kiprosh.com', password: 'password', password_conformation: 'password')
     @kyu = KyuEntry.create(subject: 'super bike', content: 'ducati', user_id: @user.id)
-    @kyu_1 = {subject: 'Swimming', content: 'freestyle'}
+    @kyu_1 = {subject: 'Swimming', content: 'freestyle', user_id: @user.id}
     sign_in @user
+    @user_2 = User.create(name: 'user2', email: 'inactive@kiprosh.com', password: 'inactive',
+password_conformation: 'inactive')
+    @kyu_2 = KyuEntry.create(subject: 'test2', content: 'content2', user_id: @user_2.id)
+    @user_2.deleted_at = Time.now
+    @user_2.save
   end
 
   describe "GET index" do
-    it "should response successfully to index" do
+    it "displays kyu_entries of inactive users" do
       get :index
-      response.should be_successful
+      kyu2 = KyuEntry.find_by_subject "test2"
+      kyu2.should_not be_nil
     end
   end
 
   describe "GET edit" do
     it "should response successfully to edit" do
       get :edit, id: @kyu.id
+      response.should be_successful
+    end
+  end
+
+  describe "GET show" do
+    it "should response successfully to show" do
+      get :show, id: @kyu_2.id
       response.should be_successful
     end
   end
@@ -88,3 +101,4 @@ describe KyuEntriesController do
     end
   end
 end
+

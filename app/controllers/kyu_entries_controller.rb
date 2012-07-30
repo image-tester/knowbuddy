@@ -41,6 +41,7 @@ class KyuEntriesController < ApplicationController
   end
 
   def index
+    @user = User.with_deleted
     @kyu_entries = KyuEntry.order('created_at DESC').page(params[:page])
     @list = tag_cloud
     respond_to do |format|
@@ -78,6 +79,7 @@ class KyuEntriesController < ApplicationController
   # GET /kyu_entries/1
   # GET /kyu_entries/1.json
   def show
+    @user = User.with_deleted
     @kyu_entry = KyuEntry.find(params[:id])
     @comment = Comment.new 
     respond_to do |format|

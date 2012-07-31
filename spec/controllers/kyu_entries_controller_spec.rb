@@ -61,7 +61,7 @@ password_conformation: 'inactive')
       KyuEntry.delete_all
       Comment.delete_all
       solr_setup
-      @user = User.create(:email => 'test@kiprosh.com', :password => 'password', :password_conformation => 'password')
+      @user = User.create(email: 'test@kiprosh.com', password: 'password', password_conformation: 'password', name: 'test')
       @kyu = KyuEntry.create(subject: 'sky diving', content:'freefall', user_id: @user.id)
       @kyu_1 = KyuEntry.create(subject: 'mixed martial arts', content: 'boxing', user_id: @user.id)
       KyuEntry.reindex
@@ -87,10 +87,8 @@ password_conformation: 'inactive')
     end
 
     it "should search kyu_entry by comments" do
-      @comment = Comment.create(:comment => 'awesome', :user_id => @user.id,
-                                  :kyu_entry_id => @kyu.id)
-      @comment_1 = Comment.create(:comment => 'great', :user_id => @user.id,
-                                  :kyu_entry_id => @kyu_1.id)
+      @comment = Comment.create(comment: 'awesome', user_id: @user.id, kyu_entry_id: @kyu.id)
+      @comment_1 = Comment.create(comment: 'great', user_id: @user.id, kyu_entry_id: @kyu_1.id)
       KyuEntry.reindex
       results = KyuEntry.solr_search do
         keywords "awesome"
@@ -101,4 +99,3 @@ password_conformation: 'inactive')
     end
   end
 end
-

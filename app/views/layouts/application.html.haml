@@ -3,7 +3,7 @@
   %head
     %title KnowBuddy
     = stylesheet_link_tag 'application'
-    = javascript_include_tag 'application'	
+    = javascript_include_tag 'application'
     = csrf_meta_tag
   %body
     #container
@@ -15,8 +15,8 @@
             %ul.wat-cf
               %li
                 = link_to t("web-app-theme.home", :default => "Home"), kyu_entries_path
-              -# %li
-              -#   %a{:href => "#"}= t("web-app-theme.profile", :default => "Profile")
+              %li
+                = link_to t("web-app-theme.profile", :default => "Profile"), edit_user_path(current_user)
               -# %li
               -#   %a{:href => "#"}= t("web-app-theme.settings", :default => "Settings")
               %li

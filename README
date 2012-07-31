@@ -6,8 +6,24 @@ Setup steps
 
 3) rake db:migrate
 
-4) rake db:seed
+4) rake sunspot:solr:start
 
-5) For Active-Admin URL: 'http://localhost:3000/admin/login'
+5) rake sunspot:reindex
+
+6) rake db:seed
+
+7) start redis server by executing "redis-server" on terminal.
+
+8) start app by executing "rails s" on terminal.
+
+9) For Active-Admin URL: 'http://localhost:3000/admin/login'
    Default Admin ID: 'admin@example.com' & Password: 'password'
 
+10) To run specs u need to do following,
+    -> rake db:test:prepare
+
+    -> rake sunspot:solr:start
+
+    -> start redis server by executing "redis-server" on terminal.
+
+    -> run spec by executing "rspec" on terminal.

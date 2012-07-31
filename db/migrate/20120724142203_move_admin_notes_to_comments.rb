@@ -14,8 +14,8 @@ class MoveAdminNotesToComments < ActiveRecord::Migration
   end
 
   def self.down
-    remove_index  :active_admin_comments, :column => [:author_type, :author_id]
-    remove_index  :active_admin_comments, :column => [:namespace]
+    remove_index  :active_admin_comments, column: [:author_type, :author_id]
+    remove_index  :active_admin_comments, column: [:namespace]
     remove_column :active_admin_comments, :namespace
     rename_column :active_admin_comments, :author_id, :admin_user_id
     rename_column :active_admin_comments, :author_type, :admin_user_type
@@ -23,3 +23,4 @@ class MoveAdminNotesToComments < ActiveRecord::Migration
     add_index     :admin_notes, [:admin_user_type, :admin_user_id]
   end
 end
+

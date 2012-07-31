@@ -1,33 +1,34 @@
 .block
   .secondary-navigation
     %ul.wat-cf
-      %li.first.active= link_to "#{t("web-app-theme.list", :default => "List")}", kyu_entries_path
+      %li.first.active= link_to "#{t("web-app-theme.list", default: "List")}", kyu_entries_path
   .content
     - if params[:search].blank? || @kyu.blank?
       #search_error
         Sorry no matching results for this search.
     - else
       %h2.title
-        = t("web-app-theme.all", :default => "All")
+        = t("web-app-theme.all", default: "All")
         KYU's
       .inner
         %table.table
           %tr
-            %th= t("web-app-theme.created_at", :default => "")
+            %th= t("web-app-theme.created_at", default: "")
             %th
-              = t("activerecord.attributes.kyu_entry.subject", :default => t("activerecord.labels.subject", :default => "Subject"))
-            %th= t("web-app-theme.created_at", :default => "Date")
-            %th= t("web-app-theme.created_at", :default => "Contributor")
+              = t("activerecord.attributes.kyu_entry.subject", default: t("activerecord.labels.subject", default: "Subject"))
+            %th= t("web-app-theme.created_at", default: "Date")
+            %th= t("web-app-theme.created_at", default: "Contributor")
           - @kyu.each do |kyu_entry|
-            %tr{:class => cycle("odd", "even")}
+            %tr{class: cycle("odd", "even")}
               - if kyu_entry.user
                 %td
                   = image_tag avatar_url(kyu_entry.user, 45)
                 %td
-                  = link_to truncate(kyu_entry.subject, :length => 70), kyu_entry_path(kyu_entry)
+                  = link_to truncate(kyu_entry.subject, length: 70), kyu_entry_path(kyu_entry)
                 %td
                   = kyu_entry.created_at.strftime('%d-%b-%Y')
                 %td
                   - if kyu_entry.user.name
                     = kyu_entry.user.name.capitalize
-- content_for :sidebar, render(:partial => 'sidebar')
+- content_for :sidebar, render(partial: 'sidebar')
+

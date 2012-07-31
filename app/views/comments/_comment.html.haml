@@ -14,7 +14,8 @@
       #comment_edit
         - if current_user.id == comment.user_id
           = link_to image_tag("comment_edit.png"), edit_kyu_entry_comment_path(@kyu_entry, comment)
-          = link_to image_tag("comment_delete.png"), kyu_entry_comment_path(@kyu_entry, comment), :confirm => 'Are you sure you want to delete this comment?', :method => :delete
+          = link_to image_tag("comment_delete.png"), kyu_entry_comment_path(@kyu_entry, comment), confirm: 'Are you sure you want to delete this comment?', method: :delete
         - else
           %br
     %br
+

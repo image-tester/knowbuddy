@@ -1,8 +1,8 @@
 class KyuEntry < ActiveRecord::Base
    extend FriendlyId
-   friendly_id :subject, :use => :slugged
+   friendly_id :subject, use: :slugged
    acts_as_taggable_on :tags
-   has_many :comments, :dependent => :destroy
+   has_many :comments, dependent: :destroy
    belongs_to :user
    validates_presence_of :content, :subject, :slug
 
@@ -15,3 +15,4 @@ class KyuEntry < ActiveRecord::Base
      end
    end
 end
+

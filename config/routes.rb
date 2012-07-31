@@ -3,12 +3,13 @@ KYU::Application.routes.draw do
 
   match '/kyu_entries/remove_tag' => 'kyu_entries#remove_tag'
 
-  match '/kyu_entries/related_tag' => 'kyu_entries#related_tag', :as => 'related_tag'
+  match '/kyu_entries/related_tag' => 'kyu_entries#related_tag',
+                                      :as => 'related_tag'
 
   match '/kyu_entries/search' => 'kyu_entries#search'
 
   resources :kyu_entries do
-    get :autocomplete_tag_name, :on => :collection
+    get :autocomplete_tag_name, on: :collection
     resources :comments
   end
 
@@ -23,7 +24,7 @@ KYU::Application.routes.draw do
   get "home/index"
 
   #root :to => "home#index"
-  root :to => "kyu_entries#index"
+  root to: "kyu_entries#index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

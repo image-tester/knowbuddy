@@ -4,7 +4,7 @@ class UserMailer < ActionMailer::Base
   def welcome_email(user)
     @user = user
     @url  = APP_CONFIG['url'] + "/users/sign_in"
-    mail(:to => user["email"], :subject => "Welcome to KnowBuddy")
+    mail(to: user["email"], subject: "Welcome to KnowBuddy")
   end
 
   def send_notification_on_new_Comment(users, comment)
@@ -21,7 +21,7 @@ class UserMailer < ActionMailer::Base
     end
     @subject_name = kyu.subject
     @subject = "Comments posted for " + kyu.subject
-    mail(:bcc => @users_list, :subject => @subject)
+    mail(bcc: @users_list, subject: @subject)
   end
 
   def send_notification_on_new_KYU(users, kyu_entry)
@@ -38,6 +38,7 @@ class UserMailer < ActionMailer::Base
     end
     @subject_name = kyu_entry["subject"]
     @subject = "New KYU posted by " + @posted_by
-    mail(:bcc => @users_list, :subject => @subject)
+    mail(bcc: @users_list, subject: @subject)
   end
 end
+

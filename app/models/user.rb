@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :name
 
-  scope :top3, lambda{ joins(:kyu_entries).select('users.name, COUNT(*) as total').
+  scope :top3, lambda{ joins(:kyu_entries).select('users.name, users.email, COUNT(*) as total').
                             group('kyu_entries.user_id').order('total DESC').limit(3)}
 
   private
@@ -26,3 +26,4 @@ class User < ActiveRecord::Base
       Resque.enqueue(WelcomeNotification,self)
     end
 end
+

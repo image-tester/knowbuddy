@@ -16,7 +16,6 @@ class UserMailer < ActionMailer::Base
     @link_to_comment = @url + kyu_entry_path(kyu)
     @users_list = []
     users.each do |user_to_notify|
-      #user = user_to_notify.select{|x,y| x["email"]}
       @users_list << user_to_notify["email"]
     end
     @subject_name = kyu.subject
@@ -33,7 +32,6 @@ class UserMailer < ActionMailer::Base
     @link_to_kyu = @url + kyu_entry_path(kyu)
     @users_list = []
     users.each do |user_to_notify|
-      #user = user_to_notify.select{|x,y| x["email"]}
       @users_list << user_to_notify["email"]
     end
     @subject_name = kyu_entry["subject"]

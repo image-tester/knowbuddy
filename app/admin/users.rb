@@ -1,7 +1,6 @@
 ActiveAdmin.register User do
   filter :name
   filter :email
-  #actions :all, except: [:destroy]
 
   index do
     id_column

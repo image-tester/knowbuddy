@@ -10,6 +10,6 @@
       KyuEntry
     .inner
       = form_for @kyu_entry, url: kyu_entry_path(@kyu_entry), html: { class: :form, id: "formID" } do |f|
-        = render partial: "form", locals: {f: f}
-- content_for :sidebar, render(partial: 'sidebar')
+        = render 'form', f: f
+- content_for :sidebar, render(partial:'sidebar')
 

@@ -8,35 +8,34 @@ $(document).ready(function() {
 // Watermark snippet for text area
 // Start snippet
   $(".text_area").focus(function() {
-	$(this).filter(function() {
-		return $(this).val() == "" || $(this).val() == strDefaultValForKYUTextarea
-		}).removeClass("watermarkOn").val("");
-	});
-	$(".text_area").blur(function() {
-		$(this).filter(function() {
-			return $(this).val() == ""
-			}).addClass("watermarkOn").val(strDefaultValForKYUTextarea);
-		});
+    $(this).filter(function() {
+      return $(this).val() == "" || $(this).val() == strDefaultValForKYUTextarea
+    }).removeClass("watermarkOn").val("");
+  });
+  $(".text_area").blur(function() {
+    $(this).filter(function() {
+      return $(this).val() == ""
+    }).addClass("watermarkOn").val(strDefaultValForKYUTextarea);
+  });
 // End watermark snippet
 // Added on 21st April 2012 by yatish to delete tags on dblclick
 // Start
 $("div.kyuContent span#kyu-tag").dblclick(function(){
-	var tag = $(this).text().trim();
-	var id = $(this).parent().attr("kyu_id");
-	var temp = $(this);
-	$.ajax({
-		type: "POST",
-		url: "/kyu_entries/remove_tag",
-		dataType: "json",
-		data: {"id": id, "tag": tag},
-		success: function (html) {
-			temp.hide();
-		},
-		error: function (html) {
-			alert('error');
-		}
-	});
+  var tag = $(this).text().trim();
+  var id = $(this).parent().attr("kyu_id");
+  var temp = $(this);
+  $.ajax({
+    type: "POST",
+    url: "/kyu_entries/remove_tag",
+    dataType: "json",
+    data: {"id": id, "tag": tag},
+    success: function (html) {
+      temp.hide();
+    },
+    error: function (html) {
+      alert('error');
+    }
+  });
 });
 // End
 })
-

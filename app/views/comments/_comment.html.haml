@@ -2,13 +2,13 @@
   #comments
     #comment
       #comment_image
-        = image_tag avatar_url(comment.user, 70)
+        = image_tag avatar_url(@user.find(comment.user_id), 70)
       #comment_body
         #text
           =simple_format(comment.comment)
       #comment_email
         by
-        = comment.user.email
+        = @user.find(comment.user_id).email
         on
         = comment.created_at.to_date.strftime('%B %e, %Y')
       #comment_edit

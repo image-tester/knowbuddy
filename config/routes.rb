@@ -10,7 +10,7 @@ KYU::Application.routes.draw do
 
   resources :kyu_entries do
     get :autocomplete_tag_name, on: :collection
-    resources :comments
+    resources :comments, except: [:index]
   end
 
   ActiveAdmin.routes(self)
@@ -19,7 +19,7 @@ KYU::Application.routes.draw do
 
   devise_for :users
 
-  resources :users
+  resources :users, only: [:edit, :update]
 
   get "home/index"
 

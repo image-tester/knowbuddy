@@ -6,6 +6,8 @@ class KyuEntry < ActiveRecord::Base
    belongs_to :user
    validates_presence_of :content, :subject, :slug
 
+   attr_accessible :subject, :content
+
    paginates_per 10
 
    searchable do

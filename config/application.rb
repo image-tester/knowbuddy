@@ -48,6 +48,7 @@ module KYU
     #Added by Rohan on 03-Mar-2012
     #Start Add
     config.to_prepare do
+          Devise::PasswordsController.layout "sign"
           Devise::SessionsController.layout "sign"
           Devise::RegistrationsController.layout "sign"
     end

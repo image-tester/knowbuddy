@@ -1,10 +1,18 @@
-%h2 Forgot your password?
-= form_for(resource, as: resource_name, url: password_path(resource_name), html: {id: "formID", method: :post }) do |f|
-  = devise_error_messages!
-  %div
-    = f.label :email
-    %br/
-    = f.email_field :email, class: "validate[required, custom[email]]"
-  %div= f.submit "Send me reset password instructions"
-= render partial: "devise/shared/links"
+%h1 KnowBuddy
+.block#block-login
+  %h2 Forgot your password?
+  .content
+    .flash
+      - flash.each do |type, message|
+        %div{ class: "message #{type}" }
+          %p= message
+    = form_for(resource, as: resource_name, url: password_path(resource_name), html: {id: "formID", class: "form", method: :post }) do |f|
+      .group
+        = f.label :email, class: "label"
+        = f.email_field :email, class: "validate[required, custom[email]]"
+      .group.navform.wat-cf
+        %button.button{ type: "submit" }
+          = image_tag "web-app-theme/icons/tick.png"
+          Send me reset password instructions
+    = render partial: "devise/shared/links"
 

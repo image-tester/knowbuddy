@@ -1,22 +1,30 @@
-KYU::Application.routes.draw do  
+KYU::Application.routes.draw do
+  mount Resque::Server.new, at: "/resque"
+
   match '/kyu_entries/remove_tag' => 'kyu_entries#remove_tag'
-  
-  match '/kyu_entries/related_tag' => 'kyu_entries#related_tag', :as => 'related_tag'
+
+  match '/kyu_entries/related_tag' => 'kyu_entries#related_tag',
+                                      :as => 'related_tag'
+
+  match '/kyu_entries/search' => 'kyu_entries#search'
 
   resources :kyu_entries do
-    get :autocomplete_tag_name, :on => :collection
-    resources :comments    
+    get :autocomplete_tag_name, on: :collection
+    resources :comments, except: [:index]
   end
 
-  
+  ActiveAdmin.routes(self)
+
+  devise_for :admin_users, ActiveAdmin::Devise.config
 
   devise_for :users
 
+  resources :users, only: [:edit, :update]
+
   get "home/index"
-  
-  
+
   #root :to => "home#index"
-  root :to => "kyu_entries#index"
+  root to: "kyu_entries#index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -71,7 +79,9 @@ KYU::Application.routes.draw do
 
   # See how all your routes lay out with "rake routes"
 
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
+  # This is a legacy wild controller route that's not recommended
+  # for RESTful applications.
+  # Note: This route will make all actions in every
+  # controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
 end

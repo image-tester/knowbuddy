@@ -3,30 +3,30 @@
   %head
     %title KnowBuddy
     = stylesheet_link_tag 'application'
-    = javascript_include_tag 'application'	
+    = javascript_include_tag 'application'
     = csrf_meta_tag
   %body
     #container
       - if user_signed_in?
         #header
           %h1
-            %a{:href => "/"} Your Knowledge Buddy
+            %a{href: "/"} Your Knowledge Buddy
           #user-navigation
             %ul.wat-cf
               %li
-                = link_to t("web-app-theme.home", :default => "Home"), kyu_entries_path
-              -# %li
-              -#   %a{:href => "#"}= t("web-app-theme.profile", :default => "Profile")
-              -# %li
-              -#   %a{:href => "#"}= t("web-app-theme.settings", :default => "Settings")
+                = link_to t("web-app-theme.home", default: "Home"), kyu_entries_path
               %li
-                = link_to t("web-app-theme.logout", :default => "Logout"), destroy_user_session_path, :method => :delete
+                = link_to t("web-app-theme.profile", default: "Profile"), edit_user_path(current_user)
+              -# %li
+              -#   %a{:href => "#"}= t("web-app-theme.settings", default: "Settings")
+              %li
+                = link_to t("web-app-theme.logout", default: "Logout"), destroy_user_session_path, method: :delete
           #main-navigation
             %ul.wat-cf
       #wrapper.wat-cf
         .flash
           - flash.each do |type, message|
-            %div{:class => "message #{type}"}
+            %div{class: "message #{type}"}
               %p= message
         #main
           = yield

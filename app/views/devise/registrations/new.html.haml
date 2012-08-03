@@ -4,23 +4,27 @@
   .content
     .flash
       - flash.each do |type, message|
-        %div{ :class => "message #{type}" }
+        %div{ class: "message #{type}" }
           %p= message
-    = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :class => "form" }) do |f|
+    = form_for(resource, as: resource_name, url: registration_path(resource_name), html: {id: "formID", class: "form" }) do |f|
       .group
-        = f.label :email, :class => "label"
-        = f.text_field :email, :class => "text_field"
+        = f.label :name, class: "label"
+        = f.text_field :name, class: "text_field validate[required] text-input"
+        %span.description Enter Firstname & Lastname
+      .group
+        = f.label :email, class: "label"
+        = f.text_field :email, class: "text_field validate[custom[email]]"
         %span.description Ex. test@example.com
       .group
-        = f.label :password, :class => "label"
-        = f.password_field :password, :class => "text_field"
+        = f.label :password, class: "label"
+        = f.password_field :password, class: "text_field validate[required] text-input"
         %span.description must be at least 6 characters
       .group
-        = f.label :password_confirmation, "Re-enter Password", :class => "label"
-        = f.password_field :password_confirmation, :class => "text_field"
+        = f.label :password_confirmation, "Re-enter Password", class: "label"
+        = f.password_field :password_confirmation, class: "text_field validate[required] text-input"
       .group.navform.wat-cf
-        %button.button{ :type => "submit" }
+        %button.button{ type: "submit" }
           = image_tag "web-app-theme/icons/tick.png"
-          Sign up 
-    = render :partial => "devise/links"
+          Sign up
+    = render partial: "devise/shared/links"
 

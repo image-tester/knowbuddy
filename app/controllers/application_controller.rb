@@ -19,8 +19,8 @@ class ApplicationController < ActionController::Base
       tags_by_count = KyuEntry.tag_counts.order('count Desc')
       maxOccurs = tags_by_count.first.count
       minOccurs = tags_by_count.last.count
-      minFontSize = 9
-      maxFontSize = 25
+      minFontSize = 10
+      maxFontSize = 23
       @tag_cloud_hash = Hash.new(0)
       @tags.each do |tag|
         weight = (tag.count-minOccurs).to_f/(maxOccurs-minOccurs)

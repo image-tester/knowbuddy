@@ -1,4 +1,7 @@
 ActiveAdmin.register KyuEntry do
+
+  menu :priority => 1
+
   filter :subject
   filter :user_id
 

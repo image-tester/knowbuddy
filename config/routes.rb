@@ -7,6 +7,8 @@ KYU::Application.routes.draw do
                                       :as => 'related_tag'
 
   match '/kyu_entries/search' => 'kyu_entries#search'
+  match '/admin/inactive_users/activate/:id' =>
+                              'admin/inactive_users#activate'
 
   resources :kyu_entries do
     get :autocomplete_tag_name, on: :collection
@@ -85,3 +87,4 @@ KYU::Application.routes.draw do
   # controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
 end
+

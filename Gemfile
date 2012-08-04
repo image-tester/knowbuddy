@@ -1,6 +1,5 @@
 source 'http://rubygems.org'
 
-gem "activeadmin", "~> 0.4.4"
 gem 'acts-as-taggable-on', '~> 2.2.2'
 gem 'devise'
 gem "friendly_id", "~> 4.0.7"
@@ -13,7 +12,9 @@ gem 'rails3-jquery-autocomplete'
 gem 'RedCloth'
 gem 'resque', :require => 'resque/server'
 gem 'sass'
+gem 'sass-rails'
 gem 'sunspot_rails'
+gem "activeadmin", "~> 0.4.4"
 
 group :development, :test do
   gem 'capybara'
@@ -31,7 +32,6 @@ end
 
 group :assets do
   gem 'coffee-rails'
-  gem 'sass-rails'
   gem 'therubyracer'
   gem 'uglifier'
 end

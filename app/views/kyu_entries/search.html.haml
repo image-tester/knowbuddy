@@ -29,6 +29,8 @@
                   = kyu_entry.created_at.strftime('%d-%b-%Y')
                 %td
                   - if kyu_entry.user.name
-                    = kyu_entry.user.name.capitalize
+                    = kyu_entry.user.name.titleize
+                  - else
+                    = kyu_entry.user.email
 - content_for :sidebar, render(partial: 'sidebar')
 

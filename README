@@ -38,3 +38,6 @@ Setup steps
     -> To start solr execute "rake sunspot:solr:start RAILS_ENV = production".
 
     -> To start server execute "rails s -e production".
+
+    -> To start resque job "RAILS_ENV=production rake resque:work &" 
+

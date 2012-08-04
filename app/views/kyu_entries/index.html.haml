@@ -25,7 +25,7 @@
               = kyu_entry.created_at.strftime('%d-%b-%Y')
             %td
               - if @user.find(kyu_entry.user_id).name
-                = @user.find(kyu_entry.user_id).name.capitalize
+                = @user.find(kyu_entry.user_id).name.titleize
               - else
                 = @user.find(kyu_entry.user_id).email
       .actions-bar.wat-cf

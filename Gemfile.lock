@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/3den/shoulda.git
+  revision: b3dc4deec14924a3c6f6d54c505f245250571257
+  specs:
+    shoulda (3.0.0.beta2)
+      shoulda-context (~> 1.0.0)
+      shoulda-matchers (~> 1.0.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -233,6 +241,8 @@ GEM
       multi_json (~> 1.0)
       rubyzip
     sexp_processor (4.0.1)
+    shoulda-context (1.0.0)
+    shoulda-matchers (1.0.0)
     sinatra (1.3.2)
       rack (~> 1.3, >= 1.3.6)
       rack-protection (~> 1.2)
@@ -244,6 +254,7 @@ GEM
     sunspot (1.3.3)
       pr_geohash (~> 1.0)
       rsolr (~> 1.0.7)
+    sunspot_matchers (1.3.0.2)
     sunspot_rails (1.3.3)
       nokogiri
       sunspot (= 1.3.3)
@@ -295,10 +306,13 @@ DEPENDENCIES
   rails3_acts_as_paranoid (~> 0.1.4)
   rails_best_practices
   resque
+  rspec
   rspec-rails
   sass
   sass-rails
   selenium
+  shoulda!
+  sunspot_matchers
   sunspot_rails
   sunspot_solr
   therubyracer

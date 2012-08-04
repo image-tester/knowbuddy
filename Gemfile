@@ -37,4 +37,9 @@ group :assets do
   gem 'uglifier'
 end
 
-
+group :test do	  	
+  gem 'rspec'	
+  gem 'rspec-rails'	
+  gem 'shoulda',          git: 'git://github.com/3den/shoulda.git'  	
+  gem 'sunspot_matchers'
+end

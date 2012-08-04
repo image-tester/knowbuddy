@@ -1,11 +1,5 @@
 .block
-  .secondary-navigation
-    %ul.wat-cf
-      %li.first= link_to "#{t("web-app-theme.list", default: "List")}", kyu_entries_path
   .content
-    %h2.title
-      = t("web-app-theme.edit", default: "Edit")
-      User
     .inner
       = form_for @user, html: { class: :form, id: "formID" } do |f|
         .group

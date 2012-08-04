@@ -7,6 +7,7 @@ gem 'haml'
 gem 'jquery-rails'
 gem 'kaminari'
 gem 'mysql2'
+gem 'rails','3.1.0'
 gem "rails3_acts_as_paranoid", "~>0.1.4"
 gem 'rails3-jquery-autocomplete'
 gem 'RedCloth'
@@ -36,10 +37,4 @@ group :assets do
   gem 'uglifier'
 end
 
-group :test do
-  gem 'rspec'
-  gem 'rspec-rails'
-  gem 'shoulda',          git: 'git://github.com/3den/shoulda.git'
-  gem 'sunspot_matchers'
-end
 

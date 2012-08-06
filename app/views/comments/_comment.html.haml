@@ -8,7 +8,10 @@
           =simple_format(comment.comment)
       #comment_email
         by
-        = @user.find(comment.user_id).email
+        - if @user.find(comment.user_id).name
+          = @user.find(comment.user_id).name.titleize
+        - else
+          = @user.find(comment.user_id).email
         on
         = comment.created_at.to_date.strftime('%B %e, %Y')
       #comment_edit

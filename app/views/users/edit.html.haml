@@ -1,5 +1,9 @@
 .block
+  .secondary-navigation
+    %ul.wat-cf
+      %li.first= link_to "#{t("web-app-theme.list", default: "")}"
   .content
+    %br
     .inner
       = form_for @user, html: { class: :form, id: "formID" } do |f|
         .group

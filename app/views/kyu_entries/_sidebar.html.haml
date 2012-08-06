@@ -27,8 +27,8 @@
           = link_to "#{top.email} (#{top.total})", kyu_entries_path
 .block
   %h3 Contributors
-  %ul.navigation
-    - users = User.all(order: 'name')
+  %ul.navigation#namelist
+    - users = User.all(order: 'name, email')
     - users.each do |user|
       %li
         - if user.name

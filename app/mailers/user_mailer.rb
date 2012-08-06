@@ -11,6 +11,7 @@ class UserMailer < ActionMailer::Base
     @comment = comment["comment"]
     kyu_comment = users.select{|x|x["id"] == comment["user_id"]}
     @posted_by = kyu_comment.first["email"]
+    @name = kyu_comment.first["name"].titleize if kyu_comment.first["name"]
     @url = APP_CONFIG['url']
     kyu = KyuEntry.find_by_id(comment["kyu_entry_id"])
     @link_to_comment = @url + kyu_entry_path(kyu)
@@ -26,7 +27,8 @@ class UserMailer < ActionMailer::Base
   def send_notification_on_new_KYU(users, kyu_entry)
     @content = kyu_entry["content"]
     kyu_user = users.select{|x|x["id"] == kyu_entry["user_id"]}
-    @posted_by = kyu_user.first["email"]
+    posted_by = kyu_user.first["email"]
+    name = kyu_user.first["name"].titleize if kyu_user.first["name"]
     @url = APP_CONFIG['url']
     kyu = KyuEntry.find_by_id(kyu_entry["id"])
     @link_to_kyu = @url + kyu_entry_path(kyu)
@@ -35,7 +37,8 @@ class UserMailer < ActionMailer::Base
       @users_list << user_to_notify["email"]
     end
     @subject_name = kyu_entry["subject"]
-    @subject = "New KYU posted by " + @posted_by
+    user_name = name ? name : posted_by
+    @subject = "New KYU posted by " + user_name
     mail(bcc: @users_list, subject: @subject)
   end
 end

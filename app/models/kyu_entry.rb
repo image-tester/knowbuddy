@@ -11,7 +11,10 @@ class KyuEntry < ActiveRecord::Base
    searchable do
      text :content, :subject
      text :comments do
-      comments.map(&:comment)
+       comments.map(&:comment)
+     end
+     text :user do
+       user.name
      end
    end
 end

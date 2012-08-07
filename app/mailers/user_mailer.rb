@@ -10,8 +10,8 @@ class UserMailer < ActionMailer::Base
   def send_notification_on_new_Comment(users, comment)
     @comment = comment["comment"]
     kyu_comment = users.select{|x|x["id"] == comment["user_id"]}
-    @posted_by = kyu_comment.first["email"]
-    @name = kyu_comment.first["name"].titleize if kyu_comment.first["name"]
+    posted_by = kyu_comment.first["email"]
+    name = kyu_comment.first["name"].titleize if kyu_comment.first["name"]
     @url = APP_CONFIG['url']
     kyu = KyuEntry.find_by_id(comment["kyu_entry_id"])
     @link_to_comment = @url + kyu_entry_path(kyu)
@@ -19,8 +19,8 @@ class UserMailer < ActionMailer::Base
     users.each do |user_to_notify|
       @users_list << user_to_notify["email"]
     end
-    @subject_name = kyu.subject
-    @subject = "Comments posted for " + kyu.subject
+    @user_name = name ? name : posted_by
+    @subject = @user_name + " posted a comment for " + kyu.subject
     mail(bcc: @users_list, subject: @subject)
   end
 
@@ -38,7 +38,7 @@ class UserMailer < ActionMailer::Base
     end
     @subject_name = kyu_entry["subject"]
     user_name = name ? name : posted_by
-    @subject = "New KYU posted by " + user_name
+    @subject = user_name + " posted a new article on KnowBuddy"
     mail(bcc: @users_list, subject: @subject)
   end
 end

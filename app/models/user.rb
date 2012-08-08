@@ -23,6 +23,10 @@ class User < ActiveRecord::Base
                        group('kyu_entries.user_id').order('total DESC').
                        limit(3)}
 
+  def self.user_collection_email_name
+    self.all.map{|v| [v.name || v.email, v.id] }
+  end
+
   private
 
     #Added by Rohan.

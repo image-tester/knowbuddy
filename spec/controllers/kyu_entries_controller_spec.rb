@@ -11,8 +11,7 @@ describe KyuEntriesController do
     @user_2 = User.create(name: 'user2', email: 'inactive@kiprosh.com', password: 'inactive',
 password_conformation: 'inactive')
     @kyu_2 = KyuEntry.create(subject: 'test2', content: 'content2', user_id: @user_2.id)
-    @user_2.deleted_at = Time.now
-    @user_2.save
+    @user_2.destroy
   end
 
   describe "GET index" do
@@ -47,10 +46,11 @@ password_conformation: 'inactive')
 
   describe "DELETE destroy" do
    it "should delete kyu_entry" do
-     delete :destroy, id: @kyu.id, format: "json"
-     response.should be_successful
-     @deleted_kyu = KyuEntry.find_by_id(@kyu.id)
-     @deleted_kyu.should be_nil
+     @kyu.destroy
+     deleted_kyu = KyuEntry.find_by_id(@kyu.id)
+     deleted_kyu.should be_nil
+     deleted_kyu1 = KyuEntry.with_deleted.find_by_id(@kyu.id)
+     deleted_kyu1.deleted_at.should_not be_nil
    end
   end
 

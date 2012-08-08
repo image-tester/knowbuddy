@@ -1,13 +1,13 @@
 ActiveAdmin.register User, :as => "Inactive Users" do
 
-  menu :priority => 3
+  menu :priority => 5
   actions :index
 
   scope :Inactive, :default => true do |user|
     user = User.only_deleted
   end
 
-  filter :name
+  filter :name_or_email, :as => :string
 
   index do
     id_column
@@ -23,8 +23,15 @@ ActiveAdmin.register User, :as => "Inactive Users" do
 
   controller do
     def activate
-      User.only_deleted.where("id = ?", params["id"]).first.recover
-      redirect_to :controller => "admin/users", :action => "index"
+      if User.only_deleted.find(params["id"]).name
+        User.only_deleted.where("id = ?", params["id"]).first.recover
+      else
+        user = User.only_deleted.where("id = ?", params["id"]).first
+        user.deleted_at = nil
+        user.save(:validate => false)
+      end
+      flash[:notice] = "User was successfully activated"
+      redirect_to controller: "admin/users", action: "index"
     end
   end
 end

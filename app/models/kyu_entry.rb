@@ -1,4 +1,5 @@
 class KyuEntry < ActiveRecord::Base
+  acts_as_paranoid
   extend FriendlyId
   friendly_id :subject, use: :slugged
   acts_as_taggable_on :tags

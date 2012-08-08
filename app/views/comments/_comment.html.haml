@@ -9,9 +9,11 @@
       #comment_email
         by
         - if @user.find(comment.user_id).name
-          = @user.find(comment.user_id).name.titleize
+          = link_to @user.find(comment.user_id).name.titleize, controller: "comments",
+                                          action: "user_comment", id: comment.user_id
         - else
-          = @user.find(comment.user_id).email
+          = link_to @user.find(comment.user_id).email, controller: "comments",
+                                          action: "user_comment", id: comment.user_id
         on
         = comment.created_at.to_date.strftime('%B %e, %Y')
       #comment_edit

@@ -43,6 +43,12 @@ class CommentsController < ApplicationController
     end
   end
 
+  # display all comments of a particular user
+  def user_comment
+    @comments = Comment.find(:all, conditions: {:user_id => params[:id]})
+    @user = User.with_deleted.where("id = ?", params[:id]).first # User = Active + Inactive(Deleted)
+  end
+
   def update
     @kyu_entry = @comment.kyu_entry
     respond_to do |format|
@@ -60,3 +66,4 @@ class CommentsController < ApplicationController
       @comment = Comment.find(params[:id])
     end
 end
+

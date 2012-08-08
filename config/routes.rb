@@ -7,12 +7,25 @@ KYU::Application.routes.draw do
                                       :as => 'related_tag'
 
   match '/kyu_entries/search' => 'kyu_entries#search'
-  match '/admin/inactive_users/activate/:id' =>
-                              'admin/inactive_users#activate'
 
   match '/kyu_entries/kyu_date' => 'kyu_entries#kyu_date'
 
   match '/kyu_entries/user_kyu' => 'kyu_entries#user_kyu'
+
+  match '/comments/user_comment/:id' => 'comments#user_comment'
+  match '/admin/deleted_kyu_entries/restore/:id' =>
+                              'admin/deleted_kyu_entries#restore'
+
+  match '/admin/deleted_kyu_entries/deleted_kyu/:id' =>
+                              'admin/deleted_kyu_entries#deleted_kyu'
+  match '/admin/deleted_kyu_entries/deleted_kyu' =>
+                              'admin/deleted_kyu_entries#index'
+
+  match '/admin/inactive_users/activate/:id' =>
+                              'admin/inactive_users#activate'
+
+  match '/admin/users/delete/:id' =>
+                              'admin/users#delete'
 
   resources :kyu_entries do
     get :autocomplete_tag_name, on: :collection

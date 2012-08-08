@@ -1,0 +1,25 @@
+.block
+  .secondary-navigation
+    %ul.wat-cf
+  .content
+    %h2.title
+      - if @user.name
+        Comments by #{@user.name.titleize}
+      - else
+        Comments by #{@user.email}
+    .inner
+      %table.table
+        %tr
+          %th Comment
+          %th KyuEntry Subject
+          %th Date
+        - @comments.each do |comment|
+          %tr{class: cycle("odd", "even")}
+            %td{class: "special"}
+              = comment.comment
+            %td
+              - kyu_entry = KyuEntry.find(comment.kyu_entry_id)
+              = link_to truncate(kyu_entry.subject, length: 70), kyu_entry_path(kyu_entry)
+            %td
+              = comment.created_at.strftime('%d-%b-%Y')
+

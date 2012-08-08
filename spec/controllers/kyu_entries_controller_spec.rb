@@ -54,6 +54,20 @@ password_conformation: 'inactive')
    end
   end
 
+  describe "Get post for date" do
+    it "should get all kyu's for particular date" do
+      get :kyu_date, :id => @kyu.id
+      response.should be_successful
+    end
+  end
+
+  describe "Get post for user" do
+    it "should get all kyu's for particular user" do
+      get :user_kyu, :id => @user.id
+      response.should be_successful
+    end
+  end
+
   describe "search" do
     include SolrSpecHelper
     before :each do

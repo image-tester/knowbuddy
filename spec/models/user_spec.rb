@@ -3,8 +3,7 @@ require "spec_helper"
 describe "User" do
   before(:each) do
     4.times do |n|
-      FactoryGirl.create(:user)
-      @user = Factory(:user)
+      @user = FactoryGirl.create(:user)
       (1..4).to_a.sample.times do |n|
         subject  = Faker::Name.name
         content  = "subject content"

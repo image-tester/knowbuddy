@@ -10,6 +10,10 @@ KYU::Application.routes.draw do
   match '/admin/inactive_users/activate/:id' =>
                               'admin/inactive_users#activate'
 
+  match '/kyu_entries/kyu_date' => 'kyu_entries#kyu_date'
+
+  match '/kyu_entries/user_kyu' => 'kyu_entries#user_kyu'
+
   resources :kyu_entries do
     get :autocomplete_tag_name, on: :collection
     resources :comments, except: [:index]

@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
                   :remember_me, :name
 
   scope :top3, lambda{ joins(:kyu_entries).
-                       select('users.name, users.email, COUNT(*) as total').
+                       select('users.name, users.email, users.id, COUNT(*) as total').
                        group('kyu_entries.user_id').order('total DESC').
                        limit(3)}
 

@@ -20,6 +20,7 @@ class User < ActiveRecord::Base
 
   scope :top3, lambda{ joins(:kyu_entries).
                        select('users.name, users.email, users.id, COUNT(*) as total').
+                       where('kyu_entries.deleted_at IS NULL').
                        group('kyu_entries.user_id').order('total DESC').
                        limit(3)}
 

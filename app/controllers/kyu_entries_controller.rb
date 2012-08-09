@@ -117,7 +117,8 @@ class KyuEntriesController < ApplicationController
   end
 
   def user_kyu
-    @kyu = KyuEntry.find(:all, :conditions => {:user_id => params[:id]})
+    @kyu = KyuEntry.find(:all, :conditions => {:user_id => params[:id]},
+                          order: 'created_at DESC')
   end
 
   protected
@@ -145,3 +146,4 @@ class KyuEntriesController < ApplicationController
   # two
   '
 end
+

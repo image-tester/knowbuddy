@@ -4,9 +4,9 @@ describe UserMailer do
 
   before :each do
     User.delete_all!
-    @user_1 = User.create(name: 'user1', email: 'test@kiprosh.com', password: 'password',
+    @user_1 = User.create(name: 'User1', email: 'test@kiprosh.com', password: 'password',
 password_conformation: 'password')
-    @user_2 = User.create(name: 'user2', email: 'inactive@kiprosh.com', password: 'inactive',
+    @user_2 = User.create(name: 'User2', email: 'inactive@kiprosh.com', password: 'inactive',
 password_conformation: 'inactive')
     @user_2.deleted_at = Time.now
     @user_2.save
@@ -17,7 +17,7 @@ password_conformation: 'inactive')
   describe "send notification on new Comment " do
     let(:mail) { UserMailer.send_notification_on_new_Comment(User.all, @comment) }
     it "inactive user should not receive notification email" do
-      mail.subject.should eq("Comments posted for " + @kyu_entry.subject)
+      mail.subject.should eq(@user_1.name + " posted a comment for " + @kyu_entry.subject)
       mail.bcc.first.should eq(@user_1.email)
       mail.bcc.second.should_not eq(@user_2.email)
     end
@@ -26,9 +26,16 @@ password_conformation: 'inactive')
   describe "send notification on new KYU " do
     let(:mail) { UserMailer.send_notification_on_new_KYU(User.all, @kyu_entry) }
     it "inactive user should not receive notification email" do
-      mail.subject.should eq("New KYU posted by " + @user_1.email)
+      mail.subject.should eq(@user_1.name + " posted a new article on KnowBuddy")
       mail.bcc.first.should eq(@user_1.email)
       mail.bcc.second.should_not eq(@user_2.email)
+    end
+  end
+
+  describe "send welcome notification" do
+    let(:mail) { UserMailer.welcome_email(@user_1) }
+    it "new user should receive welcome notification email" do
+      mail.subject.should eq("Welcome to KnowBuddy")
     end
   end
 end

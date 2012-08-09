@@ -14,15 +14,14 @@ class ApplicationController < ActionController::Base
 # Added on 23rd April 2012 by yatish to display cloud tag
 # Start
    def tag_cloud
-    @tags = KyuEntry.tag_counts.order('name Asc')
-    if @tags.length > 0
-      tags_by_count = KyuEntry.tag_counts.order('count Desc')
-      maxOccurs = tags_by_count.first.count
-      minOccurs = tags_by_count.last.count
+    tags = KyuEntry.tag_counts.order('count Desc').limit(20)
+    if tags.length > 0
+      maxOccurs = tags.first.count
+      minOccurs = tags.last.count
       minFontSize = 10
       maxFontSize = 23
       @tag_cloud_hash = Hash.new(0)
-      @tags.each do |tag|
+      tags.each do |tag|
         weight = (tag.count-minOccurs).to_f/(maxOccurs-minOccurs)
         size = minFontSize + ((maxFontSize-minFontSize)*weight)
         @tag_cloud_hash[tag] = size if size > 4

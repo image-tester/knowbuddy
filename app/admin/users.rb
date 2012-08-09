@@ -1,8 +1,8 @@
 ActiveAdmin.register User do
 
-  menu :priority => 4
+  menu priority: 4
 
-  filter :name_or_email, :as => :string
+  filter :name_or_email, as: :string
 
   form do |f|
    f.inputs "Details" do

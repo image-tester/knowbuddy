@@ -1,13 +1,13 @@
-ActiveAdmin.register User, :as => "Inactive Users" do
+ActiveAdmin.register User, as: "Inactive Users" do
 
-  menu :priority => 5
+  menu priority: 5
   actions :index
 
-  scope :Inactive, :default => true do |user|
+  scope :Inactive, default: true do |user|
     user = User.only_deleted
   end
 
-  filter :name_or_email, :as => :string
+  filter :name_or_email, as: :string
 
   index do
     id_column
@@ -16,8 +16,8 @@ ActiveAdmin.register User, :as => "Inactive Users" do
     column :sign_in_count
 
     column "Actions" do |user|
-      link_to 'Activate', :controller => "admin/inactive_users",
-                          :action => "activate", :id => user.id
+      link_to 'Activate', controller: "admin/inactive_users",
+                          action: "activate", id: user.id
     end
   end
 
@@ -28,7 +28,7 @@ ActiveAdmin.register User, :as => "Inactive Users" do
       else
         user = User.only_deleted.where("id = ?", params["id"]).first
         user.deleted_at = nil
-        user.save(:validate => false)
+        user.save(validate: false)
       end
       flash[:notice] = "User was successfully activated"
       redirect_to controller: "admin/users", action: "index"

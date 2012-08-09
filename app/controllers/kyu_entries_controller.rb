@@ -2,9 +2,11 @@ class KyuEntriesController < ApplicationController
 
   before_filter :user_list, only: [:index, :kyu_date, :show, :user_kyu]
 
-  before_filter :find_kyu, only: [:edit, :update, :destroy, :remove_tag, :kyu_date]
+  before_filter :find_kyu,
+                 only: [:edit, :update, :destroy, :remove_tag, :kyu_date]
 
-  before_filter :tag_cloud, only: [:edit, :index, :kyu_date, :new, :related_tag, :search, :user_kyu]
+  before_filter :tag_cloud,
+     only: [:edit, :index, :kyu_date, :new, :related_tag, :search, :user_kyu]
 
   autocomplete :tag, :name, class_name: 'ActsAsTaggableOn::Tag',
                full: true
@@ -44,7 +46,7 @@ class KyuEntriesController < ApplicationController
   end
 
   def index
-    @kyu_entries = KyuEntry.order('created_at DESC').page(params[:page])
+    @kyu_entries = KyuEntry.page(params[:page])
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @kyu_entries }
@@ -117,8 +119,7 @@ class KyuEntriesController < ApplicationController
   end
 
   def user_kyu
-    @kyu = KyuEntry.find(:all, :conditions => {:user_id => params[:id]},
-                          order: 'created_at DESC')
+    @kyu = KyuEntry.find(:all, conditions: {user_id: params[:id]})
   end
 
   protected

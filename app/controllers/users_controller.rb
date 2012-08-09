@@ -13,8 +13,10 @@ class UsersController < ApplicationController
         format.json { head :ok }
       else
         format.html { render 'edit' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.json { render json: @user.errors,
+                      status: :unprocessable_entity }
       end
     end
   end
 end
+

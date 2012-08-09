@@ -1,5 +1,5 @@
-ActiveAdmin.register Comment, :as => "Kyu Comments" do
-  menu :priority => 3
+ActiveAdmin.register Comment, as: "Kyu Comments" do
+  menu priority: 3
 
   filter :comment
   filter :kyu_entry_id
@@ -7,7 +7,7 @@ ActiveAdmin.register Comment, :as => "Kyu Comments" do
   index do
     id_column
     column :comment do |f|
-      truncate( f.comment, :length => 40)
+      truncate( f.comment, length: 40)
     end
     column :kyu_entry_subject do |comment|
       KyuEntry.find(comment.kyu_entry_id).subject

@@ -45,8 +45,9 @@ class CommentsController < ApplicationController
 
   # display all comments of a particular user
   def user_comment
-    @comments = Comment.find(:all, conditions: {:user_id => params[:id]}, order: 'created_at DESC')
-    @user = User.with_deleted.where("id = ?", params[:id]).first # User = Active + Inactive(Deleted)
+    @comments = Comment.find(:all, conditions: {user_id: params[:id]})
+    # User = Active + Inactive(Deleted)
+    @user = User.with_deleted.where("id = ?", params[:id]).first
   end
 
   def update

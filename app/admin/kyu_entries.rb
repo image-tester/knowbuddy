@@ -1,13 +1,15 @@
 ActiveAdmin.register KyuEntry do
 
-  menu :priority => 1
+  menu priority: 1
 
   filter :subject
-  filter :user , :as => :select, :collection => User.with_deleted.user_collection_email_name
+  filter :user , as: :select,
+                 collection: User.with_deleted.user_collection_email_name
 
     form do |f|
       f.inputs "Details" do
-        f.input :user, :collection => User.with_deleted.user_collection_email_name
+        f.input :user,
+                collection: User.with_deleted.user_collection_email_name
         f.input :content
         f.input :publish_at
         f.input :slug
@@ -19,14 +21,15 @@ ActiveAdmin.register KyuEntry do
     id_column
     column :subject
     column :user do |user|
-      User.with_deleted.find(user.user_id).name || User.with_deleted.find(user.user_id).email
+      User.with_deleted.find(user.user_id).name || User.with_deleted.
+                                                   find(user.user_id).email
     end
     column :publish_at
     column "Actions" do |kyu|
       raw "#{link_to 'View', admin_kyu_entry_path(kyu), method: :get}
            #{link_to 'Edit', edit_admin_kyu_entry_path(kyu), method: :get}
            #{link_to 'Delete', admin_kyu_entry_path(kyu), method: :delete,
-                  confirm: "Are you sure you want to delete this KYU Entry permanently ?"}"
+      confirm: "Are you sure you want to delete this KYU Entry permanently ?"}"
     end
   end
 

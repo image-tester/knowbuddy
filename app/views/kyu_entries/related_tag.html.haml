@@ -1,11 +1,9 @@
 .block
   .secondary-navigation
     %ul.wat-cf
-      %li.first.active= link_to "#{t("web-app-theme.list", default: "List")}", kyu_entries_path
   .content
     %h2.title
-      = t("web-app-theme.all", default: "All")
-      KYU's
+      All articles containing tag #{params[:name]}
     .inner
       %table.table
         %tr
@@ -22,9 +20,11 @@
               %td
                 = link_to truncate(kyu_entry.subject, length: 70), kyu_entry_path(kyu_entry)
               %td
-                = kyu_entry.created_at.strftime('%d-%b-%Y')
+                = link_to kyu_entry.created_at.strftime('%d-%b-%Y'), kyu_entries_kyu_date_path(kyu_id: kyu_entry.id)
               %td
-                - if kyu_entry.user.name
-                  = kyu_entry.user.name.capitalize
+                - if @user.find(kyu_entry.user_id).name
+                  = link_to @user.find(kyu_entry.user_id).name.titleize, kyu_entries_user_kyu_path(user_id: kyu_entry.user_id)
+                - else
+                  = link_to @user.find(kyu_entry.user_id).email, kyu_entries_user_kyu_path(user_id: kyu_entry.user_id)
 - content_for :sidebar, render(partial: 'sidebar')
 

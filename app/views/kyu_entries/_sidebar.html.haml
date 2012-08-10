@@ -22,9 +22,9 @@
     - top3_contributors.each do |top|
       %li
         - if top.name
-          = link_to "#{top.name.titleize} (#{top.total})", kyu_entries_user_kyu_path(:id => top.id)
+          = link_to "#{top.name.titleize} (#{top.total})", kyu_entries_user_kyu_path(user_id: top.id)
         - else
-          = link_to "#{top.email} (#{top.total})", kyu_entries_user_kyu_path(:id => top.id)
+          = link_to "#{top.email} (#{top.total})", kyu_entries_user_kyu_path(user_id: top.id)
 .block
   %h3 Contributors
   %ul.navigation#namelist
@@ -32,6 +32,6 @@
     - users.each do |user|
       %li
         - if user.name
-          = link_to user.name.titleize, kyu_entries_user_kyu_path(:id => user.id)
+          = link_to user.name.titleize, kyu_entries_user_kyu_path(user_id: user.id)
         - else
-          = link_to user.email, kyu_entries_user_kyu_path(:id => user.id)
+          = link_to user.email, kyu_entries_user_kyu_path(user_id: user.id)

@@ -1,9 +1,9 @@
 class KyuEntriesController < ApplicationController
 
-  before_filter :user_list, only: [:index, :kyu_date, :show, :user_kyu]
+  before_filter :user_list, only: [:index, :kyu_date, :show, :user_kyu, :related_tag]
 
   before_filter :find_kyu,
-                 only: [:edit, :update, :destroy, :remove_tag, :kyu_date]
+                 only: [:edit, :update, :destroy, :remove_tag]
 
   before_filter :tag_cloud,
      only: [:edit, :index, :kyu_date, :new, :related_tag, :search, :user_kyu]
@@ -54,6 +54,7 @@ class KyuEntriesController < ApplicationController
   end
 
   def kyu_date
+    @kyu_entry = KyuEntry.find(params[:kyu_id])
     start_date = @kyu_entry.created_at.to_date.beginning_of_day
     end_date = @kyu_entry.created_at.to_date.end_of_day
     @kyu = KyuEntry.post_date(start_date, end_date)
@@ -119,7 +120,8 @@ class KyuEntriesController < ApplicationController
   end
 
   def user_kyu
-    @kyu = KyuEntry.find(:all, conditions: {user_id: params[:id]})
+    @kyu = KyuEntry.find(:all, conditions: {user_id: params[:user_id]})
+    @kyu_user = User.with_deleted.find(params[:user_id])
   end
 
   protected

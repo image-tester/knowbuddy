@@ -2,4 +2,13 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            current_password:
+              invalid: "The password you entered is incorrect."
+            password:
+              too_short: "The password should be minimum 6 characters."
+

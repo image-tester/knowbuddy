@@ -8,9 +8,17 @@ describe UsersController do
   end
 
   describe "Update user" do
-    it "should response successfully to update" do
-      @user.update_attributes(name: 'test')
-      put :update, id: @user, format: 'json'
+    it "should successfully update user name" do
+      put :update, id: @user, user: {name: Faker::Name.name, password: "",
+        password_confirmation: "", current_password: @user.password },
+          format: 'json'
+      response.should be_successful
+    end
+
+    it "should successfully change password" do
+      put :update, id: @user, user: {name: Faker::Name.name,
+        password: "password123", password_confirmation: "password123",
+          current_password: @user.password }, format: 'json'
       response.should be_successful
     end
   end

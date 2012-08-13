@@ -38,4 +38,12 @@ $("div.kyuContent span#kyu-tag").dblclick(function(){
   });
 });
 // End
+// Added to remove validation error popup on click
+// Start
+$(".profile_form_error").live("click", function() {
+  $(this).fadeOut(150, function() {
+  $(this).remove();
+  });
+});
+// End
 })

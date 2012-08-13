@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :kyu_entries
   has_many :comments
   after_create :send_welcome_email
+  after_update :send_email_password_changed, :if => :encrypted_password_changed?
 
   validates_presence_of :name
 
@@ -34,6 +35,10 @@ class User < ActiveRecord::Base
     #Functionality - Send email notification to user upon new account signup
     def send_welcome_email
       Resque.enqueue(WelcomeNotification,self)
+    end
+
+    def send_email_password_changed
+      Resque.enqueue(PasswordNotification,self)
     end
 end
 

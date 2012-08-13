@@ -7,6 +7,12 @@ class UserMailer < ActionMailer::Base
     mail(to: user["email"], subject: "Welcome to KnowBuddy")
   end
 
+  def password_changed_email(user)
+    @user = user
+    @url = APP_CONFIG['url'] + "/users/sign_in"
+    mail(to: user["email"], subject: "Successfully resetted your password")
+  end
+
   def send_notification_on_new_Comment(users, comment)
     @comment = comment["comment"]
     kyu_comment = users.select{|x|x["id"] == comment["user_id"]}

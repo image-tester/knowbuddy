@@ -737,3 +737,53 @@ color: #CCC !important;
 }
 .table td.special { width: 60% }
 
+.profile {
+   padding: 0 15px 15px;
+}
+.profile .form input.text_field {
+  width: 62%;
+}
+.profile_form_error{
+  position: absolute;
+  left: 45%;
+  margin-top: -54px;
+  opacity: 0.87;
+}
+.profile_msg {
+  width: 100%;
+  background: #ee0101;
+  position:relative;
+  color: #fff;
+  width: 150px;
+  font-size: 13px;
+  border: 2px solid #ddd;
+  box-shadow: 0 0 6px #000;
+  -moz-box-shadow: 0 0 6px #000;
+  -webkit-box-shadow: 0 0 6px #000;
+  padding: 4px 10px 4px 10px;
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  cursor: pointer;
+}
+.profile_msg:after{
+  border-color: red transparent;
+  border-style: solid;
+  border-width: 8px 8px 0;
+  bottom: -8px;
+  content: "";
+  display: block;
+  left: 16px;
+  position: absolute;
+}
+.profile_msg:before {
+  border-color: #DDDDDD transparent;
+  border-style: solid;
+  border-width: 10px 10px 0;
+  bottom: -11px;
+  content: "";
+  display: block;
+  left: 14px;
+  position: absolute;
+  width: 0;
+}

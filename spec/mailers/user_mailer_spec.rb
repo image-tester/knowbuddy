@@ -38,5 +38,12 @@ password_conformation: 'inactive')
       mail.subject.should eq("Welcome to KnowBuddy")
     end
   end
+
+  describe "send password changed notification" do
+    let(:mail) { UserMailer.password_changed_email(@user_1) }
+    it "user should receive notification on successfull change of password" do
+      mail.subject.should eq("Successfully resetted your password")
+    end
+  end
 end
 

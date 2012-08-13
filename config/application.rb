@@ -57,6 +57,17 @@ module KYU
     # Start
     config.active_record.observers = :auditor_observer
     #end
+
+    # Added to display inline all rails validation error messages
+    # Start
+    config.action_view.field_error_proc = Proc.new do |html_tag, instance|
+      unless html_tag =~ /^<label/
+        %{#{html_tag}<div class = "profile_form_error"><label for="#{instance.send(:tag_id)}" class="profile_msg">#{instance.error_message.first}</label></div>}.html_safe
+      else
+        %{#{html_tag}}.html_safe
+      end
+    end
+    # End
   end
 end
 

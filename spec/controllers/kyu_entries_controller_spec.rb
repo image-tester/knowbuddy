@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe KyuEntriesController do
   before :each do
-    User.delete_all
-    KyuEntry.delete_all
+    User.delete_all!
+    KyuEntry.delete_all!
     @user = User.create(name: 'user1', email: 'test@kiprosh.com', password: 'password', password_conformation: 'password')
     @kyu = KyuEntry.create(subject: 'super bike', content: 'ducati', user_id: @user.id)
     @kyu_1 = {subject: 'Swimming', content: 'freestyle', user_id: @user.id}
@@ -56,14 +56,14 @@ password_conformation: 'inactive')
 
   describe "Get post for date" do
     it "should get all kyu's for particular date" do
-      get :kyu_date, :id => @kyu.id
+      get :kyu_date, :kyu_id => @kyu.id
       response.should be_successful
     end
   end
 
   describe "Get post for user" do
     it "should get all kyu's for particular user" do
-      get :user_kyu, :id => @user.id
+      get :user_kyu, :user_id => @user.id
       response.should be_successful
     end
   end
@@ -71,11 +71,11 @@ password_conformation: 'inactive')
   describe "search" do
     include SolrSpecHelper
     before :each do
-      User.delete_all
-      KyuEntry.delete_all
+      User.delete_all!
+      KyuEntry.delete_all!
       Comment.delete_all
       solr_setup
-      @user = User.create(email: 'test@kiprosh.com', password: 'password', password_conformation: 'password', name: 'test')
+      @user = User.create(email: 'testing@kiprosh.com', password: 'password', password_conformation: 'password', name: 'test')
       @kyu = KyuEntry.create(subject: 'sky diving', content:'freefall', user_id: @user.id)
       @kyu_1 = KyuEntry.create(subject: 'mixed martial arts', content: 'boxing', user_id: @user.id)
       KyuEntry.reindex
@@ -98,6 +98,15 @@ password_conformation: 'inactive')
       results.size.should == 1
       results.include?(@kyu_1).should == true
       results.include?(@kyu).should == false
+    end
+
+    it "should search kyu_entry by username" do
+      results = KyuEntry.solr_search do
+        keywords "test"
+      end.results
+      results.size.should == 2
+      results.include?(@kyu).should == true
+      results.include?(@kyu_1).should == true
     end
 
     it "should search kyu_entry by comments" do

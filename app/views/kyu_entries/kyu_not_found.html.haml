@@ -1,0 +1,10 @@
+.block
+  .secondary-navigation
+    %ul.wat-cf
+  .content
+    #search_error
+      %h4 Sorry, this post is no longer available. It might have been removed by the Author or Administrator is in process of moderating the article.
+      = link_to "Click Here", kyu_entries_path
+      to view all KYU's.
+- content_for :sidebar, render(partial: 'sidebar')
+

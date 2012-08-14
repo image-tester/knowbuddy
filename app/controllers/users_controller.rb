@@ -8,7 +8,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     respond_to do |format|
       if @user.update_with_password(params[:user])
-        format.html { redirect_to kyu_entries_path,
+        sign_in @user, :bypass => true
+        params[:user][:password]?
+          format.html { redirect_to kyu_entries_path,
+                      notice: 'Password was successfully updated.' } :
+          format.html { redirect_to kyu_entries_path,
                       notice: 'Profile was successfully updated.' }
         format.json { head :ok }
       else

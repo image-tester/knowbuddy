@@ -6,7 +6,7 @@ class KyuEntriesController < ApplicationController
                  only: [:edit, :update, :destroy, :remove_tag]
 
   before_filter :tag_cloud,
-     only: [:edit, :index, :kyu_date, :new, :related_tag, :search, :user_kyu]
+     only: [:edit, :index, :kyu_date, :new, :related_tag, :search, :user_kyu, :show]
 
   autocomplete :tag, :name, class_name: 'ActsAsTaggableOn::Tag',
                full: true
@@ -86,11 +86,16 @@ class KyuEntriesController < ApplicationController
   # GET /kyu_entries/1
   # GET /kyu_entries/1.json
   def show
-    @kyu_entry = KyuEntry.find(params[:id])
-    @comment = Comment.new
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @kyu_entry }
+    begin
+      @kyu_entry = KyuEntry.find(params[:id])
+    rescue
+        render :template => 'kyu_entries/kyu_not_found', :status => :not_found
+    else
+      @comment = Comment.new
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @kyu_entry }
+      end
     end
   end
 

@@ -10,15 +10,15 @@
           = f.label :name, 'Name', class: :label
           = f.text_field :name, class: "text_field validate[required] text-input"
         .group
-          = f.label :password, 'password', class: :label
+          = f.label :current_password, 'Current Password', class: :label
+          = f.password_field :current_password, class: "text_field validate[required] text-input"
+        .group
+          = f.label :password, 'Password', class: :label
           = f.password_field :password, class: "text_field"
           %span.description * Enter only if u need to change your password.
         .group
-          = f.label :password_confirmation, 'password_confirmation', class: :label
+          = f.label :password_confirmation, 'Re-enter Password', class: :label
           = f.password_field :password_confirmation, class: "text_field validate[equals[user_password]]"
-        .group
-          = f.label :current_password, 'current_password', class: :label
-          = f.password_field :current_password, class: "text_field validate[required] text-input"
         .group.navform.wat-cf
           %button.button{type: "submit"}
             = image_tag("web-app-theme/icons/tick.png", alt: "#{t("web-app-theme.save", default: "Save")}")

@@ -12,11 +12,22 @@ $(document).ready(function() {
       return $(this).val() == "" || $(this).val() == strDefaultValForKYUTextarea
     }).removeClass("watermarkOn").val("");
   });
+
   $(".text_area").blur(function() {
     $(this).filter(function() {
       return $(this).val() == ""
     }).addClass("watermarkOn").val(strDefaultValForKYUTextarea);
   });
+
+    $("#formID1").validationEngine({
+    'customFunctions': {
+        'checkContent': function (field, rules, i, options){
+            if ($('#textarea_kyu_content').val() == strDefaultValForKYUTextarea) {
+                return options.allrules.required.alertText;
+            }
+          }
+        }
+    });
 // End watermark snippet
 // Added on 21st April 2012 by yatish to delete tags on dblclick
 // Start

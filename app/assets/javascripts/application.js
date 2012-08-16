@@ -7,7 +7,11 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require facebox
 //= require custom
 //= require jquery.validationEngine
 //= require jquery.validationEngine-en
+//= require jquery.markitup
+//= require set
 //= require_tree .
+

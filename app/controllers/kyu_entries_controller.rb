@@ -70,6 +70,12 @@ class KyuEntriesController < ApplicationController
     end
   end
 
+def parse_content
+  @content = RedCloth.new(params[:divcontent]).to_html
+  render json: @content.to_json
+end
+
+
   def related_tag
    @related_tags = KyuEntry.tagged_with(params[:name])
   end

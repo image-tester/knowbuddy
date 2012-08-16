@@ -6,10 +6,10 @@
       - flash.each do |type, message|
         %div{ class: "message #{type}" }
           %p= message
-    = form_for(resource, as: resource_name, url: session_path(resource_name), html: { id: "formID", class: "form login" }) do |f|
+    = form_for(resource, as: resource_name, url: session_path(resource_name), html: { id: "formIDRegi", class: "form login" }) do |f|
       .group.wat-cf
         .left= f.label :email, class: "label right"
-        .right= f.text_field :email, class: "validate[required, custom[email]]"
+        .right= f.text_field :email, class: "validate[funcCall[checkEmail]]", id: "emailvalidate"
       .group.wat-cf
         .left= f.label :password, class: "label right"
         .right= f.password_field :password, class: "validate[required] text-input"

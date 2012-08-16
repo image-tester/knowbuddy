@@ -27,6 +27,8 @@ KYU::Application.routes.draw do
   match '/admin/users/delete/:id' =>
                               'admin/users#delete'
 
+  match 'kyu_entries/parse_content' => 'kyu_entries#parse_content'
+
   resources :kyu_entries do
     get :autocomplete_tag_name, on: :collection
     resources :comments, except: [:index]

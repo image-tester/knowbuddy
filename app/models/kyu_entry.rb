@@ -6,8 +6,8 @@ class KyuEntry < ActiveRecord::Base
   has_many :comments, dependent: :destroy
   belongs_to :user
   validates_presence_of :content, :subject, :slug
-  default_scope :order => 'created_at DESC'
-  has_many :attachments, :dependent => :destroy
+  default_scope order: 'created_at DESC'
+  has_many :attachments, dependent: :destroy
   scope :post_date, lambda { |start, stop|
     where("created_at >= ? and created_at <= ?", start, stop)
   }

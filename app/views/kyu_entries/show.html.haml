@@ -24,7 +24,7 @@
   - @attachment.each do |a|
     #attach-content
       - if a.kyu_content_type.split("/")[0] == "image"
-        = link_to(image_tag(a.kyu.url(:thumb), title: a.kyu_file_name), a.kyu.url, :target => "_blank")
+        = link_to(image_tag(a.kyu.url(:thumb), title: a.kyu_file_name), a.kyu.url, target: "_blank")
       - else
         = link_to(image_tag("doc.png", title: a.kyu_file_name), a.kyu.url, target: "_blank")
   %br

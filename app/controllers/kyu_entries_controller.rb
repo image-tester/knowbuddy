@@ -1,12 +1,14 @@
 class KyuEntriesController < ApplicationController
 
-  before_filter :user_list, only: [:index, :kyu_date, :show, :user_kyu, :related_tag]
+  before_filter :user_list, only: [:index, :kyu_date, :show,
+                                   :user_kyu, :related_tag]
 
   before_filter :find_kyu,
                  only: [:edit, :update, :destroy, :remove_tag]
 
   before_filter :tag_cloud,
-     only: [:edit, :index, :kyu_date, :new, :related_tag, :search, :user_kyu, :show]
+     only: [:edit, :index, :kyu_date, :new,
+            :related_tag, :search, :user_kyu, :show]
 
   autocomplete :tag, :name, class_name: 'ActsAsTaggableOn::Tag',
                full: true

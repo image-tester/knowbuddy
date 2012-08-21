@@ -29,6 +29,7 @@ $(document).ready(function() {
         }
     });
 // End watermark snippet
+
 // Added on 21st April 2012 by yatish to delete tags on dblclick
 // Start
 $("div.kyuContent span#kyu-tag").dblclick(function(){
@@ -49,11 +50,32 @@ $("div.kyuContent span#kyu-tag").dblclick(function(){
   });
 });
 // End
+
 // Added to remove validation error popup on click
 // Start
 $(".profile_form_error").live("click", function() {
   $(this).fadeOut(150, function() {
   $(this).remove();
+  });
+});
+// End
+
+// Added to delete attachments on clicking close_img
+// Start
+$("#close img#delete-attach").live("click", function() {
+var id = $(this).parent().attr("attachment_id");
+var temp = $(this).closest('#attach-content');
+  $.ajax({
+    type: "DELETE",
+    url: "/attachments/"+id,
+    dataType: "json",
+    data: {"id": id},
+    success: function (html) {
+      temp.hide();
+    },
+    error: function () {
+      alert('error');
+    }
   });
 });
 // End

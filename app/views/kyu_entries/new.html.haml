@@ -8,7 +8,7 @@
       = t("web-app-theme.new", default: "New")
       KYU
     .inner
-      = form_for :kyu_entry, url: kyu_entries_path, html: { class: :form, id: "formID1" } do |f|
+      = form_for @kyu_entry, url: kyu_entries_path, html: { class: :form, id: "formID1", :multipart => true } do |f|
         = render 'form', f: f
     #default_preview
 - content_for :sidebar, render(partial: 'sidebar')

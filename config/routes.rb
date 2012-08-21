@@ -29,6 +29,8 @@ KYU::Application.routes.draw do
 
   match 'kyu_entries/parse_content' => 'kyu_entries#parse_content'
 
+  resources :attachments
+
   resources :kyu_entries do
     get :autocomplete_tag_name, on: :collection
     resources :comments, except: [:index]

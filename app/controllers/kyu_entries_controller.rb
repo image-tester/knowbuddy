@@ -14,11 +14,15 @@ class KyuEntriesController < ApplicationController
   # POST /kyu_entries
   # POST /kyu_entries.json
   def create
+    attachment = params[:kyu_entry].delete :attachment
     @kyu_entry = KyuEntry.new(params[:kyu_entry])
     @kyu_entry.user = current_user
     @kyu_entry.publish_at = Time.now
     respond_to do |format|
       if @kyu_entry.save
+        attachment["kyu"].each do |attach|
+          Attachment.create(kyu: attach, kyu_entry_id: @kyu_entry.id)
+        end unless attachment.blank?
         format.html { redirect_to @kyu_entry,
                       notice: 'KYU was successfully created.' }
         format.json { render json: @kyu_entry,
@@ -95,8 +99,9 @@ end
     begin
       @kyu_entry = KyuEntry.find(params[:id])
     rescue
-        render :template => 'kyu_entries/kyu_not_found', :status => :not_found
+        render template: 'kyu_entries/kyu_not_found', status: :not_found
     else
+      @attachment = @kyu_entry.attachments
       @comment = Comment.new
       respond_to do |format|
         format.html # show.html.erb
@@ -117,8 +122,12 @@ end
   # PUT /kyu_entries/1
   # PUT /kyu_entries/1.json
   def update
+    attachment = params[:kyu_entry].delete :attachment
     respond_to do |format|
       if @kyu_entry.update_attributes(params[:kyu_entry])
+        attachment["kyu"].each do |attach|
+          Attachment.create(kyu: attach, kyu_entry_id: @kyu_entry.id)
+        end unless attachment.blank?
         format.html { redirect_to @kyu_entry,
                       notice: 'KYU was successfully updated.' }
         format.json { head :ok }

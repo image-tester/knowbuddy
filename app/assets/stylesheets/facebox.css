@@ -21,8 +21,8 @@
 }
 
 #facebox .content {
-  width: 92%;
-  display:table;
+  /*  width: 92%;
+  display:table;*/
   padding: 30px;
   background: #fff;
   -webkit-border-radius:4px;
@@ -38,14 +38,15 @@
 }
 
 #facebox .close{
- /* top:5px;
+  /* top:5px;
   right:5px;*/
   padding:2px;
   /*margin-left: 106%;
   top: -3%;*/
   position: absolute;
   right: -2%;
-  margin-top: -2%;
+  /*  margin-top: -2%;*/
+  margin-top: -18px;
 }
 #facebox .close img{
   opacity:0.3;

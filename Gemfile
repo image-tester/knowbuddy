@@ -7,6 +7,7 @@ gem 'haml'
 gem 'jquery-rails'
 gem 'kaminari'
 gem 'mysql2'
+gem 'paperclip'
 gem 'rails','3.1.0'
 gem "rails3_acts_as_paranoid", "~>0.1.4"
 gem 'rails3-jquery-autocomplete'

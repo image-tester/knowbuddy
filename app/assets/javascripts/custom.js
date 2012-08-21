@@ -14,7 +14,7 @@ $(document).ready(function(){
       else {
         $.ajax({
           type: 'POST',
-          url: 'parse_content',
+          url: '/kyu_entries/parse_content',
           data: { divcontent: content},
           dataType: 'json',
           success: function(data){

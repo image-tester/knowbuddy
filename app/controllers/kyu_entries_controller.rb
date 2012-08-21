@@ -14,6 +14,7 @@ class KyuEntriesController < ApplicationController
   # POST /kyu_entries
   # POST /kyu_entries.json
   def create
+    error = []
     attachment = params[:kyu_entry].delete :attachment
     @kyu_entry = KyuEntry.new(params[:kyu_entry])
     @kyu_entry.user = current_user
@@ -21,10 +22,15 @@ class KyuEntriesController < ApplicationController
     respond_to do |format|
       if @kyu_entry.save
         attachment["kyu"].each do |attach|
-          Attachment.create(kyu: attach, kyu_entry_id: @kyu_entry.id)
+          begin
+            Attachment.create!(kyu: attach, kyu_entry_id: @kyu_entry.id)
+          rescue ActiveRecord::RecordInvalid
+            error << attach.original_filename
+          end
         end unless attachment.blank?
         format.html { redirect_to @kyu_entry,
-                      notice: 'KYU was successfully created.' }
+                      notice: error.blank? ? 'Kyu was successfully created.' :
+                      error.join(",") + " invalid file extension." }
         format.json { render json: @kyu_entry,
                       status: :created, location: @kyu_entry }
       else
@@ -122,14 +128,20 @@ end
   # PUT /kyu_entries/1
   # PUT /kyu_entries/1.json
   def update
+    error = []
     attachment = params[:kyu_entry].delete :attachment
     respond_to do |format|
       if @kyu_entry.update_attributes(params[:kyu_entry])
         attachment["kyu"].each do |attach|
-          Attachment.create(kyu: attach, kyu_entry_id: @kyu_entry.id)
+          begin
+            Attachment.create!(kyu: attach, kyu_entry_id: @kyu_entry.id)
+          rescue ActiveRecord::RecordInvalid
+            error << attach.original_filename
+          end
         end unless attachment.blank?
         format.html { redirect_to @kyu_entry,
-                      notice: 'KYU was successfully updated.' }
+                      notice: error.blank? ? 'Kyu was successfully updated.' :
+                      error.join(",") + " invalid file extension." }
         format.json { head :ok }
       else
         format.html { render 'edit' }

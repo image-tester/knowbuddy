@@ -27,7 +27,7 @@ KYU::Application.routes.draw do
   match '/admin/users/delete/:id' =>
                               'admin/users#delete'
 
-  match 'kyu_entries/parse_content' => 'kyu_entries#parse_content'
+  match '/kyu_entries/parse_content' => 'kyu_entries#parse_content'
 
   resources :attachments
 

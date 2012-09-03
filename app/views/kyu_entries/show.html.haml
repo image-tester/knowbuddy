@@ -20,15 +20,15 @@
       #right
         .rightCorner
 #kyu-attachment
-  %h3 Attachments
-  - @attachment.each do |a|
-    #attach-content
-      - if a.kyu_content_type.split("/")[0] == "image"
-        = link_to(image_tag(a.kyu.url(:thumb), title: a.kyu_file_name), a.kyu.url, target: "_blank")
-      - else
-        = link_to(image_tag("doc.png", title: a.kyu_file_name), a.kyu.url, target: "_blank")
-  %br
-
+  - unless @attachment.blank?
+    %h3 Attachments
+    - @attachment.each do |a|
+      #attach-content
+        - if a.kyu_content_type.split("/")[0] == "image"
+          = link_to(image_tag(a.kyu.url(:thumb), title: a.kyu_file_name), a.kyu.url, target: "_blank")
+        - else
+          = link_to(image_tag("doc.png", title: a.kyu_file_name), a.kyu.url, target: "_blank")
+    %br
 #tag_head
   - unless @kyu_entry.tag_list.blank?
     %h3 Tags
@@ -53,4 +53,3 @@
   %br
   %br
 = render partial: "comments/comment", locals: { comments: @kyu_entry.comments.order("comments.created_at DESC"), kyu_entry: @kyu_entry}
-

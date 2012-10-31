@@ -2,15 +2,13 @@
   - if current_user == @kyu_entry.user
     = link_to 'Edit', edit_kyu_entry_path(@kyu_entry)
     \|
-    = link_to 'Delete', kyu_entry_path(@kyu_entry), confirm: 'Are you sure you want to delete this KYU?', method: :delete
+    = link_to 'Delete', kyu_entry_path(@kyu_entry), confirm: 'Are you sure you want to delete this Post?', method: :delete
 #kyu-post
   #kyu-header
     .contributor_pic
       = image_tag avatar_url(@user.find(@kyu_entry.user_id), 70)
     .postDetails
-      -# = @kyu_entry.user.email
-      %b On:
-      = @kyu_entry.publish_at.strftime('%d-%b-%Y')
+      = timeago_tag @kyu_entry.created_at, nojs: true, limit: 30.days.ago
   #kyu-details
     #kyu-subject
       = @kyu_entry.subject
@@ -49,7 +47,7 @@
 %br
 #comment_head
   %h3 Post Your Comment
-  = render partial: "comments/form"
+  = render partial: "comments/form", locals: {kyu_entry: @kyu_entry}
   %br
   %br
-= render partial: "comments/comment", locals: { comments: @kyu_entry.comments.order("comments.created_at DESC"), kyu_entry: @kyu_entry}
+= render partial: "comments/comment", locals: { comments: @kyu_entry.comments.order("comments.created_at DESC"), kyu_entry: @kyu_entry, user: @user}

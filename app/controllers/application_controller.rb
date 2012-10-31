@@ -6,10 +6,10 @@ class ApplicationController < ActionController::Base
   helper_method :tag_cloud
 
   private
-  def after_sign_out_path_for(resource_or_scope)
-    scope = Devise::Mapping.find_scope!(resource_or_scope)
-    send(:"new_#{scope}_session_path")
-  end
+  # def after_sign_out_path_for(resource_or_scope)
+  #   scope = Devise::Mapping.find_scope!(resource_or_scope)
+  #   send(:"new_#{scope}_session_path")
+  # end
 
 # Added on 23rd April 2012 by yatish to display cloud tag
 # Start

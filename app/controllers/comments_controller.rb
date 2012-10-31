@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
 
-  before_filter :find_comment, only: [:edit, :update, :destroy, :show]
+  before_filter :find_comment, only: [:destroy, :edit, :show, :update]
 
   def create
   @kyu_entry = KyuEntry.find(params[:kyu_entry_id])
@@ -22,10 +22,15 @@ class CommentsController < ApplicationController
   @comment.destroy
     respond_to do |format|
      format.html { redirect_to @kyu_entry }
+     format.js
     end
   end
 
   def edit
+  end
+
+  def index
+    @kyu_entry = KyuEntry.find(comment.kyu_entry_id)
   end
 
   def new
@@ -44,12 +49,6 @@ class CommentsController < ApplicationController
   end
 
   # display all comments of a particular user
-  def user_comment
-    @comments = Comment.find(:all, conditions: {user_id: params[:id]})
-    # User = Active + Inactive(Deleted)
-    @user = User.with_deleted.where("id = ?", params[:id]).first
-  end
-
   def update
     @kyu_entry = @comment.kyu_entry
     respond_to do |format|
@@ -62,9 +61,16 @@ class CommentsController < ApplicationController
     end
   end
 
-  protected
+  def user_comment
+    @comments = Comment.list
+    # User = Active + Inactive(Deleted)
+    @user = User.with_deleted.where("id = ?", params[:id]).first
+  end
+
+    protected
     def find_comment
       @comment = Comment.find(params[:id])
     end
 end
+
 

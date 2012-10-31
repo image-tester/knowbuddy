@@ -1,14 +1,17 @@
 class KyuEntriesController < ApplicationController
 
-  before_filter :user_list, only: [:index, :kyu_date, :show,
-                                   :user_kyu, :related_tag]
-
   before_filter :find_kyu,
-                 only: [:edit, :update, :destroy, :remove_tag]
+    only: [ :destroy, :edit, :remove_tag, :updates ]
+
+  before_filter :order_by_name_email,
+    only: [ :edit, :index, :kyu_date, :new, :search, :user_kyu ]
 
   before_filter :tag_cloud,
-     only: [:edit, :index, :kyu_date, :new,
-            :related_tag, :search, :user_kyu, :show]
+    only: [ :edit, :index, :kyu_date, :new, :related_tag, :search,
+            :show, :user_kyu  ]
+
+  before_filter :user_list,
+    only: [ :index, :kyu_date, :related_tag, :show, :user_kyu ]
 
   autocomplete :tag, :name, class_name: 'ActsAsTaggableOn::Tag',
                full: true
@@ -26,12 +29,12 @@ class KyuEntriesController < ApplicationController
         attachment["kyu"].each do |attach|
           begin
             Attachment.create!(kyu: attach, kyu_entry_id: @kyu_entry.id)
-          rescue ActiveRecord::RecordInvalid
-            error << attach.original_filename
+          rescue Exception => e
+            error << e.inspect
           end
         end unless attachment.blank?
         format.html { redirect_to @kyu_entry,
-                      notice: error.blank? ? 'Kyu was successfully created.' :
+                      notice: error.blank? ? 'Post was successfully created.' :
                       error.join(",") + " invalid file extension." }
         format.json { render json: @kyu_entry,
                       status: :created, location: @kyu_entry }
@@ -60,7 +63,7 @@ class KyuEntriesController < ApplicationController
   def index
     @kyu_entries = KyuEntry.page(params[:page])
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @kyu_entries }
     end
   end
@@ -77,15 +80,15 @@ class KyuEntriesController < ApplicationController
   def new
     @kyu_entry = KyuEntry.new
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.json { render json: @kyu_entry }
     end
   end
 
-def parse_content
-  @content = RedCloth.new(params[:divcontent]).to_html
-  render json: @content.to_json
-end
+  def parse_content
+    @content = RedCloth.new(params[:divcontent]).to_html
+    render json: @content.to_json
+  end
 
 
   def related_tag
@@ -103,6 +106,15 @@ end
 
   # GET /kyu_entries/1
   # GET /kyu_entries/1.json
+  def search
+    unless params[:search].blank?
+      @search = Sunspot.search(KyuEntry) do
+        fulltext params[:search]
+      end
+      @kyu = @search.results
+    end
+  end
+
   def show
     begin
       @kyu_entry = KyuEntry.find(params[:id])
@@ -112,18 +124,9 @@ end
       @attachment = @kyu_entry.attachments
       @comment = Comment.new
       respond_to do |format|
-        format.html # show.html.erb
+        format.html
         format.json { render json: @kyu_entry }
       end
-    end
-  end
-
-  def search
-    unless params[:search].blank?
-      @search = Sunspot.search(KyuEntry) do
-        fulltext params[:search]
-      end
-      @kyu = @search.results
     end
   end
 
@@ -142,7 +145,7 @@ end
           end
         end unless attachment.blank?
         format.html { redirect_to @kyu_entry,
-                      notice: error.blank? ? 'Kyu was successfully updated.' :
+                      notice: error.blank? ? 'Post was successfully updated.' :
                       error.join(",") + " invalid file extension." }
         format.json { head :ok }
       else
@@ -154,13 +157,17 @@ end
   end
 
   def user_kyu
-    @kyu = KyuEntry.find(:all, conditions: {user_id: params[:user_id]})
-    @kyu_user = User.with_deleted.find(params[:user_id])
+    @kyu = KyuEntry.list(params[:user_id])
+    @kyu_user = User.get_user(params[:user_id]).first
   end
 
   protected
     def find_kyu
       @kyu_entry = KyuEntry.find(params[:id])
+    end
+
+    def order_by_name_email
+      @users = User.by_name_email
     end
 
     def user_list

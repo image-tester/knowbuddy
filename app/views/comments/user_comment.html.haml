@@ -11,15 +11,14 @@
       %table.table
         %tr
           %th Comment
-          %th KyuEntry Subject
+          %th PostsEntry Subject
           %th Date
         - @comments.each do |comment|
           %tr{class: cycle("odd", "even")}
             %td{class: "special"}
               = comment.comment
             %td
-              - kyu_entry = KyuEntry.find(comment.kyu_entry_id)
               = link_to truncate(kyu_entry.subject, length: 70), kyu_entry_path(kyu_entry)
             %td
-              = comment.created_at.strftime('%d-%b-%Y')
+              = timeago_tag comment.created_at, nojs: true, limit: 30.days.ago
 

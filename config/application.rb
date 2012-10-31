@@ -57,7 +57,7 @@ module KYU
     # Start
     config.active_record.observers = :auditor_observer
     #end
-
+    config.active_record.whitelist_attributes = true
     # Added to display inline all rails validation error messages
     # Start
     config.action_view.field_error_proc = Proc.new do |html_tag, instance|

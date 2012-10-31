@@ -13,5 +13,6 @@
 //= require jquery.validationEngine-en
 //= require jquery.markitup
 //= require set
+//= require rails-timeago
 //= require_tree .
 

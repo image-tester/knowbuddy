@@ -51,6 +51,8 @@ KYU::Application.configure do
   config.action_mailer.default_url_options = { host: APP_CONFIG["host"] }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = SMTP_SETTINGS
+  Paperclip.options[:command_path] = "/usr/bin/"
+
   # END
 end
 

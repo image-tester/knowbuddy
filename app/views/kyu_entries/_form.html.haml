@@ -12,7 +12,7 @@
   - if params[:action] == "edit"
     %br
     #kyu-attachment
-      - @kyu_entry.attachments.each do |a|
+      - kyu_entry.attachments.each do |a|
         #attach-content
           - if a.kyu_content_type.split("/")[0] == "image"
             = link_to(image_tag(a.kyu.url(:thumb), title: a.kyu_file_name), a.kyu.url, target: "_blank")

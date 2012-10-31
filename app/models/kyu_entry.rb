@@ -1,18 +1,29 @@
 class KyuEntry < ActiveRecord::Base
+  attr_accessible :content, :created_at, :publish_at, :subject,
+    :tag_list, :updated_at
+
+  belongs_to :user
+  has_many :attachments, dependent: :destroy
+  has_many :comments, dependent: :destroy
+
+  validates_presence_of :content, :subject, :slug
+
   acts_as_paranoid
+  acts_as_taggable_on :tags
   extend FriendlyId
   friendly_id :subject, use: :slugged
-  acts_as_taggable_on :tags
-  has_many :comments, dependent: :destroy
-  belongs_to :user
-  validates_presence_of :content, :subject, :slug
+  paginates_per 10
+
+  delegate :name, :email, to: :user, prefix: true
+
+  scope :list, lambda { |user_id|
+    where('user_id = ?', user_id)
+  }
+
   default_scope order: 'created_at DESC'
-  has_many :attachments, dependent: :destroy
   scope :post_date, lambda { |start, stop|
     where("created_at >= ? and created_at <= ?", start, stop)
   }
-
-  paginates_per 10
 
   searchable do
     text :content, :subject
@@ -22,6 +33,10 @@ class KyuEntry < ActiveRecord::Base
     text :user do
       user.name
     end
+  end
+
+  def to_s
+    subject
   end
 end
 

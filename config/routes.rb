@@ -4,7 +4,7 @@ KYU::Application.routes.draw do
   match '/kyu_entries/remove_tag' => 'kyu_entries#remove_tag'
 
   match '/kyu_entries/related_tag' => 'kyu_entries#related_tag',
-                                      :as => 'related_tag'
+                                      as: 'related_tag'
 
   match '/kyu_entries/search' => 'kyu_entries#search'
 
@@ -13,13 +13,13 @@ KYU::Application.routes.draw do
   match '/kyu_entries/user_kyu' => 'kyu_entries#user_kyu'
 
   match '/comments/user_comment/:id' => 'comments#user_comment'
-  match '/admin/deleted_kyu_entries/restore/:id' =>
-                              'admin/deleted_kyu_entries#restore'
+  match '/admin/deleted_posts/restore/:id' =>
+                              'admin/deleted_posts#restore'
 
-  match '/admin/deleted_kyu_entries/deleted_kyu/:id' =>
-                              'admin/deleted_kyu_entries#deleted_kyu'
-  match '/admin/deleted_kyu_entries/deleted_kyu' =>
-                              'admin/deleted_kyu_entries#index'
+  match '/admin/deleted_posts/deleted_kyu/:id' =>
+                              'admin/deleted_posts#deleted_kyu'
+  match '/admin/deleted_posts/deleted_kyu' =>
+                              'admin/deleted_posts#index'
 
   match '/admin/inactive_users/activate/:id' =>
                               'admin/inactive_users#activate'
@@ -28,6 +28,8 @@ KYU::Application.routes.draw do
                               'admin/users#delete'
 
   match '/kyu_entries/parse_content' => 'kyu_entries#parse_content'
+
+
 
   resources :attachments, only: [:destroy]
 
@@ -46,7 +48,7 @@ KYU::Application.routes.draw do
 
   get "home/index"
 
-  #root :to => "home#index"
+  #root to: "home#index"
   root to: "kyu_entries#index"
 
   # The priority is based upon order of creation:
@@ -57,8 +59,8 @@ KYU::Application.routes.draw do
   # Keep in mind you can assign values other than :controller and :action
 
   # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
+  #   match 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+  # This route can be invoked with purchase_url(id: product.id)
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
@@ -85,7 +87,7 @@ KYU::Application.routes.draw do
   #   resources :products do
   #     resources :comments
   #     resources :sales do
-  #       get 'recent', :on => :collection
+  #       get 'recent', on: :collection
   #     end
   #   end
 
@@ -98,7 +100,7 @@ KYU::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
+  # root to: 'welcome#index'
 
   # See how all your routes lay out with "rake routes"
 

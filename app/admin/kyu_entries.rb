@@ -1,4 +1,4 @@
-ActiveAdmin.register KyuEntry do
+ActiveAdmin.register KyuEntry, as: "Posts"  do
 
   menu priority: 1
 
@@ -9,12 +9,15 @@ ActiveAdmin.register KyuEntry do
     form do |f|
       f.inputs "Details" do
         f.input :user,
-                collection: User.with_deleted.user_collection_email_name
+          collection: User.with_deleted.user_collection_email_name
         f.input :content
         f.input :publish_at
         f.input :slug
       end
-      f.buttons
+      f.buttons do
+        f.commit_button "Submit"
+        f.commit_button "Cancel"
+      end
     end
 
   index do
@@ -26,24 +29,24 @@ ActiveAdmin.register KyuEntry do
     end
     column :publish_at
     column "Actions" do |kyu|
-      raw "#{link_to 'View', admin_kyu_entry_path(kyu), method: :get}
-           #{link_to 'Edit', edit_admin_kyu_entry_path(kyu), method: :get}
-           #{link_to 'Delete', admin_kyu_entry_path(kyu), method: :delete,
-      confirm: "Are you sure you want to delete this KYU Entry permanently ?"}"
+      raw "#{link_to 'View', admin_post_path(kyu), method: :get}
+           #{link_to 'Edit', edit_admin_post_path(kyu), method: :get}
+           #{link_to 'Delete', admin_post_path(kyu), method: :delete,
+      confirm: "Are you sure you want to delete this Post permanently ?"}"
     end
   end
 
   controller do
    def destroy
-     kyu = KyuEntry.with_deleted.where("slug = ?", params["id"]).first
+     kyu = KyuEntry.with_deleted.where("slug = ?", params[:id]).first
      if kyu.deleted_at
        kyu.destroy!
      else
        kyu.destroy
        kyu.destroy
      end
-     flash[:notice] = "KyuEntry was successfully destroyed"
-     redirect_to admin_kyu_entries_path
+     flash[:notice] = "Post was successfully destroyed"
+     redirect_to admin_posts_path
    end
   end
 

@@ -35,7 +35,5 @@ ActiveAdmin.register User do
      redirect_to admin_users_path
    end
   end
-
-
 end
 

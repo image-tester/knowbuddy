@@ -1,7 +1,7 @@
 ActiveAdmin::Dashboards.build do
 
   users = User.with_deleted
-  section "Recent KYU Entries", priority: 1 do
+  section "Recent Posts", priority: 1 do
     table_for KyuEntry.order('id desc').limit(10) do
       column("Subject") {|kyu_entry| kyu_entry.subject }
       column("Contributor") {|kyu_entry| users.find(kyu_entry.user_id).
@@ -9,10 +9,10 @@ ActiveAdmin::Dashboards.build do
     end
   end
 
-  section "KYU Entries", priority: 2 do
+  section "Posts", priority: 2 do
     table_for User.limit(10) do
       column("Contributor") {|user| user.name || user.email}
-      column("KYU Entry Count") {|user| User.find(user.id).kyu_entries.count }
+      column("Posts Count") {|user| User.find(user.id).kyu_entries.count }
     end
   end
 

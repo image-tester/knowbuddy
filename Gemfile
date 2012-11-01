@@ -16,7 +16,7 @@ gem 'resque', :require => 'resque/server'
 gem 'sass'
 gem 'sass-rails'
 gem 'sunspot_rails'
-gem "activeadmin", "~> 0.4.4"
+gem 'activeadmin', git: 'git://github.com/gregbell/active_admin.git'
 # gem 'devise-encryptable'
 gem 'progress_bar'
 gem 'rails-timeago'

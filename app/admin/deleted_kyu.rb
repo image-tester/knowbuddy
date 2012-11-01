@@ -1,10 +1,10 @@
-ActiveAdmin.register KyuEntry, as: "Deleted KYU Entries" do
-  scope :Deleted_KYU, default: true do |kyu|
+ActiveAdmin.register KyuEntry, as: "Deleted Kyu Entries" do
+  scope :Deleted_Posts, default: true do |kyu|
     kyu = KyuEntry.only_deleted
   end
 
-  menu priority: 2
-
+  menu priority: 2, label: "Deleted Posts"
+    
   actions :all, except: [:edit, :new]
 
   filter :subject
@@ -22,7 +22,7 @@ ActiveAdmin.register KyuEntry, as: "Deleted KYU Entries" do
       f.buttons
     end
 
-  index do
+  index title: "Deleted Posts" do
     id_column
     column :subject
     column :user do |user|
@@ -33,8 +33,8 @@ ActiveAdmin.register KyuEntry, as: "Deleted KYU Entries" do
     column "Actions" do |kyu|
       raw "#{link_to 'View', controller: "admin/deleted_kyu_entries",
                           action: "deleted_kyu", id: kyu.id}
-           #{link_to 'Delete', admin_kyu_entry_path(kyu), method: :delete,
-      confirm: "Are you sure you want to delete this KYU Entry permanently ?"}
+           #{link_to 'Delete', admin_post_path(kyu), method: :delete,
+      confirm: "Are you sure you want to delete this Post permanently ?"}
            #{link_to 'Restore', controller: "admin/deleted_kyu_entries",
                           action: "restore", id: kyu.id}"
     end
@@ -43,12 +43,14 @@ ActiveAdmin.register KyuEntry, as: "Deleted KYU Entries" do
   controller do
     def restore
       KyuEntry.only_deleted.where("id = ?", params["id"]).first.recover
-      flash[:notice] = "KYU Entry was successfully restored"
-      redirect_to controller: "admin/kyu_entries", action: "index"
+      flash[:notice] = "Post was successfully restored"
+      redirect_to controller: "admin/posts", action: "index"
     end
 
     def deleted_kyu
+      @page_title="Deleted Post"
       @kyu_entry = KyuEntry.with_deleted.where("id = ?", params["id"]).first
+
     end
   end
 end

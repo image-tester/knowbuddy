@@ -13,13 +13,13 @@ KYU::Application.routes.draw do
   match '/kyu_entries/user_kyu' => 'kyu_entries#user_kyu'
 
   match '/comments/user_comment/:id' => 'comments#user_comment'
-  match '/admin/deleted_kyu_entries/restore/:id' =>
-                              'admin/deleted_kyu_entries#restore'
+  match '/admin/deleted_posts/restore/:id' =>
+                              'admin/deleted_posts#restore'
 
-  match '/admin/deleted_kyu_entries/deleted_kyu/:id' =>
-                              'admin/deleted_kyu_entries#deleted_kyu'
-  match '/admin/deleted_kyu_entries/deleted_kyu' =>
-                              'admin/deleted_kyu_entries#index'
+  match '/admin/deleted_posts/deleted_post/:id' =>
+                              'admin/deleted_posts#deleted_post'
+  match '/admin/deleted_posts/deleted_post' =>
+                              'admin/deleted_posts#index'
 
   match '/admin/inactive_users/activate/:id' =>
                               'admin/inactive_users#activate'
@@ -110,4 +110,3 @@ KYU::Application.routes.draw do
   # controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
 end
-

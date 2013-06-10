@@ -2,21 +2,21 @@ source 'http://rubygems.org'
 
 gem 'acts-as-taggable-on', '~> 2.2.2'
 gem 'devise'
-gem "friendly_id", "~> 4.0.7"
+gem "friendly_id", "~> 4.0.9"
 gem 'haml'
 gem 'jquery-rails'
 gem 'kaminari'
 gem 'mysql2'
 gem 'paperclip'
-gem 'rails','3.1.0'
+gem 'rails','3.2.12'
 gem "rails3_acts_as_paranoid", "~>0.1.4"
 gem 'rails3-jquery-autocomplete'
 gem 'RedCloth'
 gem 'resque', :require => 'resque/server'
 gem 'sass'
-gem 'sass-rails'
+gem "sass-rails", "~> 3.2.6" 
 gem 'sunspot_rails'
-gem 'activeadmin', git: 'git://github.com/gregbell/active_admin.git'
+gem "activeadmin", "~> 0.4.4"
 # gem 'devise-encryptable'
 gem 'progress_bar'
 gem 'rails-timeago'
@@ -32,11 +32,11 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'selenium'
   gem 'sunspot_solr'
-  gem 'web-app-theme', '~> 0.8.0'
+  gem 'web-app-theme', git: 'git://github.com/pilu/web-app-theme.git'
 end
 
 group :assets do
-  gem 'coffee-rails'
+  gem "coffee-rails", "~> 3.2.2"
   gem 'therubyracer'
   gem 'uglifier'
 end

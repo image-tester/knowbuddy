@@ -7,12 +7,10 @@ class CommentsController < ApplicationController
     @comment = @kyu_entry.comments.build(params[:comment])
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to(@kyu_entry,
-                      notice: 'Comment was successfully created.') }
-          #send email notifications to everyone
-      else
-        format.html { redirect_to(@kyu_entry,
-          notice: 'Comment could not be saved. Please fill in all fields')}
+        #send email notifications to everyone
+        new_comment = render_to_string(partial: "comment",
+                  locals: {comment: @comment, kyu_entry: @comment.kyu_entry})
+        format.json { render json: new_comment.to_json }
       end
     end
   end

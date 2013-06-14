@@ -6,8 +6,13 @@
   = f.text_area :content, class: 'text_area validate[funcCall[checkContent]]', id: 'textarea_kyu_content'
 .group
   = f.label :content, t("activerecord.attributes.kyu_entry.content", default: "Attachments"), class: :label
-  = f.fields_for :attachment do |post|
-    = post.file_field :kyu, multiple: true
+  %input#fileupload{"data-url" => attachments_path, multiple: true, name: "files[]", type: "file"}/
+  #temp-file
+    #files
+  #progress
+    .bar{:style => "width: 0%;"}
+  /= f.fields_for :attachment do |post|
+  /= post.file_field :kyu, multiple: true
   %br
   - if params[:action] == "edit"
     %br
@@ -20,7 +25,7 @@
             = link_to(image_tag("doc.png", title: a.kyu_file_name), a.kyu.url, target: "_blank")
           #close{attachment_id: a.id}
             = image_tag("/assets/close_icon.png", id: "delete-attach")
-.group
+
   = f.label :tag, class: :label
   = f.autocomplete_field :tag_list, autocomplete_tag_name_kyu_entries_path, :"data-delimiter" => ', ', class: 'text_field'
 -# .group
@@ -34,4 +39,3 @@
     = t("web-app-theme.save", default: "Save")
   %span.text_button_padding= t("web-app-theme.or", default: "or")
   = link_to t("web-app-theme.cancel", default: "Cancel"), :back, class: "text_button_padding link_button"
-

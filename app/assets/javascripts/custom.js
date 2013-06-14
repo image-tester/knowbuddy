@@ -45,5 +45,22 @@ $(document).ready(function(){
       return $(a).text().toUpperCase().localeCompare($(b).text().toUpperCase());
     })
     $.each(listitems, function(idx, itm) { mylist.append(itm); });
+    //Ajaxify posting comment
+    //start
+    $("#new_comment").validationEngine({
+      'customFunctions': {
+        'checkContent': function (field, rules, i, options){
+          if ($('#comment_comment').val() == '') {
+            return options.allrules.required.alertText;
+          }
+        }
+      }
+    });
+
+    $("#new_comment").live("ajax:success", function(xhr, data, status) {
+      $("#latest_comment").prepend(data).fadeOut(200).fadeIn(2000)
+      $('#comment_comment').val('')
+    });
+    //end
 });
 

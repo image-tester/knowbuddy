@@ -50,4 +50,4 @@
   = render partial: "comments/form", locals: {kyu_entry: @kyu_entry}
   %br
   %br
-= render partial: "comments/comment", locals: { comments: @kyu_entry.comments.order("comments.created_at DESC"), kyu_entry: @kyu_entry, user: @user}
+= render partial: "comments/comments", locals: { comments: @kyu_entry.comments.order("comments.created_at DESC"), kyu_entry: @kyu_entry, user: @user}

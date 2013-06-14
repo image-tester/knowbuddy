@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
       if @comment.save
         #send email notifications to everyone
         new_comment = render_to_string(partial: "comment",
-                  locals: {comment: @comment, kyu_entry: @comment.kyu_entry})
+          locals: {comment: @comment, kyu_entry: @comment.kyu_entry})
         format.json { render json: new_comment.to_json }
       end
     end

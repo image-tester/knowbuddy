@@ -31,12 +31,16 @@ class KyuEntry < ActiveRecord::Base
       comments.map(&:comment)
     end
     text :user do
-      user.name
+      user.name unless user.blank?
     end
   end
 
   def to_s
     subject
   end
-end
 
+  def self.invalid_attachments
+    attachments = Attachment.where(kyu_entry_id: nil)
+    attachments.each {|attachment| attachment.destroy }
+  end
+end

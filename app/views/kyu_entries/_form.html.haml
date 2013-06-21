@@ -6,26 +6,18 @@
   = f.text_area :content, class: 'text_area validate[funcCall[checkContent]]', id: 'textarea_kyu_content'
 .group
   = f.label :content, t("activerecord.attributes.kyu_entry.content", default: "Attachments"), class: :label
-  = f.fields_for :attachment do |post|
-    = post.file_field :kyu, multiple: true
-  %br
-  - if params[:action] == "edit"
-    %br
-    #kyu-attachment
+  - if params[:action] == "new"
+    = render "newform"
+  - elsif params[:action] == "edit"
+    = render "editform"
+    #kyu_attachment
       - kyu_entry.attachments.each do |a|
-        #attach-content
-          - if a.kyu_content_type.split("/")[0] == "image"
-            = link_to(image_tag(a.kyu.url(:thumb), title: a.kyu_file_name), a.kyu.url, target: "_blank")
-          - else
-            = link_to(image_tag("doc.png", title: a.kyu_file_name), a.kyu.url, target: "_blank")
-          #close{attachment_id: a.id}
-            = image_tag("/assets/close_icon.png", id: "delete-attach")
+        = render "attachments", a: a
+  %input#kyu_id{  name: "kyu_id", type: "hidden", value: kyu_entry.id }
 .group
+  %input#attachments_field{ name: "attachments_field", type: "hidden", value: "" }
   = f.label :tag, class: :label
   = f.autocomplete_field :tag_list, autocomplete_tag_name_kyu_entries_path, :"data-delimiter" => ', ', class: 'text_field'
--# .group
--#   = f.label :publish_at, t("activerecord.attributes.kyu_entry.publish_at", default: "Publish Date"), class: :label
--#   = f.datetime_select :publish_at, class: 'datetime_select'
 .group.navform.wat-cf
   %a.button{href: "#", rel: "facebox", id: "previewlink", class: "text_button_padding link_button"} Preview
   %span.text_button_padding= t("web-app-theme.or", default: "")
@@ -33,4 +25,4 @@
     = image_tag("web-app-theme/icons/tick.png", alt: "#{t("web-app-theme.save", default: "Save")}")
     = t("web-app-theme.save", default: "Save")
   %span.text_button_padding= t("web-app-theme.or", default: "or")
-  = link_to t("web-app-theme.cancel", default: "Cancel"), :back, class: "text_button_padding link_button"
+  = link_to t("web-app-theme.cancel", default: "Cancel"), :back, class: "text_button_padding link_button", id: 'kyu_cancel'

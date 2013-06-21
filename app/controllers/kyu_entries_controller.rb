@@ -1,7 +1,7 @@
 class KyuEntriesController < ApplicationController
 
   before_filter :find_kyu,
-    only: [ :destroy, :edit, :remove_tag, :updates ]
+    only: [ :destroy, :edit, :remove_tag, :update ]
 
   before_filter :order_by_name_email,
     only: [ :edit, :index, :kyu_date, :new, :search, :user_kyu ]
@@ -26,22 +26,24 @@ class KyuEntriesController < ApplicationController
     @kyu_entry.publish_at = Time.now
     respond_to do |format|
       if @kyu_entry.save
-        attachment["kyu"].each do |attach|
-          begin
-            Attachment.create!(kyu: attach, kyu_entry_id: @kyu_entry.id)
-          rescue Exception => e
-            error << e.inspect
+        attachments=params[:attachments_field].split(",")
+        unless attachments.blank?
+          attachments.each do |attachment|
+              attach = Attachment.find(attachment)
+              @kyu_entry.attachments << attach
+              # attach.kyu_entry_id = @kyu_entry.id
+              # attach.save
           end
-        end unless attachment.blank?
+        end
         format.html { redirect_to @kyu_entry,
-                      notice: error.blank? ? 'Post was successfully created.' :
-                      error.join(",") + " invalid file extension." }
+                   notice: error.blank? ? 'Post was successfully created.' :
+                   error.join(",") + " invalid file extension." }
         format.json { render json: @kyu_entry,
-                      status: :created, location: @kyu_entry }
+                   status: :created, location: @kyu_entry }
       else
         format.html { render 'new' }
         format.json { render json: @kyu_entry.errors,
-                      status: :unprocessable_entity }
+                   status: :unprocessable_entity }
       end
     end
   end
@@ -58,13 +60,14 @@ class KyuEntriesController < ApplicationController
 
   # GET /kyu_entries/1/edit
   def edit
+    @kyu_entry = KyuEntry.find(params[:id])
   end
-
   def index
     @kyu_entries = KyuEntry.page(params[:page])
     respond_to do |format|
       format.html
       format.json { render json: @kyu_entries }
+      #format.js { render json: @kyu_entries }
     end
   end
 
@@ -79,6 +82,7 @@ class KyuEntriesController < ApplicationController
   # GET /kyu_entries/new.json
   def new
     @kyu_entry = KyuEntry.new
+    KyuEntry.invalid_attachments
     respond_to do |format|
       format.html
       format.json { render json: @kyu_entry }
@@ -110,16 +114,18 @@ class KyuEntriesController < ApplicationController
     unless params[:search].blank?
       @search = Sunspot.search(KyuEntry) do
         fulltext params[:search]
+       # debugger
       end
       @kyu = @search.results
     end
   end
 
   def show
+    #debugger
     begin
       @kyu_entry = KyuEntry.find(params[:id])
     rescue
-        render template: 'kyu_entries/kyu_not_found', status: :not_found
+      render template: 'kyu_entries/kyu_not_found', status: :not_found
     else
       @attachment = @kyu_entry.attachments
       @comment = Comment.new
@@ -137,13 +143,6 @@ class KyuEntriesController < ApplicationController
     attachment = params[:kyu_entry].delete :attachment
     respond_to do |format|
       if @kyu_entry.update_attributes(params[:kyu_entry])
-        attachment["kyu"].each do |attach|
-          begin
-            Attachment.create!(kyu: attach, kyu_entry_id: @kyu_entry.id)
-          rescue ActiveRecord::RecordInvalid
-            error << attach.original_filename
-          end
-        end unless attachment.blank?
         format.html { redirect_to @kyu_entry,
                       notice: error.blank? ? 'Post was successfully updated.' :
                       error.join(",") + " invalid file extension." }
@@ -190,4 +189,3 @@ class KyuEntriesController < ApplicationController
   # two
   '
 end
-

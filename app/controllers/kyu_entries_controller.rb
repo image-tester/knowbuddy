@@ -4,7 +4,8 @@ class KyuEntriesController < ApplicationController
     only: [ :destroy, :edit, :remove_tag, :update ]
 
   before_filter :order_by_name_email,
-    only: [ :edit, :index, :kyu_date, :new, :search, :user_kyu, :show, :create ]
+    only: [ :edit, :index, :kyu_date, :new, :search, :user_kyu, :show, :create,
+            :related_tag ]
 
   before_filter :tag_cloud,
     only: [ :edit, :index, :kyu_date, :new, :related_tag, :search,

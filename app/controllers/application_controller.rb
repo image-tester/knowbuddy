@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
         @tag_cloud_hash[tag] = size if size > 4
       end
      end
+    return @tag_cloud_hash 
    end
 # End
 end
-

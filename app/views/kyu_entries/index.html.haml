@@ -1,9 +1,8 @@
 .block
   .secondary-navigation
-    %ul.wat-cf
-      %li.first.active= link_to "#{t("web-app-theme.list", default: "List")}", kyu_entries_path, title: "All Posts"
-      %li= link_to "#{t("web-app-theme.new", default: "New")}", new_kyu_entry_path, title: "write new post here"
+  = link_to 'New Entry', new_kyu_entry_path(new_kyu: true), id: 'new_entry', remote: true
   .content
+    #new_kyu
     %h2.title
       = t("web-app-theme.all", default: "All")
       Posts
@@ -16,18 +15,7 @@
           %th= t("web-app-theme.created_at", default: "Date")
           %th= t("web-app-theme.created_at", default: "Contributor")
         - @kyu_entries.each do |kyu_entry|
-          %tr{class: cycle("odd", "even")}
-            %td
-              = image_tag avatar_url(@user.find(kyu_entry.user_id), 45)
-            %td
-              = link_to truncate(kyu_entry.subject, length: 70), kyu_entry_path(kyu_entry)
-            %td
-              = link_to (timeago_tag kyu_entry.created_at, nojs: true, limit: 30.days.ago), kyu_entries_kyu_date_path(kyu_id: kyu_entry.id)
-            %td
-              - if @user.find(kyu_entry.user_id).name
-                = link_to @user.find(kyu_entry.user_id).name.titleize, kyu_entries_user_kyu_path(user_id: kyu_entry.user_id)
-              - else
-                = link_to @user.find(kyu_entry.user_id).email, kyu_entries_user_kyu_path(user_id: kyu_entry.user_id)
+          = render "entries", { kyu_entry: kyu_entry }
       .actions-bar.wat-cf
         .actions
         = paginate @kyu_entries

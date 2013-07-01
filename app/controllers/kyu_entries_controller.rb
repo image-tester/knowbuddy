@@ -4,11 +4,11 @@ class KyuEntriesController < ApplicationController
     only: [ :destroy, :edit, :remove_tag, :update ]
 
   before_filter :order_by_name_email,
-    only: [ :edit, :index, :kyu_date, :new, :search, :user_kyu ]
+    only: [ :edit, :index, :kyu_date, :new, :search, :user_kyu, :show, :create ]
 
   before_filter :tag_cloud,
     only: [ :edit, :index, :kyu_date, :new, :related_tag, :search,
-            :show, :user_kyu  ]
+            :show, :user_kyu, :create]
 
   before_filter :user_list,
     only: [ :index, :kyu_date, :related_tag, :show, :user_kyu ]
@@ -29,21 +29,18 @@ class KyuEntriesController < ApplicationController
         attachments=params[:attachments_field].split(",")
         unless attachments.blank?
           attachments.each do |attachment|
-              attach = Attachment.find(attachment)
-              @kyu_entry.attachments << attach
-              # attach.kyu_entry_id = @kyu_entry.id
-              # attach.save
+            attach = Attachment.find(attachment)
+            @kyu_entry.attachments << attach
           end
         end
-        format.html { redirect_to @kyu_entry,
-                   notice: error.blank? ? 'Post was successfully created.' :
-                   error.join(",") + " invalid file extension." }
-        format.json { render json: @kyu_entry,
-                   status: :created, location: @kyu_entry }
+        new_entry = render_to_string(partial: "entries",
+                    locals: { kyu_entry: @kyu_entry })
+        sidebar = render_to_string( partial: "sidebar",
+                    locals: { tag_cloud_hash: tag_cloud, users: @users})
+        format.json { render json: { new_entry: new_entry, sidebar: sidebar } }
       else
-        format.html { render 'new' }
         format.json { render json: @kyu_entry.errors,
-                   status: :unprocessable_entity }
+                    status: :unprocessable_entity}
       end
     end
   end
@@ -61,13 +58,19 @@ class KyuEntriesController < ApplicationController
   # GET /kyu_entries/1/edit
   def edit
     @kyu_entry = KyuEntry.find(params[:id])
+    edit_kyu = render_to_string(partial: "editentry",
+               locals: {kyu_entry: @kyu_entry})
+    respond_to do |format|
+      format.json { render json: edit_kyu.to_json }
+    end
   end
   def index
     @kyu_entries = KyuEntry.page(params[:page])
+    @kyu_entry = KyuEntry.new(params[:kyu_entry])
+    @attachment = @kyu_entry.attachments
     respond_to do |format|
       format.html
       format.json { render json: @kyu_entries }
-      #format.js { render json: @kyu_entries }
     end
   end
 
@@ -81,11 +84,12 @@ class KyuEntriesController < ApplicationController
   # GET /kyu_entries/new
   # GET /kyu_entries/new.json
   def new
-    @kyu_entry = KyuEntry.new
     KyuEntry.invalid_attachments
+    @kyu_entry = KyuEntry.new
+    new_kyu = render_to_string(partial: "newentry",
+              locals: {kyu_entry: @kyu_entry})
     respond_to do |format|
-      format.html
-      format.json { render json: @kyu_entry }
+      format.json { render json: new_kyu.to_json }
     end
   end
 
@@ -114,21 +118,17 @@ class KyuEntriesController < ApplicationController
     unless params[:search].blank?
       @search = Sunspot.search(KyuEntry) do
         fulltext params[:search]
-       # debugger
       end
       @kyu = @search.results
     end
   end
 
   def show
-    #debugger
     begin
       @kyu_entry = KyuEntry.find(params[:id])
     rescue
       render template: 'kyu_entries/kyu_not_found', status: :not_found
     else
-      @attachment = @kyu_entry.attachments
-      @comment = Comment.new
       respond_to do |format|
         format.html
         format.json { render json: @kyu_entry }
@@ -143,12 +143,10 @@ class KyuEntriesController < ApplicationController
     attachment = params[:kyu_entry].delete :attachment
     respond_to do |format|
       if @kyu_entry.update_attributes(params[:kyu_entry])
-        format.html { redirect_to @kyu_entry,
-                      notice: error.blank? ? 'Post was successfully updated.' :
-                      error.join(",") + " invalid file extension." }
-        format.json { head :ok }
+        update_entry = render_to_string(partial: "kyu_entry",
+                       locals:{kyu_entry: @kyu_entry})
+        format.json { render json: update_entry.to_json}
       else
-        format.html { render 'edit' }
         format.json { render json: @kyu_entry.errors,
                       status: :unprocessable_entity }
       end

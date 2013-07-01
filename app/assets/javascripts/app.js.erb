@@ -3,7 +3,7 @@ $(document).ready(function() {
   $('#fileupload').val('')
   $('#attachments_field').val('')
   //end
-
+  function defaulttext(form) {
   // define a default textile template so that user can understand simple format as we have not used HTML editor purposely here
   var strDefaultValForKYUTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
   // set this default value to textarea if its empty
@@ -24,15 +24,18 @@ $(document).ready(function() {
     }).addClass("watermarkOn").val(strDefaultValForKYUTextarea);
   });
 
-  $("#formID1").validationEngine({
+  $(form).validationEngine({
   'customFunctions': {
       'checkContent': function (field, rules, i, options){
-          if ($('#textarea_kyu_content').val() == strDefaultValForKYUTextarea) {
+          if ($('#textarea_kyu_content').val() == strDefaultValForKYUTextarea ||
+              $('#textarea_kyu_content').val() == ''
+              ) {
               return options.allrules.required.alertText;
           }
         }
       }
   });
+}
   // End watermark snippet
 
   // Added on 21st April 2012 by yatish to delete tags on dblclick
@@ -87,5 +90,12 @@ $(document).ready(function() {
         alert('error');
       }
     });
+  });
+
+  $("#new_entry").live("ajax:success", function(xhr, data, status) {
+    defaulttext("#formID1")
+  });
+  $("#edit_entry").live("ajax:success", function(xhr, data, status) {
+    defaulttext("#formID")
   });
 })

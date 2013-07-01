@@ -1,7 +1,8 @@
 $(document).ready(function(){
   $('#textarea_kyu_content').markItUp(mySettings);
-  $("#formID").validationEngine();
-
+  $("#formID1").validationEngine();
+  
+  function preview() {
   $("#previewlink").click(function(e) {
     $(this).facebox();
     var strDefaultValForKYUTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
@@ -24,7 +25,7 @@ $(document).ready(function(){
        error: function(error) { alert(error)}
     });}
   });
-
+  }
   $("#formIDRegi").validationEngine({
   'customFunctions': {
       'checkEmail': function (field, rules, i, options){
@@ -60,11 +61,15 @@ $(document).ready(function(){
   $("#new_comment").live("ajax:success", function(xhr, data, status) {
     $("#latest_comment").prepend(data).fadeOut(200).fadeIn(2000)
     $('#comment_comment').val('')
+    $("time.comment_time_ago").timeago();
   });
   //end
+
+  
   //File Preview icon display
   //start
-  $('#fileupload').fileupload({
+  function makeflieupload() {
+  $('#fileupload').fileupload({  
   url: '/attachments',
   dataType: 'json',
   add: function (e, data) {
@@ -91,6 +96,62 @@ $(document).ready(function(){
     $('#attachments_field').val(data.result.id + ',' + id);
   }
   });
+  }
   //end
-});
 
+
+  //new entry ajaxify
+  //start
+  $("#new_entry").live("ajax:success", function(xhr, data, status) { 
+    $(this).hide()
+    $("#new_kyu").append(data).slideDown(2000)
+    preview()
+    makeflieupload()
+    $('#textarea_kyu_content').markItUp(mySettings);
+  });
+
+  $("#formID1").live("ajax:success", function(xhr, data, status) {
+    $("#new_kyu").slideUp(800,function(){
+      $(data.new_entry).insertAfter("tr:first");
+      $("time.time_ago").timeago();
+      $('tr:even').removeClass('odd').addClass('even');
+      $('tr:odd').removeClass('even').addClass('odd');
+      $("#new_kyu").empty()
+      $("#new_entry").show()
+      $("#sidebar").empty().append(data.sidebar)
+    });
+  });
+  // end
+
+  // edit entry ajaxify
+  $("#edit_entry").live("ajax:success", function(xhr, data, status) {
+    show_kyu = $("#main").html()
+    $('#main').empty().append('<div id="edit_kyu" />')
+    $("#edit_kyu").css("display", "none").append(data).show()
+    preview()
+    makeflieupload()
+    $('#textarea_kyu_content').markItUp(mySettings);
+  });
+
+  $("#formID").live("ajax:success", function(xhr, data, status) {
+    $("#edit_kyu").slideUp(100,function(){
+      $("#edit_kyu").remove()
+      $("#main").append(data)
+      history.pushState({},'',$('#kyu_slug').val());
+    });
+  });
+  // end
+
+  // cancel for new and edit entry
+  $("#kyu_cancel").live('click',function() {
+    $("#new_kyu").slideUp(800, function(){
+      $("#new_kyu").empty()
+      $("#new_entry").show()
+    });
+    $("#edit_kyu").slideUp(800, function(){
+      $("#edit_kyu").remove()
+      $("#main").empty().append(show_kyu)
+    })
+  //end  
+  });
+});

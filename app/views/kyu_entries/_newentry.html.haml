@@ -1,0 +1,7 @@
+%h2.title
+  = t("web-app-theme.new", default: "New")
+  Post
+.inner
+  = form_for kyu_entry, remote: true, url: kyu_entries_path, html: { class: :form, id: "formID1", multipart: true } do |f|
+    = render 'form', f: f, kyu_entry: kyu_entry
+#default_preview

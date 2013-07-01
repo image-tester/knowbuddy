@@ -6,14 +6,14 @@
   = f.text_area :content, class: 'text_area validate[funcCall[checkContent]]', id: 'textarea_kyu_content'
 .group
   = f.label :content, t("activerecord.attributes.kyu_entry.content", default: "Attachments"), class: :label
-  - if params[:action] == "new"
+  - if params[:new_kyu].present?
     = render "newform"
-  - elsif params[:action] == "edit"
+  - elsif params[:edit_kyu].present?
     = render "editform"
     #kyu_attachment
       - kyu_entry.attachments.each do |a|
         = render "attachments", a: a
-  %input#kyu_id{  name: "kyu_id", type: "hidden", value: kyu_entry.id }
+  %input#kyu_id{ name: "kyu_id", type: "hidden", value: kyu_entry.id }
 .group
   %input#attachments_field{ name: "attachments_field", type: "hidden", value: "" }
   = f.label :tag, class: :label
@@ -21,8 +21,8 @@
 .group.navform.wat-cf
   %a.button{href: "#", rel: "facebox", id: "previewlink", class: "text_button_padding link_button"} Preview
   %span.text_button_padding= t("web-app-theme.or", default: "")
-  %button.button{type: "submit"}
+  %button.button{ id: "kyu_save"}
     = image_tag("web-app-theme/icons/tick.png", alt: "#{t("web-app-theme.save", default: "Save")}")
     = t("web-app-theme.save", default: "Save")
   %span.text_button_padding= t("web-app-theme.or", default: "or")
-  = link_to t("web-app-theme.cancel", default: "Cancel"), :back, class: "text_button_padding link_button", id: 'kyu_cancel'
+  = link_to t("web-app-theme.cancel", default: "Cancel"), "#", class: "text_button_padding link_button", id: 'kyu_cancel'

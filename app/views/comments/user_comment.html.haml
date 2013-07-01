@@ -14,6 +14,7 @@
           %th PostsEntry Subject
           %th Date
         - @comments.each do |comment|
+          - kyu_entry = comment.kyu_entry
           %tr{class: cycle("odd", "even")}
             %td{class: "special"}
               = comment.comment

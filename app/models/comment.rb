@@ -10,6 +10,6 @@ class Comment < ActiveRecord::Base
 
   default_scope order: 'created_at DESC'
   scope :list, lambda { |user_id|
-    where('id = ?', user_id)
+    where('user_id = ?', user_id)
   }
 end

@@ -60,7 +60,7 @@ class CommentsController < ApplicationController
   end
 
   def user_comment
-    @comments = Comment.list
+    @comments = Comment.list(params[:id])
     # User = Active + Inactive(Deleted)
     @user = User.with_deleted.where("id = ?", params[:id]).first
   end

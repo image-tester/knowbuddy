@@ -1,5 +1,4 @@
 $(document).ready(function(){
-  ajaxcount = 0
   $('#textarea_kyu_content').markItUp(mySettings);
   $("#formID1").validationEngine();
   

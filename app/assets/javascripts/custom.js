@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  ajaxcount = 0
   $('#textarea_kyu_content').markItUp(mySettings);
   $("#formID1").validationEngine();
   
@@ -97,17 +98,39 @@ $(document).ready(function(){
   }
   });
   }
+  //end 
+ 
+  // underline new post link
+  function newpostlink(a1,a2)
+  {
+    $(a1).removeClass("menu_active")
+    $(a2).addClass("menu_active")
+  }
   //end
 
-
-  //new entry ajaxify
-  //start
+  // new entry ajaxify
   $("#new_entry").live("ajax:success", function(xhr, data, status) { 
-    $(this).hide()
-    $("#new_kyu").append(data).slideDown(2000)
-    preview()
-    makeflieupload()
-    $('#textarea_kyu_content').markItUp(mySettings);
+    var loc = location.pathname
+    if (loc != "/kyu_entries")
+      location.replace("/kyu_entries#new_post") 
+    else
+    {
+      newpostlink('#home_pg',this)
+      $("#new_kyu").empty().append(data).slideDown(2000)
+      preview()
+      makeflieupload()
+      $('#textarea_kyu_content').markItUp(mySettings);
+      history.pushState({},'','#new_post');
+    } 
+  });
+
+  $("#formID1").live("ajax:beforeSend", function(){
+    location.hash = '#';
+    $(".btn_kyu_save").text("Saving...").addClass("disable-button")
+  })
+
+  $(".disable-button").live("click", function(){
+    return false
   });
 
   $("#formID1").live("ajax:success", function(xhr, data, status) {
@@ -117,10 +140,12 @@ $(document).ready(function(){
       $('tr:even').removeClass('odd').addClass('even');
       $('tr:odd').removeClass('even').addClass('odd');
       $("#new_kyu").empty()
-      $("#new_entry").show()
       $("#sidebar").empty().append(data.sidebar)
+      newpostlink('#new_entry','#home_pg')
+      $(".btn_kyu_save").text("Save").removeClass("disable-button")
     });
   });
+
   // end
 
   // edit entry ajaxify
@@ -146,7 +171,7 @@ $(document).ready(function(){
   $("#kyu_cancel").live('click',function() {
     $("#new_kyu").slideUp(800, function(){
       $("#new_kyu").empty()
-      $("#new_entry").show()
+      newpostlink('#new_entry','#home_pg')
     });
     $("#edit_kyu").slideUp(800, function(){
       $("#edit_kyu").remove()

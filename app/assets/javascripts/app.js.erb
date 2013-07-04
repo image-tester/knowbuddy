@@ -30,7 +30,10 @@ $(document).ready(function() {
           if ($('#textarea_kyu_content').val() == strDefaultValForKYUTextarea ||
               $('#textarea_kyu_content').val() == ''
               ) {
+              //$("#kyu_save").attr("disabled",false);
+
               return options.allrules.required.alertText;
+
           }
         }
       }
@@ -91,11 +94,22 @@ $(document).ready(function() {
       }
     });
   });
+  //end
 
+  //Show Default text for new/edit post
   $("#new_entry").live("ajax:success", function(xhr, data, status) {
     defaulttext("#formID1")
   });
   $("#edit_entry").live("ajax:success", function(xhr, data, status) {
     defaulttext("#formID")
   });
-})
+  //end
+
+  //URL check for hash #new_post
+  var loc_hash = location.hash
+  if( loc_hash.indexOf("#new_post") != -1 )
+  {
+    $("#new_entry").click()
+  }
+  //end
+});

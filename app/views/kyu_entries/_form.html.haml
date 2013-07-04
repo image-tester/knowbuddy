@@ -21,8 +21,9 @@
 .group.navform.wat-cf
   %a.button{href: "#", rel: "facebox", id: "previewlink", class: "text_button_padding link_button"} Preview
   %span.text_button_padding= t("web-app-theme.or", default: "")
-  %button.button{ id: "kyu_save"}
-    = image_tag("web-app-theme/icons/tick.png", alt: "#{t("web-app-theme.save", default: "Save")}")
+  = button_tag class: "button btn_kyu_save", type: "submit" do
+    = image_tag("web-app-theme/icons/tick.png", alt: "#{t("web-app-theme.save",
+      default: "Save")}")
     = t("web-app-theme.save", default: "Save")
   %span.text_button_padding= t("web-app-theme.or", default: "or")
   = link_to t("web-app-theme.cancel", default: "Cancel"), "#", class: "text_button_padding link_button", id: 'kyu_cancel'

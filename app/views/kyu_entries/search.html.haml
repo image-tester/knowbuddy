@@ -1,7 +1,5 @@
 .block
   .secondary-navigation
-    %ul.wat-cf
-      %li.first.active= link_to "#{t("web-app-theme.list", default: "List")}", kyu_entries_path
   .content
     - if params[:search].blank? || @kyu.blank?
       #search_error

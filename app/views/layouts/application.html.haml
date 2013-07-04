@@ -14,13 +14,12 @@
           #user-navigation
             %ul.wat-cf
               %li
-                = link_to t("web-app-theme.home", default: "Home"),
-                             kyu_entries_path, :class => is_active?("index")
+                = link_to t("web-app-theme.home", default: "Home"), kyu_entries_path, class: is_active?("index"), id: "home_pg"
+              %li
+                = link_to t("web-app-theme.newpost", default: "New Post"),new_kyu_entry_path(new_kyu: true), id: 'new_entry', remote: true
               %li
                 = link_to t("web-app-theme.profile", default: "Profile"),
-                    edit_user_path(current_user), :class => is_active?("edit")
-              -# %li
-              -#   %a{:href => "#"}= t("web-app-theme.settings", default: "Settings")
+                    edit_user_path(current_user), class: is_active?("edit")
               %li
                 = link_to t("web-app-theme.logout", default: "Logout"),
                              destroy_user_session_path, method: :delete

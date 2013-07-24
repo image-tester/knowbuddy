@@ -7,5 +7,5 @@ test:
   host: "0.0.0.0:3000/"
   
 production:
-  url: "http://knowbuddy.kiprosh-apps.com"
-  host: "knowbuddy.kiprosh-apps.com"
+  url: "http://knowbuddy.kiprosh-app.com"
+  host: "knowbuddy.kiprosh-app.com"

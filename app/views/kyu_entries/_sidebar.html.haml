@@ -16,7 +16,7 @@
         .tag_block
           .cloud_element= content_tag(:a, tag.name.downcase, {href: "#{related_tag_path}?name=#{tag.name}", style: "font-size:#{size}px;"})
 .block
-  %h3 Our Top 3 Contributors
+  %h3 Top Contributors
   %ul.navigation
     - top3_contributors = User.top3
     - top3_contributors.each do |top|

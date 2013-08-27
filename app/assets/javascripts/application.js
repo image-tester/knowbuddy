@@ -15,4 +15,3 @@
 //= require set
 //= require rails-timeago
 //= require_tree .
-

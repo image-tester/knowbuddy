@@ -6,7 +6,6 @@ class User < ActiveRecord::Base
                   :remember_me
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :timeoutable
-
   has_many :comments
   has_many :kyu_entries
 
@@ -33,7 +32,6 @@ class User < ActiveRecord::Base
     self.all.map{|v| [v.name || v.email, v.id] }
   end
   private
-
     #Added by Rohan.
     #Functionality - Send email notification to user upon new account signup
     def send_email_password_changed
@@ -44,4 +42,3 @@ class User < ActiveRecord::Base
       Resque.enqueue(WelcomeNotification,self)
     end
 end
-

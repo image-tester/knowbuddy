@@ -1,6 +1,9 @@
 class KyuEntry < ActiveRecord::Base
+  MINFONTSIZE = 10
+  MAXFONTSIZE = 23
+
   attr_accessible :content, :created_at, :publish_at, :subject,
-    :tag_list, :updated_at
+    :tag_list, :updated_at, :user_id
 
   belongs_to :user
   has_many :attachments, dependent: :destroy
@@ -28,7 +31,8 @@ class KyuEntry < ActiveRecord::Base
   searchable do
     text :content, :subject
     text :comments do
-      comments.map(&:comment)
+      comments.map { |c| c.user.name } |
+        comments.map { |c| c.comment }
     end
     text :user do
       user.name unless user.blank?
@@ -42,5 +46,21 @@ class KyuEntry < ActiveRecord::Base
   def self.invalid_attachments
     attachments = Attachment.where(kyu_entry_id: nil)
     attachments.each {|attachment| attachment.destroy }
+  end
+# Added on 23rd April 2012 by yatish to display cloud tag
+# Start
+  def self.tag_cloud
+    tags = self.tag_counts.order('count Desc').limit(20)
+    if tags.length > 0
+      maxOccurs = tags.first.count
+      minOccurs = tags.last.count
+      @tag_cloud_hash = {}
+      tags.each do |tag|
+        weight = (tag.count - minOccurs).to_f / (maxOccurs - minOccurs)
+        size = MINFONTSIZE + ((MAXFONTSIZE - MINFONTSIZE) * weight)
+        @tag_cloud_hash[tag] = size if size > 4
+      end
+    end
+    return @tag_cloud_hash
   end
 end

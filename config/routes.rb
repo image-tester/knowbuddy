@@ -31,7 +31,7 @@ KYU::Application.routes.draw do
 
  # match '/attachments/edit/:id' => 'attachments#create'
 
-  resources :attachments
+  resources :attachments, only: [:create, :destroy]
   resources :kyu_entries do
     get :autocomplete_tag_name, on: :collection
     resources :comments, except: [:index]

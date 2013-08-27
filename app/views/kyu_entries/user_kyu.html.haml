@@ -2,6 +2,8 @@
   .secondary-navigation
     %ul.wat-cf
   .content
+    %div#profile_pic
+      = image_tag avatar_url(@kyu_user, 45)
     - if @kyu.blank?
       #search_error
         - if @kyu_user.name

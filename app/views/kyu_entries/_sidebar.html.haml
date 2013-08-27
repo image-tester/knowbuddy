@@ -34,3 +34,5 @@
           = link_to user.name.titleize, kyu_entries_user_kyu_path(user_id: user.id)
         - else
           = link_to user.email, kyu_entries_user_kyu_path(user_id: user.id)
+  %div#paginator
+    = paginate users, remote: true

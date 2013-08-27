@@ -108,5 +108,16 @@ $(document).ready(function() {
   {
     $("#new_entry").click()
   }
+
+paginate_change_navigation_links_text();
+$("a[rel*='facebox']").facebox();
   //end
 });
+
+function paginate_change_navigation_links_text()
+{
+  $("#paginator .pagination .first a").html("<<");
+  $("#paginator .pagination .prev a").html("<");
+  $("#paginator .pagination .next a").html(">");
+  $("#paginator .pagination .last a").html(">>");
+}

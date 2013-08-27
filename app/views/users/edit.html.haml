@@ -7,6 +7,8 @@
     .profile
       = form_for @user, html: { class: :form, id: "formID" } do |f|
         .group
+          = image_tag avatar_url(@user, 45)
+        .group
           = f.label :name, 'Name', class: :label
           = f.text_field :name, class: "text_field validate[required] text-input"
         .group

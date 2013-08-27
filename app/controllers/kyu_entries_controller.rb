@@ -20,27 +20,26 @@ class KyuEntriesController < ApplicationController
   # POST /kyu_entries
   # POST /kyu_entries.json
   def create
-    error = []
     attachment = params[:kyu_entry].delete :attachment
-    @kyu_entry = KyuEntry.new(params[:kyu_entry])
-    @kyu_entry.user = current_user
-    @kyu_entry.publish_at = Time.now
+    params[:kyu_entry].merge!(user_id: current_user.id)
+    params[:kyu_entry].merge!(publish_at: Time.now)
+    kyu_entry = KyuEntry.new(params[:kyu_entry])
+    # kyu_entry.set_user_and_publish_date(current_user)
     respond_to do |format|
-      if @kyu_entry.save
-        attachments=params[:attachments_field].split(",")
+      if kyu_entry.save
+        attachments = params[:attachments_field].split(",")
         unless attachments.blank?
           attachments.each do |attachment|
-            attach = Attachment.find(attachment)
-            @kyu_entry.attachments << attach
+            kyu_entry.attachments << Attachment.find(attachment)
           end
         end
         new_entry = render_to_string(partial: "entries",
-                    locals: { kyu_entry: @kyu_entry })
+                    locals: { kyu_entry: kyu_entry })
         sidebar = render_to_string( partial: "sidebar",
                     locals: { tag_cloud_hash: tag_cloud, users: @users})
         format.json { render json: { new_entry: new_entry, sidebar: sidebar } }
       else
-        format.json { render json: @kyu_entry.errors,
+        format.json { render json: kyu_entry.errors,
                     status: :unprocessable_entity}
       end
     end
@@ -62,6 +61,7 @@ class KyuEntriesController < ApplicationController
     edit_kyu = render_to_string(partial: "editentry",
                locals: {kyu_entry: @kyu_entry})
     respond_to do |format|
+      # format.html
       format.json { render json: edit_kyu.to_json }
     end
   end
@@ -71,6 +71,7 @@ class KyuEntriesController < ApplicationController
     @attachment = @kyu_entry.attachments
     respond_to do |format|
       format.html
+      format.js
       format.json { render json: @kyu_entries }
     end
   end
@@ -157,6 +158,10 @@ class KyuEntriesController < ApplicationController
   def user_kyu
     @kyu = KyuEntry.list(params[:user_id])
     @kyu_user = User.get_user(params[:user_id]).first
+    respond_to do |format|
+      format.html
+      format.js { render :index }
+    end
   end
 
   protected
@@ -165,11 +170,15 @@ class KyuEntriesController < ApplicationController
     end
 
     def order_by_name_email
-      @users = User.by_name_email
+      @users = User.by_name_email.page(params[:page]).per(5)
     end
 
     def user_list
       @user = User.with_deleted
+    end
+
+    def tag_cloud
+      @tag_cloud_hash = KyuEntry.tag_cloud
     end
 
   # This is default value for textArea value of KYU entry

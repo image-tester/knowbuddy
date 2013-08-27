@@ -4,12 +4,13 @@ describe KyuEntriesController do
   before :each do
     User.delete_all!
     KyuEntry.delete_all!
-    @user = User.create(name: 'user1', email: 'test@kiprosh.com', password: 'password', password_conformation: 'password')
+    @user = User.create(name: 'user1', email: 'test@kiprosh.com', password: 'password',
+      password_confirmation: 'password')
     @kyu = KyuEntry.create(subject: 'super bike', content: 'ducati', user_id: @user.id)
     @kyu_1 = {subject: 'Swimming', content: 'freestyle', user_id: @user.id}
     sign_in @user
     @user_2 = User.create(name: 'user2', email: 'inactive@kiprosh.com', password: 'inactive',
-password_conformation: 'inactive')
+      password_confirmation: 'inactive')
     @kyu_2 = KyuEntry.create(subject: 'test2', content: 'content2', user_id: @user_2.id)
     @user_2.destroy
   end
@@ -24,7 +25,7 @@ password_conformation: 'inactive')
 
   describe "GET edit" do
     it "should response successfully to edit" do
-      get :edit, id: @kyu.id
+      xhr :get, :edit, id: @kyu.id
       response.should be_successful
     end
   end
@@ -38,7 +39,8 @@ password_conformation: 'inactive')
 
   describe "POST create" do
     it "creates a new KyuEntry" do
-      post :create, kyu_entry: @kyu_1
+      @kyu = {subject: 'Swimming', content: 'freestyle', user_id: @user.id}
+      post :create, kyu_entry: @kyu, attachments_field: ""
       kyu = KyuEntry.find_by_subject "Swimming"
       kyu.should_not be_nil
     end
@@ -63,7 +65,7 @@ password_conformation: 'inactive')
 
   describe "Get post for user" do
     it "should get all kyu's for particular user" do
-      get :user_kyu, :user_id => @user.id
+      get :user_kyu, user_id: @user.id
       response.should be_successful
     end
   end
@@ -75,7 +77,7 @@ password_conformation: 'inactive')
       KyuEntry.delete_all!
       Comment.delete_all
       solr_setup
-      @user = User.create(email: 'testing@kiprosh.com', password: 'password', password_conformation: 'password', name: 'test')
+      @user = User.create(email: 'testing2@kiprosh.com', password: 'password', password_confirmation: 'password', name: 'test')
       @kyu = KyuEntry.create(subject: 'sky diving', content:'freefall', user_id: @user.id)
       @kyu_1 = KyuEntry.create(subject: 'mixed martial arts', content: 'boxing', user_id: @user.id)
       KyuEntry.reindex
@@ -89,6 +91,19 @@ password_conformation: 'inactive')
       results.size.should == 1
       results.include?(@kyu_1).should == true
       results.include?(@kyu).should == false
+    end
+
+    it "should list kyu_entries where matching user name has commented on posts " do
+      @user_1 = User.create(email: 'rspec@kiprosh.com', password: 'password', password_confirmation: 'password', name: 'xyz')
+      @user_2 = User.create(email: 'rspec@kiprosh.com', password: 'password', password_confirmation: 'password', name: 'abc')
+      @kyu_2 = KyuEntry.create(subject: 'sky diving', content:'freefall', user_id: @user_2.id)
+      @comment = Comment.create(comment: 'awesome', user_id: @user_1.id, kyu_entry_id: @kyu_2.id)
+      KyuEntry.reindex
+      results = KyuEntry.solr_search do
+        keywords "xyz"
+      end.results
+      results.size.should == 1
+      results.include?(@kyu_2).should == true
     end
 
     it "should search kyu_entry by content" do

@@ -2,8 +2,6 @@
   .secondary-navigation
     %ul.wat-cf
   .content
-    %div#profile_pic
-      = image_tag avatar_url(@kyu_user, 45)
     - if @kyu.blank?
       #search_error
         - if @kyu_user.name
@@ -11,11 +9,14 @@
         - else
           Sorry, no articles posted by #{@kyu_user.email} yet.
     - else
-      %h2.title
-        - if @kyu_user.name
-          All articles posted by #{@kyu_user.name.titleize}
-        - else
-          All articles posted by #{@kyu_user.email}
+      .title
+        %div#img
+          = image_tag avatar_url(@kyu_user, 45)
+        %h2.tag_name
+          - if @kyu_user.name
+              All articles posted by #{@kyu_user.name.titleize}
+          - else
+              All articles posted by #{@kyu_user.email}
       .inner
         %table.table
           %tr

@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe KyuEntry do
   before(:each) do
+  User.delete_all!
     4.times do |n|
       @user = FactoryGirl.create(:user)
         subject  = Faker::Name.name
@@ -17,8 +18,8 @@ describe KyuEntry do
         subject  = Faker::Name.name
         content  = "subject content"
         user_id  = @user.id
-        KyuEntry.create(subject: kyu,
-                   content: post,
+        KyuEntry.create(subject: subject,
+                   content: content,
                    user_id: user_id,
                    created_at: "2011-08-08 09:01:39")
     end

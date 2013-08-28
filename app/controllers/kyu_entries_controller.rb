@@ -61,7 +61,6 @@ class KyuEntriesController < ApplicationController
     edit_kyu = render_to_string(partial: "editentry",
                locals: {kyu_entry: @kyu_entry})
     respond_to do |format|
-      # format.html
       format.json { render json: edit_kyu.to_json }
     end
   end
@@ -99,7 +98,6 @@ class KyuEntriesController < ApplicationController
     @content = RedCloth.new(params[:divcontent]).to_html
     render json: @content.to_json
   end
-
 
   def related_tag
    @related_tags = KyuEntry.tagged_with(params[:name])

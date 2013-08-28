@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe UsersController do
   before :each do
-    User.delete_all
-    @user = User.create(name: 'user1', email: 'test@kiprosh.com', password: 'password', password_conformation: 'password')
+    User.delete_all!
+    @user = User.create(name: 'user1', email: 'test@kiprosh.com', password: 'password', password_confirmation: 'password')
     sign_in @user
   end
 

@@ -4,10 +4,10 @@ describe UserMailer do
 
   before :each do
     User.delete_all!
-    @user_1 = User.create(name: 'User1', email: 'test@kiprosh.com', password: 'password',
-password_conformation: 'password')
+    @user_1 = User.create(name: 'User1', email: 'test@kiprosh.com', password: 'password', 
+      password_confirmation: 'password')
     @user_2 = User.create(name: 'User2', email: 'inactive@kiprosh.com', password: 'inactive',
-password_conformation: 'inactive')
+      password_confirmation: 'inactive')
     @user_2.deleted_at = Time.now
     @user_2.save
     @kyu_entry = KyuEntry.create(subject: 'Swimming', content: 'freestyle', user_id: @user_1.id)

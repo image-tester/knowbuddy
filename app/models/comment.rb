@@ -12,4 +12,12 @@ class Comment < ActiveRecord::Base
   scope :list, lambda { |user_id|
     where('user_id = ?', user_id)
   }
+
+  after_save :solr_reindex_kyu
+
+  private
+
+    def solr_reindex_kyu
+      self.kyu_entry.solr_index!
+    end
 end

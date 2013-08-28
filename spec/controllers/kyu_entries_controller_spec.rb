@@ -77,7 +77,7 @@ describe KyuEntriesController do
       KyuEntry.delete_all!
       Comment.delete_all
       solr_setup
-      @user = User.create(email: 'testing2@kiprosh.com', password: 'password', password_confirmation: 'password', name: 'test')
+      @user = User.create(email: 'testing@kiprosh.com', password: 'password', password_confirmation: 'password', name: 'test')
       @kyu = KyuEntry.create(subject: 'sky diving', content:'freefall', user_id: @user.id)
       @kyu_1 = KyuEntry.create(subject: 'mixed martial arts', content: 'boxing', user_id: @user.id)
       KyuEntry.reindex
@@ -95,7 +95,7 @@ describe KyuEntriesController do
 
     it "should list kyu_entries where matching user name has commented on posts " do
       @user_1 = User.create(email: 'rspec@kiprosh.com', password: 'password', password_confirmation: 'password', name: 'xyz')
-      @user_2 = User.create(email: 'rspec@kiprosh.com', password: 'password', password_confirmation: 'password', name: 'abc')
+      @user_2 = User.create(email: 'rspec2@kiprosh.com', password: 'password', password_confirmation: 'password', name: 'abc')
       @kyu_2 = KyuEntry.create(subject: 'sky diving', content:'freefall', user_id: @user_2.id)
       @comment = Comment.create(comment: 'awesome', user_id: @user_1.id, kyu_entry_id: @kyu_2.id)
       KyuEntry.reindex

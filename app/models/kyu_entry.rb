@@ -31,8 +31,8 @@ class KyuEntry < ActiveRecord::Base
   searchable do
     text :content, :subject
     text :comments do
-      comments.map { |c| c.user.name } |
-        comments.map { |c| c.comment }
+      comments.map { |c| c.user.name }
+      comments.map(&:comment)
     end
     text :user do
       user.name unless user.blank?

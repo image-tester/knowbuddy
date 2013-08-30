@@ -14,6 +14,7 @@ class Comment < ActiveRecord::Base
   }
 
   after_save :solr_reindex_kyu
+  after_destroy :solr_reindex_kyu
 
   private
 

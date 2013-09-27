@@ -31,7 +31,7 @@ class UserMailer < ActionMailer::Base
   end
 
   def send_notification_on_new_KYU(users, kyu_entry)
-    @content = kyu_entry["content"]
+    @content = RedCloth.new(kyu_entry["content"]).to_html
     kyu_user = users.select{|x|x["id"] == kyu_entry["user_id"]}
     posted_by = kyu_user.first["email"]
     name = kyu_user.first["name"].titleize if kyu_user.first["name"]

@@ -37,6 +37,9 @@ class KyuEntry < ActiveRecord::Base
     text :user do
       user.name unless user.blank?
     end
+    text :tags do
+      tags.map {|tag| tag.name}
+    end
   end
 
   def to_s

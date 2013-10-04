@@ -6,31 +6,31 @@ describe CommentsController do
     KyuEntry.delete_all
     Comment.delete_all
 
-    @kyu1 = FactoryGirl.create(:kyu_entry)
-    @comment1 = FactoryGirl.create(:comment)
-    @user1 = @comment1.user
+    @kyu = FactoryGirl.create(:kyu_entry)
+    @comment_active = FactoryGirl.create(:comment)
+    @user_active = @comment_active.user
 
-    @kyu2 = FactoryGirl.create(:kyu_entry)
-    @comment2 = FactoryGirl.create(:comment)
-    @user2 = @comment2.user
+    @kyu_new = FactoryGirl.create(:kyu_entry)
+    @comment_inactive = FactoryGirl.create(:comment)
+    @user_inactive = @comment_inactive.user
 
-    @comment3 = FactoryGirl.create(:comment, :user_id => @user1.id, :kyu_entry_id => @kyu2.id)
-    @comment4 = FactoryGirl.create(:comment, :user_id => @user2.id, :kyu_entry_id => @kyu1.id)
+    @comment_act = FactoryGirl.create(:comment, :user_id => @user_active.id, :kyu_entry_id => @kyu_new.id)
+    @comment_inact = FactoryGirl.create(:comment, :user_id => @user_inactive.id, :kyu_entry_id => @kyu.id)
 
-    @comment5 = Comment.create(comment: 'ducati', user_id: @user1.id, kyu_entry_id: @kyu2.id)
+    @comment_del = Comment.create(comment: 'ducati', user_id: @user_active.id, kyu_entry_id: @kyu_new.id)
     KyuEntry.reindex
-    @user2.destroy
+    @user_inactive.destroy
   end
 
   describe "display comments" do
     it "displays comments of perticular users" do
-      comments = Comment.find(:all, conditions: {:user_id => @user1.id})
+      comments = Comment.find(:all, conditions: {:user_id => @user_active.id})
       comments.should_not be_nil
       comments.length == 2
     end
 
     it "displays comments of inactive users" do
-      comments = Comment.find(:all, conditions: {:user_id => @user2.id})
+      comments = Comment.find(:all, conditions: {:user_id => @user_inactive.id})
       comments.should_not be_nil
       comments.length == 2
     end
@@ -38,8 +38,8 @@ describe CommentsController do
 
   describe "DELETE destroy" do
     it "should delete a comment" do
-      @comment5.destroy
-      deleted_comment = Comment.find_by_id(@comment5.id)
+      @comment_del.destroy
+      deleted_comment = Comment.find_by_id(@comment_del.id)
       deleted_comment.should be_nil
     end
   end
@@ -67,7 +67,7 @@ describe CommentsController do
     end
 
     it "remove the index from solr_search afer comment deletion" do
-      @comment_ind.destroy
+      @comment_index.destroy
       KyuEntry.reindex
       results = KyuEntry.solr_search do
         keywords "awesome"

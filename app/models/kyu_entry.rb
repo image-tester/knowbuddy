@@ -1,4 +1,6 @@
 class KyuEntry < ActiveRecord::Base
+  include PublicActivity::Common
+  
   MINFONTSIZE = 10
   MAXFONTSIZE = 23
 

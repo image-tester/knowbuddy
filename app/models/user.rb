@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include PublicActivity::Model
+  tracked owner: ->(users_controller, user) { users_controller && users_controller.current_user }, except: [:update, :destroy]
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable,
   # :timeoutable and :omniauthable

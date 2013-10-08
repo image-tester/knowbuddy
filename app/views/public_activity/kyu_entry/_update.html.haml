@@ -1,0 +1,6 @@
+updated an article 
+
+- if activity.trackable
+  = link_to activity.trackable.subject, activity.trackable
+- else
+  = link_to activity.parameters["1"], kyu_entry_path(id: activity.parameters["2"])

@@ -1,0 +1,7 @@
+- if activity.trackable
+  = link_to activity.trackable.name, kyu_entries_user_kyu_path(user_id: activity.trackable.id)
+  just joined KnowBuddy
+- else
+  User was removed
+
+

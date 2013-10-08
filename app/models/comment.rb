@@ -1,4 +1,5 @@
 class Comment < ActiveRecord::Base
+  include PublicActivity::Common
   attr_accessible :comment, :created_at, :kyu_entry_id, :updated_at, :user_id
 
   belongs_to :kyu_entry

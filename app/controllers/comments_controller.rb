@@ -7,6 +7,7 @@ class CommentsController < ApplicationController
     @comment = @kyu_entry.comments.build(params[:comment])
     respond_to do |format|
       if @comment.save
+        @comment.create_activity :create,params: {"1"=> @kyu_entry.subject, "2" => @kyu_entry.id}, owner: current_user
         #send email notifications to everyone
         new_comment = render_to_string(partial: "comment",
           locals: {comment: @comment, kyu_entry: @comment.kyu_entry})
@@ -17,6 +18,7 @@ class CommentsController < ApplicationController
 
   def destroy
   @kyu_entry = KyuEntry.find(params[:kyu_entry_id])
+  @comment.create_activity :destroy, owner: current_user, params: {"1"=> @kyu_entry.subject, "2" => @kyu_entry.id}, recipient: @kyu_entry
   @comment.destroy
     respond_to do |format|
      format.html { redirect_to @kyu_entry }
@@ -51,6 +53,7 @@ class CommentsController < ApplicationController
     @kyu_entry = @comment.kyu_entry
     respond_to do |format|
       if @comment.update_attributes(params[:comment])
+        @comment.create_activity :update,params: {"1"=> @kyu_entry.subject, "2" => @kyu_entry.id}, owner: current_user
         format.html { redirect_to @kyu_entry,
                       notice: 'Comment was successfully updated.' }
       else

@@ -19,6 +19,7 @@ gem 'sunspot_rails'
 gem "activeadmin", "~> 0.4.4"
 # gem 'devise-encryptable'
 gem 'progress_bar'
+gem 'public_activity'
 gem 'rails-timeago'
 
 group :development, :test do

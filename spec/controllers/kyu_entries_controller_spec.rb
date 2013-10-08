@@ -4,17 +4,19 @@ describe KyuEntriesController do
   before :each do
     User.delete_all!
     KyuEntry.delete_all!
+    @user_test = User.create(name: 'user22', email: 'inactive2@kiprosh.com', password: 'inactive2',
+      password_confirmation: 'inactive2')
     @user = User.create(name: 'user1', email: 'test@kiprosh.com', password: 'password',
       password_confirmation: 'password')
     @kyu = KyuEntry.create(subject: 'super bike', content: 'ducati', user_id: @user.id)
     @kyu_1 = {subject: 'Swimming', content: 'freestyle', user_id: @user.id}
+    @kyu_test = KyuEntry.create(subject: 'super', content: 'test', user_id: @user_test.id)
     sign_in @user
     @user_2 = User.create(name: 'user2', email: 'inactive@kiprosh.com', password: 'inactive',
       password_confirmation: 'inactive')
     @kyu_2 = KyuEntry.create(subject: 'test2', content: 'content2', user_id: @user_2.id)
     @user_2.destroy
   end
-
   describe "GET index" do
     it "displays kyu_entries of inactive users" do
       get :index
@@ -44,6 +46,21 @@ describe KyuEntriesController do
       kyu = KyuEntry.find_by_subject "Swimming"
       kyu.should_not be_nil
     end
+    
+    it "creates a new activity" do
+      @kyu.create_activity :create, owner: @user
+      act = PublicActivity::Activity.find_by_owner_id(@user.id) && PublicActivity::Activity.find_by_key("kyu_entry.create")
+      act.should_not be_nil
+    end
+
+    it "creates a 'newTag' activity" do
+      @kyu_test.tag_list = "tag"
+      @kyu_test.create_activity key: 'kyu_entry.newTag',params: {"1"=> @kyu_test.tag_list}, owner: @user_test
+      act = PublicActivity::Activity.find_by_owner_id(@user_test.id) && PublicActivity::Activity.find_by_key("kyu_entry.newTag")
+      expect(act.parameters).not_to be_empty
+      act.should_not be_nil
+    end
+    
   end
 
   describe "DELETE destroy" do
@@ -54,8 +71,29 @@ describe KyuEntriesController do
      deleted_kyu1 = KyuEntry.with_deleted.find_by_id(@kyu.id)
      deleted_kyu1.deleted_at.should_not be_nil
    end
+
+   it "should create 'destroy' activity" do
+      @kyu.create_activity :destroy, owner: @user
+      act = PublicActivity::Activity.find_by_owner_id(@user.id) && PublicActivity::Activity.find_by_key("kyu_entry.destroy")
+      act.should_not be_nil
+      end
   end
 
+  describe "PUT update" do
+    it "should create 'update' activity" do
+      @kyu.create_activity :update, owner: @user
+      act = PublicActivity::Activity.find_by_owner_id(@user.id) && PublicActivity::Activity.find_by_key("kyu_entry.update")
+      act.should_not be_nil
+    end
+
+    it "should create 'newTag' activity" do
+      @kyu_test.tag_list = "tag"
+      @kyu_test.create_activity key: 'kyu_entry.newTag',params: {"1"=> @kyu_test.tag_list}, owner: @user_test
+      act = PublicActivity::Activity.find_by_owner_id(@user_test.id) && PublicActivity::Activity.find_by_key("kyu_entry.newTag")
+      expect(act.parameters).not_to be_empty
+      act.should_not be_nil
+    end
+  end
   describe "Get post for date" do
     it "should get all kyu's for particular date" do
       get :kyu_date, :kyu_id => @kyu.id

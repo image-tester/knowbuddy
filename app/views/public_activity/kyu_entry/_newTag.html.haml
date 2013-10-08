@@ -1,0 +1,9 @@
+created 
+- if activity.parameters
+  -if activity.parameters["1"].count > 1
+    new tags
+    =[activity.parameters["1"]]*", "
+  -else
+    a new tag
+    =[activity.parameters["1"]]*" "
+

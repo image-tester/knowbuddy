@@ -140,10 +140,12 @@ $(document).ready(function(){
       $('tr:odd').removeClass('even').addClass('odd');
       $("#new_kyu").empty()
       $("#sidebar").empty().append(data.sidebar)
+      $(".new table").empty().append(data.activity)
       newpostlink('#new_entry','#home_pg')
       $(".btn_kyu_save").text("Save").removeClass("disable-button")
     });
   });
+
 
   // end
 

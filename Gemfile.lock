@@ -180,6 +180,11 @@ GEM
       highline (~> 1.6.1)
       options (~> 2.3.0)
     progressbar (0.11.0)
+    public_activity (1.4.0)
+      actionpack (>= 3.0.0)
+      activerecord (>= 3.0)
+      i18n (>= 0.5.0)
+      railties (>= 3.0.0)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -322,6 +327,7 @@ DEPENDENCIES
   mysql2
   paperclip
   progress_bar
+  public_activity
   rails (= 3.2.12)
   rails-timeago
   rails3-jquery-autocomplete

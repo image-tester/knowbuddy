@@ -19,25 +19,32 @@ class KyuEntriesController < ApplicationController
 
   # POST /kyu_entries
   # POST /kyu_entries.json
+ 
   def create
     attachment = params[:kyu_entry].delete :attachment
     params[:kyu_entry].merge!(user_id: current_user.id)
     params[:kyu_entry].merge!(publish_at: Time.now)
     kyu_entry = KyuEntry.new(params[:kyu_entry])
+    
     # kyu_entry.set_user_and_publish_date(current_user)
+    newTag = kyu_entry.tag_list- ActsAsTaggableOn::Tag.pluck(:name)
     respond_to do |format|
       if kyu_entry.save
+        kyu_entry.create_activity :create, params: {"1"=> kyu_entry.subject, "2" => kyu_entry.id}, owner: current_user
+        kyu_entry.create_activity key: 'kyu_entry.newTag', params: {"1"=> newTag},owner: current_user unless newTag.blank?
         attachments = params[:attachments_field].split(",")
         unless attachments.blank?
           attachments.each do |attachment|
             kyu_entry.attachments << Attachment.find(attachment)
           end
         end
+        @activities = PublicActivity::Activity.order("created_at desc").page(params[:page]).per(20)
         new_entry = render_to_string(partial: "entries",
                     locals: { kyu_entry: kyu_entry })
         sidebar = render_to_string( partial: "sidebar",
                     locals: { tag_cloud_hash: tag_cloud, users: @users})
-        format.json { render json: { new_entry: new_entry, sidebar: sidebar } }
+        activity = render_to_string( partial: "activities")
+        format.json { render json: { new_entry: new_entry, sidebar: sidebar, activity: activity } }
       else
         format.json { render json: kyu_entry.errors,
                     status: :unprocessable_entity}
@@ -48,6 +55,7 @@ class KyuEntriesController < ApplicationController
   # DELETE /kyu_entries/1
   # DELETE /kyu_entries/1.json
   def destroy
+    @kyu_entry.create_activity :destroy, params: {"1"=> @kyu_entry.subject, "2" => @kyu_entry.id}, owner: current_user
     @kyu_entry.destroy
     respond_to do |format|
       format.html { redirect_to kyu_entries_url }
@@ -65,8 +73,9 @@ class KyuEntriesController < ApplicationController
     end
   end
   def index
-    @kyu_entries = KyuEntry.page(params[:page])
+    @kyu_entries = KyuEntry.page(params[:page_2])
     @kyu_entry = KyuEntry.new(params[:kyu_entry])
+    @activities = PublicActivity::Activity.order("created_at desc").page(params[:page]).per(20)
     @attachment = @kyu_entry.attachments
     respond_to do |format|
       format.html
@@ -126,7 +135,7 @@ class KyuEntriesController < ApplicationController
   def show
     begin
       @kyu_entry = KyuEntry.find(params[:id])
-    rescue
+    rescue  
       render template: 'kyu_entries/kyu_not_found', status: :not_found
     else
       respond_to do |format|
@@ -141,8 +150,11 @@ class KyuEntriesController < ApplicationController
   def update
     error = []
     attachment = params[:kyu_entry].delete :attachment
+    newTag= params[:kyu_entry]["tag_list"].split( /, */ )- ActsAsTaggableOn::Tag.pluck(:name)
     respond_to do |format|
       if @kyu_entry.update_attributes(params[:kyu_entry])
+        @kyu_entry.create_activity :update, params: {"1"=> @kyu_entry.subject, "2" => @kyu_entry.id}, owner: current_user
+        @kyu_entry.create_activity key: 'kyu_entry.newTag', params: {"1"=> newTag},owner: current_user unless newTag.blank?
         update_entry = render_to_string(partial: "kyu_entry",
                        locals:{kyu_entry: @kyu_entry})
         format.json { render json: update_entry.to_json}

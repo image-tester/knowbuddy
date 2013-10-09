@@ -1,4 +1,4 @@
--@activities.each do |activity| 
+- @activities.each do |activity|
   %tr{:class => cycle('list_line_odd', 'list_line_even')}
     %td
       = link_to activity.owner.name, kyu_entries_user_kyu_path(user_id: activity.owner.id) if activity.owner

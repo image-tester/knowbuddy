@@ -1,6 +1,5 @@
 class User < ActiveRecord::Base
-  include PublicActivity::Model
-  tracked owner: ->(users_controller, user) { users_controller && users_controller.current_user }, except: [:update, :destroy]
+  include PublicActivity::Common
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable,
   # :timeoutable and :omniauthable
@@ -28,6 +27,8 @@ class User < ActiveRecord::Base
   after_create :send_welcome_email
   after_update :send_email_password_changed, if: :encrypted_password_changed?
 
+  after_create :create_user_activity
+
   # Setup accessible (or protected) attributes for your model
 
   def self.user_collection_email_name
@@ -42,5 +43,11 @@ class User < ActiveRecord::Base
 
     def send_welcome_email
       Resque.enqueue(WelcomeNotification,self)
+    end
+
+    def create_user_activity
+      (self.create_activity :create, params: {"1"=> self.name})
+          .tap{|a| a.owner_id = self.id; a.owner_type = 'User';
+           a.activity_type_id = 7; a.save}
     end
 end

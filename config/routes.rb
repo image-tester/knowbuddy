@@ -29,6 +29,12 @@ KYU::Application.routes.draw do
 
   match '/kyu_entries/parse_content' => 'kyu_entries#parse_content'
 
+  match '/admin/activity_types/activate/:id' =>
+                              'admin/activity_types#activate'
+
+  match '/admin/activity_types/deactivate/:id' =>
+                              'admin/activity_types#deactivate'
+
  # match '/attachments/edit/:id' => 'attachments#create'
 
   resources :attachments, only: [:create, :destroy]

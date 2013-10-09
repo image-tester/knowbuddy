@@ -1,6 +1,6 @@
 class KyuEntry < ActiveRecord::Base
   include PublicActivity::Common
-  
+
   MINFONTSIZE = 10
   MAXFONTSIZE = 23
 
@@ -20,6 +20,11 @@ class KyuEntry < ActiveRecord::Base
   paginates_per 10
 
   delegate :name, :email, to: :user, prefix: true
+
+  after_create :create_kyu_entry_activity
+  after_update :update_kyu_entry_activity
+  before_destroy :destroy_kyu_entry_activity
+  around_save :create_new_tag_activity
 
   scope :list, lambda { |user_id|
     where('user_id = ?', user_id)
@@ -67,5 +72,32 @@ class KyuEntry < ActiveRecord::Base
       end
     end
     return @tag_cloud_hash
+  end
+
+  private
+  def create_kyu_entry_activity
+    (self.create_activity :create, params: {"1"=> self.subject, "2"=> self.id})
+    .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
+     a.activity_type_id = 1; a.save}
+  end
+
+  def create_new_tag_activity
+    newTag = self.tag_list- ActsAsTaggableOn::Tag.pluck(:name)
+    yield
+    (self.create_activity key: 'kyu_entry.newTag', params: {"1"=> newTag})
+    .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
+     a.activity_type_id = 8; a.save} unless newTag.blank?
+  end
+
+  def update_kyu_entry_activity
+    (self.create_activity :update, params: {"1"=> self.subject, "2" => self.id})
+    .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
+     a.activity_type_id = 2; a.save}
+  end
+
+  def destroy_kyu_entry_activity
+    (self.create_activity :destroy, params:{"1"=> self.subject, "2"=> self.id})
+    .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
+     a.activity_type_id = 3; a.save}
   end
 end

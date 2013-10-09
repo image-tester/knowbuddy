@@ -15,11 +15,26 @@ describe "User" do
     end
   end
 
-it "should return top 3 contributors" do
+  it "should return top 3 contributors" do
     User.top3.should_not be_nil
     User.top3[3].should be_nil
     User.top3[0].total.should be >= User.top3[1].total
-end
+  end
 
+  describe 'create_user_activity' do
+    it 'should create user activity' do 
+      user = FactoryGirl.create(:user)
+      act = PublicActivity::Activity.find_by_owner_id(@user.id) && PublicActivity::Activity.find_by_key("user.create")
+      act.should_not be_nil
+    end
+  end
+
+  describe 'after_create' do
+    it 'should run the proper callbacks' do
+      user = FactoryGirl.create(:user)
+      user.should_receive(:create_user_activity) #should pass
+      user.run_callbacks(:create)
+    end
+  end
 end
 

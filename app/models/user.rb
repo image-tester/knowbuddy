@@ -46,8 +46,9 @@ class User < ActiveRecord::Base
     end
 
     def create_user_activity
+      act_type = ActivityType.find_by_activity_type('user.create')
       (self.create_activity :create, params: {"1"=> self.name})
           .tap{|a| a.owner_id = self.id; a.owner_type = 'User';
-           a.activity_type_id = 7; a.save}
+           a.activity_type_id = act_type.id; a.save}
     end
 end

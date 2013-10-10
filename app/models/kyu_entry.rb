@@ -76,28 +76,32 @@ class KyuEntry < ActiveRecord::Base
 
   private
   def create_kyu_entry_activity
+    act_type = ActivityType.find_by_activity_type('kyu_entry.create')
     (self.create_activity :create, params: {"1"=> self.subject, "2"=> self.id})
     .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
-     a.activity_type_id = 1; a.save}
+     a.activity_type_id = act_type.id; a.save}
   end
 
   def create_new_tag_activity
+    act_type = ActivityType.find_by_activity_type('kyu_entry.newTag')
     newTag = self.tag_list- ActsAsTaggableOn::Tag.pluck(:name)
     yield
     (self.create_activity key: 'kyu_entry.newTag', params: {"1"=> newTag})
     .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
-     a.activity_type_id = 8; a.save} unless newTag.blank?
+     a.activity_type_id = act_type.id; a.save} unless newTag.blank?
   end
 
   def update_kyu_entry_activity
+    act_type = ActivityType.find_by_activity_type('kyu_entry.update')
     (self.create_activity :update, params: {"1"=> self.subject, "2" => self.id})
     .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
-     a.activity_type_id = 2; a.save}
+     a.activity_type_id = act_type.id; a.save}
   end
 
   def destroy_kyu_entry_activity
+    act_type = ActivityType.find_by_activity_type('kyu_entry.destroy')
     (self.create_activity :destroy, params:{"1"=> self.subject, "2"=> self.id})
     .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
-     a.activity_type_id = 3; a.save}
+     a.activity_type_id = act_type.id; a.save}
   end
 end

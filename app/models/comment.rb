@@ -29,21 +29,24 @@ class Comment < ActiveRecord::Base
     end
 
     def create_comment_activity
+      act_type = ActivityType.find_by_activity_type('comment.create')
       (self.create_activity :create, params: {"1"=> self.kyu_entry.subject,
        "2" => self.kyu_entry.id}).tap{|a| a.owner_id = self.user_id;
-         a.owner_type = 'User'; a.activity_type_id = 4; a.save}
+         a.owner_type = 'User'; a.activity_type_id = act_type.id; a.save}
     end
 
     def update_comment_activity
+      act_type = ActivityType.find_by_activity_type('comment.update')
       (self.create_activity :update, params: {"1"=> self.kyu_entry.subject,
        "2" => self.kyu_entry.subject}).tap{|a| a.owner_id = self.user_id;
-        a.owner_type = 'User'; a.activity_type_id = 5; a.save}
+        a.owner_type = 'User'; a.activity_type_id = act_type.id; a.save}
     end
 
     def destroy_comment_activity
+      act_type = ActivityType.find_by_activity_type('comment.destroy')
       (self.create_activity :destroy, params: {"1"=> self.kyu_entry.subject,
        "2" => self.kyu_entry.id}, recipient: @kyu_entry)
       .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
-       a.activity_type_id = 6; a.save}
+       a.activity_type_id = act_type.id; a.save}
     end
 end

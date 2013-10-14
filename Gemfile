@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'acts-as-taggable-on', '~> 2.2.2'
+gem 'acts-as-taggable-on', '~> 2.4.0'
 gem 'devise'
 gem "friendly_id", "~> 4.0.9"
 gem 'haml'

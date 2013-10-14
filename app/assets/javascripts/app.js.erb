@@ -112,6 +112,10 @@ $(document).ready(function() {
 paginate_change_navigation_links_text();
 $("a[rel*='facebox']").facebox();
   //end
+
+if (activities == null){
+    $(".block2").hide();
+  }
 });
 
 function paginate_change_navigation_links_text()
@@ -121,3 +125,4 @@ function paginate_change_navigation_links_text()
   $("#paginator .pagination .next a").html(">");
   $("#paginator .pagination .last a").html(">>");
 }
+

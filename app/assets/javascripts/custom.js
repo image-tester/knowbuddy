@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  
   $('#textarea_kyu_content').markItUp(mySettings);
   $("#formID1").validationEngine();
   
@@ -132,15 +133,18 @@ $(document).ready(function(){
     return false
   });
 
+
+
   $("#formID1").live("ajax:success", function(xhr, data, status) {
     $("#new_kyu").slideUp(800,function(){
       $(data.new_entry).insertAfter("tr:first");
       $("time.time_ago").timeago();
       $('tr:even').removeClass('odd').addClass('even');
       $('tr:odd').removeClass('even').addClass('odd');
+      $(".block2").show();
+      $(".new table").empty().append(data.activity)
       $("#new_kyu").empty()
       $("#sidebar").empty().append(data.sidebar)
-      $(".new table").empty().append(data.activity)
       newpostlink('#new_entry','#home_pg')
       $(".btn_kyu_save").text("Save").removeClass("disable-button")
     });
@@ -180,4 +184,5 @@ $(document).ready(function(){
     })
   //end  
   });
+  
 });

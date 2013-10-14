@@ -21,29 +21,6 @@ describe CommentsController do
     KyuEntry.reindex
     @user_inactive.destroy
   end
-  describe "POST create" do
-    it "creates a new activity" do
-      @comment1.create_activity :create, owner: @user1
-      act = PublicActivity::Activity.find_by_owner_id(@user1.id) && PublicActivity::Activity.find_by_key("comment.create")
-      act.should_not be_nil
-    end
-  end
-
-  describe "PUT update" do
-    it "should create 'update' activity" do
-      @comment1.create_activity :update, owner: @user1
-      act = PublicActivity::Activity.find_by_owner_id(@user1.id) && PublicActivity::Activity.find_by_key("comment.update")
-      act.should_not be_nil
-    end
-  end
-
-  describe "DELETE destroy" do
-     it "should create 'destroy' activity" do
-      @comment1.create_activity :destroy, owner: @user1
-      act = PublicActivity::Activity.find_by_owner_id(@user1.id) && PublicActivity::Activity.find_by_key("comment.destroy")
-      act.should_not be_nil
-      end
-  end
 
   describe "display comments" do
     it "displays comments of perticular users" do

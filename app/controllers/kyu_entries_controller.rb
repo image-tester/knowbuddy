@@ -25,6 +25,7 @@ class KyuEntriesController < ApplicationController
     params[:kyu_entry].merge!(user_id: current_user.id)
     params[:kyu_entry].merge!(publish_at: Time.now)
     kyu_entry = KyuEntry.new(params[:kyu_entry])
+    # kyu_entry.set_user_and_publish_date(current_user)
     respond_to do |format|
       if kyu_entry.save
         attachments = params[:attachments_field].split(",")
@@ -33,16 +34,15 @@ class KyuEntriesController < ApplicationController
             kyu_entry.attachments << Attachment.find(attachment)
           end
         end
-        @activities = Activity.joins(:activity_type)
-                      .where("activity_types.is_active" => 1)
-                      .order("created_at desc").page(params[:page]).per(10)
+        @activities = PublicActivity::Activity.order("created_at desc")
+                    .page(params[:page_3]).per(20)
         new_entry = render_to_string(partial: "entries",
                     locals: { kyu_entry: kyu_entry })
         sidebar = render_to_string( partial: "sidebar",
                     locals: { tag_cloud_hash: tag_cloud, users: @users})
         activity = render_to_string( partial: "activities")
         format.json { render json: { new_entry: new_entry, sidebar: sidebar,
-                     activity: activity } }
+                    activity: activity } }
       else
         format.json { render json: kyu_entry.errors,
                     status: :unprocessable_entity}
@@ -72,9 +72,8 @@ class KyuEntriesController < ApplicationController
   def index
     @kyu_entries = KyuEntry.page(params[:page_2])
     @kyu_entry = KyuEntry.new(params[:kyu_entry])
-    @activities = Activity.joins(:activity_type)
-                  .where("activity_types.is_active" => 1)
-                  .order("created_at desc").page(params[:page]).per(10)
+    @activities = PublicActivity::Activity.order("created_at desc")
+                .page(params[:page_3]).per(20)
     @attachment = @kyu_entry.attachments
     respond_to do |format|
       format.html

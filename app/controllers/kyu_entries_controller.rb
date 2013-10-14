@@ -34,8 +34,9 @@ class KyuEntriesController < ApplicationController
             kyu_entry.attachments << Attachment.find(attachment)
           end
         end
-        @activities = PublicActivity::Activity.order("created_at desc")
-                    .page(params[:page_3]).per(20)
+        @activities = Activity.joins(:activity_type)
+                      .where("activity_types.is_active" => 1)
+                      .order("created_at desc").page(params[:page_3]).per(20)
         new_entry = render_to_string(partial: "entries",
                     locals: { kyu_entry: kyu_entry })
         sidebar = render_to_string( partial: "sidebar",
@@ -72,8 +73,9 @@ class KyuEntriesController < ApplicationController
   def index
     @kyu_entries = KyuEntry.page(params[:page_2])
     @kyu_entry = KyuEntry.new(params[:kyu_entry])
-    @activities = PublicActivity::Activity.order("created_at desc")
-                .page(params[:page_3]).per(20)
+    @activities = Activity.joins(:activity_type)
+                  .where("activity_types.is_active" => 1)
+                  .order("created_at desc").page(params[:page_3]).per(20)
     @attachment = @kyu_entry.attachments
     respond_to do |format|
       format.html

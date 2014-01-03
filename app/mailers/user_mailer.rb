@@ -50,8 +50,8 @@ class UserMailer < ActionMailer::Base
 
   def no_post_notification(user)
     @user = user
-    @subject = @user.name + " posted a comment for "
-    mail(bcc: @users_list, subject: @subject)
+    @subject = "No post notification"
+    mail(to: @user.email, subject: @subject)
   end
 end
 

@@ -20,5 +20,5 @@ set :cron_log, "log/cronjob.log"
 # Learn more: http://github.com/javan/whenever
 set :environment, 'development'
 every :monday, :at => '12pm' do
-  rake "remove_outdated:trending_count_data"
+  rake "email:notifications"
 end

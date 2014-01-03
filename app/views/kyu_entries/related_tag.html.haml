@@ -20,7 +20,8 @@
               %td
                 = link_to truncate(kyu_entry.subject, length: 70), kyu_entry_path(kyu_entry)
               %td
-                = link_to kyu_entry.created_at.strftime('%d-%b-%Y'), kyu_entries_kyu_date_path(kyu_id: kyu_entry.id)
+                - time_ago = timeago_tag kyu_entry.created_at, nojs: true, limit: 30.days.ago, class: "time_ago"
+                = link_to (time_ago), kyu_entries_kyu_date_path(kyu_id: kyu_entry.id)
               %td
                 - if @user.find(kyu_entry.user_id).name
                   = link_to @user.find(kyu_entry.user_id).name.titleize, kyu_entries_user_kyu_path(user_id: kyu_entry.user_id)

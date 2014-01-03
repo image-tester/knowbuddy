@@ -19,6 +19,6 @@ set :cron_log, "log/cronjob.log"
 
 # Learn more: http://github.com/javan/whenever
 set :environment, 'development'
-every :monday, :at => '12pm' do
-  rake "email:notifications"
+every :monday, :at => '6am' do
+  rake "email:no_post_notifications"
 end

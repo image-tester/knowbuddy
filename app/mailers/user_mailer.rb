@@ -51,7 +51,7 @@ class UserMailer < ActionMailer::Base
   def no_post_notification(user)
     @user = user
     @subject = "No post notification"
-    mail(to: @user.email, subject: @subject)
+    mail(to: user["email"], subject: @subject)
   end
 end
 

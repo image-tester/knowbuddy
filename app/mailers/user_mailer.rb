@@ -47,5 +47,11 @@ class UserMailer < ActionMailer::Base
     @subject = user_name + " posted a new article on KnowBuddy"
     mail(bcc: @users_list, subject: @subject)
   end
+
+  def no_post_notification(user)
+    @user = user
+    @subject = @user.name + " posted a comment for "
+    mail(bcc: @users_list, subject: @subject)
+  end
 end
 

@@ -66,6 +66,7 @@ GEM
       xpath (~> 0.1.4)
     childprocess (0.3.4)
       ffi (~> 1.0, >= 1.0.6)
+    chronic (0.10.2)
     cocaine (0.2.1)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -105,6 +106,9 @@ GEM
       actionpack (~> 3.0)
     friendly_id (4.0.9)
     git (1.2.5)
+    griddler (0.6.1)
+      htmlentities
+      rails (>= 3.2.0)
     haml (3.1.6)
     haml-rails (0.3.4)
       actionpack (~> 3.0)
@@ -115,6 +119,7 @@ GEM
     highline (1.6.19)
     hike (1.2.3)
     hpricot (0.8.6)
+    htmlentities (4.3.1)
     i18n (0.6.4)
     inherited_resources (1.4.0)
       has_scope (~> 0.5.0)
@@ -152,7 +157,7 @@ GEM
       polyamorous (~> 0.5.0)
     mime-types (1.23)
     multi_json (1.7.6)
-    mysql2 (0.3.11)
+    mysql2 (0.3.13)
     nokogiri (1.5.5)
     options (2.3.0)
       fattr
@@ -298,6 +303,9 @@ GEM
       rack (>= 1.0.0)
     warden (1.2.1)
       rack (>= 1.0)
+    whenever (0.9.0)
+      activesupport (>= 2.3.4)
+      chronic (>= 0.6.3)
     xpath (0.1.4)
       nokogiri (~> 1.3)
     zip (2.0.2)
@@ -307,7 +315,7 @@ PLATFORMS
 
 DEPENDENCIES
   RedCloth
-  activeadmin (~> 0.4.4)
+  activeadmin
   acts-as-taggable-on (~> 2.4.0)
   capybara
   coffee-rails (~> 3.2.2)
@@ -316,12 +324,13 @@ DEPENDENCIES
   factory_girl_rails
   faker
   friendly_id (~> 4.0.9)
+  griddler
   haml
   haml-rails
   hpricot
   jquery-rails
   kaminari
-  mysql2
+  mysql2 (= 0.3.13)
   paperclip
   progress_bar
   public_activity
@@ -343,3 +352,4 @@ DEPENDENCIES
   therubyracer
   uglifier
   web-app-theme!
+  whenever

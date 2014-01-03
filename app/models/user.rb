@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
 
   acts_as_paranoid
 
-  scope :by_name_email, order: 'name, email'
+  scope :by_name_email, lambda{ joins(:kyu_entries).order('name, email') }
   scope :get_user, lambda { |user_id|
     where('id = ?', user_id)
   }
@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
 
   def self.user_collection_email_name
-    self.all.map{|v| [v.name || v.email, v.id] }
+    self.all.map{|v| [v.name || v.email, v.id] } if User.table_exists?
   end
   private
     #Added by Rohan.
@@ -49,6 +49,6 @@ class User < ActiveRecord::Base
       act_type = ActivityType.find_by_activity_type('user.create')
       (self.create_activity :create, params: {"1"=> self.name})
           .tap{|a| a.owner_id = self.id; a.owner_type = 'User';
-           a.activity_type_id = act_type.id; a.save}
+           a.activity_type_id = act_type.id; a.save} unless act_type.blank?
     end
 end

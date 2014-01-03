@@ -14,7 +14,7 @@ gem 'rails3-jquery-autocomplete'
 gem 'RedCloth'
 gem 'resque', :require => 'resque/server'
 gem 'sass'
-gem "sass-rails", "~> 3.2.6" 
+gem "sass-rails", "~> 3.2.6"
 gem 'sunspot_rails'
 gem "activeadmin", "~> 0.4.4"
 # gem 'devise-encryptable'
@@ -42,9 +42,9 @@ group :assets do
   gem 'uglifier'
 end
 
-group :test do	  	
-  gem 'rspec'	
-  gem 'rspec-rails'	
-  gem 'shoulda',          git: 'git://github.com/3den/shoulda.git'  	
+group :test do
+  gem 'rspec'
+  gem 'rspec-rails'
+  gem "shoulda"
   gem 'sunspot_matchers'
 end

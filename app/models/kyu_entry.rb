@@ -79,7 +79,7 @@ class KyuEntry < ActiveRecord::Base
     act_type = ActivityType.find_by_activity_type('kyu_entry.create')
     (self.create_activity :create, params: {"1"=> self.subject, "2"=> self.id})
     .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
-     a.activity_type_id = act_type.id; a.save}
+     a.activity_type_id = act_type.id; a.save} unless act_type.blank?
   end
 
   def create_new_tag_activity
@@ -88,7 +88,7 @@ class KyuEntry < ActiveRecord::Base
     yield
     (self.create_activity key: 'kyu_entry.newTag', params: {"1"=> newTag})
     .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
-     a.activity_type_id = act_type.id; a.save} unless newTag.blank?
+     a.activity_type_id = act_type.id; a.save} if(newTag.present? && act_type.present?)
   end
 
   def update_kyu_entry_activity

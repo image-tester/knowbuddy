@@ -51,6 +51,7 @@ class UserMailer < ActionMailer::Base
   def no_post_notification(user)
     @user = user
     @subject = "No post notification"
+    @url = APP_CONFIG['url'] + "/users/sign_in"
     mail(to: user["email"], subject: @subject)
   end
 

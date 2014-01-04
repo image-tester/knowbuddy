@@ -14,16 +14,6 @@ class User < ActiveRecord::Base
 
   acts_as_paranoid
 
-  scope :by_name_email, lambda{ joins(:kyu_entries).order('name, email') }
-  scope :get_user, lambda { |user_id|
-    where('id = ?', user_id)
-  }
-  scope :top3, lambda{ joins(:kyu_entries).
-               select('users.name, users.email, users.id, COUNT(*) as total').
-                       where('kyu_entries.deleted_at IS NULL').
-                       group('kyu_entries.user_id').order('total DESC').
-                       limit(3)}
-
   after_create :send_welcome_email
   after_update :send_email_password_changed, if: :encrypted_password_changed?
 
@@ -34,6 +24,23 @@ class User < ActiveRecord::Base
   def self.user_collection_email_name
     self.all.map{|v| [v.name || v.email, v.id] } if User.table_exists?
   end
+
+  def self.top3
+    self.with_deleted.joins(:kyu_entries).
+      select('users.name, users.email, users.id, COUNT(*) as total').
+      where('kyu_entries.deleted_at IS NULL').
+      group('kyu_entries.user_id').order('total DESC').limit(3)
+  end
+
+  def self.get_user(user_id)
+    self.with_deleted.find(user_id)
+  end
+
+  def self.by_name_email
+    with_deleted.joins(:kyu_entries).where('kyu_entries.deleted_at IS NULL').
+    order('name, email').uniq
+  end
+
   private
     #Added by Rohan.
     #Functionality - Send email notification to user upon new account signup

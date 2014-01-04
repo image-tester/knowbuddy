@@ -164,7 +164,7 @@ class KyuEntriesController < ApplicationController
 
   def user_kyu
     @kyu = KyuEntry.list(params[:user_id])
-    @kyu_user = User.get_user(params[:user_id]).first
+    @kyu_user = User.get_user(params[:user_id])
     respond_to do |format|
       format.html
       format.js { render :index }

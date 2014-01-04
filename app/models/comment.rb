@@ -1,7 +1,6 @@
 class Comment < ActiveRecord::Base
   include PublicActivity::Common
   attr_accessible :comment, :created_at, :kyu_entry_id, :updated_at, :user_id
-
   belongs_to :kyu_entry
   belongs_to :user
 
@@ -21,11 +20,14 @@ class Comment < ActiveRecord::Base
   after_update :update_comment_activity
   before_destroy :destroy_comment_activity
 
+  def user
+    return User.with_deleted.find(self.user_id)
+  end
 
   private
 
     def solr_reindex_kyu
-      self.kyu_entry.solr_index!
+      self.kyu_entry.solr_index! unless self.user.blank?
     end
 
     def create_comment_activity
@@ -36,10 +38,12 @@ class Comment < ActiveRecord::Base
     end
 
     def update_comment_activity
-      act_type = ActivityType.find_by_activity_type('comment.update')
-      (self.create_activity :update, params: {"1"=> self.kyu_entry.subject,
-       "2" => self.kyu_entry.subject}).tap{|a| a.owner_id = self.user_id;
-        a.owner_type = 'User'; a.activity_type_id = act_type.id; a.save}
+      unless self.user.nil?
+        act_type = ActivityType.find_by_activity_type('comment.update')
+        (self.create_activity :update, params: {"1"=> self.kyu_entry.subject,
+         "2" => self.kyu_entry.subject}).tap{|a| a.owner_id = self.user_id;
+          a.owner_type = 'User'; a.activity_type_id = act_type.id; a.save}
+      end
     end
 
     def destroy_comment_activity

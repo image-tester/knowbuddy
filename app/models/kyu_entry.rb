@@ -37,12 +37,12 @@ class KyuEntry < ActiveRecord::Base
 
   searchable do
     text :content, :subject
-    text :comments do
-      comments.map { |c| c.user.name }
-      comments.map(&:comment)
-    end
     text :user do
       user.name unless user.blank?
+    end
+    text :comments do
+      comments.map { |c| c.user.name}
+      comments.map(&:comment)
     end
     text :tags do
       tags.map {|tag| tag.name}
@@ -72,6 +72,10 @@ class KyuEntry < ActiveRecord::Base
       end
     end
     return @tag_cloud_hash
+  end
+
+  def user
+    return User.with_deleted.find(self.user_id)
   end
 
   private

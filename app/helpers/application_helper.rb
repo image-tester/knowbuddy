@@ -11,7 +11,8 @@ module ApplicationHelper
 
   def timeago_date_format(data)
     if(data.to_date > Date.today - 30.days)
-      result = timeago_tag data, nojs: true, limit: 30.days.ago, class: "time_ago"
+      result = timeago_tag data, nojs: true, limit: 30.days.ago,
+       class: "time_ago"
     else
       result = data.strftime("%d-%b-%Y")
     end

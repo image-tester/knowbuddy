@@ -14,25 +14,29 @@ Setup steps
 
 7) rake populate:activity_types
 
-7) start redis server by executing "redis-server" on terminal.
+8) start redis server by executing "redis-server" on terminal.
 
-8) start resque work by executing "rake resque:work" on terminal.
+9) start resque work by executing "rake resque:work" on terminal.
 
-9) start app by executing "rails s" on terminal.
+10) start app by executing "rails s" on terminal.
 
-10) For Active-Admin URL: 'http://localhost:3000/admin/login'
+11) To update cronjob "whenever --update-crontab" on terminal.
+
+12) For Active-Admin URL: 'http://localhost:3000/admin/login'
    Default Admin ID: 'admin@example.com' & Password: 'password'
 
-11) To run specs u need to do following,
+13) To run specs u need to do following,
     -> rake db:test:prepare
 
     -> rake sunspot:solr:start
 
     -> start redis server by executing "redis-server" on terminal.
 
+    -> rake populate:activity_types
+
     -> run spec by executing "rspec" on terminal.
 
-12) To run in production mode u need to do following,
+14) To run in production mode u need to do following,
     -> To precompile assets execute "RAILS_ENV=production rake assets:precompile" on terminal.
 
     -> start redis server by executing "redis-server" on terminal.
@@ -40,6 +44,8 @@ Setup steps
     -> To start solr execute "rake sunspot:solr:start RAILS_ENV = production".
 
     -> To start server execute "rails s -e production".
+
+    -> To update cronjob "whenever --update-crontab".
 
     -> To start resque job "RAILS_ENV=production rake resque:work &"
 

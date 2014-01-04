@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :activity_type do
-    activity_type "comment.create"
-    is_active 1
+    activity_type "test"
+    is_active true
   end
 end

@@ -14,7 +14,7 @@
       - else
         = link_to user.email, controller: "comments",
                                         action: "user_comment", id: comment.user_id
-      = timeago_tag comment.created_at, nojs: true, limit: 30.days.ago, class: "comment_time_ago"
+      = timeago_date_format(comment.created_at)
     #comment_edit
       - if current_user.id == comment.user_id
         = link_to image_tag("edit-pencil-icon.gif"), edit_kyu_entry_comment_path(kyu_entry, comment)

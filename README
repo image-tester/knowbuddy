@@ -32,7 +32,7 @@ Setup steps
 
     -> start redis server by executing "redis-server" on terminal.
 
-    -> rake populate:activity_types
+    -> rake populate:activity_types  RAILS_ENV=test
 
     -> run spec by executing "rspec" on terminal.
 

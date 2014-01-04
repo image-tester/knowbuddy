@@ -12,6 +12,8 @@ Setup steps
 
 6) rake db:seed
 
+7) rake populate:activity_types
+
 7) start redis server by executing "redis-server" on terminal.
 
 8) start resque work by executing "rake resque:work" on terminal.
@@ -39,5 +41,5 @@ Setup steps
 
     -> To start server execute "rails s -e production".
 
-    -> To start resque job "RAILS_ENV=production rake resque:work &" 
+    -> To start resque job "RAILS_ENV=production rake resque:work &"
 

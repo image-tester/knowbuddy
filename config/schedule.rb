@@ -21,4 +21,5 @@ set :cron_log, "log/cronjob.log"
 set :environment, 'development'
 every :monday, :at => '6am' do
   rake "email:no_post_notifications"
+  rake "email:less_post_notifications"
 end

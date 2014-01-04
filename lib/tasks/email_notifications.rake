@@ -8,4 +8,16 @@ namespace :email do
     end
     puts "End rake task..."
   end
+
+  desc "send Mail to users who have less post"
+  task less_post_notifications: :environment do
+    puts "Start rake task..."
+    user_with_less_posts = User.joins(:kyu_entries).select('users.name, users.email, users.id,
+      COUNT(users.id) as total').where('kyu_entries.deleted_at IS NULL').group('kyu_entries.user_id').
+      having("count(users.id) < 5")
+    user_with_less_posts.each do |user|
+      Resque.enqueue(LessPostNotification, user)
+    end
+    puts "End rake task..."
+  end
 end

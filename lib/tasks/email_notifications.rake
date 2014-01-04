@@ -4,8 +4,7 @@ namespace :email do
     puts "Start rake task..."
     users_with_no_post = User.where("id not in (?)", KyuEntry.pluck(:user_id).uniq)
     users_with_no_post.each do |user|
-      # Resque.enqueue(NoPostNotification, user)
-      UserMailer.no_post_notification(user).deliver
+      Resque.enqueue(NoPostNotification, user)
     end
     puts "End rake task..."
   end

@@ -14,4 +14,7 @@
 //= require jquery.markitup
 //= require set
 //= require rails-timeago
-//= require_tree .
+//= require app
+//= require jquery.fileupload
+//= require jquery.iframe-transport
+//= require set

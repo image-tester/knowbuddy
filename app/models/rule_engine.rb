@@ -3,9 +3,9 @@ class RuleEngine < ActiveRecord::Base
   attr_accessor :schedule_time, :schedule_day, :schedule_date
   attr_accessible :active, :frequency, :mail_for, :min_post, :name, :rule_for, :schedule, :schedule_time, :schedule_day, :schedule_date
 
-  # before_save :set_values
 
-  validates :name, presence: true
+  validates :name, :rule_for, :frequency, presence: true
+  validates :name, uniqueness: true
 
 
   def self.rule_for_array
@@ -20,14 +20,31 @@ class RuleEngine < ActiveRecord::Base
     [["Daily", "daily"], ["Weekly", "weekly"], ["Monthly", "monthly"]]
   end
 
+  def self.date_array
+    ((1..30).map {|i| ["#{i}", "#{i}"] })
+  end
+
+  def get_schedule_values
+    case self.frequency
+    when "daily" then self.schedule_time = schedule
+    when "weekly" then self.schedule_day = schedule
+    when "monthly" then self.schedule_date = schedule
+    end
+  end
+
   private
 
     def set_value
       self.schedule =
         case self.frequency
-        when "daily" then '6:00'
+        when "daily" then schedule_time
         when "weekly" then schedule_day
         when "monthly" then schedule_date
         end
+      case self.rule_for
+      when "post" then self.mail_for = nil
+      when "activity" then self.min_post = nil
+      when "comment" then self.mail_for = self.min_post = nil
+      end
     end
 end

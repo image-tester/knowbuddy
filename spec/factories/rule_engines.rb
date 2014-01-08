@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :rule_engine do
-    name "MyString"
+    name { Faker::Lorem.sentence }
     rule_for "MyString"
     min_post 1
     frequency "MyString"

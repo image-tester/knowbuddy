@@ -1,2 +1,3 @@
 //= require active_admin/base
-//= require admin/custom_aa
+//= require admin/rules
+//= require admin/jquery.ptTimeSelect

@@ -15,9 +15,9 @@ class UserMailer < ActionMailer::Base
 
   def send_notification_on_new_Comment(users, comment)
     @comment = comment["comment"]
-    kyu_comment = users.select{|x|x["id"] == comment["user_id"]}
-    posted_by = kyu_comment.first["email"]
-    name = kyu_comment.first["name"].titleize if kyu_comment.first["name"]
+    kyu_comment = User.find_by_id(comment["user_id"])
+    posted_by = kyu_comment.email
+    name = kyu_comment.name.titleize if kyu_comment.name
     @url = APP_CONFIG['url']
     kyu = KyuEntry.find_by_id(comment["kyu_entry_id"])
     @link_to_comment = @url + kyu_entry_path(kyu)
@@ -32,9 +32,9 @@ class UserMailer < ActionMailer::Base
 
   def send_notification_on_new_KYU(users, kyu_entry)
     @content = RedCloth.new(kyu_entry["content"]).to_html
-    kyu_user = users.select{|x|x["id"] == kyu_entry["user_id"]}
-    posted_by = kyu_user.first["email"]
-    name = kyu_user.first["name"].titleize if kyu_user.first["name"]
+    kyu_user = User.find_by_id(kyu_entry["user_id"])
+    posted_by = kyu_user.email
+    name = kyu_user.name.titleize if kyu_user.name
     @url = APP_CONFIG['url']
     kyu = KyuEntry.find_by_id(kyu_entry["id"])
     @link_to_kyu = @url + kyu_entry_path(kyu)

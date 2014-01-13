@@ -56,5 +56,19 @@ describe UserMailer do
       mail.subject.should eq("Successfully resetted your password")
     end
   end
+
+  describe "send mail to user for no post on knowbuddy" do
+    let(:mail) { UserMailer.no_post_notification(@user_3) }
+    it "user should receive notification mail for no post" do
+      mail.subject.should eq("No post notification")
+    end
+  end
+
+  describe "send mail to user for less then five post on knowbuddy" do
+    let(:mail) { UserMailer.less_post_notification(@user_1) }
+    it "user should receive notification mail for less post" do
+      mail.subject.should eq("Less post notification")
+    end
+  end
 end
 

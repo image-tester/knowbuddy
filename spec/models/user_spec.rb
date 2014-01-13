@@ -2,6 +2,8 @@ require "spec_helper"
 
 describe "User" do
   before(:each) do
+    User.delete_all!
+    # debugger
     4.times do |n|
       @user = FactoryGirl.create(:user)
       (1..4).to_a.sample.times do |n|
@@ -22,8 +24,8 @@ describe "User" do
   end
 
   describe 'create_user_activity' do
-    it 'should create user activity' do 
-      user = FactoryGirl.create(:user)
+    it 'should create user activity' do
+      # user = FactoryGirl.create(:user)
       act = PublicActivity::Activity.find_by_owner_id(@user.id) && PublicActivity::Activity.find_by_key("user.create")
       act.should_not be_nil
     end

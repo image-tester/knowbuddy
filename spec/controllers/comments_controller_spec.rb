@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe CommentsController do
-  before :each do
+  before :all do
     User.delete_all
     KyuEntry.delete_all
     Comment.delete_all
@@ -42,8 +42,9 @@ describe CommentsController do
       User.delete_all!
       KyuEntry.delete_all!
       Comment.delete_all
+      User.delete_all!
       solr_setup
-      @user_index = User.create(email: 'rspec@kiprosh.com', password: 'password', password_confirmation: 'password', name: 'xyz')
+      @user_index = create(:user)
       @kyu_index = KyuEntry.create(subject: 'sky diving', content:'freefall', user_id: @user_index.id)
       @comment_index = Comment.create(comment: 'awesome', user_id: @user_index.id, kyu_entry_id: @kyu_index.id)
       sign_in @user_index

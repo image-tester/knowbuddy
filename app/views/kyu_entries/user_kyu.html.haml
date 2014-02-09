@@ -14,9 +14,9 @@
           = image_tag avatar_url(@kyu_user, 45)
         %h2.tag_name
           - if @kyu_user.name
-            All posts from #{@kyu_user.name.titleize}
+            All posts by #{@kyu_user.name.titleize}
           - else
-            All posts from #{@kyu_user.email}
+            All posts by #{@kyu_user.email}
       .inner
         %table.table
           %tr

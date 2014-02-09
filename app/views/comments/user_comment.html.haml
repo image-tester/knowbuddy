@@ -4,9 +4,9 @@
   .content
     %h2.title
       - if @user.name
-        Comments by #{@user.name.titleize}
+        All comments by #{@user.name.titleize}
       - else
-        Comments by #{@user.email}
+        All comments by #{@user.email}
     .inner
       %table.table
         %tr

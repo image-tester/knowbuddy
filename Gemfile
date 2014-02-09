@@ -8,7 +8,7 @@ gem 'griddler'
 gem 'haml'
 gem 'jquery-rails'
 gem 'kaminari'
-gem 'mysql2', '0.3.13'
+gem 'mysql2'
 gem 'paperclip'
 gem 'progress_bar'
 gem 'public_activity'
@@ -19,7 +19,7 @@ gem 'rails-timeago'
 gem 'RedCloth'
 gem 'resque', :require => 'resque/server'
 gem 'sass'
-gem "sass-rails", "~> 3.2.6"
+gem "sass-rails", "~> 3.2.6" 
 gem 'sunspot_rails'
 gem 'whenever', :require => false
 
@@ -31,6 +31,7 @@ group :development, :test do
   gem 'haml-rails'
   gem 'hpricot'
   gem 'rails_best_practices'
+  gem 'rspec-rails'
   gem 'selenium'
   gem 'sunspot_solr'
   gem 'web-app-theme', git: 'git://github.com/pilu/web-app-theme.git'
@@ -42,9 +43,9 @@ group :assets do
   gem 'uglifier'
 end
 
-group :test do
-  gem 'rspec'
-  gem 'rspec-rails'
-  gem "shoulda"
+group :test do      
+  gem 'rspec' 
+  gem 'rspec-rails' 
+  gem 'shoulda',          git: 'git://github.com/3den/shoulda.git'    
   gem 'sunspot_matchers'
 end

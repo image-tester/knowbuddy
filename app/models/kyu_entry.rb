@@ -37,6 +37,8 @@ class KyuEntry < ActiveRecord::Base
 
   searchable do
     text :content, :subject
+    time :publish_at
+    time :created_at
     text :comments do
       comments.map { |c| c.user.name }
       comments.map(&:comment)

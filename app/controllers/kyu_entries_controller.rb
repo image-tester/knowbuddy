@@ -123,10 +123,11 @@ class KyuEntriesController < ApplicationController
 
   # GET /kyu_entries/1
   # GET /kyu_entries/1.json
-  def search
+  def search    
     unless params[:search].blank?
       @search = Sunspot.search(KyuEntry) do
         fulltext params[:search]
+        order_by :publish_at, :desc
       end
       @kyu = @search.results
     end

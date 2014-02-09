@@ -8,7 +8,7 @@
     .contributor_pic
       = image_tag avatar_url(kyu_entry.user, 70)
     .postDetails
-      = timeago_tag kyu_entry.created_at, nojs: true, limit: 30.days.ago
+      = timeago_date_format(kyu_entry.created_at)
   #kyu-details
     #kyu-subject
       = kyu_entry.subject

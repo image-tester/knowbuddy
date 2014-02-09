@@ -59,13 +59,14 @@
             <table>
               <tr>
                 <td class="article-title" height="45" valign="top" style="padding: 0 20px; font-family: Georgia; font-size: 20px; font-weight: bold;" width="600" colspan="2">
+                <br />Hello <%= @user["name"].titleize %><br /><br />
                 </td>
               </tr>
               <tr>
                 <td class="content-copy" valign="top" style="padding: 0 20px 20px 20px; color: #000; font-size: 14px; font-family: Georgia; line-height: 20px;" colspan="2">
-                  You have successfully reseted your password on KnowBuddy.
-                 <p>To login to the site
-                      <a href = "<%= @url %>">click here</a>.</p>
+                <p>This is a reminder email you currently have no post on Knowbuddy.</p>
+                <p>If you have come across any interesting concepts or new technologies please do share.</p>
+                <p>Thanks and have a great day!</p>
                 </td>
               </tr>
             </table>
@@ -87,6 +88,8 @@
                   <table cellspacing="0" border="0" width="600" cellpadding="0">
                     <tr>
                       <td class="unsubscribe" valign="top" style="padding: 20px; color: #999; font-size: 14px; font-family: Georgia; line-height: 20px;" width="305">
+                      To login to the site
+                      <a href = "<%= @url %>">click here</a>.
                       </td>
                     </tr>
                   </table>

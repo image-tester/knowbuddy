@@ -17,16 +17,16 @@ describe Comment do
   end
 
   describe 'create_comment_activity' do
-    it 'should create comment activity' do 
-      comment = @kyu.comments.create(:comment => "Temporary")
+    it 'should create comment activity' do
+      comment = @kyu.comments.create(:comment => "Temporary", user_id: @user.id)
       act = PublicActivity::Activity.find_by_owner_id(@user.id) && PublicActivity::Activity.find_by_key("comment.create")
-      act.should_not be_nil        
+      act.should_not be_nil
     end
   end
 
   describe "update_comment_activity" do
     it "should create 'update' activity" do
-      comment = @kyu.comments.create(:comment => "Temporary")
+      comment = @kyu.comments.create(:comment => "Temporary", user_id: @user.id)
       comment.update_attributes(:comment => "Good")
       act = PublicActivity::Activity.find_by_owner_id(@user.id) && PublicActivity::Activity.find_by_key("comment.update")
       act.should_not be_nil
@@ -35,7 +35,7 @@ describe Comment do
 
   describe "destroy_comment_activity" do
     it "should create 'destroy' activity" do
-      comment = @kyu.comments.create(:comment => "Very good")
+      comment = @kyu.comments.create(:comment => "Very good", user_id: @user.id)
       comment.destroy
       act = PublicActivity::Activity.find_by_owner_id(@user.id) && PublicActivity::Activity.find_by_key("comment.destroy")
       act.should_not be_nil
@@ -44,7 +44,7 @@ describe Comment do
 
   describe 'after_create' do
     it 'should run the proper callbacks' do
-      comment = @kyu.comments.build(:comment => "Very good")
+      comment = @kyu.comments.build(:comment => "Very good", user_id: @user.id)
       comment.should_receive(:create_comment_activity)
       comment.run_callbacks(:create)
     end
@@ -52,7 +52,7 @@ describe Comment do
 
   describe 'after_update' do
     it 'should run the proper callbacks' do
-      comment = @kyu.comments.create(:comment => "Very good")
+      comment = @kyu.comments.create(:comment => "Very good", user_id: @user.id)
       comment.should_receive(:update_comment_activity)
       comment.run_callbacks(:update)
     end
@@ -60,7 +60,7 @@ describe Comment do
 
   describe 'before_destroy' do
     it 'should run the proper callbacks' do
-      comment = @kyu.comments.create(:comment => "Very good")
+      comment = @kyu.comments.create(:comment => "Very good", user_id: @user.id)
       comment.should_receive(:destroy_comment_activity)
       comment.run_callbacks(:destroy)
     end

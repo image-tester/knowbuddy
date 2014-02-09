@@ -21,5 +21,4 @@
             %td
               = link_to truncate(kyu_entry.subject, length: 70), kyu_entry_path(kyu_entry)
             %td
-              = timeago_tag comment.created_at, nojs: true, limit: 30.days.ago
-
+              = timeago_date_format(comment.created_at)

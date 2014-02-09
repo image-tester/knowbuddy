@@ -46,6 +46,10 @@ class KyuEntry < ActiveRecord::Base
     text :user do
       user.name unless user.blank?
     end
+    text :comments do
+      comments.map { |c| c.user.name}
+      comments.map(&:comment)
+    end
     text :tags do
       tags.map {|tag| tag.name}
     end
@@ -59,8 +63,9 @@ class KyuEntry < ActiveRecord::Base
     attachments = Attachment.where(kyu_entry_id: nil)
     attachments.each {|attachment| attachment.destroy }
   end
-# Added on 23rd April 2012 by yatish to display cloud tag
-# Start
+
+  # Added on 23rd April 2012 by yatish to display cloud tag
+  # Start
   def self.tag_cloud
     tags = self.tag_counts.order('count Desc').limit(20)
     if tags.length > 0
@@ -76,12 +81,16 @@ class KyuEntry < ActiveRecord::Base
     return @tag_cloud_hash
   end
 
+  def user
+    return User.with_deleted.find(self.user_id)
+  end
+
   private
   def create_kyu_entry_activity
     act_type = ActivityType.find_by_activity_type('kyu_entry.create')
     (self.create_activity :create, params: {"1"=> self.subject, "2"=> self.id})
     .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
-     a.activity_type_id = act_type.id; a.save}
+     a.activity_type_id = act_type.id; a.save} unless act_type.blank?
   end
 
   def create_new_tag_activity
@@ -90,7 +99,7 @@ class KyuEntry < ActiveRecord::Base
     yield
     (self.create_activity key: 'kyu_entry.newTag', params: {"1"=> newTag})
     .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
-     a.activity_type_id = act_type.id; a.save} unless newTag.blank?
+     a.activity_type_id = act_type.id; a.save} if(newTag.present? && act_type.present?)
   end
 
   def update_kyu_entry_activity

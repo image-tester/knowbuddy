@@ -24,7 +24,7 @@
                 %td
                   = link_to truncate(kyu_entry.subject, length: 70), kyu_entry_path(kyu_entry)
                 %td
-                  = timeago_tag kyu_entry.created_at, nojs: true, limit: 30.days.ago
+                  = timeago_date_format(kyu_entry.created_at)
                 %td
                   - if kyu_entry.user_name
                     = kyu_entry.user_name.titleize

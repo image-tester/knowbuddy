@@ -22,4 +22,4 @@ public/uploads/*
 solr/data/*
 solr/pids/*
 tmp/
-solr/conf/solrconfig.xml
+solr/conf/*

@@ -5,9 +5,8 @@
       #search_error
         Sorry no matching results for this search.
     - else
-      %h2.title
-        = t("web-app-theme.all", default: "All")
-        Posts
+      %h2.title                
+        All articles containing keyword '#{params[:search]}'
       .inner
         %table.table
           %tr

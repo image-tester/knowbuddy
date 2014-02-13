@@ -1,9 +1,9 @@
 .block
   .secondary-navigation
   .content
-    - if params[:search].blank? || @kyu.blank?
+    - if params[:search].blank? || @kyus_searched.blank?
       #search_error
-        Sorry no matching results for this search.
+        Sorry no matching results for keyword '#{params[:search]}'
     - else
       %h2.title                
         All articles containing keyword '#{params[:search]}'
@@ -15,7 +15,7 @@
               = t("activerecord.attributes.kyu_entry.subject", default: t("activerecord.labels.subject", default: "Subject"))
             %th= t("web-app-theme.created_at", default: "Date")
             %th= t("web-app-theme.created_at", default: "Contributor")
-          - @kyu.each do |kyu_entry|
+          - @kyus_searched.each do |kyu_entry|
             %tr{class: cycle("odd", "even")}
               - if kyu_entry.user
                 %td

@@ -129,7 +129,7 @@ class KyuEntriesController < ApplicationController
         fulltext params[:search]
         order_by :publish_at, :desc
       end
-      @kyu = @search.results
+      @kyus_searched = @search.results
     end
   end
 

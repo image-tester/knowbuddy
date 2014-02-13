@@ -12,6 +12,7 @@ gem 'mysql2'
 gem 'paperclip'
 gem 'progress_bar'
 gem 'public_activity'
+gem 'rack-mini-profiler'
 gem 'rails','3.2.12'
 gem "rails3_acts_as_paranoid", "~>0.1.4"
 gem 'rails3-jquery-autocomplete'

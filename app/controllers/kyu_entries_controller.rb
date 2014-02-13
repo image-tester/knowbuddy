@@ -130,6 +130,11 @@ class KyuEntriesController < ApplicationController
         order_by :publish_at, :desc
       end
       @kyus_searched = @search.results
+      respond_to do |format|
+        format.html
+        format.js
+        format.json { render json: @kyus_searched }
+      end
     end
   end
 

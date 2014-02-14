@@ -79,9 +79,9 @@ class KyuEntriesController < ApplicationController
     @attachment = @kyu_entry.attachments
     respond_to do |format|
       format.html
-      format.js
+      format.js {render :render_contributors_pagination}
       format.json { render json: @kyu_entries }
-    end
+    end    
   end
 
   def kyu_date
@@ -110,6 +110,16 @@ class KyuEntriesController < ApplicationController
 
   def related_tag
    @related_tags = KyuEntry.tagged_with(params[:name])
+   respond_to do |format|
+      format.html
+      format.js {render :render_contributors_pagination}
+   end    
+  end
+
+  def render_contributors_pagination
+    respond_to do |format|
+      format.js
+    end
   end
 
   # Added on 23rd April 2012 by yatish to delete tags
@@ -123,7 +133,7 @@ class KyuEntriesController < ApplicationController
 
   # GET /kyu_entries/1
   # GET /kyu_entries/1.json
-  def search    
+  def search
     unless params[:search].blank?
       @search = Sunspot.search(KyuEntry) do
         fulltext params[:search]
@@ -132,7 +142,7 @@ class KyuEntriesController < ApplicationController
       @kyus_searched = @search.results
       respond_to do |format|
         format.html
-        format.js
+        format.js {render :render_contributors_pagination}        
         format.json { render json: @kyus_searched }
       end
     end
@@ -173,7 +183,7 @@ class KyuEntriesController < ApplicationController
     @kyu_user = User.get_user(params[:user_id])
     respond_to do |format|
       format.html
-      format.js { render :index }
+      format.js {render :render_contributors_pagination}
     end
   end
 

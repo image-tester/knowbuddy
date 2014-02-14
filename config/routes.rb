@@ -6,6 +6,8 @@ KYU::Application.routes.draw do
   match '/kyu_entries/related_tag' => 'kyu_entries#related_tag',
                                       as: 'related_tag'
 
+  match '/kyu_entries/render_contributors_pagination' => 'kyu_entries#render_contributors_pagination'
+
   match '/kyu_entries/search' => 'kyu_entries#search'
 
   match '/kyu_entries/kyu_date' => 'kyu_entries#kyu_date'

@@ -22,10 +22,12 @@ Setup steps
 
 11) To update cronjob, execute following command on terminal.
     
-    For development
+For development
+    
     `whenever --update-crontab --set environment=development`
 
-    For production
+For production
+    
     `whenever --update-crontab --set environment=production`
 
 12) For Active-Admin URL: 'http://localhost:3000/admin/login'

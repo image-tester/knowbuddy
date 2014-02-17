@@ -15,7 +15,7 @@ namespace :email do
     puts "Start task less_post_notifications"
     user_with_less_posts = User.joins(:kyu_entries).select('users.name, users.email, users.id,
       COUNT(users.id) as total').where('kyu_entries.deleted_at IS NULL').group('kyu_entries.user_id').
-      having("count(users.id) < 5")
+      having("count(users.id) <= #{FIVE_ARTICLES}")
     user_with_less_posts.each do |user|
       puts "Enqueued #{user.email}"
       Resque.enqueue(LessPostNotification, user)

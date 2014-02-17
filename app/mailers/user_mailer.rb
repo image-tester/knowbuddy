@@ -50,16 +50,21 @@ class UserMailer < ActionMailer::Base
 
   def no_post_notification(user)
     @user = user
-    @subject = "No post notification"
+    @subject = "Your knowledge buddy is waiting for you"
     @url = APP_CONFIG['url'] + "/users/sign_in"
-    mail(to: user["email"], subject: @subject)
+    send_mail(@user, @subject)
   end
 
   def less_post_notification(user)
     @user = user
     @url = APP_CONFIG['url'] + "/users/sign_in"
-    @subject = "Less post notification"
-    mail(to: user["email"], subject: @subject)
+    @subject = "Please share your knowledge in Knowbuddy"
+    send_mail(@user, @subject)
   end
-end
 
+  def send_mail(user, subject)    
+    (Rails.env == "development") ? mail(to: EMAIL_TO_SENDTO_IN_DEVLOPMENT_MODE, subject: subject) : 
+                                   mail(to: user["email"], subject: subject)
+  end
+
+end

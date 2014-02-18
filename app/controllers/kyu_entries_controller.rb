@@ -17,15 +17,11 @@ class KyuEntriesController < ApplicationController
   autocomplete :tag, :name, class_name: 'ActsAsTaggableOn::Tag',
                full: true
 
-  # POST /kyu_entries
-  # POST /kyu_entries.json
-
   def create
     attachment = params[:kyu_entry].delete :attachment
     params[:kyu_entry].merge!(user_id: current_user.id)
     params[:kyu_entry].merge!(publish_at: Time.now)
-    kyu_entry = KyuEntry.new(params[:kyu_entry])
-    # kyu_entry.set_user_and_publish_date(current_user)
+    kyu_entry = KyuEntry.new(params[:kyu_entry])    
     respond_to do |format|
       if kyu_entry.save
         attachments = params[:attachments_field].split(",")
@@ -70,6 +66,7 @@ class KyuEntriesController < ApplicationController
       format.json { render json: edit_kyu.to_json }
     end
   end
+
   def index
     @kyu_entries = KyuEntry.page(params[:page_2])
     @kyu_entry = KyuEntry.new(params[:kyu_entry])
@@ -121,18 +118,13 @@ class KyuEntriesController < ApplicationController
       format.js
     end
   end
-
-  # Added on 23rd April 2012 by yatish to delete tags
-  # Start
+  
   def remove_tag
     @kyu_entry.tag_list.remove(params[:tag])
     @kyu_entry.save
     render json: true
   end
-  # End
 
-  # GET /kyu_entries/1
-  # GET /kyu_entries/1.json
   def search
     unless params[:search].blank?
       @search = Sunspot.search(KyuEntry) do
@@ -161,8 +153,6 @@ class KyuEntriesController < ApplicationController
     end
   end
 
-  # PUT /kyu_entries/1
-  # PUT /kyu_entries/1.json
   def update
     error = []
     attachment = params[:kyu_entry].delete :attachment
@@ -203,20 +193,5 @@ class KyuEntriesController < ApplicationController
     def tag_cloud
       @tag_cloud_hash = KyuEntry.tag_cloud
     end
-
-  # This is default value for textArea value of KYU entry
-  # This is done so that users will be able to quickly know
-  # that the content text is enabled with textile markup
-  # so that they can use textile
-  $text_area_default_value = 'h1. This is Textile markup. Give it a try!
-
-  A *simple* paragraph with
-  a line break, some _emphasis_ and a "link":http://redcloth.org
-
-  * an item
-  * and another
-
-  # one
-  # two
-  '
+        
 end

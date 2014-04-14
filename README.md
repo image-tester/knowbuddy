@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/github/rohandaxini/knowbuddy.png)](https://codeclimate.com/github/rohandaxini/knowbuddy)
+
 Setup steps
 
 1) bundle install

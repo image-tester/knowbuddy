@@ -13,7 +13,7 @@ gem 'paperclip'
 gem 'progress_bar'
 gem 'public_activity'
 gem 'rack-mini-profiler'
-gem 'rails','3.2.12'
+gem 'rails','3.2.17'
 gem "rails3_acts_as_paranoid", "~>0.1.4"
 gem 'rails3-jquery-autocomplete'
 gem 'rails-timeago'
@@ -44,9 +44,7 @@ group :assets do
   gem 'uglifier'
 end
 
-group :test do      
-  gem 'rspec' 
-  gem 'rspec-rails' 
-  gem 'shoulda',          git: 'git://github.com/3den/shoulda.git'    
+group :test do        
+  #gem 'shoulda',          git: 'git://github.com/3den/shoulda.git'    
   gem 'sunspot_matchers'
 end

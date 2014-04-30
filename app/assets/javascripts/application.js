@@ -16,3 +16,4 @@
 //= require rails-timeago
 //= require app
 //= require jquery.fileupload
+//= require_tree .

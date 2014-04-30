@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  
+
   $('#textarea_kyu_content').markItUp(mySettings);
   $("#formID1").validationEngine();
   
@@ -59,7 +59,7 @@ $(document).ready(function(){
     }
   });
 
-  $("#new_comment").live("ajax:success", function(xhr, data, status) {
+  $('body').on('ajax:success', '#new_comment', function(xhr, data, status) {
     $("#latest_comment").prepend(data).fadeOut(200).fadeIn(2000)
     $('#comment_comment').val('')
     $("time.comment_time_ago").timeago();
@@ -70,35 +70,35 @@ $(document).ready(function(){
   //File Preview icon display
   //start
   function makeflieupload() {
-  $('#fileupload').fileupload({  
-  url: '/attachments',
-  dataType: 'json',
-  add: function (e, data) {
-    $('#load').attr("src",'/assets/loading.gif')
-    $('#load').show()
-    var fileType =data.files[0].type
-    var extensionflag = $.inArray(fileType,['image/jpeg',
-      'image/png', 'image/gif', 'image/jpg', 'application/pdf',
-      'application/msword', 'text/plain', 'text/html',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
-    if (extensionflag >= 0) {
-      data.submit();  
-    }
-    else {
-      alert('Invalid File Extension for: '+data.files[0].name);
-      $('#load').hide()
-      return false;
-    }
-  },
-  done: function (e, data) {
-    $('#load').hide()
-    var id = $('#attachments_field').val();
-    $('#kyu_attachment').append(data.result.attachment)
-    $('#attachments_field').val(data.result.id + ',' + id);
+    $('#fileupload').fileupload({  
+      url: '/attachments',
+      dataType: 'json',
+      add: function (e, data) {
+        $('#load').attr("src",'/assets/loading.gif')
+        $('#load').show()
+        var fileType =data.files[0].type
+        var extensionflag = $.inArray(fileType,['image/jpeg',
+          'image/png', 'image/gif', 'image/jpg', 'application/pdf',
+          'application/msword', 'text/plain', 'text/html',
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
+        if (extensionflag >= 0) {
+          data.submit();  
+        }
+        else {
+          alert('Invalid File Extension for: '+data.files[0].name);
+          $('#load').hide()
+          return false;
+        }
+      },
+      done: function (e, data) {
+        $('#load').hide()
+        var id = $('#attachments_field').val();
+        $('#kyu_attachment').append(data.result.attachment)
+        $('#attachments_field').val(data.result.id + ',' + id);
+      }
+      });
   }
-  });
-  }
-  //end 
+  end 
  
   // underline new post link
   function newpostlink(a1,a2)
@@ -109,7 +109,7 @@ $(document).ready(function(){
   //end
 
   // new entry ajaxify
-  $("#new_entry").live("ajax:success", function(xhr, data, status) { 
+  $('body').on('ajax:success', '#new_entry', function(xhr, data, status) {
     var loc = location.pathname
     if (loc != "/kyu_entries")
       location.replace("/kyu_entries#new_post") 
@@ -124,18 +124,16 @@ $(document).ready(function(){
     } 
   });
 
-  $("#formID1").live("ajax:beforeSend", function(){
+  $('body').on('ajax:beforeSend', '#formID1', function() {
     location.hash = '#';
     $(".btn_kyu_save").text("Saving...").addClass("disable-button")
   })
 
-  $(".disable-button").live("click", function(){
+  $('body').on('ajax:success', '.disable-button', function() {
     return false
   });
 
-
-
-  $("#formID1").live("ajax:success", function(xhr, data, status) {
+  $('body').on('ajax:success', '#formID1', function(xhr, data, status) {
     $("#new_kyu").slideUp(800,function(){
       $(data.new_entry).insertAfter("tr:first");
       $("time.time_ago").timeago();
@@ -154,16 +152,16 @@ $(document).ready(function(){
   // end
 
   // edit entry ajaxify
-  $("#edit_entry").live("ajax:success", function(xhr, data, status) {
+  $('body').on('ajax:success', '#edit_entry', function(xhr, data, status) {
     show_kyu = $("#main").html()
     $('#main').empty().append('<div id="edit_kyu" />')
     $("#edit_kyu").css("display", "none").append(data).show()
     preview()
-    makeflieupload()
+    // makeflieupload()
     $('#textarea_kyu_content').markItUp(mySettings);
   });
 
-  $("#formID").live("ajax:success", function(xhr, data, status) {
+  $('body').on('ajax:success', '#formID', function(xhr, data, status) {
     $("#edit_kyu").slideUp(100,function(){
       $("#edit_kyu").remove()
       $("#main").append(data)
@@ -173,7 +171,7 @@ $(document).ready(function(){
   // end
 
   // cancel for new and edit entry
-  $("#kyu_cancel").live('click',function() {
+  $('body').on('click', '#kyu_cancel', function() {
     $("#new_kyu").slideUp(800, function(){
       $("#new_kyu").empty()
       newpostlink('#new_entry','#home_pg')

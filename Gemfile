@@ -1,4 +1,4 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 gem 'acts-as-taggable-on', '~> 2.4.0'
 gem "activeadmin", "~> 0.4.4"
@@ -7,10 +7,11 @@ gem "friendly_id", "~> 4.0.9"
 gem 'griddler'
 gem 'haml'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'kaminari'
 gem 'mysql2'
 gem 'paperclip'
-gem 'progress_bar'
+# gem 'progress_bar'
 gem 'public_activity'
 gem 'rack-mini-profiler'
 gem 'rails','3.2.17'
@@ -22,6 +23,7 @@ gem 'resque', :require => 'resque/server'
 gem 'sass'
 gem "sass-rails", "~> 3.2.6" 
 gem 'sunspot_rails'
+gem 'sunspot_solr'
 gem 'whenever', :require => false
 
 group :development, :test do
@@ -34,7 +36,6 @@ group :development, :test do
   gem 'rails_best_practices'
   gem 'rspec-rails'
   gem 'selenium'
-  gem 'sunspot_solr'
   gem 'web-app-theme', git: 'git://github.com/pilu/web-app-theme.git'
 end
 

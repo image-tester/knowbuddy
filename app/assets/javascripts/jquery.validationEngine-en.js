@@ -30,16 +30,18 @@
                 "minSize": {
                     "regex": "none",
                     "alertText": "* Minimum ",
-                    "alertText2": " characters allowed"
+                    "alertText2": " characters required"
                 },
                 "maxSize": {
                     "regex": "none",
                     "alertText": "* Maximum ",
                     "alertText2": " characters allowed"
                 },
-				"groupRequired": {
+		"groupRequired": {
                     "regex": "none",
-                    "alertText": "* You must fill one of the following fields"
+                    "alertText": "* You must fill one of the following fields",
+                    "alertTextCheckboxMultiple": "* Please select an option",
+                    "alertTextCheckboxe": "* This checkbox is required"
                 },
                 "min": {
                     "regex": "none",
@@ -77,13 +79,21 @@
                 },
                 "phone": {
                     // credit: jquery.h5validate.js / orefalo
-                    "regex": /^([\+][0-9]{1,3}[\ \.\-])?([\(]{1}[0-9]{2,6}[\)])?([0-9\ \.\-\/]{3,20})((x|ext|extension)[\ ]?[0-9]{1,4})?$/,
+                    "regex": /^([\+][0-9]{1,3}([ \.\-])?)?([\(][0-9]{1,6}[\)])?([0-9 \.\-]{1,32})(([A-Za-z \:]{1,11})?[0-9]{1,4}?)$/,
                     "alertText": "* Invalid phone number"
                 },
                 "email": {
                     // HTML5 compatible email regex ( http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#    e-mail-state-%28type=email%29 )
-                    "regex": /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                    "regex": /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                     "alertText": "* Invalid email address"
+                },
+                "fullname": {
+                    "regex":/^([a-zA-Z]+[\'\,\.\-]?[a-zA-Z ]*)+[ ]([a-zA-Z]+[\'\,\.\-]?[a-zA-Z ]+)+$/,
+                    "alertText":"* Must be first and last name"
+                },
+                "zip": {
+                    "regex":/^\d{5}$|^\d{5}-\d{4}$/,
+                    "alertText":"* Invalid zip format"
                 },
                 "integer": {
                     "regex": /^[\-\+]?\d+$/,
@@ -91,12 +101,25 @@
                 },
                 "number": {
                     // Number, including positive, negative, and floating decimal. credit: orefalo
-                    "regex": /^[\-\+]?(([0-9]{1,3})([\.]([0-9]{3}))*([,]([0-9]+))?|([0-9]+)?([,]([0-9]+))?)$/,
+                    "regex": /^[\-\+]?((([0-9]{1,3})([,][0-9]{3})*)|([0-9]+))?([\.]([0-9]+))?$/,
                     "alertText": "* Invalid floating decimal number"
                 },
-                "date": {
-                    "regex": /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/,
-                    "alertText": "* Invalid date, must be in YYYY-MM-DD format"
+                "date": {                    
+                    //	Check if date is valid by leap year
+			"func": function (field) {
+					var pattern = new RegExp(/^(\d{4})[\/\-\.](0?[1-9]|1[012])[\/\-\.](0?[1-9]|[12][0-9]|3[01])$/);
+					var match = pattern.exec(field.val());
+					if (match == null)
+					   return false;
+	
+					var year = match[1];
+					var month = match[2]*1;
+					var day = match[3]*1;					
+					var date = new Date(year, month - 1, day); // because months starts from 0.
+	
+					return (date.getFullYear() == year && date.getMonth() == (month - 1) && date.getDate() == day);
+				},                		
+			 "alertText": "* Invalid date, must be in YYYY-MM-DD format"
                 },
                 "ipv4": {
                     "regex": /^((([01]?[0-9]{1,2})|(2[0-4][0-9])|(25[0-5]))[.]){3}(([0-1]?[0-9]{1,2})|(2[0-4][0-9])|(25[0-5]))$/,

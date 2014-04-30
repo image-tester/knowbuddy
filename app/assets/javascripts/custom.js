@@ -2,7 +2,7 @@ $(document).ready(function(){
 
   $('#textarea_kyu_content').markItUp(mySettings);
   $("#formID1").validationEngine();
-  
+
   function preview() {
   $("#previewlink").click(function(e) {
     $(this).facebox();
@@ -66,11 +66,11 @@ $(document).ready(function(){
   });
   //end
 
-  
+
   //File Preview icon display
   //start
   function makeflieupload() {
-    $('#fileupload').fileupload({  
+    $('#fileupload').fileupload({
       url: '/attachments',
       dataType: 'json',
       add: function (e, data) {
@@ -82,7 +82,7 @@ $(document).ready(function(){
           'application/msword', 'text/plain', 'text/html',
           'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
         if (extensionflag >= 0) {
-          data.submit();  
+          data.submit();
         }
         else {
           alert('Invalid File Extension for: '+data.files[0].name);
@@ -98,8 +98,8 @@ $(document).ready(function(){
       }
       });
   }
-  end 
- 
+  // end
+
   // underline new post link
   function newpostlink(a1,a2)
   {
@@ -112,16 +112,16 @@ $(document).ready(function(){
   $('body').on('ajax:success', '#new_entry', function(xhr, data, status) {
     var loc = location.pathname
     if (loc != "/kyu_entries")
-      location.replace("/kyu_entries#new_post") 
+      location.replace("/kyu_entries#new_post")
     else
     {
       newpostlink('#home_pg',this)
-      $("#new_kyu").empty().append(data).slideDown(2000)
+      $("#new_kyu").empty().append(data.new_kyu).slideDown(2000)
       preview()
       makeflieupload()
       $('#textarea_kyu_content').markItUp(mySettings);
       history.pushState({},'','#new_post');
-    } 
+    }
   });
 
   $('body').on('ajax:beforeSend', '#formID1', function() {
@@ -180,7 +180,7 @@ $(document).ready(function(){
       $("#edit_kyu").remove()
       $("#main").empty().append(show_kyu)
     })
-  //end  
+  //end
   });
-  
+
 });

@@ -14,3 +14,5 @@
 //= require jquery.markitup
 //= require set
 //= require rails-timeago
+//= require app
+//= require jquery.fileupload

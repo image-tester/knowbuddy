@@ -61,7 +61,7 @@ $(document).ready(function() {
 
   // Added to remove validation error popup on click
   // Start
-  $(".profile_form_error").live("click", function() {
+  $("body").on("click", ".profile_form_error", function() {
     $(this).fadeOut(150, function() {
     $(this).remove();
     });
@@ -70,7 +70,7 @@ $(document).ready(function() {
 
   // Added to delete attachments on clicking close_img
   // Start
-  $("#close img#delete-attach").live("click", function() {
+  $("#close").on("click", "img#delete-attach", function() {
   var id = $(this).parent().attr("attachment_id");
   var temp = $(this).closest('#attach-content');
     $.ajax({
@@ -94,10 +94,10 @@ $(document).ready(function() {
   //end
 
   //Show Default text for new/edit post
-  $("#new_entry").live("ajax:success", function(xhr, data, status) {
+  $("body").on("ajax:success", "#new_entry", function(xhr, data, status) {
     defaulttext("#formID1")
   });
-  $("#edit_entry").live("ajax:success", function(xhr, data, status) {
+  $("body").on("ajax:success", "#edit_entry", function(xhr, data, status) {
     defaulttext("#formID")
   });
   //end

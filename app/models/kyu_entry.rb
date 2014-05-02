@@ -39,7 +39,7 @@ class KyuEntry < ActiveRecord::Base
     text :content, :subject
     time :publish_at
     time :created_at
-    text(:user) { user.name unless user.blank? }
+    text(:user) { user.try(:name) }
     text(:tags) { tags.pluck(:name) }
     text(:comments) { comments.pluck(:comment) }
   end

@@ -47,8 +47,6 @@ class KyuEntriesController < ApplicationController
     end
   end
 
-  # DELETE /kyu_entries/1
-  # DELETE /kyu_entries/1.json
   def destroy
     @kyu_entry.destroy
     respond_to do |format|
@@ -57,22 +55,17 @@ class KyuEntriesController < ApplicationController
     end
   end
 
-  # GET /kyu_entries/1/edit
   def edit
     @kyu_entry = KyuEntry.find(params[:id])
     edit_kyu = render_to_string(partial: "editentry",
-               locals: {kyu_entry: @kyu_entry})
-    respond_to do |format|
-      format.json { render json: edit_kyu.to_json }
-    end
+      locals: {kyu_entry: @kyu_entry})
+    render json: edit_kyu.to_json
   end
 
   def index
     @kyu_entries = KyuEntry.page(params[:page_2])
     @kyu_entry = KyuEntry.new(params[:kyu_entry])
-    @activities = Activity.joins(:activity_type)
-                  .where("activity_types.is_active" => 1)
-                  .order("created_at desc").page(params[:page_3]).per(20)
+    @activities = Activity.latest_activities(params[:page_3])
     @attachment = @kyu_entry.attachments
     respond_to do |format|
       format.html

@@ -47,7 +47,6 @@ describe KyuEntry do
 
   describe 'activity creation' do
     before do
-      fetch_activity_type('kyu_entry.create')
       fetch_activity_type('kyu_entry.newTag')
       @user = create :user
       @kyu = create :kyu_entry, tag_list: "new tag after create", user: @user
@@ -55,7 +54,7 @@ describe KyuEntry do
 
     describe 'create_new_tag_actvitiy' do
       it 'should create new_tag actvitiy on create' do
-        act = PublicActivity::Activity.find_by_owner_id(@user.id) && PublicActivity::Activity.find_by_key("kyu_entry.newTag")
+        act = PublicActivity::Activity.find_by_owner_id_and_key(@user.id, "kyu_entry.newTag")
         expect(act.parameters).not_to be_empty
         act.should_not be_nil
       end
@@ -65,7 +64,7 @@ describe KyuEntry do
       it 'should update kyu_entry activity' do
         fetch_activity_type('kyu_entry.update')
         @kyu.update_attributes(subject: "kyu update")
-        act = PublicActivity::Activity.find_by_owner_id(@user.id) && PublicActivity::Activity.find_by_key("kyu_entry.update")
+        act = PublicActivity::Activity.find_by_owner_id_and_key(@user.id, "kyu_entry.update")
         act.should_not be_nil
       end
     end
@@ -74,7 +73,7 @@ describe KyuEntry do
       it 'should destroy kyu_entry activity' do
         fetch_activity_type('kyu_entry.destroy')
         @kyu.destroy
-        act = PublicActivity::Activity.find_by_owner_id(@user.id) && PublicActivity::Activity.find_by_key("kyu_entry.destroy")
+        act = PublicActivity::Activity.find_by_owner_id_and_key(@user.id, "kyu_entry.destroy")
         act.should_not be_nil
       end
     end

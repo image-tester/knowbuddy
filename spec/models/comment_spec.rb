@@ -22,13 +22,12 @@ describe Comment do
   before do
     @user = create :user
     @kyu = create :kyu_entry, user: @user
-    fetch_activity_type('comment.create')
     @comment = create :comment, kyu_entry: @kyu, user: @user
   end
 
   describe 'create_comment_activity' do
     it 'should create comment activity' do
-      act = PublicActivity::Activity.find_by_owner_id(@user.id) && PublicActivity::Activity.find_by_key("comment.create")
+      act = PublicActivity::Activity.find_by_owner_id_and_key(@user.id, "comment.create")
       act.should_not be_nil
     end
   end
@@ -37,7 +36,7 @@ describe Comment do
     it "should create 'update' activity" do
       fetch_activity_type('comment.update')
       @comment.update_attributes(:comment => "Good")
-      act = PublicActivity::Activity.find_by_owner_id(@user.id) && PublicActivity::Activity.find_by_key("comment.update")
+      act = PublicActivity::Activity.find_by_owner_id_and_key(@user.id, "comment.update")
       act.should_not be_nil
     end
   end
@@ -46,7 +45,7 @@ describe Comment do
     it "should create 'destroy' activity" do
       fetch_activity_type('comment.destroy')
       @comment.destroy
-      act = PublicActivity::Activity.find_by_owner_id(@user.id) && PublicActivity::Activity.find_by_key("comment.destroy")
+      act = PublicActivity::Activity.find_by_owner_id_and_key(@user.id, "comment.destroy")
       act.should_not be_nil
     end
   end

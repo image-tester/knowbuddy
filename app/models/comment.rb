@@ -21,7 +21,7 @@ class Comment < ActiveRecord::Base
   before_destroy :destroy_comment_activity
 
   def user
-    return User.with_deleted.find(self.user_id)
+    User.with_deleted.find(user_id)
   end
 
   private

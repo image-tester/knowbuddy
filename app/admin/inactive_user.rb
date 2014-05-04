@@ -17,22 +17,16 @@ ActiveAdmin.register User, as: "Inactive Users" do
 
     column "Actions" do |user|
       link_to 'Activate', controller: "admin/inactive_users",
-                          action: "activate", id: user.id
+        action: "activate", id: user.id
     end
   end
 
   controller do
     def activate
-      if User.only_deleted.find(params["id"]).name
-        User.only_deleted.where("id = ?", params["id"]).first.recover
-      else
-        user = User.only_deleted.where("id = ?", params["id"]).first
-        user.deleted_at = nil
-        user.save(validate: false)
-      end
-      flash[:notice] = "User was successfully activated"
+      user = User.get_user(params["id"])
+      user.activate
+      flash[:notice] = "User was successfully activated."
       redirect_to controller: "admin/users", action: "index"
     end
   end
 end
-

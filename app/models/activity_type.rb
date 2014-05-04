@@ -5,4 +5,12 @@ class ActivityType < ActiveRecord::Base
 
   validates :activity_type, presence: true, uniqueness: true
   validates_inclusion_of :is_active, in: [true, false]
+
+  def activate
+    update_attribute :is_active, true
+  end
+
+  def deactivate
+    update_attribute :is_active, false
+  end
 end

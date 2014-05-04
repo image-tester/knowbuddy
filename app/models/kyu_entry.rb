@@ -23,7 +23,7 @@ class KyuEntry < ActiveRecord::Base
 
   after_create :create_kyu_entry_activity
   after_update :update_kyu_entry_activity
-  before_destroy :destroy_kyu_entry_activity
+  before_destroy :destroy_kyu_entry_activity, if: "deleted_at.blank?"
   around_save :create_new_tag_activity
 
   scope :list, lambda { |user_id|
@@ -46,6 +46,10 @@ class KyuEntry < ActiveRecord::Base
 
   def to_s
     subject
+  end
+
+  def self.get_kyu(kyu_id)
+    self.with_deleted.find(kyu_id)
   end
 
   def self.invalid_attachments

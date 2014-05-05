@@ -4,45 +4,30 @@ class KyuEntriesController < ApplicationController
     only: [ :destroy, :edit, :remove_tag, :update ]
 
   before_filter :order_by_name_email,
-    only: [ :edit, :index, :kyu_date, :new, :search, :user_kyu, :show, :create,
-            :related_tag ]
+    only: [ :edit, :index, :kyu_date, :new, :search, :user_kyu, :show,
+      :create, :related_tag ]
 
   before_filter :tag_cloud,
     only: [ :edit, :index, :kyu_date, :new, :related_tag, :search,
-            :show, :user_kyu, :create]
+      :show, :user_kyu, :create]
 
   before_filter :user_list,
     only: [ :index, :kyu_date, :related_tag, :show, :user_kyu ]
 
-  autocomplete :tag, :name, class_name: 'ActsAsTaggableOn::Tag',
-               full: true
+  autocomplete :tag, :name, class_name: 'ActsAsTaggableOn::Tag', full: true
 
   def create
     attachment = params[:kyu_entry].delete :attachment
-    params[:kyu_entry].merge!(user_id: current_user.id)
-    params[:kyu_entry].merge!(publish_at: Time.now)
-    kyu_entry = KyuEntry.new(params[:kyu_entry])
+    @kyu_entry = KyuEntry.new(params[:kyu_entry])
     respond_to do |format|
-      if kyu_entry.save
-        attachments = params[:attachments_field].split(",")
-        unless attachments.blank?
-          attachments.each do |attachment|
-            kyu_entry.attachments << Attachment.find(attachment)
-          end
-        end
-        @activities = Activity.joins(:activity_type)
-                      .where("activity_types.is_active" => 1)
-                      .order("created_at desc").page(params[:page_3]).per(20)
-        new_entry = render_to_string(partial: "entries",
-                    locals: { kyu_entry: kyu_entry })
-        sidebar = render_to_string( partial: "sidebar",
-                    locals: { tag_cloud_hash: tag_cloud, users: @users})
-        activity = render_to_string( partial: "activities")
-        format.json { render json: { new_entry: new_entry, sidebar: sidebar,
-                    activity: activity } }
+      if @kyu_entry.save
+        save_attachments
+        load_partials
+        format.json { render json: { new_entry: @new_entry, sidebar: @sidebar,
+          activity: @activity } }
       else
-        format.json { render json: kyu_entry.errors,
-                    status: :unprocessable_entity}
+        format.json { render json: @kyu_entry.errors,
+          status: :unprocessable_entity}
       end
     end
   end
@@ -56,7 +41,6 @@ class KyuEntriesController < ApplicationController
   end
 
   def edit
-    @kyu_entry = KyuEntry.find(params[:id])
     edit_kyu = render_to_string(partial: "editentry",
       locals: {kyu_entry: @kyu_entry})
     render json: edit_kyu.to_json
@@ -76,18 +60,23 @@ class KyuEntriesController < ApplicationController
 
   def kyu_date
     @kyu_entry = KyuEntry.find(params[:kyu_id])
-    start_date = @kyu_entry.created_at.to_date.beginning_of_day
-    end_date = @kyu_entry.created_at.to_date.end_of_day
-    @kyu = KyuEntry.post_date(start_date, end_date)
+    @kyu = KyuEntry.post_date(@kyu_entry)
   end
 
-  # GET /kyu_entries/new
-  # GET /kyu_entries/new.json
+  def load_partials
+    @activities = Activity.latest_activities(params[:page_3])
+    @new_entry = render_to_string(partial: "entries",
+      locals: { kyu_entry: @kyu_entry })
+    @sidebar = render_to_string( partial: "sidebar",
+      locals: { tag_cloud_hash: tag_cloud, users: @users})
+    @activity = render_to_string( partial: "activities")
+  end
+
   def new
     KyuEntry.invalid_attachments
     @kyu_entry = KyuEntry.new
     new_kyu = render_to_string(partial: "newentry",
-              locals: {kyu_entry: @kyu_entry})
+      locals: {kyu_entry: @kyu_entry})
     render json: { new_kyu: new_kyu }
   end
 
@@ -97,11 +86,11 @@ class KyuEntriesController < ApplicationController
   end
 
   def related_tag
-   @related_tags = KyuEntry.tagged_with(params[:name])
-   respond_to do |format|
+    @related_tags = KyuEntry.tagged_with(params[:name])
+    respond_to do |format|
       format.html
       format.js {render :render_contributors_pagination}
-   end
+    end
   end
 
   def render_contributors_pagination
@@ -116,13 +105,18 @@ class KyuEntriesController < ApplicationController
     render json: true
   end
 
+  def save_attachments
+    attachments = params[:attachments_field].split(",")
+    unless attachments.blank?
+      attachments.each do |attachment|
+        @kyu_entry.attachments << Attachment.find(attachment)
+      end
+    end
+  end
+
   def search
     unless params[:search].blank?
-      @search = Sunspot.search(KyuEntry) do
-        fulltext params[:search]
-        order_by :publish_at, :desc
-      end
-      @kyus_searched = @search.results
+      @kyus_searched = KyuEntry.search_kyu(params[:search])
       respond_to do |format|
         format.html
         format.js {render :render_contributors_pagination}
@@ -133,7 +127,7 @@ class KyuEntriesController < ApplicationController
 
   def show
     begin
-      @kyu_entry = KyuEntry.find(params[:id])
+      find_kyu
     rescue
       render template: 'kyu_entries/kyu_not_found', status: :not_found
     else
@@ -145,23 +139,22 @@ class KyuEntriesController < ApplicationController
   end
 
   def update
-    error = []
     attachment = params[:kyu_entry].delete :attachment
     respond_to do |format|
       if @kyu_entry.update_attributes(params[:kyu_entry])
         update_entry = render_to_string(partial: "kyu_entry",
-                       locals:{kyu_entry: @kyu_entry})
+          locals:{kyu_entry: @kyu_entry})
         format.json { render json: update_entry.to_json}
       else
         format.json { render json: @kyu_entry.errors,
-                      status: :unprocessable_entity }
+          status: :unprocessable_entity }
       end
     end
   end
 
   def user_kyu
-    @kyu = KyuEntry.list(params[:user_id])
     @kyu_user = User.get_user(params[:user_id])
+    @kyu = @kyu_user.kyu_entries
     respond_to do |format|
       format.html
       format.js {render :render_contributors_pagination}
@@ -184,5 +177,4 @@ class KyuEntriesController < ApplicationController
     def tag_cloud
       @tag_cloud_hash = KyuEntry.tag_cloud
     end
-
 end

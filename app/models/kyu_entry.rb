@@ -23,6 +23,7 @@ class KyuEntry < ActiveRecord::Base
 
   after_create :create_kyu_entry_activity
   after_update :update_kyu_entry_activity
+  before_create :set_publish_date
   before_destroy :destroy_kyu_entry_activity, if: "deleted_at.blank?"
   around_save :create_new_tag_activity
 
@@ -31,9 +32,6 @@ class KyuEntry < ActiveRecord::Base
   }
 
   default_scope order: 'created_at DESC'
-  scope :post_date, lambda { |start, stop|
-    where("created_at >= ? and created_at <= ?", start, stop)
-  }
 
   searchable do
     text :content, :subject
@@ -78,7 +76,25 @@ class KyuEntry < ActiveRecord::Base
     User.with_deleted.find(user_id)
   end
 
+  def self.search_kyu(search_key)
+    search = Sunspot.search(KyuEntry) do
+      fulltext search_key
+      order_by :publish_at, :desc
+    end
+    search.results
+  end
+
+  def self.post_date(kyu)
+    current_date = kyu.created_at.to_date
+    where("created_at >= ? and created_at <= ?",
+      current_date.beginning_of_day, current_date.end_of_day)
+  end
+
   private
+  def set_publish_date
+    self.publish_at = Time.now
+  end
+
   def create_kyu_entry_activity
     act_type = ActivityType.find_by_activity_type('kyu_entry.create')
     (self.create_activity :create, params: {"1"=> self.subject, "2"=> self.id})

@@ -3,15 +3,12 @@ class CommentsController < ApplicationController
   before_filter :find_comment, only: [:destroy, :edit, :show, :update]
 
   def create
-  @kyu_entry = KyuEntry.find(params[:kyu_entry_id])
+    @kyu_entry = KyuEntry.find(params[:kyu_entry_id])
     @comment = @kyu_entry.comments.build(params[:comment])
-    respond_to do |format|
-      if @comment.save
-        #send email notifications to everyone
-        new_comment = render_to_string(partial: "comment",
-          locals: {comment: @comment, kyu_entry: @comment.kyu_entry})
-        format.json { render json: new_comment.to_json }
-      end
+    if @comment.save
+      new_comment = render_to_string(partial: "comment",
+        locals: {comment: @comment, kyu_entry: @comment.kyu_entry})
+      render json: { new_comment: new_comment }
     end
   end
 
@@ -24,11 +21,8 @@ class CommentsController < ApplicationController
     end
   end
 
-  def edit
-  end
-
   def index
-    @kyu_entry = KyuEntry.find(comment.kyu_entry_id)
+    @kyu_entry = comment.kyu_entry
   end
 
   def new
@@ -46,13 +40,11 @@ class CommentsController < ApplicationController
     end
   end
 
-  # display all comments of a particular user
   def update
-    @kyu_entry = @comment.kyu_entry
     respond_to do |format|
       if @comment.update_attributes(params[:comment])
-        format.html { redirect_to @kyu_entry,
-                      notice: 'Comment was successfully updated.' }
+        format.html { redirect_to @comment.kyu_entry,
+          notice: 'Comment was successfully updated.' }
       else
         format.html { render 'edit' }
       end
@@ -60,15 +52,12 @@ class CommentsController < ApplicationController
   end
 
   def user_comment
-    @comments = Comment.list(params[:id])
-    # User = Active + Inactive(Deleted)
-    @user = User.with_deleted.where("id = ?", params[:id]).first
+    @user = User.get_user(user_id)
+    @comments = @user.comments
   end
 
-    protected
+  protected
     def find_comment
       @comment = Comment.find(params[:id])
     end
 end
-
-

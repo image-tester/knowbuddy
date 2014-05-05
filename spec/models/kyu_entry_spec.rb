@@ -37,9 +37,7 @@ describe KyuEntry do
     end
 
     it "should return kyu's for date" do
-      start = KyuEntry.first.created_at.to_date.beginning_of_day
-      stop = KyuEntry.first.created_at.to_date.end_of_day
-      kyu = KyuEntry.post_date(start, stop)
+      kyu = KyuEntry.post_date(KyuEntry.first)
       kyu.count.should == 4
       KyuEntry.count.should == 5
     end

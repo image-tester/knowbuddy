@@ -60,7 +60,7 @@ $(document).ready(function(){
   });
 
   $('body').on('ajax:success', '#new_comment', function(xhr, data, status) {
-    $("#latest_comment").prepend(data).fadeOut(200).fadeIn(2000)
+    $("#latest_comment").prepend(data.new_comment).fadeOut(200).fadeIn(2000)
     $('#comment_comment').val('')
     $("time.comment_time_ago").timeago();
   });

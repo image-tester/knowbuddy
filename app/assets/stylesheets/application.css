@@ -5,7 +5,7 @@
  *= require_self
  *= require base
  *= require scaffolds
- *= require jquery.ui.all
+ *= require jquery-ui-1.8.19.custom
  *= require style
  *= require facebox
  *= require validationEngine.jquery

@@ -1,8 +1,7 @@
 module ApplicationHelper
-
   def avatar_url(user, size)
-      gravatar_id = Digest::MD5.hexdigest(user.email.downcase)
-      "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{size}"
+    gravatar_id = Digest::MD5.hexdigest(user.email.downcase)
+    "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{size}"
   end
 
   def is_active?(page_name)
@@ -11,10 +10,9 @@ module ApplicationHelper
 
   def timeago_date_format(data)
     if(data.to_date > Date.today - 30.days)
-      result = timeago_tag data, nojs: true, limit: 30.days.ago,
-       class: "time_ago"
+      timeago_tag data, nojs: true, limit: 30.days.ago, class: "time_ago"
     else
-      result = data.strftime("%d-%b-%Y")
+      data.strftime("%d-%b-%Y")
     end
   end
 end

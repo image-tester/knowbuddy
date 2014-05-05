@@ -9,9 +9,6 @@ class Comment < ActiveRecord::Base
   delegate :subject, to: :kyu_entry, prefix: true
 
   default_scope order: 'created_at DESC'
-  scope :list, lambda { |user_id|
-    where('user_id = ?', user_id)
-  }
 
   after_save :solr_reindex_kyu
   after_destroy :solr_reindex_kyu

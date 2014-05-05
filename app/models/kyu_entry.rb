@@ -27,10 +27,6 @@ class KyuEntry < ActiveRecord::Base
   before_destroy :destroy_kyu_entry_activity, if: "deleted_at.blank?"
   around_save :create_new_tag_activity
 
-  scope :list, lambda { |user_id|
-    where('user_id = ?', user_id)
-  }
-
   default_scope order: 'created_at DESC'
 
   searchable do

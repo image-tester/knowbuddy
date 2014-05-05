@@ -8,15 +8,10 @@
         =simple_format(comment.comment)
     #comment_email
       by
-      - if user.name
-        = link_to user.name.titleize, controller: "comments",
-                                        action: "user_comment", id: comment.user_id
-      - else
-        = link_to user.email, controller: "comments",
-                                        action: "user_comment", id: comment.user_id
+      = link_to user.display_name, controller: "comments", action: "user_comment", id: comment.user_id
       = timeago_date_format(comment.created_at)
     #comment_edit
-      - if current_user.id == comment.user_id
+      - if current_user == comment.user
         = link_to image_tag("edit-pencil-icon.gif"), edit_kyu_entry_comment_path(kyu_entry, comment)
         = link_to image_tag("cross.png"), kyu_entry_comment_path(kyu_entry, comment), method: :delete, confirm: "Are you sure?", remote: true
       - else

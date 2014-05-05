@@ -42,6 +42,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def display_name
+    name.try(:titleize) || email
+  end
+
   def self.by_name_email
     with_deleted.joins(:kyu_entries).where('kyu_entries.deleted_at IS NULL').
     order('name, email').uniq

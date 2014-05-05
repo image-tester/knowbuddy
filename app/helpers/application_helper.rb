@@ -15,4 +15,17 @@ module ApplicationHelper
       data.strftime("%d-%b-%Y")
     end
   end
+
+  def kyu_link(kyu)
+    capture { link_to truncate(kyu.subject, length: 70), kyu_entry_path(kyu) }
+  end
+
+  def user_link(user)
+    capture { link_to user.display_name, kyu_entries_user_kyu_path(user_id: user.id) }
+  end
+
+  def kyu_date_link(kyu)
+    capture { link_to (timeago_date_format(kyu.created_at)),
+      kyu_entries_kyu_date_path(kyu_id: kyu.id) }
+  end
 end

@@ -21,7 +21,7 @@ class KyuEntriesController < ApplicationController
     attachment = params[:kyu_entry].delete :attachment
     params[:kyu_entry].merge!(user_id: current_user.id)
     params[:kyu_entry].merge!(publish_at: Time.now)
-    kyu_entry = KyuEntry.new(params[:kyu_entry])    
+    kyu_entry = KyuEntry.new(params[:kyu_entry])
     respond_to do |format|
       if kyu_entry.save
         attachments = params[:attachments_field].split(",")
@@ -78,7 +78,7 @@ class KyuEntriesController < ApplicationController
       format.html
       format.js {render :render_contributors_pagination}
       format.json { render json: @kyu_entries }
-    end    
+    end
   end
 
   def kyu_date
@@ -95,9 +95,7 @@ class KyuEntriesController < ApplicationController
     @kyu_entry = KyuEntry.new
     new_kyu = render_to_string(partial: "newentry",
               locals: {kyu_entry: @kyu_entry})
-    respond_to do |format|
-      format.json { render json: new_kyu.to_json }
-    end
+    render json: { new_kyu: new_kyu }
   end
 
   def parse_content
@@ -110,7 +108,7 @@ class KyuEntriesController < ApplicationController
    respond_to do |format|
       format.html
       format.js {render :render_contributors_pagination}
-   end    
+   end
   end
 
   def render_contributors_pagination
@@ -118,7 +116,7 @@ class KyuEntriesController < ApplicationController
       format.js
     end
   end
-  
+
   def remove_tag
     @kyu_entry.tag_list.remove(params[:tag])
     @kyu_entry.save
@@ -134,7 +132,7 @@ class KyuEntriesController < ApplicationController
       @kyus_searched = @search.results
       respond_to do |format|
         format.html
-        format.js {render :render_contributors_pagination}        
+        format.js {render :render_contributors_pagination}
         format.json { render json: @kyus_searched }
       end
     end
@@ -193,5 +191,5 @@ class KyuEntriesController < ApplicationController
     def tag_cloud
       @tag_cloud_hash = KyuEntry.tag_cloud
     end
-        
+
 end

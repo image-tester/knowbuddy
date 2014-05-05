@@ -1,17 +1,22 @@
 class Attachment < ActiveRecord::Base
-attr_accessible :kyu_entry_id, :created_at, :updated_at, :kyu
+  attr_accessible :kyu_entry_id, :created_at, :updated_at, :kyu
 
-belongs_to :kyu_entry
+  belongs_to :kyu_entry
 
-validates_attachment_content_type :kyu, content_type: ['image/jpeg',
-  'image/png', 'image/gif', 'image/jpg', 'application/pdf',
-  'application/msword', 'text/plain', 'text/html',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+  IMAGE_FORMATS = ["image/jpeg", "image/png", "image/gif", "image/jpg"]
 
-has_attached_file :kyu,
-  styles: lambda{ |a| ["image/jpeg", "image/png", "image/gif",
-    "image/jpg"].include?(a.content_type) ? { medium: "300x300>",
-    thumb: ["90x90#", :png] } : {} },
-  path: ":rails_root/public/uploaded_files/:attachment/:id/:style/:filename",
-  url: "/uploaded_files/:attachment/:id/:style/:filename"
+  ATTACHMENT_FORMATS = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg',
+    'application/pdf', 'application/msword', 'text/plain', 'text/html',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+
+  IMAGE_STYLES = { 
+    medium: "300x300>",
+    thumb: ["90x90#", :png] }
+
+  has_attached_file :kyu,
+    styles: lambda{ |a| IMAGE_FORMATS.include?(a.content_type) ? IMAGE_STYLES : {} },
+    path: ":rails_root/public/uploaded_files/:attachment/:id/:style/:filename",
+    url: "/uploaded_files/:attachment/:id/:style/:filename"
+
+  validates_attachment_content_type :kyu, content_type: ATTACHMENT_FORMATS
 end

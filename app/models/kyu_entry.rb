@@ -39,20 +39,9 @@ class KyuEntry < ActiveRecord::Base
     text :content, :subject
     time :publish_at
     time :created_at
-    text :comments do
-      comments.map { |c| c.user.name }
-      comments.map(&:comment)
-    end
-    text :user do
-      user.name unless user.blank?
-    end
-    text :comments do
-      comments.map { |c| c.user.name}
-      comments.map(&:comment)
-    end
-    text :tags do
-      tags.map {|tag| tag.name}
-    end
+    text(:user) { user.try(:name) }
+    text(:tags) { tags.pluck(:name) }
+    text(:comments) { comments.pluck(:comment) }
   end
 
   def to_s
@@ -78,11 +67,11 @@ class KyuEntry < ActiveRecord::Base
         @tag_cloud_hash[tag] = size if size > 4
       end
     end
-    return @tag_cloud_hash
+    @tag_cloud_hash
   end
 
   def user
-    return User.with_deleted.find(self.user_id)
+    User.with_deleted.find(user_id)
   end
 
   private

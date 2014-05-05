@@ -1,8 +1,12 @@
 FactoryGirl.define do
-  factory :kyu_entry, :class => KyuEntry do |kyu|
-    kyu.association :user
-    kyu.subject              { Faker::Name.name }
-    kyu.content              { Faker::Name.name }
+  factory :kyu_entry do
+    association :user
+    subject { Faker::Name.name }
+    content { Faker::Name.name }
+    created_at { Time.now }
+
+    before(:create) do
+      fetch_activity_type('kyu_entry.create')
+    end
   end
 end
-

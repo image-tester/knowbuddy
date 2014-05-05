@@ -2,20 +2,20 @@ require 'spec_helper'
 
 describe "kyu_entries/edit.html.haml" do
   before :each do
-    @user = User.create(name: 'user1', email: 'test@kiprosh.com', password: 'password',
-      password_confirmation: 'password')
-    @kyu_entry = KyuEntry.create(subject: "Subject",content: "MyText", user_id: @user.id)
+    @user = create :user
+    @kyu_entry = create :kyu_entry, user: @user
     sign_in @user
-      assign(:users,
-    Kaminari.paginate_array([stub_model(User, name: "xyz",
-      email: 'test@kiprosh.com',
-      password: 'password',
-      password_confirmation: 'password'),
-    stub_model(User, name: "xyz",
-      email: 'test@kiprosh.com',
-      password: 'password',
-      password_confirmation: 'password')]).page(1).per(5)
-  )
+
+    assign(:users,
+      Kaminari.paginate_array([stub_model(User, name: "xyz",
+        email: 'test@kiprosh.com',
+        password: 'password',
+        password_confirmation: 'password'),
+      stub_model(User, name: "xyz",
+        email: 'test@kiprosh.com',
+        password: 'password',
+        password_confirmation: 'password')]).page(1).per(5)
+    )
   end
 
   it "renders the edit kyu_entry form" do

@@ -1,11 +1,9 @@
 require 'spec_helper'
 
 describe HomeController do
-
   describe "GET 'index'" do
-    before :each do
-      @user = User.create(email: 'rspec@kiprosh.com', password: 'password',
-        password_confirmation: 'password', name: 'xyz')
+    before do
+      @user = create :user
       sign_in @user
     end
 

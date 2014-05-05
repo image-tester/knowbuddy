@@ -2,17 +2,14 @@ require "spec_helper"
 
 describe UserMailer do
 
-  before :all do
-    User.delete_all!
-    @user_1 = User.create(name: 'User1', email: 'test@kiprosh.com', password: 'password',
-      password_confirmation: 'password')
-    @user_2 = User.create(name: 'User2', email: 'inactive@kiprosh.com', password: 'inactive',
-      password_confirmation: 'inactive')
-    @user_3 = create(:user)
+  before do
+    @user_1 = create :user, name: "John"
+    @user_2 = create :user
+    @user_3 = create :user
     @user_2.delete!
-    @kyu_entry = KyuEntry.create(subject: 'Swimming', content: 'freestyle', user_id: @user_1.id)
-    @comment = Comment.create(user_id: @user_1.id, comment: 'Good Info', kyu_entry_id: @kyu_entry.id)
-    @mail_receivers = User.where("id != ?", @kyu_entry.user_id)
+    @kyu_entry = create :kyu_entry, user: @user_1
+    @comment = create :comment, user: @user_1, kyu_entry: @kyu_entry
+    @mail_receivers = User.where("id <> ?", @kyu_entry.user_id)
   end
 
   describe "send notification on new Comment " do
@@ -60,14 +57,14 @@ describe UserMailer do
   describe "send mail to user for no post on knowbuddy" do
     let(:mail) { UserMailer.no_post_notification(@user_3) }
     it "user should receive notification mail for no post" do
-      mail.subject.should eq("No post notification")
+      mail.subject.should eq("Your knowledge buddy is waiting for you")
     end
   end
 
   describe "send mail to user for less then five post on knowbuddy" do
     let(:mail) { UserMailer.less_post_notification(@user_1) }
     it "user should receive notification mail for less post" do
-      mail.subject.should eq("Less post notification")
+      mail.subject.should eq("Please share your knowledge in Knowbuddy")
     end
   end
 end

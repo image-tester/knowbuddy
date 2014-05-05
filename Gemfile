@@ -29,12 +29,13 @@ gem 'whenever', :require => false
 group :development, :test do
   gem 'capybara'
   gem 'debugger'
-  gem 'faker'
   gem 'factory_girl_rails'
+  gem 'faker'
   gem 'haml-rails'
   gem 'hpricot'
   gem 'rails_best_practices'
   gem 'rspec-rails'
+  gem 'shoulda'
   gem 'selenium'
   gem 'web-app-theme', git: 'git://github.com/pilu/web-app-theme.git'
 end
@@ -46,6 +47,6 @@ group :assets do
 end
 
 group :test do        
-  #gem 'shoulda',          git: 'git://github.com/3den/shoulda.git'    
+  gem 'database_cleaner'
   gem 'sunspot_matchers'
 end

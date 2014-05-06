@@ -82,7 +82,7 @@ describe KyuEntry do
 
     describe 'after_create' do
       it 'should run the proper callbacks' do
-        kyu_entry.should_receive(:create_kyu_entry_activity)
+        kyu_entry.should_receive(:create_post_activity)
         kyu_entry.run_callbacks(:create)
       end
     end
@@ -96,14 +96,14 @@ describe KyuEntry do
 
     describe 'after_update' do
       it 'should run the proper callbacks' do
-        kyu_entry.should_receive(:update_kyu_entry_activity)
+        kyu_entry.should_receive(:update_post_activity)
         kyu_entry.run_callbacks(:update)
       end
     end
 
     describe 'before_destroy' do
       it 'should run the proper callbacks' do
-        kyu_entry.should_receive(:destroy_kyu_entry_activity)
+        kyu_entry.should_receive(:destroy_post_activity)
         kyu_entry.run_callbacks(:destroy)
       end
     end

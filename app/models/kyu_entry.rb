@@ -96,7 +96,7 @@ class KyuEntry < ActiveRecord::Base
     end
 
     def create_post_activity
-      post_activity('create')
+      Activity.add_activity('create',self)
     end
 
     def create_new_tag_activity
@@ -112,16 +112,10 @@ class KyuEntry < ActiveRecord::Base
     end
 
     def update_post_activity
-      post_activity('update')
+      Activity.add_activity('update',self)
     end
 
     def destroy_post_activity
-      post_activity('destroy')
-    end
-
-    def post_activity(key)
-      new_act = create_activity key.to_sym, owner: user, params: activity_params
-      act_type = ActivityType.get_type(new_act.key)
-      new_act.update_column :activity_type_id, act_type.id
+      Activity.add_activity('destroy',self)
     end
 end

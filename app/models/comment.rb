@@ -32,20 +32,14 @@ class Comment < ActiveRecord::Base
     end
 
     def create_comment_activity
-      comment_activity('create')
+      Activity.add_activity('create',self)
     end
 
     def update_comment_activity
-      comment_activity('update')
+      Activity.add_activity('update',self)
     end
 
     def destroy_comment_activity
-      comment_activity('destroy')
-    end
-
-    def comment_activity(action)
-      new_act = create_activity action.to_sym, owner: user, params: activity_params
-      act_type = ActivityType.get_type(new_act.key)
-      new_act.update_column :activity_type_id, act_type.id
+      Activity.add_activity('destroy',self)
     end
 end

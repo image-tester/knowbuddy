@@ -13,4 +13,8 @@ class ActivityType < ActiveRecord::Base
   def deactivate
     update_attribute :is_active, false
   end
+
+  def self.get_type(key)
+    find_by_activity_type(key)
+  end
 end

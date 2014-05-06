@@ -63,9 +63,8 @@ class User < ActiveRecord::Base
     end
 
     def create_user_activity
-      act_type = ActivityType.find_by_activity_type('user.create')
-      (self.create_activity :create, params: {"1"=> self.name})
-          .tap{|a| a.owner_id = self.id; a.owner_type = 'User';
-           a.activity_type_id = act_type.id; a.save} unless act_type.blank?
+      new_act = create_activity :create, owner: self
+      act_type = ActivityType.get_type(new_act.key)
+      new_act.update_column :activity_type_id, act_type.id
     end
 end

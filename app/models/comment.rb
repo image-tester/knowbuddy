@@ -13,7 +13,7 @@ class Comment < ActiveRecord::Base
   after_save :solr_reindex_kyu
   after_destroy :solr_reindex_kyu
 
-  after_create :comment_activity
+  after_create :create_comment_activity
   after_update :update_comment_activity
   before_destroy :destroy_comment_activity
 

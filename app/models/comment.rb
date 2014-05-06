@@ -22,7 +22,7 @@ class Comment < ActiveRecord::Base
   end
 
   def activity_params
-    {"1"=> kyu_entry.subject, "2" => kyu_entry.id}
+    {"post_subject"=> kyu_entry.subject, "post_id" => kyu_entry.id}
   end
 
   private

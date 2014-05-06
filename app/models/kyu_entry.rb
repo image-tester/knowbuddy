@@ -87,7 +87,7 @@ class KyuEntry < ActiveRecord::Base
   end
 
   def activity_params
-    {"1"=> subject, "2" => id}
+    {"post_subject"=> subject, "post_id" => id}
   end
 
   private
@@ -107,7 +107,7 @@ class KyuEntry < ActiveRecord::Base
 
     def tag_activity(newTag)
       act_type = ActivityType.get_type('kyu_entry.newTag')
-      new_act = create_activity key: 'kyu_entry.newTag', owner: user, params: {"1"=> newTag}
+      new_act = create_activity key: 'kyu_entry.newTag', owner: user, params: {"tag"=> newTag}
       new_act.update_column :activity_type_id, act_type.id
     end
 

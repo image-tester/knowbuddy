@@ -51,6 +51,10 @@ class User < ActiveRecord::Base
     order('name, email').uniq
   end
 
+  def activity_params
+    { "user" => name }
+  end
+
   private
     #Added by Rohan.
     #Functionality - Send email notification to user upon new account signup
@@ -63,8 +67,6 @@ class User < ActiveRecord::Base
     end
 
     def create_user_activity
-      new_act = create_activity :create, owner: self
-      act_type = ActivityType.get_type(new_act.key)
-      new_act.update_column :activity_type_id, act_type.id
+      Activity.add_activity('create',self)
     end
 end

@@ -1,6 +1,2 @@
 commented on article
-- if activity.trackable
-  = link_to activity.trackable.kyu_entry.subject, activity.trackable.kyu_entry
-- else
-  = link_to activity.parameters["1"], kyu_entry_path(id: activity.parameters["2"])
-%span>.
+= render partial: "public_activity/comment/post_link", locals: { activity: activity }

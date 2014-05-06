@@ -28,4 +28,8 @@ module ApplicationHelper
     capture { link_to (timeago_date_format(kyu.created_at)),
       kyu_entries_kyu_date_path(kyu_id: kyu.id) }
   end
+
+  def post_exist?(post)
+    post && KyuEntry.find(post)
+  end
 end

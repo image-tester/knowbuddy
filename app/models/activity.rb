@@ -12,7 +12,7 @@ class Activity < PublicActivity::Activity
 
   def self.add_activity(action, record)
     new_act = record.create_activity action.to_sym,
-      owner: record.user,
+      owner: (record.kind_of? User) ? record : record.user,
       params: record.activity_params
     act_type = ActivityType.get_type(new_act.key)
     new_act.update_column :activity_type_id, act_type.id

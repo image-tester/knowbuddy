@@ -9,7 +9,7 @@ class AttachmentsController < ApplicationController
   def update
     attachment = params[:files].first
     @attachment = Attachment.create(kyu: attachment)
-    @attachment.kyu_entry_id = params[:kyu_id]
+    @attachment.post_id = params[:post_id]
     render_output(@attachment)
   end
 
@@ -24,7 +24,7 @@ class AttachmentsController < ApplicationController
       if attach.save
         format.json {
           attachment = render_to_string(
-            partial: "kyu_entries/attachments.html.haml",
+            partial: "posts/attachments.html.haml",
             locals: { a: attach })
           render json: { attachment: attachment, id: attach.id }
         }

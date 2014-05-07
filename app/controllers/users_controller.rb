@@ -5,7 +5,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update_with_password(params[:user])
         sign_in @user, bypass: true
-        format.html { redirect_to kyu_entries_path,
+        format.html { redirect_to posts_path,
           notice: 'Password was successfully updated.' }
         format.json { head :ok }
       else

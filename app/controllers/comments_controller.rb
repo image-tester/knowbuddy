@@ -3,26 +3,26 @@ class CommentsController < ApplicationController
   before_filter :find_comment, only: [:destroy, :edit, :show, :update]
 
   def create
-    @kyu_entry = KyuEntry.find(params[:kyu_entry_id])
-    @comment = @kyu_entry.comments.build(params[:comment])
+    @post = Post.find(params[:post_id])
+    @comment = @post.comments.build(params[:comment])
     if @comment.save
       new_comment = render_to_string(partial: "comment",
-        locals: {comment: @comment, kyu_entry: @comment.kyu_entry})
+        locals: {comment: @comment, post: @comment.post})
       render json: { new_comment: new_comment }
     end
   end
 
   def destroy
-  @kyu_entry = KyuEntry.find(params[:kyu_entry_id])
-  @comment.destroy
+    @post = Post.find(params[:post_id])
+    @comment.destroy
     respond_to do |format|
-     format.html { redirect_to @kyu_entry }
+     format.html { redirect_to @post }
      format.js
     end
   end
 
   def index
-    @kyu_entry = comment.kyu_entry
+    @post = comment.post
   end
 
   def new
@@ -43,7 +43,7 @@ class CommentsController < ApplicationController
   def update
     respond_to do |format|
       if @comment.update_attributes(params[:comment])
-        format.html { redirect_to @comment.kyu_entry,
+        format.html { redirect_to @comment.post,
           notice: 'Comment was successfully updated.' }
       else
         format.html { render 'edit' }

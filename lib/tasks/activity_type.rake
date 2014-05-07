@@ -3,17 +3,27 @@ namespace :populate do
   task activity_types: :environment do
     puts "Start rake task..."
     [
-      [activity_type: 'kyu_entry.create', is_active: true],
-      [activity_type: 'kyu_entry.update', is_active: true],
-      [activity_type: 'kyu_entry.destroy', is_active: true],
+      [activity_type: 'post.create', is_active: true],
+      [activity_type: 'post.update', is_active: true],
+      [activity_type: 'post.destroy', is_active: true],
       [activity_type: 'comment.create', is_active: true],
       [activity_type: 'comment.update', is_active: true],
       [activity_type: 'comment.destroy', is_active: true],
       [activity_type: 'user.create', is_active: true],
-      [activity_type: 'kyu_entry.newTag', is_active: true]
+      [activity_type: 'post.newTag', is_active: true]
     ].each do |activity|
       ActivityType.create(activity)
       puts "Actvity type #{activity[0].flatten[1]} is created."
+    end
+    puts "End rake task..."
+  end
+
+  task update_activity_types: :environment do
+    puts "Start rake task..."
+    post_activities = ActivityType.where("activity_type LIKE ?",  "kyu_entry%")
+    post_activities.each do |activity|
+      activity_type = activity.activity_type.gsub!("kyu_entry", "post")
+      activity.update_column(:activity_type, activity_type)
     end
     puts "End rake task..."
   end

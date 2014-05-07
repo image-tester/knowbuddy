@@ -2,7 +2,7 @@ namespace :email do
   desc "send Mail to users who did not posted an article yet"
   task no_post_notifications: :environment do
     puts "Start task no_post_notifications"
-    users_with_no_post = User.where("id not in (?)", KyuEntry.pluck(:user_id).uniq)
+    users_with_no_post = User.where("id not in (?)", Post.pluck(:user_id).uniq)
     users_with_no_post.each do |user|
       puts "Enqueued #{user.email}"
       Resque.enqueue(NoPostNotification, user)

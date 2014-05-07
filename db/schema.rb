@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131004141702) do
+ActiveRecord::Schema.define(:version => 20140506091109) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(:version => 20131004141702) do
   add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
 
   create_table "attachments", :force => true do |t|
-    t.integer  "kyu_entry_id"
+    t.integer  "post_id"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
     t.string   "kyu_file_name"
@@ -84,14 +84,15 @@ ActiveRecord::Schema.define(:version => 20131004141702) do
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
     t.text     "comment"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.integer  "kyu_entry_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "post_id"
   end
 
-  add_index "comments", ["user_id", "kyu_entry_id"], :name => "index_comments_on_user_id_and_kyu_entry_id"
+  add_index "comments", ["user_id", "post_id"], :name => "index_comments_on_user_id_and_kyu_entry_id"
+  add_index "comments", ["user_id", "post_id"], :name => "index_comments_on_user_id_and_post_id"
 
-  create_table "kyu_entries", :force => true do |t|
+  create_table "posts", :force => true do |t|
     t.string   "subject"
     t.text     "content"
     t.datetime "publish_at"
@@ -102,8 +103,8 @@ ActiveRecord::Schema.define(:version => 20131004141702) do
     t.datetime "deleted_at"
   end
 
-  add_index "kyu_entries", ["slug"], :name => "index_kyu_entries_on_slug", :unique => true
-  add_index "kyu_entries", ["user_id"], :name => "index_kyu_entries_on_user_id"
+  add_index "posts", ["slug"], :name => "index_kyu_entries_on_slug", :unique => true
+  add_index "posts", ["user_id"], :name => "index_kyu_entries_on_user_id"
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"

@@ -24,7 +24,7 @@ ActiveAdmin.register Post, as: "Posts"  do
     id_column
     column :subject
     column :user do |post|
-      post.user.name || post.user.email
+      post.user.display_name
     end
     column :publish_at
     column "Actions" do |post|
@@ -32,6 +32,19 @@ ActiveAdmin.register Post, as: "Posts"  do
         #{link_to 'Edit', edit_admin_post_path(post), method: :get}
         #{link_to 'Delete', admin_post_path(post), method: :delete,
         confirm: "Are you sure you want to delete this Post permanently ?"}"
+    end
+  end
+
+  show do |post|
+    attributes_table do
+      row :subject
+      row :content
+      row :user do |post|
+        post.user.active? ? post.user : post.user.display_name
+      end
+      row :slug
+      row :created_at
+      row :updated_at
     end
   end
 

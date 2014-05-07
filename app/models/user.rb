@@ -55,6 +55,10 @@ class User < ActiveRecord::Base
     { "user" => name }
   end
 
+  def active?
+    deleted_at.blank?
+  end
+
   private
     #Added by Rohan.
     #Functionality - Send email notification to user upon new account signup

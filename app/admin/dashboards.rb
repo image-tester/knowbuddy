@@ -5,20 +5,20 @@ ActiveAdmin::Dashboards.build do
   section "Recent Posts", priority: 1 do
     table_for Post.order('id desc').limit(10) do
       column("Subject") {|post| post.subject }
-      column("Contributor") {|post| post.user.name || post.user.email }
+      column("Contributor") {|post| post.user.display_name }
     end
   end
 
   section "Posts", priority: 2 do
     table_for User.limit(10) do
-      column("Contributor") {|user| user.name || user.email}
+      column("Contributor") {|user| user.display_name}
       column("Posts Count") {|user| user.posts.count }
     end
   end
 
   section "Visits", priority: 3 do
     table_for User.order('sign_in_count desc').limit(10) do
-      column("Contributor") {|user| user.name || user.email}
+      column("Contributor") {|user| user.display_name }
       column("visit count") {|user| user.sign_in_count }
     end
   end

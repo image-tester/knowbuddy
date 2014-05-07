@@ -1,19 +1,6 @@
 KYU::Application.routes.draw do
   mount Resque::Server.new, at: "/resque"
 
-  match '/kyu_entries/remove_tag' => 'kyu_entries#remove_tag'
-
-  match '/kyu_entries/related_tag' => 'kyu_entries#related_tag',
-                                      as: 'related_tag'
-
-  match '/kyu_entries/render_contributors_pagination' => 'kyu_entries#render_contributors_pagination'
-
-  match '/kyu_entries/search' => 'kyu_entries#search'
-
-  match '/kyu_entries/kyu_date' => 'kyu_entries#kyu_date'
-
-  match '/kyu_entries/user_kyu' => 'kyu_entries#user_kyu'
-
   match '/comments/user_comment/:id' => 'comments#user_comment'
   match '/admin/deleted_posts/restore/:id' =>
                               'admin/deleted_posts#restore'
@@ -29,8 +16,6 @@ KYU::Application.routes.draw do
   match '/admin/users/delete/:id' =>
                               'admin/users#delete'
 
-  match '/kyu_entries/parse_content' => 'kyu_entries#parse_content'
-
   match '/admin/activity_types/activate/:id' =>
                               'admin/activity_types#activate'
 
@@ -40,8 +25,17 @@ KYU::Application.routes.draw do
  # match '/attachments/edit/:id' => 'attachments#create'
 
   resources :attachments, only: [:create, :destroy]
-  resources :kyu_entries do
-    get :autocomplete_tag_name, on: :collection
+  resources :posts do
+    collection do
+      get :autocomplete_tag_name
+      get :remove_tag
+      get :related_tag
+      get :render_contributors_pagination
+      get :search
+      get :post_date
+      get :user_posts
+      post :parse_content
+    end
     resources :comments, except: [:index]
   end
 
@@ -56,5 +50,5 @@ KYU::Application.routes.draw do
   get "home/index"
 
   #root to: "home#index"
-  root to: "kyu_entries#index"
+  root to: "posts#index"
 end

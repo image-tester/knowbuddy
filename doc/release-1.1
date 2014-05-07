@@ -2,3 +2,9 @@
 
 # to replace hardcoded parameters hash keys in activity
 RAILS_ENV=production bundle exec rake activity:update_parameter_hash_keys
+
+# to update activity_types
+RAILS_ENV=production bundle exec rake populate:update_activity_types
+
+# to update trackble_type with keys for Post activities
+RAILS_ENV=production bundle exec rake activity:update_trackable_type_with_keys

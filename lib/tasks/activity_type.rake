@@ -18,6 +18,7 @@ namespace :populate do
     puts "End rake task..."
   end
 
+  desc "Update existing activity_type for Post"
   task update_activity_types: :environment do
     puts "Start rake task..."
     post_activities = ActivityType.where("activity_type LIKE ?",  "kyu_entry%")

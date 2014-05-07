@@ -30,9 +30,8 @@ namespace :activity do
     post_activities = Activity.where(trackable_type: "KyuEntry")
     post_activities.find_in_batches(batch_size: 100) do |activities|
       activities.each do |activity|
-        activity.key = activity.key.gsub!("kyu_entry", "post")
-        activity.trackable_type = "Post"
-        activity.save
+        updated_key = activity.key.gsub("kyu_entry", "post")
+        activity.update_attributes({key: updated_key, trackable_type: "Post"})
       end
     end
     puts "Done"

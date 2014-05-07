@@ -1,7 +1,7 @@
 class Attachment < ActiveRecord::Base
-  attr_accessible :kyu_entry_id, :created_at, :updated_at, :kyu
+  attr_accessible :post_id, :created_at, :updated_at, :kyu
 
-  belongs_to :kyu_entry
+  belongs_to :post
 
   IMAGE_FORMATS = ["image/jpeg", "image/png", "image/gif", "image/jpg"]
 

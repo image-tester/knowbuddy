@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
     :recoverable, :rememberable, :trackable, :validatable, :timeoutable
 
   has_many :comments
-  has_many :kyu_entries
+  has_many :posts
 
   validates_presence_of :name
 
@@ -23,10 +23,10 @@ class User < ActiveRecord::Base
   end
 
   def self.top3
-    self.with_deleted.joins(:kyu_entries).
+    self.with_deleted.joins(:posts).
       select('users.name, users.email, users.id, COUNT(*) as total').
-      where('kyu_entries.deleted_at IS NULL').
-      group('kyu_entries.user_id').order('total DESC').limit(3)
+      where('posts.deleted_at IS NULL').
+      group('posts.user_id').order('total DESC').limit(3)
   end
 
   def self.get_user(user_id)
@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
   end
 
   def self.by_name_email
-    with_deleted.joins(:kyu_entries).where('kyu_entries.deleted_at IS NULL').
+    with_deleted.joins(:posts).where('posts.deleted_at IS NULL').
     order('name, email').uniq
   end
 

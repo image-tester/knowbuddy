@@ -7,27 +7,27 @@ describe UserMailer do
     @user_2 = create :user
     @user_3 = create :user
     @user_2.delete!
-    @kyu_entry = create :kyu_entry, user: @user_1
-    @comment = create :comment, user: @user_1, kyu_entry: @kyu_entry
-    @mail_receivers = User.where("id <> ?", @kyu_entry.user_id)
+    @post = create :post, user: @user_1
+    @comment = create :comment, user: @user_1, post: @post
+    @mail_receivers = User.where("id <> ?", @post.user_id)
   end
 
   describe "send notification on new Comment " do
     let(:mail) { UserMailer.send_notification_on_new_Comment(@mail_receivers, @comment) }
     it "inactive user should not receive notification email" do
-      mail.subject.should eq(@user_1.name + " posted a comment for " + @kyu_entry.subject)
+      mail.subject.should eq(@user_1.name + " posted a comment for " + @post.subject)
       mail.bcc.first.should eq(@user_3.email)
       mail.bcc.second.should_not eq(@user_2.email)
     end
 
     it "User who posted comment should not receive mail" do
-      mail.subject.should eq(@user_1.name + " posted a comment for " + @kyu_entry.subject)
+      mail.subject.should eq(@user_1.name + " posted a comment for " + @post.subject)
       expect(mail.bcc.include?(@user_1.email)).to be_false
     end
   end
 
-  describe "send notification on new KYU " do
-    let(:mail) { UserMailer.send_notification_on_new_KYU(@mail_receivers, @kyu_entry) }
+  describe "send notification on new Post " do
+    let(:mail) { UserMailer.send_notification_on_new_Post(@mail_receivers, @post) }
     it "inactive user should not receive notification email" do
       mail.subject.should eq(@user_1.name + " posted a new article on KnowBuddy")
       mail.bcc.first.should eq(@user_3.email)

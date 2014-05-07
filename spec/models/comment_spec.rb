@@ -4,13 +4,13 @@ describe Comment do
 
   describe 'Associations' do
     it { should belong_to :user }
-    it { should belong_to :kyu_entry }
+    it { should belong_to :post }
   end
 
   describe 'Database Columns' do
     it { should have_db_column(:comment).of_type(:text) }
     it { should have_db_column(:user_id).of_type(:integer) }
-    it { should have_db_column(:kyu_entry_id).of_type(:integer) }
+    it { should have_db_column(:post_id).of_type(:integer) }
     it { should have_db_column(:created_at).of_type(:datetime) }
     it { should have_db_column(:updated_at).of_type(:datetime) }
   end
@@ -21,8 +21,8 @@ describe Comment do
 
   before do
     @user = create :user
-    @kyu = create :kyu_entry, user: @user
-    @comment = create :comment, kyu_entry: @kyu, user: @user
+    @post = create :post, user: @user
+    @comment = create :comment, post: @post, user: @user
   end
 
   describe 'create_comment_activity' do

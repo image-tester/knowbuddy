@@ -4,11 +4,11 @@ describe AttachmentsController do
 
   before do
     user = create :user
-    kyu = create :kyu_entry, user: user
+    post = create :post, user: user
     sign_in user
 
     file = File.new('spec/fixtures/docs/sample.txt')
-    2.times { Attachment.create(kyu: file, kyu_entry_id: kyu.id) }
+    2.times { Attachment.create(kyu: file, post_id: post.id) }
   end
 
   describe "Delete attachments" do

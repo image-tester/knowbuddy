@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :comment do
-    association :kyu_entry
+    association :post
     association :user
     comment { Faker::Name.name }
 

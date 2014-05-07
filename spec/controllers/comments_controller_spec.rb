@@ -2,18 +2,18 @@ require 'spec_helper'
 
 describe CommentsController do
   before do
-    @kyu = create :kyu_entry
+    @post = create :post
     @comment_active = create :comment
     @user_active = @comment_active.user
 
-    @kyu_new = create :kyu_entry
+    @post_new = create :post
     @comment_inactive = create :comment
     @user_inactive = @comment_inactive.user
 
-    @comment_act = create(:comment, user: @user_active, kyu_entry: @kyu_new)
-    @comment_inact = create(:comment, user: @user_inactive, kyu_entry: @kyu)
+    @comment_act = create(:comment, user: @user_active, post: @post_new)
+    @comment_inact = create(:comment, user: @user_inactive, post: @post)
 
-    @comment_del = create(:comment, user: @user_active, kyu_entry: @kyu_new)
+    @comment_del = create(:comment, user: @user_active, post: @post_new)
     @user_inactive.destroy
   end
 

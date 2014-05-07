@@ -5,7 +5,7 @@ describe "User" do
     before do
       4.times do |n|
         user = create :user
-        user.kyu_entries = create_list :kyu_entry, n, user: user
+        user.posts = create_list :post, n, user: user
       end
     end
 

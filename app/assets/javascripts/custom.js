@@ -116,7 +116,7 @@ $(document).ready(function(){
     else
     {
       newpostlink('#home_pg',this)
-      $("#new_kyu").empty().append(data.new_kyu).slideDown(2000)
+      $("#new_kyu").empty().append(data.new_post).slideDown(2000)
       preview()
       makeflieupload()
       $('#textarea_kyu_content').markItUp(mySettings);

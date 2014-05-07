@@ -2,13 +2,13 @@ class AttachmentsController < ApplicationController
 
   def create
     attachment = params[:files].first
-    @attachment = Attachment.create(kyu: attachment)
+    @attachment = Attachment.create(post: attachment)
     render_output(@attachment)
   end
 
   def update
     attachment = params[:files].first
-    @attachment = Attachment.create(kyu: attachment)
+    @attachment = Attachment.create(post: attachment)
     @attachment.post_id = params[:post_id]
     render_output(@attachment)
   end

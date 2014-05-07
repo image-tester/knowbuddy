@@ -18,7 +18,7 @@
                   class: is_active?("index"), id: "home_pg"
               %li
                 = link_to t("web-app-theme.newpost", default: "New Post"),
-                  new_post_path(new_kyu: true), id: 'new_entry', remote: true
+                  new_post_path(new_post: true), id: 'new_entry', remote: true
               %li
                 = link_to t("web-app-thme.profile", default: "Profile"),
                   edit_user_path(current_user), class: is_active?("edit")

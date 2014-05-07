@@ -7,9 +7,9 @@
   = f.hidden_field :user_id, { value: current_user.id }
 .group
   = f.label :content, t("activerecord.attributes.post.content", default: "Attachments"), class: :label
-  - if params[:new_kyu].present?
+  - if params[:new_post].present?
     = render "newform"
-  - elsif params[:edit_kyu].present?
+  - elsif params[:edit_post].present?
     = render "editform"
     #kyu_attachment
       - post.attachments.each do |a|

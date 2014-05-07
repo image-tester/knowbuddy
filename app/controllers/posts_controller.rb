@@ -80,9 +80,9 @@ class PostsController < ApplicationController
   def new
     Post.invalid_attachments
     @post = Post.new
-    new_kyu = render_to_string(partial: "newentry",
+    new_post = render_to_string(partial: "newentry",
       locals: {post: @post})
-    render json: { new_kyu: new_kyu }
+    render json: { new_post: new_post }
   end
 
   def parse_content

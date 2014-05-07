@@ -20,7 +20,7 @@ gem 'rails-timeago'
 gem 'RedCloth'
 gem 'resque', :require => 'resque/server'
 gem 'sass'
-gem "sass-rails", "~> 3.2.6" 
+gem "sass-rails", "~> 3.2.6"
 gem 'sunspot_rails'
 gem 'sunspot_solr'
 gem 'whenever', :require => false
@@ -36,6 +36,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda'
   gem 'selenium'
+  gem 'sextant'
   gem 'web-app-theme', git: 'git://github.com/pilu/web-app-theme.git'
 end
 
@@ -45,7 +46,7 @@ group :assets do
   gem 'uglifier'
 end
 
-group :test do        
+group :test do
   gem 'database_cleaner'
   gem 'sunspot_matchers'
 end

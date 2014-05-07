@@ -8,7 +8,7 @@ describe AttachmentsController do
     sign_in user
 
     file = File.new('spec/fixtures/docs/sample.txt')
-    2.times { Attachment.create(kyu: file, post_id: post.id) }
+    2.times { Attachment.create(post: file, post_id: post.id) }
   end
 
   describe "Delete attachments" do

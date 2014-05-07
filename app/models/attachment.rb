@@ -1,5 +1,5 @@
 class Attachment < ActiveRecord::Base
-  attr_accessible :post_id, :created_at, :updated_at, :kyu
+  attr_accessible :post_id, :created_at, :updated_at, :post
 
   belongs_to :post
 
@@ -13,10 +13,10 @@ class Attachment < ActiveRecord::Base
     medium: "300x300>",
     thumb: ["90x90#", :png] }
 
-  has_attached_file :kyu,
+  has_attached_file :post,
     styles: lambda{ |a| IMAGE_FORMATS.include?(a.content_type) ? IMAGE_STYLES : {} },
     path: ":rails_root/public/uploaded_files/:attachment/:id/:style/:filename",
     url: "/uploaded_files/:attachment/:id/:style/:filename"
 
-  validates_attachment_content_type :kyu, content_type: ATTACHMENT_FORMATS
+  validates_attachment_content_type :post, content_type: ATTACHMENT_FORMATS
 end

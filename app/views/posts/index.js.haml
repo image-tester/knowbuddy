@@ -1,3 +1,0 @@
-$('.new table').append("#{escape_javascript(render('activities'))}");
-$('#load_more_link').replaceWith("#{escape_javascript(link_to_next_page(@activities,'See more', remote: true, id:'load_more_link', param_name: :page_3))}");
-

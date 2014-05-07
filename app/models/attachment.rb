@@ -9,7 +9,7 @@ class Attachment < ActiveRecord::Base
     'application/pdf', 'application/msword', 'text/plain', 'text/html',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
 
-  IMAGE_STYLES = { 
+  IMAGE_STYLES = {
     medium: "300x300>",
     thumb: ["90x90#", :png] }
 

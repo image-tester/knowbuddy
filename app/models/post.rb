@@ -46,7 +46,7 @@ class Post < ActiveRecord::Base
     self.with_deleted.find(post_id)
   end
 
-  def self.invalid_attachments
+  def self.invali d_attachments
     attachments = Attachment.where(post_id: nil)
     attachments.each {|attachment| attachment.destroy }
   end

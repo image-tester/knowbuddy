@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
 
-  before_filter :find_post,
-    only: [ :destroy, :edit, :remove_tag, :update ]
+  ACTIVITIES_PER_PAGE = 20
+  before_filter :find_post, only: [ :destroy, :edit, :remove_tag, :update ]
 
   before_filter :order_by_name_email,
     only: [ :edit, :index, :post_date, :new, :search, :user_posts, :show,
@@ -41,9 +41,9 @@ class PostsController < ApplicationController
   end
 
   def edit
-    edit_kyu = render_to_string(partial: "editentry",
+    edit_post = render_to_string(partial: "editentry",
       locals: {post: @post})
-    render json: edit_kyu.to_json
+    render json: edit_post.to_json
   end
 
   def index
@@ -51,16 +51,21 @@ class PostsController < ApplicationController
     @post = Post.new(params[:post])
     @activities = Activity.latest_activities(params[:page_3])
     @attachment = @post.attachments
-    respond_to do |format|
-      format.html
-      format.js {render :render_contributors_pagination}
-      format.json { render json: @posts }
+    if request.xhr?
+      params[:page_3].present? ? load_activities :
+        (render :render_contributors_pagination)
     end
   end
 
   def post_date
     @post = Post.find(params[:post_id])
     @posts = Post.post_date(@post)
+  end
+
+  def load_activities
+    hide_link = true if @activities.count < ACTIVITIES_PER_PAGE
+    activities = render_to_string(partial: 'posts/activities')
+    render json: { activities: activities, hide_link: hide_link }
   end
 
   def load_partials

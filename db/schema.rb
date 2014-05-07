@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140506091109) do
+ActiveRecord::Schema.define(:version => 20140507134909) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -73,12 +73,12 @@ ActiveRecord::Schema.define(:version => 20140506091109) do
 
   create_table "attachments", :force => true do |t|
     t.integer  "post_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
-    t.string   "kyu_file_name"
-    t.string   "kyu_content_type"
-    t.integer  "kyu_file_size"
-    t.datetime "kyu_updated_at"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.string   "post_file_name"
+    t.string   "post_content_type"
+    t.integer  "post_file_size"
+    t.datetime "post_updated_at"
   end
 
   create_table "comments", :force => true do |t|

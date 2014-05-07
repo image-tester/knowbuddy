@@ -16,7 +16,7 @@ $(document).ready(function(){
     else {
       $.ajax({
         type: 'POST',
-        url: '/kyu_entries/parse_content',
+        url: '/posts/parse_content',
         data: { divcontent: content},
         dataType: 'json',
         success: function(data){
@@ -111,8 +111,8 @@ $(document).ready(function(){
   // new entry ajaxify
   $('body').on('ajax:success', '#new_entry', function(xhr, data, status) {
     var loc = location.pathname
-    if (loc != "/kyu_entries")
-      location.replace("/kyu_entries#new_post")
+    if (loc != "/posts")
+      location.replace("/posts#new_post")
     else
     {
       newpostlink('#home_pg',this)

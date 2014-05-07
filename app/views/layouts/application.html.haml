@@ -14,15 +14,17 @@
           #user-navigation
             %ul.wat-cf
               %li
-                = link_to t("web-app-theme.home", default: "Home"), posts_path, class: is_active?("index"), id: "home_pg"
+                = link_to t("web-app-theme.home", default: "Home"), posts_path,
+                  class: is_active?("index"), id: "home_pg"
               %li
-                = link_to t("web-app-theme.newpost", default: "New Post"),new_post_path(new_kyu: true), id: 'new_entry', remote: true
+                = link_to t("web-app-theme.newpost", default: "New Post"),
+                  new_post_path(new_kyu: true), id: 'new_entry', remote: true
               %li
                 = link_to t("web-app-thme.profile", default: "Profile"),
-                    edit_user_path(current_user), class: is_active?("edit")
+                  edit_user_path(current_user), class: is_active?("edit")
               %li
                 = link_to t("web-app-theme.logout", default: "Logout"),
-                             destroy_user_session_path, method: :delete
+                  destroy_user_session_path, method: :delete
           #main-navigation
             %ul.wat-cf
       #wrapper.wat-cf

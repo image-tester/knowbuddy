@@ -42,11 +42,11 @@ $(document).ready(function() {
   // Start
   $("div.kyuContent span#kyu-tag").dblclick(function(){
     var tag = $(this).text().trim();
-    var id = $(this).parent().attr("kyu_id");
+    var id = $(this).parent().attr("post_id");
     var temp = $(this);
     $.ajax({
       type: "POST",
-      url: "/kyu_entries/remove_tag",
+      url: "/posts/remove_tag",
       dataType: "json",
       data: {"id": id, "tag": tag},
       success: function (html) {

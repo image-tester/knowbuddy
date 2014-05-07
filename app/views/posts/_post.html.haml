@@ -51,5 +51,4 @@
   %br
   %br
 = render partial: "comments/comments", locals: { comments: post.comments.order("comments.created_at DESC"), post: post }
-- debugger
 %input#kyu_slug{ name: "kyu_slug", type: "hidden", value: post.slug }

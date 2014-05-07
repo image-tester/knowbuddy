@@ -1,6 +1,6 @@
 %h1 Edit Comment
-%h4 Post: #{@comment.kyu_entry_subject}
-= form_for([:kyu_entry,@comment], html: { class: :form, id: "formID" }) do |f|
+%h4 Post: #{@comment.post.subject}
+= form_for([:post,@comment], html: { class: :form, id: "formID" }) do |f|
   .group
     = f.hidden_field :user_id, {value: current_user.id }
   .group

@@ -1,0 +1,7 @@
+%h2.title
+  = t("web-app-theme.new", default: "New")
+  Post
+.inner
+  = form_for post, remote: true, url: posts_path, html: { class: :form, id: "formID1", multipart: true } do |f|
+    = render 'form', f: f, post: post
+#default_preview

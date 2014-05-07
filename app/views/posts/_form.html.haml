@@ -1,24 +1,24 @@
 .group
-  = f.label :subject, t("activerecord.attributes.kyu_entry.subject", default: "Subject"), class: :label
+  = f.label :subject, t("activerecord.attributes.post.subject", default: "Subject"), class: :label
   = f.text_field :subject, class: 'text_field validate[required] text-input'
 .group
-  = f.label :content, t("activerecord.attributes.kyu_entry.content", default: "Content"), class: :label
+  = f.label :content, t("activerecord.attributes.post.content", default: "Content"), class: :label
   = f.text_area :content, class: 'text_area validate[funcCall[checkContent]]', id: 'textarea_kyu_content'
   = f.hidden_field :user_id, { value: current_user.id }
 .group
-  = f.label :content, t("activerecord.attributes.kyu_entry.content", default: "Attachments"), class: :label
+  = f.label :content, t("activerecord.attributes.post.content", default: "Attachments"), class: :label
   - if params[:new_kyu].present?
     = render "newform"
   - elsif params[:edit_kyu].present?
     = render "editform"
     #kyu_attachment
-      - kyu_entry.attachments.each do |a|
+      - post.attachments.each do |a|
         = render "attachments", a: a
-  %input#kyu_id{ name: "kyu_id", type: "hidden", value: kyu_entry.id }
+  %input#kyu_id{ name: "post_id", type: "hidden", value: post.id }
 .group
   %input#attachments_field{ name: "attachments_field", type: "hidden", value: "" }
   = f.label :tag, class: :label
-  = f.autocomplete_field :tag_list, autocomplete_tag_name_kyu_entries_path, :"data-delimiter" => ', ', class: 'text_field'
+  = f.autocomplete_field :tag_list, autocomplete_tag_name_posts_path, :"data-delimiter" => ', ', class: 'text_field'
 .group.navform.wat-cf
   %a.button{href: "#", rel: "facebox", id: "previewlink", class: "text_button_padding link_button"} Preview
   %span.text_button_padding= t("web-app-theme.or", default: "")

@@ -1,7 +1,7 @@
-- user = kyu_entry.user
+- user = post.user
 %tr{class: cycle("odd", "even")}
   %td
     = image_tag avatar_url(user, 45)
-  %td= kyu_link(kyu_entry)
-  %td= kyu_date_link(kyu_entry)
+  %td= post_link(post)
+  %td= post_date_link(post)
   %td= user_link(user)

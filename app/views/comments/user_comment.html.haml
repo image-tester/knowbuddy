@@ -14,11 +14,11 @@
           %th PostsEntry Subject
           %th Date
         - @comments.each do |comment|
-          - kyu_entry = comment.kyu_entry
+          - post = comment.post
           %tr{class: cycle("odd", "even")}
             %td{class: "special"}
               = comment.comment
             %td
-              = link_to truncate(kyu_entry.subject, length: 70), kyu_entry_path(kyu_entry)
+              = link_to truncate(post.subject, length: 70), post_path(post)
             %td
               = timeago_date_format(comment.created_at)

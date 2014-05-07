@@ -12,8 +12,8 @@
       = timeago_date_format(comment.created_at)
     #comment_edit
       - if current_user == comment.user
-        = link_to image_tag("edit-pencil-icon.gif"), edit_kyu_entry_comment_path(kyu_entry, comment)
-        = link_to image_tag("cross.png"), kyu_entry_comment_path(kyu_entry, comment), method: :delete, confirm: "Are you sure?", remote: true
+        = link_to image_tag("edit-pencil-icon.gif"), edit_post_comment_path(post, comment)
+        = link_to image_tag("cross.png"), post_comment_path(post, comment), method: :delete, confirm: "Are you sure?", remote: true
       - else
         %br
     %br

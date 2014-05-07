@@ -1,4 +1,4 @@
-= form_for([kyu_entry ,Comment.new],remote: true, html: { class: :form, id: "new_comment" }) do |f|
+= form_for([post ,Comment.new],remote: true, html: { class: :form, id: "new_comment" }) do |f|
   .group
     = f.hidden_field :user_id, {value: current_user.id }
   .group

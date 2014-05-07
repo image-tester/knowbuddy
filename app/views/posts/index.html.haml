@@ -11,14 +11,14 @@
         %tr
           %th= t("web-app-theme.created_at", default: "")
           %th
-            = t("activerecord.attributes.kyu_entry.subject", default: t("activerecord.labels.subject", default: "Subject"))
+            = t("activerecord.attributes.post.subject", default: t("activerecord.labels.subject", default: "Subject"))
           %th= t("web-app-theme.created_at", default: "Date")
           %th= t("web-app-theme.created_at", default: "Contributor")
-        - @kyu_entries.each do |kyu_entry|
-          = render "entries", { kyu_entry: kyu_entry }
+        - @posts.each do |post|
+          = render "entries", { post: post }
       .actions-bar.wat-cf
         .actions
-        = paginate @kyu_entries, param_name: :page_2
+        = paginate @posts, param_name: :page_2
 .block2
   .block
     .new

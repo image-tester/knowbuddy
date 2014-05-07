@@ -1,25 +1,24 @@
-/ - table_for @kyu_entry do
 %table
   %tr
     %th Posts Entry ID:
-    %td= @kyu_entry.id
+    %td= @post.id
 
   %tr
     %th Subject:
-    %td= @kyu_entry.subject
+    %td= @post.subject
 
   %tr
     %th Content:
-    %td= @kyu_entry.content
+    %td= @post.content
 
   %tr
     %th Publish At:
-    %td= @kyu_entry.publish_at
+    %td= @post.publish_at
 
   %tr
     %th Slug:
-    %td= @kyu_entry.slug
+    %td= @post.slug
 
   %tr
     %th Deleted At
-    %td= @kyu_entry.deleted_at
+    %td= @post.deleted_at

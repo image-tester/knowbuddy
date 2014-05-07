@@ -21,19 +21,13 @@ class KyuEntry < ActiveRecord::Base
 
   delegate :name, :email, to: :user, prefix: true
 
-  after_create :create_kyu_entry_activity
-  after_update :update_kyu_entry_activity
-  before_destroy :destroy_kyu_entry_activity
+  after_create :create_post_activity
+  after_update :update_post_activity
+  before_create :set_publish_date
+  before_destroy :destroy_post_activity, if: "deleted_at.blank?"
   around_save :create_new_tag_activity
 
-  scope :list, lambda { |user_id|
-    where('user_id = ?', user_id)
-  }
-
   default_scope order: 'created_at DESC'
-  scope :post_date, lambda { |start, stop|
-    where("created_at >= ? and created_at <= ?", start, stop)
-  }
 
   searchable do
     text :content, :subject
@@ -46,6 +40,10 @@ class KyuEntry < ActiveRecord::Base
 
   def to_s
     subject
+  end
+
+  def self.get_kyu(kyu_id)
+    self.with_deleted.find(kyu_id)
   end
 
   def self.invalid_attachments
@@ -74,34 +72,50 @@ class KyuEntry < ActiveRecord::Base
     User.with_deleted.find(user_id)
   end
 
+  def self.search_kyu(search_key)
+    search = Sunspot.search(KyuEntry) do
+      fulltext search_key
+      order_by :publish_at, :desc
+    end
+    search.results
+  end
+
+  def self.post_date(kyu)
+    current_date = kyu.created_at.to_date
+    where("created_at >= ? and created_at <= ?",
+      current_date.beginning_of_day, current_date.end_of_day)
+  end
+
+  def activity_params
+    {"post_subject"=> subject, "post_id" => id}
+  end
+
   private
-  def create_kyu_entry_activity
-    act_type = ActivityType.find_by_activity_type('kyu_entry.create')
-    (self.create_activity :create, params: {"1"=> self.subject, "2"=> self.id})
-    .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
-     a.activity_type_id = act_type.id; a.save} unless act_type.blank?
-  end
+    def set_publish_date
+      self.publish_at = Time.now
+    end
 
-  def create_new_tag_activity
-    act_type = ActivityType.find_by_activity_type('kyu_entry.newTag')
-    newTag = self.tag_list- ActsAsTaggableOn::Tag.pluck(:name)
-    yield
-    (self.create_activity key: 'kyu_entry.newTag', params: {"1"=> newTag})
-    .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
-     a.activity_type_id = act_type.id; a.save} if(newTag.present? && act_type.present?)
-  end
+    def create_post_activity
+      Activity.add_activity('create',self)
+    end
 
-  def update_kyu_entry_activity
-    act_type = ActivityType.find_by_activity_type('kyu_entry.update')
-    (self.create_activity :update, params: {"1"=> self.subject, "2" => self.id})
-    .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
-     a.activity_type_id = act_type.id; a.save}
-  end
+    def create_new_tag_activity
+      newTag = self.tag_list - ActsAsTaggableOn::Tag.pluck(:name)
+      yield
+      tag_activity(newTag) if newTag.present?
+    end
 
-  def destroy_kyu_entry_activity
-    act_type = ActivityType.find_by_activity_type('kyu_entry.destroy')
-    (self.create_activity :destroy, params:{"1"=> self.subject, "2"=> self.id})
-    .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
-     a.activity_type_id = act_type.id; a.save}
-  end
+    def tag_activity(newTag)
+      act_type = ActivityType.get_type('kyu_entry.newTag')
+      new_act = create_activity key: 'kyu_entry.newTag', owner: user, params: {"tag"=> newTag}
+      new_act.update_column :activity_type_id, act_type.id
+    end
+
+    def update_post_activity
+      Activity.add_activity('update',self)
+    end
+
+    def destroy_post_activity
+      Activity.add_activity('destroy',self)
+    end
 end

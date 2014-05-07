@@ -6,7 +6,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.ui.all
+//= require jquery-ui
 //= require facebox
 //= require custom
 //= require jquery.validationEngine
@@ -16,4 +16,5 @@
 //= require rails-timeago
 //= require app
 //= require jquery.fileupload
+//= require active_admin
 //= require_tree .

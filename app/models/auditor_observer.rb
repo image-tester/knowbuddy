@@ -3,7 +3,7 @@ observe :comment, :kyu_entry
 
   def after_create(record)
     users = User.where("id != ?", record.user_id)
-    (record.kind_of? KyuEntry) ? Resque.enqueue(KyuNotification, users, record)
-      : Resque.enqueue(CommentNotification, users, record)
+    notify_class = (record.kind_of? KyuEntry) ? KyuNotification : CommentNotification
+    Resque.enqueue(notify_class, users, record)
   end
 end

@@ -6,9 +6,6 @@ class AttachmentsController < ApplicationController
     render_output(@attachment)
   end
 
-  def edit
-  end
-
   def update
     attachment = params[:files].first
     @attachment = Attachment.create(kyu: attachment)
@@ -34,7 +31,7 @@ class AttachmentsController < ApplicationController
       else
         format.html { render 'new' }
         format.json { render json: attach.errors,
-                      status: :unprocessable_entity }
+          status: :unprocessable_entity }
       end
     end
   end

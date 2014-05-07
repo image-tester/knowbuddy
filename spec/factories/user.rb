@@ -6,6 +6,10 @@ FactoryGirl.define do
     email { Faker::Internet.email }
     password "password"
     password_confirmation "password"
+
+    before(:create) do
+      fetch_activity_type('user.create')
+    end
   end
 end
 

@@ -9,9 +9,6 @@ class Comment < ActiveRecord::Base
   delegate :subject, to: :kyu_entry, prefix: true
 
   default_scope order: 'created_at DESC'
-  scope :list, lambda { |user_id|
-    where('user_id = ?', user_id)
-  }
 
   after_save :solr_reindex_kyu
   after_destroy :solr_reindex_kyu
@@ -21,7 +18,11 @@ class Comment < ActiveRecord::Base
   before_destroy :destroy_comment_activity
 
   def user
-    return User.with_deleted.find(self.user_id)
+    User.with_deleted.find(user_id)
+  end
+
+  def activity_params
+    {"post_subject"=> kyu_entry.subject, "post_id" => kyu_entry.id}
   end
 
   private
@@ -31,26 +32,14 @@ class Comment < ActiveRecord::Base
     end
 
     def create_comment_activity
-      act_type = ActivityType.find_by_activity_type('comment.create')
-      (self.create_activity :create, params: {"1"=> self.kyu_entry.subject,
-       "2" => self.kyu_entry.id}).tap{|a| a.owner_id = self.user_id;
-         a.owner_type = 'User'; a.activity_type_id = act_type.id; a.save}
+      Activity.add_activity('create',self)
     end
 
     def update_comment_activity
-      unless self.user.nil?
-        act_type = ActivityType.find_by_activity_type('comment.update')
-        (self.create_activity :update, params: {"1"=> self.kyu_entry.subject,
-         "2" => self.kyu_entry.subject}).tap{|a| a.owner_id = self.user_id;
-          a.owner_type = 'User'; a.activity_type_id = act_type.id; a.save}
-      end
+      Activity.add_activity('update',self)
     end
 
     def destroy_comment_activity
-      act_type = ActivityType.find_by_activity_type('comment.destroy')
-      (self.create_activity :destroy, params: {"1"=> self.kyu_entry.subject,
-       "2" => self.kyu_entry.id}, recipient: @kyu_entry)
-      .tap{|a| a.owner_id = self.user_id; a.owner_type = 'User';
-       a.activity_type_id = act_type.id; a.save}
+      Activity.add_activity('destroy',self)
     end
 end

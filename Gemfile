@@ -6,8 +6,7 @@ gem 'devise'
 gem "friendly_id", "~> 4.0.9"
 gem 'griddler'
 gem 'haml'
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
+gem 'jquery-rails', "2.3.0"
 gem 'kaminari'
 gem 'mysql2'
 gem 'paperclip'

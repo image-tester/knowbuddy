@@ -1,12 +1,11 @@
 class User < ActiveRecord::Base
   include PublicActivity::Common
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :encryptable, :confirmable, :lockable,
-  # :timeoutable and :omniauthable
+
   attr_accessible :email, :name, :password, :password_confirmation,
-                  :remember_me
+    :remember_me
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :timeoutable
+    :recoverable, :rememberable, :trackable, :validatable, :timeoutable
+
   has_many :comments
   has_many :kyu_entries
 
@@ -18,8 +17,6 @@ class User < ActiveRecord::Base
   after_update :send_email_password_changed, if: :encrypted_password_changed?
 
   after_create :create_user_activity
-
-  # Setup accessible (or protected) attributes for your model
 
   def self.user_collection_email_name
     self.all.map{|v| [v.name || v.email, v.id] } if User.table_exists?
@@ -36,9 +33,26 @@ class User < ActiveRecord::Base
     self.with_deleted.find(user_id)
   end
 
+  def activate
+    if valid?
+      recover
+    else
+      self.deleted_at = nil
+      save(validate: false)
+    end
+  end
+
+  def display_name
+    name.try(:titleize) || email
+  end
+
   def self.by_name_email
     with_deleted.joins(:kyu_entries).where('kyu_entries.deleted_at IS NULL').
     order('name, email').uniq
+  end
+
+  def activity_params
+    { "user" => name }
   end
 
   private
@@ -53,9 +67,6 @@ class User < ActiveRecord::Base
     end
 
     def create_user_activity
-      act_type = ActivityType.find_by_activity_type('user.create')
-      (self.create_activity :create, params: {"1"=> self.name})
-          .tap{|a| a.owner_id = self.id; a.owner_type = 'User';
-           a.activity_type_id = act_type.id; a.save} unless act_type.blank?
+      Activity.add_activity('create',self)
     end
 end

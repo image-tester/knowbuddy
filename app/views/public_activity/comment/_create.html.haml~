@@ -1,5 +1,0 @@
-commented on article
-- if activity.trackable
-  = link_to activity.trackable.kyu_entry.subject, activity.trackable.kyu_entry
-- else
-  = link_to activity.parameters["1"], "removed_post.html.haml"

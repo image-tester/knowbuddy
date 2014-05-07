@@ -1,5 +1,7 @@
 class KyuEntriesController < ApplicationController
 
+  ACTIVITIES_PER_PAGE = 20
+
   before_filter :find_kyu,
     only: [ :destroy, :edit, :remove_tag, :update ]
 
@@ -51,11 +53,16 @@ class KyuEntriesController < ApplicationController
     @kyu_entry = KyuEntry.new(params[:kyu_entry])
     @activities = Activity.latest_activities(params[:page_3])
     @attachment = @kyu_entry.attachments
-    respond_to do |format|
-      format.html
-      format.js {render :render_contributors_pagination}
-      format.json { render json: @kyu_entries }
+    if request.xhr?
+      params[:page_3].present? ? load_activities :
+        (render :render_contributors_pagination)
     end
+  end
+
+  def load_activities
+    hide_link = true if @activities.count < ACTIVITIES_PER_PAGE
+    activities = render_to_string(partial: 'kyu_entries/activities')
+    render json: { activities: activities, hide_link: hide_link }
   end
 
   def kyu_date

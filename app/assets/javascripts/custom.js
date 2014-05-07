@@ -183,4 +183,14 @@ $(document).ready(function(){
   //end
   });
 
+  $('body').on('ajax:success', '#load_more_link', function(xhr, data, status) {
+    $('.new table').append(data.activities);
+    if(data.hide_link)
+      $(".bottom").hide();
+    else {
+      current_link = this.href.split("=")
+      next_page_number = parseInt(this.href.split("=")[1])+1
+      $(this).attr("href", current_link[0] + "=" + next_page_number);
+    }
+  });
 });

@@ -1,4 +1,4 @@
-ActiveAdmin.register KyuEntry, as: "Posts"  do
+ActiveAdmin.register Post, as: "Posts"  do
 
   menu priority: 1
 
@@ -23,23 +23,23 @@ ActiveAdmin.register KyuEntry, as: "Posts"  do
   index do
     id_column
     column :subject
-    column :user do |kyu|
-      kyu.user.name || kyu.user.email
+    column :user do |post|
+      post.user.name || post.user.email
     end
     column :publish_at
-    column "Actions" do |kyu|
-      raw "#{link_to 'View', admin_post_path(kyu), method: :get}
-        #{link_to 'Edit', edit_admin_post_path(kyu), method: :get}
-        #{link_to 'Delete', admin_post_path(kyu), method: :delete,
+    column "Actions" do |post|
+      raw "#{link_to 'View', admin_post_path(post), method: :get}
+        #{link_to 'Edit', edit_admin_post_path(post), method: :get}
+        #{link_to 'Delete', admin_post_path(post), method: :delete,
         confirm: "Are you sure you want to delete this Post permanently ?"}"
     end
   end
 
   controller do
     def destroy
-      kyu = KyuEntry.get_kyu(params[:id])
-      kyu.destroy if kyu.deleted_at.blank?
-      kyu.destroy
+      post = Post.get_post(params[:id])
+      post.destroy if post.deleted_at.blank?
+      post.destroy
       flash[:notice] = "Post was successfully destroyed"
       redirect_to admin_posts_path
     end

@@ -2,7 +2,7 @@ ActiveAdmin.register Comment, as: "PostsComments" do
   menu priority: 3
 
   filter :comment
-  filter :kyu_entry_id, label: "Post"
+  filter :post_id, label: "Post"
 
   index do
     id_column
@@ -12,7 +12,7 @@ ActiveAdmin.register Comment, as: "PostsComments" do
     end
 
     column :post_subject do |comment|
-      comment.kyu_entry.subject
+      comment.post.subject
     end
 
     column :user_name do |comment|
@@ -25,7 +25,7 @@ ActiveAdmin.register Comment, as: "PostsComments" do
   show do |comment|
     attributes_table do
       row "Post" do |s|
-        s.kyu_entry.subject
+        s.post.subject
       end
       row :user
       row :comment
@@ -36,7 +36,7 @@ ActiveAdmin.register Comment, as: "PostsComments" do
 
   form do |f|
     f.inputs "Details" do
-      f.input :kyu_entry , label: "Post"
+      f.input :post , label: "Post"
       f.input :user
       f.input :comment
       f.input :created_at

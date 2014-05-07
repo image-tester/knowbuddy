@@ -1,6 +1,6 @@
-ActiveAdmin.register KyuEntry, as: "Deleted Posts" do
-  scope :Deleted_Posts, default: true do |kyu|
-    kyu = KyuEntry.only_deleted
+ActiveAdmin.register Post, as: "Deleted Posts" do
+  scope :Deleted_Posts, default: true do |posts|
+    posts = Post.only_deleted
   end
 
   menu priority: 2, label: "Deleted Posts"
@@ -24,18 +24,18 @@ ActiveAdmin.register KyuEntry, as: "Deleted Posts" do
   index title: "Deleted Posts" do
     column :id
     column :subject
-    column :user do |kyu|
-      kyu.user.name || kyu.user.email
+    column :user do |post|
+      post.user.name || post.user.email
     end
     column :publish_at
 
-    column "Actions" do |kyu|
+    column "Actions" do |post|
       raw "#{link_to 'View', controller: "admin/deleted_posts",
-        action: "deleted_post", id: kyu.id}
-        #{link_to 'Delete', admin_post_path(kyu), method: :delete,
+        action: "deleted_post", id: post.id}
+        #{link_to 'Delete', admin_post_path(post), method: :delete,
         confirm: "Are you sure you want to delete this Post permanently ?"}
         #{link_to 'Restore', controller: "admin/deleted_posts",
-        action: "restore", id: kyu.id}"
+        action: "restore", id: post.id}"
     end
   end
 
@@ -48,11 +48,11 @@ ActiveAdmin.register KyuEntry, as: "Deleted Posts" do
 
     def deleted_post
       @page_title = "Deleted Post"
-      @kyu_entry = get_current_post
+      @post = get_current_post
     end
 
     def get_current_post
-      KyuEntry.only_deleted.find(params["id"])
+      Post.only_deleted.find(params["id"])
     end
   end
 end

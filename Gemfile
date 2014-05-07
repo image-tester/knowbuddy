@@ -21,8 +21,7 @@ gem 'RedCloth'
 gem 'resque', :require => 'resque/server'
 gem 'sass'
 gem "sass-rails", "~> 3.2.6"
-gem 'sunspot_rails'
-gem 'sunspot_solr'
+gem 'sunspot_rails', "~> 1.3.3"
 gem 'whenever', :require => false
 
 group :development, :test do
@@ -37,6 +36,7 @@ group :development, :test do
   gem 'shoulda'
   gem 'selenium'
   gem 'sextant'
+  gem 'sunspot_solr', "~> 1.3.3"
   gem 'web-app-theme', git: 'git://github.com/pilu/web-app-theme.git'
 end
 

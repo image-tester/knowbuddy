@@ -41,6 +41,7 @@ class PostsController < ApplicationController
   end
 
   def edit
+    remove_orphan_attachments
     edit_post = render_to_string(partial: "editentry",
       locals: {post: @post})
     render json: edit_post.to_json
@@ -78,7 +79,7 @@ class PostsController < ApplicationController
   end
 
   def new
-    Post.invalid_attachments
+    remove_orphan_attachments
     @post = Post.new
     new_post = render_to_string(partial: "newentry",
       locals: {post: @post})
@@ -147,6 +148,7 @@ class PostsController < ApplicationController
     attachment = params[:post].delete :attachment
     respond_to do |format|
       if @post.update_attributes(params[:post])
+        save_attachments
         update_entry = render_to_string(partial: "post",
           locals:{post: @post})
         format.json { render json: update_entry.to_json}
@@ -173,6 +175,10 @@ class PostsController < ApplicationController
 
     def order_by_name_email
       @users = User.by_name_email.page(params[:page]).per(5)
+    end
+
+    def remove_orphan_attachments
+      Post.invalid_attachments
     end
 
     def user_list

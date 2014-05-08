@@ -70,7 +70,7 @@ $(document).ready(function() {
 
   // Added to delete attachments on clicking close_img
   // Start
-  $("#close").on("click", "img#delete-attach", function() {
+  $("body").on("click", "img#delete-attach", function() {
   var id = $(this).parent().attr("attachment_id");
   var temp = $(this).closest('#attach-content');
     $.ajax({
@@ -98,7 +98,7 @@ $(document).ready(function() {
     defaulttext("#formID1")
   });
   $("body").on("ajax:success", "#edit_entry", function(xhr, data, status) {
-    defaulttext("#formID")
+
   });
   //end
 
@@ -109,13 +109,10 @@ $(document).ready(function() {
     $("#new_entry").click()
   }
 
-paginate_change_navigation_links_text();
-$("a[rel*='facebox']").facebox();
+  paginate_change_navigation_links_text();
+  $("a[rel*='facebox']").facebox();
   //end
 
-if (activities == null){
-    $(".block2").hide();
-  }
 });
 
 function paginate_change_navigation_links_text()

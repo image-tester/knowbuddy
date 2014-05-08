@@ -22,7 +22,7 @@ KYU::Application.routes.draw do
   match '/admin/activity_types/deactivate/:id' =>
                               'admin/activity_types#deactivate'
 
- # match '/attachments/edit/:id' => 'attachments#create'
+ match '/attachments/edit' => 'attachments#create'
 
   resources :attachments, only: [:create, :destroy]
   resources :posts do

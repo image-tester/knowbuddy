@@ -49,4 +49,5 @@ end
 group :test do
   gem 'database_cleaner'
   gem 'sunspot_matchers'
+  gem 'simplecov', '~> 0.7.1'
 end

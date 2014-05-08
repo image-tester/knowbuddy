@@ -47,6 +47,8 @@ group :assets do
 end
 
 group :test do
+  gem 'coveralls', '~> 0.7.0'
   gem 'database_cleaner'
   gem 'sunspot_matchers'
+  gem 'simplecov', '~> 0.8.2'
 end

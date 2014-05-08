@@ -25,6 +25,7 @@ namespace :populate do
     post_activities.each do |activity|
       activity_type = activity.activity_type.gsub!("kyu_entry", "post")
       activity.update_column(:activity_type, activity_type)
+      puts "Update activity_type#{activity.id}"
     end
     puts "End rake task..."
   end

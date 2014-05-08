@@ -32,6 +32,7 @@ namespace :activity do
       activities.each do |activity|
         updated_key = activity.key.gsub("kyu_entry", "post")
         activity.update_attributes({key: updated_key, trackable_type: "Post"})
+        puts "Updated activity_#{activity.id}"
       end
     end
     puts "Done"

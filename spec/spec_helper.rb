@@ -24,21 +24,20 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :view
   config.include SunspotMatchers
   config.include FactoryGirl::Syntax::Methods
+  config.include Warden::Test::Helpers
+  config.include Capybara::DSL
+
+  Warden.test_mode!
 
   config.use_transactional_fixtures = false
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
 
   config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.strategy = :truncation
   end
 
   config.before(:each) do
-    DatabaseCleaner.start
-  end
-
-  config.after(:each) do
     DatabaseCleaner.clean
   end
 end

@@ -1,7 +1,7 @@
 ActiveAdmin.register User, as: "Inactive Users" do
 
   menu priority: 5
-  actions :index
+  actions :all, except: :new
 
   scope :Inactive, default: true do |user|
     user = User.only_deleted

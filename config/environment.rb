@@ -19,7 +19,7 @@ SMTP_SETTINGS = {
   port:                  587,
   domain:               'knowbuddy.kiprosh-app.com',
   user_name:            'shivanibhanwal',
-  password:             'd0n0tmess',
+  password:             'send#grid#1928',
   authentication:       'plain',
   enable_starttls_auto:  true  }
 

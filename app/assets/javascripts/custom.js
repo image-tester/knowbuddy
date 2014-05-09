@@ -71,7 +71,6 @@ $(document).ready(function(){
   //start
   function makeflieupload() {
     $('#fileupload').fileupload({
-      url: '/attachments',
       dataType: 'json',
       add: function (e, data) {
         $('#load').attr("src",'/assets/loading.gif')
@@ -157,7 +156,8 @@ $(document).ready(function(){
     $('#main').empty().append('<div id="edit_kyu" />')
     $("#edit_kyu").css("display", "none").append(data).show()
     preview()
-    // makeflieupload()
+    makeflieupload()
+    defaulttext("#formID")
     $('#textarea_kyu_content').markItUp(mySettings);
   });
 

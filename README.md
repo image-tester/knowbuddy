@@ -1,7 +1,5 @@
 [![Code Climate](https://codeclimate.com/github/rohandaxini/knowbuddy.png)](https://codeclimate.com/github/rohandaxini/knowbuddy)
 
-[![Coverage Status](https://coveralls.io/repos/rohandaxini/knowbuddy/badge.png)](https://coveralls.io/r/rohandaxini/knowbuddy)
-
 Master
 ![Master](https://circleci.com/gh/rohandaxini/knowbuddy/tree/master.png?circle-token=61ddb14b679c324670351c7807b8bf01d8685972)
 

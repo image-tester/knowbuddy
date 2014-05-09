@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'acts-as-taggable-on', '~> 2.4.0'
-gem "activeadmin", "~> 0.4.4"
+gem 'activeadmin', github: 'gregbell/active_admin', branch: '0-6-stable'
+gem "meta_search",    '>= 1.1.0.pre'
 gem 'devise'
 gem "friendly_id", "~> 4.0.9"
 gem 'griddler'
@@ -47,8 +48,7 @@ group :assets do
 end
 
 group :test do
-  gem 'coveralls', '~> 0.7.0'
   gem 'database_cleaner'
   gem 'sunspot_matchers'
-  gem 'simplecov', '~> 0.8.2'
+  gem 'simplecov', '~> 0.7.1'
 end

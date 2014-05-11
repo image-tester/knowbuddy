@@ -9,8 +9,8 @@ feature "Sign in" do
   scenario "with correct credentials" do
     visit '/users/sign_in'
 
-    fill_in 'user[email]', :with => 'user@example.com'
-    fill_in 'user[password]', :with => 'password'
+    fill_in 'user[email]', with: 'user@example.com'
+    fill_in 'user[password]', with: 'password'
     click_on 'Login'
 
     expect(page).to have_content 'Signed in successfully.'
@@ -19,8 +19,8 @@ feature "Sign in" do
   scenario "with invalid credentials" do
     visit '/users/sign_in'
 
-    fill_in 'user[email]', :with => 'user@example.com'
-    fill_in 'user[password]', :with => 'wrong_password'
+    fill_in 'user[email]', with: 'user@example.com'
+    fill_in 'user[password]', with: 'wrong_password'
     click_on 'Login'
 
     expect(page).to have_content 'Invalid email or password.'

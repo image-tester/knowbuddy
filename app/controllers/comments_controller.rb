@@ -52,7 +52,7 @@ class CommentsController < ApplicationController
   end
 
   def user_comment
-    @user = User.get_user(user_id)
+    @user = User.get_user(params[:id])
     @comments = @user.comments
   end
 

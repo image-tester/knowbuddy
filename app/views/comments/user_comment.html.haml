@@ -2,23 +2,17 @@
   .secondary-navigation
     %ul.wat-cf
   .content
-    %h2.title
-      - if @user.name
-        All comments by #{@user.name.titleize}
-      - else
-        All comments by #{@user.email}
+    %h2.title All comments by #{@user.display_name}
+
     .inner
       %table.table
         %tr
           %th Comment
-          %th PostsEntry Subject
+          %th Post
           %th Date
         - @comments.each do |comment|
           - post = comment.post
           %tr{class: cycle("odd", "even")}
-            %td{class: "special"}
-              = comment.comment
-            %td
-              = link_to truncate(post.subject, length: 70), post_path(post)
-            %td
-              = timeago_date_format(comment.created_at)
+            %td{class: "special"}= comment.comment
+            %td= link_to truncate(post.subject, length: 70), post_path(post)
+            %td= timeago_date_format(comment.created_at)

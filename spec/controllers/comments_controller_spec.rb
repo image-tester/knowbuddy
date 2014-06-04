@@ -2,32 +2,29 @@ require 'spec_helper'
 
 describe CommentsController do
   before do
-    @post = create :post
-    @comment_active = create :comment
-    @user_active = @comment_active.user
+    @active_user = create :user
+    create_list(:comment, 2, user: @active_user)
 
-    @post_new = create :post
-    @comment_inactive = create :comment
-    @user_inactive = @comment_inactive.user
+    @inactive_user = create :user
+    create_list(:comment, 2, user: @inactive_user)
 
-    @comment_act = create(:comment, user: @user_active, post: @post_new)
-    @comment_inact = create(:comment, user: @user_inactive, post: @post)
-
-    @comment_del = create(:comment, user: @user_active, post: @post_new)
-    @user_inactive.destroy
+    sign_in @active_user
+    @inactive_user.destroy
   end
 
-  describe "display comments" do
-    it "displays comments of perticular users" do
-      comments = Comment.find(:all, conditions: {:user_id => @user_active.id})
-      comments.should_not be_nil
-      comments.length == 2
+  describe "display comments of" do
+    it "specific active user" do
+      get :user_comment, id: @active_user.id
+      response.should be_success
+      expect(response).to render_template(:user_comment)
+      expect(assigns(:comments)).to eq(@active_user.comments)
     end
 
-    it "displays comments of inactive users" do
-      comments = Comment.find(:all, conditions: {:user_id => @user_inactive.id})
-      comments.should_not be_nil
-      comments.length == 2
+    it "inactive users" do
+      get :user_comment, id: @inactive_user.id
+      response.should be_success
+      expect(response).to render_template(:user_comment)
+      expect(assigns(:comments)).to eq(@inactive_user.comments)
     end
   end
 end

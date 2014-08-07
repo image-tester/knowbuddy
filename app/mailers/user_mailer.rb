@@ -1,4 +1,5 @@
 class UserMailer < ActionMailer::Base
+  add_template_helper(MailHelper)
   default from: "notifications@kiprosh.com"
 
   def welcome_email(user)

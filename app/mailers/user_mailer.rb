@@ -1,5 +1,6 @@
 class UserMailer < ActionMailer::Base
   add_template_helper(MailHelper)
+  layout 'notification_email'
   default from: "notifications@kiprosh.com"
 
   def welcome_email(user)

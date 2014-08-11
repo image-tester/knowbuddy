@@ -1,8 +1,10 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
-
 FactoryGirl.define do
   factory :activity_type do
-    activity_type "test"
+    sequence(:activity_type) { |n| "test#{n}" }
     is_active true
+
+    factory :inactive do
+      is_active false
+    end
   end
 end

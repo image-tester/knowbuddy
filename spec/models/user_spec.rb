@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "User" do
+describe User do
   describe 'scope::top3' do
     before do
       4.times do |n|
@@ -18,9 +18,24 @@ describe "User" do
 
   describe 'after_create' do
     it 'should run the proper callbacks' do
-      user = FactoryGirl.create(:user)
+      user = create :user
       user.should_receive(:create_user_activity) #should pass
       user.run_callbacks(:create)
     end
+    it 'should run update callback' do
+      user = create :user, password: "password", password_confirmation: "password"
+      user.password = "new_password"
+      user.password_confirmation = "new_password"
+      user.save
+      user.run_callbacks(:update)
+    end
+  end
+  describe 'Validations' do
+    it { should validate_presence_of :name }
+  end
+
+  describe 'Associations' do
+    it { should have_many :comments }
+    it { should have_many :posts }
   end
 end

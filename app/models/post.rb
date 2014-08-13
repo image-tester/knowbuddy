@@ -107,7 +107,8 @@ class Post < ActiveRecord::Base
 
     def tag_activity(newTag)
       act_type = ActivityType.get_type('post.newTag')
-      new_act = create_activity key: 'post.newTag', owner: user, params: {"tag"=> newTag}
+      new_act = create_activity key: 'post.newTag', owner: user,
+        params: {"tag"=> newTag}
       new_act.update_column :activity_type_id, act_type.id
     end
 

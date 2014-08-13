@@ -1,14 +1,12 @@
 class AttachmentsController < ApplicationController
 
+  before_filter :find_attachment, only:  [:create, :update]
+
   def create
-    attachment = params[:files].first
-    @attachment = Attachment.create(post: attachment)
     render_output(@attachment)
   end
 
   def update
-    attachment = params[:files].first
-    @attachment = Attachment.create(post: attachment)
     @attachment.post_id = params[:post_id]
     render_output(@attachment)
   end
@@ -35,4 +33,12 @@ class AttachmentsController < ApplicationController
       end
     end
   end
+
+  private
+    def find_attachment
+      attachment = params[:files].first
+      @attachment = Attachment.create(post: attachment)
+
+    end
+
 end

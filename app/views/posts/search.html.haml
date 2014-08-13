@@ -4,9 +4,8 @@
     - if params[:search].blank? || @posts_searched.blank?
       #search_error
         Sorry no matching results for keyword '#{params[:search]}'
-
     - else
-      %h2.title                
+      %h2.title
         All articles containing keyword '#{params[:search]}'
       .inner
         %table.table

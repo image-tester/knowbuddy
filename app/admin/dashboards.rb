@@ -3,7 +3,7 @@ ActiveAdmin.register_page "Dashboard" do
   users = User.with_deleted
   menu priority: 1, label: proc{ I18n.t("active_admin.dashboard") }
 
-  content :title => proc{ I18n.t("active_admin.dashboard") } do
+  content title: proc{ I18n.t("active_admin.dashboard") } do
     span do
       section "Recent Posts", priority: 1 do
         table_for Post.order('id desc').limit(10) do

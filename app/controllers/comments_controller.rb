@@ -1,9 +1,10 @@
 class CommentsController < ApplicationController
 
-  before_filter :find_comment, only: [:destroy, :edit, :show, :update]
+  before_filter :find_comment, only: [:destroy, :edit, :show, :new, :update]
+  before_filter :find_post, only: [:create, :destroy]
+  after_filter :comment_redirect, only: [:new, :show]
 
   def create
-    @post = Post.find(params[:post_id])
     @comment = @post.comments.build(params[:comment])
     if @comment.save
       new_comment = render_to_string(partial: "comment",
@@ -13,7 +14,6 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @post = Post.find(params[:post_id])
     @comment.destroy
     respond_to do |format|
      format.html { redirect_to @post }
@@ -26,18 +26,9 @@ class CommentsController < ApplicationController
   end
 
   def new
-    @comment = Comment.new
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @comment }
-    end
   end
 
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @comment }
-    end
   end
 
   def update
@@ -58,6 +49,18 @@ class CommentsController < ApplicationController
 
   protected
     def find_comment
-      @comment = Comment.find(params[:id])
+      @comment ||= params[:id] ? Comment.find(params[:id]) : Comment.new
     end
+
+    def find_post
+      @post = Post.find(params[:post_id])
+    end
+
+    def comment_redirect
+      respond_to do |format|
+        format.html
+        format.json { render json: @comment }
+      end
+    end
+
 end

@@ -12,7 +12,7 @@ ActiveAdmin.register Comment, as: "PostsComments" do
     end
 
     column :post_subject do |comment|
-      comment.post.subject
+      comment.post_subject
     end
 
     column :user_name do |comment|

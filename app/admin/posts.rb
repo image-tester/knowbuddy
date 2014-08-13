@@ -51,7 +51,7 @@ ActiveAdmin.register Post, as: "Posts"  do
   controller do
     def destroy
       post = Post.get_post(params[:id])
-      post.destroy if post.deleted_at.blank?
+      post.destroy unless post.deleted_at?
       post.destroy
       flash[:notice] = "Post was successfully destroyed"
       redirect_to admin_posts_path

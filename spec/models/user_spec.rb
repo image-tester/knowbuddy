@@ -16,8 +16,8 @@ describe User do
     end
   end
 
-  describe 'after_create' do
-    it 'should run the proper callbacks' do
+  describe 'Callbacks' do
+    it 'should run create callback' do
       user = create :user
       user.should_receive(:create_user_activity) #should pass
       user.run_callbacks(:create)
@@ -37,5 +37,88 @@ describe User do
   describe 'Associations' do
     it { should have_many :comments }
     it { should have_many :posts }
+  end
+
+  describe 'Class Methods' do
+    describe 'user_collection_email_name' do
+      let!(:user1) { create :user }
+      let!(:user2) { create :user }
+
+      it 'should return user name and id' do
+        user2.destroy
+        expect(User.user_collection_email_name).to eq [[user1.name,user1.id]]
+      end
+
+      it 'should return email and id' do
+        user1.name = nil
+        user1.save(validate: false)
+        user2.destroy
+        expect(User.user_collection_email_name).to eq [[user1.email,user1.id]]
+      end
+    end
+
+    describe 'get_user(user_id)' do
+      it 'should return proper user' do
+        user = create :user
+        expect(User.get_user(user.id)).to eq user
+      end
+    end
+
+    describe 'by_name_email' do
+      let!(:user1) { create :user, name: "Abc" }
+      let!(:user2) { create :user, name: "Zzz" }
+      let!(:post1) { create :post, user_id: user1.id }
+      let!(:post2) { create :post, user_id: user2.id }
+
+      it 'should display names in order and should be unique' do
+        create :post, user_id: user1.id
+        expect(User.by_name_email).to eq [user1,user2]
+      end
+    end
+  end
+
+  describe 'Instance Methods' do
+    describe 'activate' do
+      let!(:user) { create :user }
+
+      it 'should recover a valid record' do
+        user.destroy
+        expect(user.activate).to eq true
+      end
+
+      it 'should recover a invalid record' do
+        user.name = nil
+        user.save(validates: false)
+        expect(user.activate).to eq true
+      end
+    end
+
+    describe 'display_name' do
+      let!(:user) { create :user }
+
+      it 'should display name' do
+        expect(user.display_name).to eq user.name.titleize
+      end
+
+      it 'should display email if name not persent' do
+        user.name = nil
+        user.save(validate: false)
+        expect(user.display_name).to eq user.email
+      end
+    end
+
+    describe 'activity_params' do
+      it 'should display user name' do
+        user = create :user
+        expect(user.activity_params).to eq("user" => "#{user.name}")
+      end
+    end
+
+    describe 'active?' do
+      it 'shows user is active or not' do
+        user = create :user
+        expect(user.active?).to eq true
+      end
+    end
   end
 end

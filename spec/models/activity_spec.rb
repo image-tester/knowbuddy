@@ -25,19 +25,16 @@ describe Activity do
   end
 
   describe 'Class Methods' do
-    describe '.latest_activities'do
+    describe 'latest_activities'do
 
       it 'should join in order' do
-        activity_type1 = create :activity_type
-        activity1 = create :activity, created_at: Time.now.yesterday.yesterday,
-          activity_type_id: activity_type1.id
-        activity_type2 = create :inactive
-        activity2 = create :activity, created_at: Time.now.yesterday,
-          activity_type_id: activity_type2.id
-        activity_type3 = create :activity_type
-        activity3 = create :activity, created_at: Time.now,
-          activity_type_id: activity_type3.id
-        expect(Activity.latest_activities(1,3)).to eq [activity3, activity1]
+        activity1 = create :activity, created_at: 2.days.ago
+        activity2 = create :activity, created_at: 1.day.ago,
+          activity_type: (create :inactive)
+        activity3 = create :activity, created_at: Time.now
+        latest_activities = Activity.latest_activities(1,3)
+        expect(latest_activities).to eq [activity3, activity1]
+        latest_activities.should_not include activity2
       end
     end
   end

@@ -38,7 +38,6 @@ class AttachmentsController < ApplicationController
     def find_attachment
       attachment = params[:files].first
       @attachment = Attachment.create(post: attachment)
-
     end
 
 end

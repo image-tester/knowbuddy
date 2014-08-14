@@ -16,7 +16,7 @@ ActiveAdmin.register Comment, as: "PostsComments" do
     end
 
     column :user_name do |comment|
-      comment.user.display_name
+      comment.display_name
     end
 
     default_actions

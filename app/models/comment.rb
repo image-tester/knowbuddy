@@ -6,7 +6,6 @@ class Comment < ActiveRecord::Base
   validates_presence_of :comment
 
   delegate :subject, to: :post, prefix: true
-  delegate :display_name, to: :user, prefix: true
 
   default_scope order: 'created_at DESC'
 

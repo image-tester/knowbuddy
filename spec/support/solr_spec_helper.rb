@@ -1,3 +1,5 @@
+# For more details: https://github.com/sunspot/sunspot/wiki/RSpec-and-Sunspot
+
 $original_sunspot_session = Sunspot.session
 Sunspot.session = Sunspot::Rails::StubSessionProxy.new($original_sunspot_session)
 

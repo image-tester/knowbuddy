@@ -36,11 +36,25 @@ describe PostsController do
     end
 
     describe "POST create" do
-      it "creates a new Post" do
-        @post = {subject: 'Swimming', content: 'freestyle', user_id: @user.id}
-        post :create, post: @post, attachments_field: ""
-        post = Post.find_by_subject "Swimming"
-        post.should_not be_nil
+      context 'Valid Attributes' do
+        it 'should save post to database' do
+          @post = {subject: 'Swimming', content: 'freestyle', user_id: @user.id}
+          expect{
+            post :create, post: @post, attachments_field: ""
+          }.to change(Post, :count).by(1)
+
+          post = Post.find_by_subject "Swimming"
+          post.should_not be_nil
+        end
+      end
+
+      context 'Invalid Attributes' do
+        it 'Should not create post' do
+          @post = {subject: '', content: 'freestyle', user_id: @user.id}
+          expect{
+            post :create, post: @post, attachments_field: ""
+          }.to_not change(Post, :count)
+        end
       end
     end
 

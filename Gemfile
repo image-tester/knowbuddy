@@ -19,11 +19,11 @@ gem 'rails3_acts_as_paranoid', '~>0.1.4'
 gem 'rails3-jquery-autocomplete'
 gem 'rails-timeago'
 gem 'RedCloth'
-gem 'resque', :require => 'resque/server'
+gem 'resque', require: 'resque/server'
 gem 'sass'
 gem 'sass-rails', '~> 3.2.6'
 gem 'sunspot_rails', '~> 1.3.3'
-gem 'whenever', :require => false
+gem 'whenever', require:  false
 
 group :development, :test do
   gem 'capybara'

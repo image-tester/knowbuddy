@@ -8,17 +8,17 @@ ActiveAdmin.register User do
    f.inputs "Details" do
      f.input :name
      f.input :email
+     f.input :password
+     f.input :password_confirmation
    end
-     f.buttons
+     f.actions
   end
-
 
   index do
     id_column
     column :name
     column :email
     column :sign_in_count
-
     column "Actions" do |user|
       raw "#{link_to 'View', admin_user_path(user), method: :get}
         #{link_to 'Edit', edit_admin_user_path(user), method: :get}

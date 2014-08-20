@@ -69,7 +69,7 @@ class Post < ActiveRecord::Base
   end
 
   def user
-    User.with_deleted.find(user_id)
+    User.with_deleted.find(user_id) if user_id
   end
 
   def self.search_post(search_key)

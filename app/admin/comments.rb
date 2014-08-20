@@ -25,10 +25,10 @@ ActiveAdmin.register Comment, as: "PostsComments" do
   show do |comment|
     attributes_table do
       row "Post" do |s|
-        s.post.subject
+        s.post_subject
       end
       row :user do |c|
-        c.user.active? ? c.user : c.user.display_name
+        c.user.active? ? c.user : c.display_name
       end
       row :comment
       row :created_at

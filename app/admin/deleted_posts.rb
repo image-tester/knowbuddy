@@ -25,7 +25,7 @@ ActiveAdmin.register Post, as: "Deleted Posts" do
     column :id
     column :subject
     column :user do |post|
-      post.user.display_name
+      post.user_name
     end
     column :publish_at
 

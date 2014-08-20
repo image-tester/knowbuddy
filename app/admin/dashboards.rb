@@ -8,7 +8,7 @@ ActiveAdmin.register_page "Dashboard" do
       section "Recent Posts", priority: 1 do
         table_for Post.order('id desc').limit(10) do
           column("Subject") {|post| post.subject }
-          column("Contributor") {|post| post.user.display_name }
+          column("Contributor") {|post| post.user_name }
         end
       end
 

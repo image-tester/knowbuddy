@@ -32,6 +32,30 @@ class PostsController < ApplicationController
     end
   end
 
+  def draft
+    attachment = params[:post].delete :attachment
+    if params[:post][:id].empty?
+      new_post = Post.new(params[:post])
+      a = new_post.save(validate: false)
+      my_post = new_post
+    else
+      old_post = Post.find(params[:post][:id].to_i)
+      old_post.subject, old_post.content = params[:post][:subject],
+        params[:post][:content]
+      a = old_post.save(validate: false)
+      my_post= old_post
+    end
+    respond_to do |format|
+      if a
+        # save_attachments
+        format.json { render json: { new_post: my_post.id } }
+      else
+        format.json { render json: @post.errors,
+          status: :unprocessable_entity}
+      end
+    end
+  end
+
   def destroy
     @post.destroy
     respond_to do |format|

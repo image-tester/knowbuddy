@@ -5,7 +5,7 @@
   = f.label :content, t("activerecord.attributes.post.content", default: "Content"), class: :label
   = f.text_area :content, class: 'text_area validate[funcCall[checkContent]]', id: 'textarea_kyu_content'
   = f.hidden_field :user_id, { value: current_user.id }
-
+  = f.hidden_field :id, { value: post.id }
 // ATTACHMENTS
 .group
   = f.label :content, t("activerecord.attributes.post.content", default: "Attachments"), class: :label

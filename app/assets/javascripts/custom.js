@@ -14,6 +14,7 @@ $(document).ready(function(){
       $(this).stopPropagation();
     }
     else {
+
       $.ajax({
         type: 'POST',
         url: '/posts/parse_content',
@@ -193,4 +194,27 @@ $(document).ready(function(){
       $(this).attr("href", current_link[0] + "=" + next_page_number);
     }
   });
+
+  // $("#new_kyu").click(function(){
+  if($("#new_kyu").length > 0) {
+    var new_kyu = $("#new_kyu");
+    setInterval(function() {
+      data1 = new_kyu.find('#post_subject').val()
+      data2 = new_kyu.find('#textarea_kyu_content').val()
+      user = new_kyu.find('#post_user_id').val()
+      post_id = new_kyu.find('#post_id').val()
+      if(data1.length > 0 && data2.length >0) {
+        $.ajax({
+          type: "POST",
+          dataType: "JSON",
+          url: "/posts/draft",
+          data: { post: { id: post_id, subject: data1, content: data2, user_id: user } },
+          success: function(data){
+            new_kyu.find('#post_id').val(data.new_post);
+          }
+        });
+      }
+    }, 30000);
+  }
+
 });

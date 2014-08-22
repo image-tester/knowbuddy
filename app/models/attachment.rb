@@ -13,8 +13,8 @@ class Attachment < ActiveRecord::Base
     medium: "300x300>",
     thumb: ["90x90#", :png] }
 
-  has_attached_file :post,
-    styles: lambda{ |a| IMAGE_FORMATS.include?(a.content_type) ? IMAGE_STYLES : {} },
+  has_attached_file :post, styles:
+    lambda{ |a| IMAGE_FORMATS.include?(a.content_type) ? IMAGE_STYLES : {} },
     path: ":rails_root/public/uploaded_files/:attachment/:id/:style/:filename",
     url: "/uploaded_files/:attachment/:id/:style/:filename"
 

@@ -1,5 +1,5 @@
 %h1 Edit Comment
-%h4 Post: #{@comment.post.subject}
+%h4 Post: #{@comment.post_subject}
 = form_for([:post, @comment], html: { class: :form, id: "formID" }) do |f|
   .group
     = f.hidden_field :user_id, {value: current_user.id }

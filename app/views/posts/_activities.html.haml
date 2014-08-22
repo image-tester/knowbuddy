@@ -1,5 +1,5 @@
-- @activities.each do |activity|
-  %tr{:class => cycle('list_line_odd', 'list_line_even')}
+- activities.each do |activity|
+  %tr{ class: cycle('list_line_odd', 'list_line_even')}
     %td
       = user_link(activity.owner) if activity.owner
       = render_activity activity

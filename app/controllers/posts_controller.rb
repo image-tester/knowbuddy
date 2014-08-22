@@ -18,7 +18,11 @@ class PostsController < ApplicationController
 
   def create
     attachment = params[:post].delete :attachment
-    @post = Post.new(params[:post])
+    if params[:post][:id].empty?
+      @post = Post.new(params[:post])
+    else
+      update_without_validation
+    end
     respond_to do |format|
       if @post.save
         save_attachments
@@ -32,28 +36,26 @@ class PostsController < ApplicationController
     end
   end
 
+  def update_without_validation
+    @post = Post.find(params[:post][:id])
+    @post.subject = params[:post][:subject]
+    @post.content = params[:post][:content]
+  end
+
   def draft
     attachment = params[:post].delete :attachment
     if params[:post][:id].empty?
-      new_post = Post.new(params[:post])
-      a = new_post.save(validate: false)
-      my_post = new_post
+      @post = Post.new(params[:post])
     else
-      old_post = Post.find(params[:post][:id].to_i)
-      old_post.subject, old_post.content = params[:post][:subject],
-        params[:post][:content]
-      a = old_post.save(validate: false)
-      my_post= old_post
+      update_without_validation
     end
-    respond_to do |format|
-      if a
-        # save_attachments
-        format.json { render json: { new_post: my_post.id } }
-      else
-        format.json { render json: @post.errors,
-          status: :unprocessable_entity}
-      end
-    end
+    @post.save(validate: false)
+    # save_attachments
+    render json: { new_post: @post.id }
+  end
+
+  def draft_list
+    @posts = current_user.posts.where(is_draft: true )
   end
 
   def destroy
@@ -72,7 +74,7 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.page(params[:page_2])
+    @posts = Post.where(is_draft: false).page(params[:page_2])
     @post = Post.new(params[:post])
     @activities = Activity.latest_activities(params[:page_3])
     @attachment = @post.attachments

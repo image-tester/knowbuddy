@@ -195,22 +195,22 @@ $(document).ready(function(){
     }
   });
 
-  // $("#new_kyu").click(function(){
   if($("#new_kyu").length > 0) {
     var new_kyu = $("#new_kyu");
     setInterval(function() {
-      data1 = new_kyu.find('#post_subject').val()
-      data2 = new_kyu.find('#textarea_kyu_content').val()
-      user = new_kyu.find('#post_user_id').val()
-      post_id = new_kyu.find('#post_id').val()
-      if(data1.length > 0 && data2.length >0) {
+      subject1 = new_kyu.find('#post_subject').val();
+      content2 = new_kyu.find('#textarea_kyu_content').val();
+      user = new_kyu.find('#post_user_id').val();
+      post_id = new_kyu.find('#post_id').val();
+      if(subject1.length > 0 && content2.length >0) {
         $.ajax({
           type: "POST",
           dataType: "JSON",
           url: "/posts/draft",
-          data: { post: { id: post_id, subject: data1, content: data2, user_id: user } },
+          data: { post: { id: post_id, subject: subject1, content: content2, user_id: user } },
           success: function(data){
             new_kyu.find('#post_id').val(data.new_post);
+            $('#draft').html('Saved-to-Draft');
           }
         });
       }

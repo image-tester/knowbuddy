@@ -26,6 +26,7 @@ class Post < ActiveRecord::Base
   before_create :set_publish_date
   before_destroy :destroy_post_activity, if: "deleted_at.blank?"
   around_save :create_new_tag_activity
+  after_validation :make_is_draft_false
 
   default_scope order: 'created_at DESC'
 
@@ -117,5 +118,9 @@ class Post < ActiveRecord::Base
 
     def destroy_post_activity
       Activity.add_activity('destroy',self)
+    end
+
+    def make_is_draft_false
+      self.is_draft = false
     end
 end

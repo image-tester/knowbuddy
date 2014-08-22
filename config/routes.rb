@@ -36,6 +36,7 @@ KYU::Application.routes.draw do
       get :user_posts
       post :parse_content
       post :draft
+      get :draft_list
     end
     resources :comments, except: [:index]
   end

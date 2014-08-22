@@ -21,7 +21,7 @@
               = t("activerecord.attributes.post.subject", default: t("activerecord.labels.subject", default: "Subject"))
             %th= t("web-app-theme.created_at", default: "Date")
 
-          - @posts.each do |post|
+          - @posts.where(is_draft: false).each do |post|
             %tr{class: cycle("odd", "even")}
               %td= post_link(post)
               %td= timeago_date_format(post.created_at)

@@ -97,7 +97,9 @@ class Post < ActiveRecord::Base
     end
 
     def create_post_activity
-      Activity.add_activity('create',self)
+      unless self.is_draft
+        Activity.add_activity('create',self)
+      end
     end
 
     def create_new_tag_activity

@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :post do
     association :user
+    id ""
     subject { Faker::Name.name }
     content { Faker::Name.name }
     created_at { Time.now }

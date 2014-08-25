@@ -38,7 +38,7 @@ describe PostsController do
     describe "POST create" do
       context 'Valid Attributes' do
         it 'should save post to database' do
-          @post = {subject: 'Swimming', content: 'freestyle', user_id: @user.id}
+          @post = {id: '', subject: 'Swimming', content: 'freestyle', user_id: @user.id}
           expect{
             post :create, post: @post, attachments_field: ""
           }.to change(Post, :count).by(1)
@@ -50,7 +50,7 @@ describe PostsController do
 
       context 'Invalid Attributes' do
         it 'Should not create post' do
-          @post = {subject: '', content: 'freestyle', user_id: @user.id}
+          @post = {id: '', subject: '', content: 'freestyle', user_id: @user.id}
           expect{
             post :create, post: @post, attachments_field: ""
           }.to_not change(Post, :count)

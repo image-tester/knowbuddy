@@ -43,14 +43,13 @@ class PostsController < ApplicationController
   end
 
   def draft
-    attachment = params[:post].delete :attachment
     if params[:post][:id].empty?
       @post = Post.new(params[:post])
     else
       update_without_validation
     end
     @post.save(validate: false)
-    # save_attachments
+    save_attachments
     render json: { new_post: @post.id }
   end
 

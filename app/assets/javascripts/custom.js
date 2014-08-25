@@ -199,15 +199,23 @@ $(document).ready(function(){
     var new_kyu = $("#new_kyu");
     setInterval(function() {
       subject1 = new_kyu.find('#post_subject').val();
+      var strDefaultValForKYUTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
       content2 = new_kyu.find('#textarea_kyu_content').val();
+      if ( content2 == strDefaultValForKYUTextarea ){
+        content2 = "";
+      }
       user = new_kyu.find('#post_user_id').val();
       post_id = new_kyu.find('#post_id').val();
-      if(subject1.length > 0 && content2.length >0) {
+      array = ""
+      if ( new_kyu.find('#attach-content').length > 0) {
+        array = attachments_field.value
+      }
+      if( subject1.length > 0 || content2.length >0 || new_kyu.find('#attach-content').length > 0) {
         $.ajax({
           type: "POST",
           dataType: "JSON",
           url: "/posts/draft",
-          data: { post: { id: post_id, subject: subject1, content: content2, user_id: user } },
+          data: { post: { id: post_id, subject: subject1, content: content2, user_id: user },attachments_field: array },
           success: function(data){
             new_kyu.find('#post_id').val(data.new_post);
             $('#draft').html('Saved-to-Draft');

@@ -3,7 +3,7 @@ namespace :activity do
   task update_parameter_hash_keys: :environment do
     puts "Start..."
 
-    Activity.find_in_batches(:batch_size => 100 ) do |activities|
+    Activity.find_in_batches(batch_size: 100 ) do |activities|
       activities.each do |activity|
         type = activity.trackable_type
         params = activity.parameters

@@ -25,7 +25,7 @@
       %h2.title
         Activities
       %table
-        = render "activities"
+        = render 'activities', activities: @activities
     .bottom
       = link_to_next_page @activities, 'View More' , remote: true , id: "load_more_link", param_name: :page_3
 

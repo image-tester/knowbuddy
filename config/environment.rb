@@ -2,7 +2,8 @@
 require File.expand_path('../application', __FILE__)
 
 # Added by Rohan - Load app configs
-APP_CONFIG = YAML::load(File.open("#{Rails.root}/config/appconfig.yml"))[Rails.env]
+APP_CONFIG = YAML::load(
+  File.open("#{Rails.root}/config/appconfig.yml"))[Rails.env]
 
 # Added by Rohan - set smtp host configuration
 #SMTP_SETTINGS = {

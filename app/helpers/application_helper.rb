@@ -21,7 +21,8 @@ module ApplicationHelper
   end
 
   def user_link(user)
-    capture { link_to user.display_name, user_posts_posts_path(user_id: user.id) }
+    capture { link_to user.display_name,
+      user_posts_posts_path(user_id: user.id) }
   end
 
   def post_date_link(post)

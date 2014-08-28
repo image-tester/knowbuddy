@@ -9,7 +9,7 @@ class PostsController < ApplicationController
 
   before_filter :tag_cloud,
     only: [ :edit, :index, :post_date, :new, :related_tag, :search,
-      :show, :user_posts, :create]
+      :show, :user_posts, :create, :draft]
 
   before_filter :user_list,
     only: [ :index, :post_date, :related_tag, :show, :user_posts ]
@@ -54,7 +54,7 @@ class PostsController < ApplicationController
   end
 
   def draft_list
-    @posts = current_user.posts.where(is_draft: true )
+    @posts = current_user.posts.draft
   end
 
   def destroy
@@ -73,7 +73,7 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.where(is_draft: false).page(params[:page_2])
+    @posts = Post.published.page(params[:page_2])
     @post = Post.new(params[:post])
     @activities = Activity.latest_activities(params[:page_3])
     @attachment = @post.attachments
@@ -149,7 +149,7 @@ class PostsController < ApplicationController
 
   def search
     unless params[:search].blank?
-      @posts_searched = Post.search_post(params[:search])
+      @posts_searched = Post.published.search_post(params[:search])
       respond_to do |format|
         format.html
         format.js {render :render_contributors_pagination}
@@ -213,6 +213,7 @@ class PostsController < ApplicationController
     end
 
     def tag_cloud
-      @tag_cloud_hash = Post.tag_cloud
+      @posts = Post.published
+      @tag_cloud_hash = @posts.tag_cloud
     end
 end

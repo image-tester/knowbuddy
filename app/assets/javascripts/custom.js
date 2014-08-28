@@ -3,30 +3,39 @@ $(document).ready(function(){
   $('#textarea_kyu_content').markItUp(mySettings);
   $("#formID1").validationEngine();
 
-  function preview() {
-  $("#previewlink").click(function(e) {
-    $(this).facebox();
-    var strDefaultValForKYUTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
-    var content = $(".text_area").val();
-    if(content == strDefaultValForKYUTextarea)
-    { content = "";
-      $("#textarea_kyu_content").validationEngine('validate');
-      $(this).stopPropagation();
-    }
-    else {
-
-      $.ajax({
-        type: 'POST',
-        url: '/posts/parse_content',
-        data: { divcontent: content},
-        dataType: 'json',
-        success: function(data){
-          $("#default_preview").html(data);
-          jQuery.facebox({ div: '#default_preview' });
-       },
-       error: function(error) { alert(error)}
-    });}
+  $('#new_kyu').keypress(function(){
+    $('#save_as_draft').removeAttr('disabled');
+    $('#save_as_draft').on( "click", function() {
+      $('#save_as_draft').hide();
+      save_draft();
+      $('#loading').show();
+    });
   });
+
+  function preview() {
+    $("#previewlink").click(function(e) {
+      $(this).facebox();
+      var strDefaultValForKYUTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
+      var content = $(".text_area").val();
+      if(content == strDefaultValForKYUTextarea)
+      { content = "";
+        $("#textarea_kyu_content").validationEngine('validate');
+        $(this).stopPropagation();
+      }
+      else {
+
+        $.ajax({
+          type: 'POST',
+          url: '/posts/parse_content',
+          data: { divcontent: content},
+          dataType: 'json',
+          success: function(data){
+            $("#default_preview").html(data);
+            jQuery.facebox({ div: '#default_preview' });
+         },
+         error: function(error) { alert(error)}
+      });}
+    });
   }
   $("#formIDRegi").validationEngine({
   'customFunctions': {
@@ -104,7 +113,7 @@ $(document).ready(function(){
   function newpostlink(a1,a2)
   {
     $(a1).removeClass("menu_active")
-    $(a2).addClass("menu_active")
+    $(a2).addClass("menu_acti#ve")
   }
   //end
 
@@ -119,6 +128,8 @@ $(document).ready(function(){
       $("#new_kyu").empty().append(data.new_post).slideDown(2000)
       preview()
       makeflieupload()
+      $('#save_as_draft').attr('disabled','disabled');
+      $('#loading').hide();
       $('#textarea_kyu_content').markItUp(mySettings);
       history.pushState({},'','#new_post');
     }
@@ -157,6 +168,7 @@ $(document).ready(function(){
     $('#main').empty().append('<div id="edit_kyu" />')
     $("#edit_kyu").css("display", "none").append(data).show()
     preview()
+
     makeflieupload()
     defaulttext("#formID")
     $('#textarea_kyu_content').markItUp(mySettings);
@@ -196,33 +208,43 @@ $(document).ready(function(){
   });
 
   if($("#new_kyu").length > 0) {
-    var new_kyu = $("#new_kyu");
-    setInterval(function() {
-      subject1 = new_kyu.find('#post_subject').val();
-      var strDefaultValForKYUTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
-      content2 = new_kyu.find('#textarea_kyu_content').val();
-      if ( content2 == strDefaultValForKYUTextarea ){
-        content2 = "";
-      }
-      user = new_kyu.find('#post_user_id').val();
-      post_id = new_kyu.find('#post_id').val();
-      array = ""
-      if ( new_kyu.find('#attach-content').length > 0) {
-        array = attachments_field.value
-      }
-      if( subject1.length > 0 || content2.length >0 || new_kyu.find('#attach-content').length > 0) {
-        $.ajax({
-          type: "POST",
-          dataType: "JSON",
-          url: "/posts/draft",
-          data: { post: { id: post_id, subject: subject1, content: content2, user_id: user },attachments_field: array },
-          success: function(data){
-            new_kyu.find('#post_id').val(data.new_post);
-            $('#draft').html('Saved-to-Draft');
-          }
-        });
-      }
-    }, 30000);
+    autosave();
   }
+
+  function autosave() {
+    setInterval( function(){ save_draft(); }, 30000 );
+  }
+
+  function save_draft() {
+    var new_kyu = $("#new_kyu");
+    subject1 = new_kyu.find('#post_subject').val();
+    var strDefaultValForKYUTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
+    content2 = new_kyu.find('#textarea_kyu_content').val();
+    if ( content2 == strDefaultValForKYUTextarea ){
+      content2 = "";
+    }
+    user = new_kyu.find('#post_user_id').val();
+    post_id = new_kyu.find('#post_id').val();
+    array = ""
+    if ( new_kyu.find('#attach-content').length > 0) {
+      array = attachments_field.value
+    }
+    var tags = post_tag_list.value
+    if( subject1.length > 0 || content2.length >0 || new_kyu.find('#attach-content').length > 0) {
+      $.ajax({
+        type: "POST",
+        dataType: "JSON",
+        url: "/posts/draft",
+        data: { post: { id: post_id, subject: subject1, content: content2, user_id: user, tag_list: tags },attachments_field: array },
+        success: function(data){
+          new_kyu.find('#post_id').val(data.new_post);
+          $('.draft').html('Saved');
+          $('#save_as_draft').show();
+          $('#loading').hide();
+        }
+      });
+    }
+  }
+
 
 });

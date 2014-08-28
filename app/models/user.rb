@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
     self.with_deleted.joins(:posts).
       select('users.name, users.email, users.id, COUNT(*) as total').
       where('posts.deleted_at IS NULL').
+      where('posts.is_draft IS FALSE').
       group('posts.user_id').order('total DESC').limit(3)
   end
 

@@ -29,6 +29,8 @@ class Post < ActiveRecord::Base
   after_validation :make_is_draft_false
 
   default_scope order: 'created_at DESC'
+  scope :draft, -> { where(is_draft: true) }
+  scope :published, -> { where(is_draft: false) }
 
   searchable do
     text :content, :subject
@@ -103,7 +105,9 @@ class Post < ActiveRecord::Base
     end
 
     def create_new_tag_activity
-      newTag = self.tag_list - ActsAsTaggableOn::Tag.pluck(:name)
+      unless self.is_draft
+        newTag = self.tag_list - ActsAsTaggableOn::Tag.pluck(:name)
+      end
       yield
       tag_activity(newTag) if newTag.present?
     end
@@ -116,7 +120,9 @@ class Post < ActiveRecord::Base
     end
 
     def update_post_activity
-      Activity.add_activity('update',self)
+      unless self.is_draft
+        Activity.add_activity('update',self)
+      end
     end
 
     def destroy_post_activity

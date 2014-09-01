@@ -13,7 +13,7 @@ describe Post do
 
   describe 'search_post(search_key)' do
     it 'should get the posts which matches keyword' do
-      keyword = "Xy"
+      keyword = "xyZ"
       post1 = create :post, subject: "Abc", content: "abc"
       post2 = create :post, subject: "XYz", content: "abc"
       post2.update_column(:publish_at, 1.day.ago)

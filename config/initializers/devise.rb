@@ -199,7 +199,9 @@ Devise.setup do |config|
   # because it's slower if you are using only default views.
   config.scoped_views = true  # Rohan turned it on. Default is false
 
-  config.secret_key = '56df17fc6e3476d63b1760fef186bee9bc9b5720bfcea2657e5fdc6013336351b7a679b61da8968e0c7a567e71f7b351ed7e347b53971ff41f90e54b4d814eeb'
+  config.secret_key ='56df17fc6e3476d63b1760fef186bee9bc9b5720bfcea2657'\
+                     'e5fdc6013336351b7a679b61da8968e0c7a567e71f7b351ed'\
+                     '7e347b53971ff41f90e54b4d814eeb'
 
   # Configure the default scope given to Warden. By default it's the first
   # devise role declared in your routes (usually :user).

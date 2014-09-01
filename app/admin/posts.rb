@@ -24,7 +24,7 @@ ActiveAdmin.register Post, as: "Posts"  do
     id_column
     column :subject
     column :user do |post|
-      post.user.display_name
+      post.user_name
     end
     column :publish_at
     column "Actions" do |post|
@@ -40,7 +40,7 @@ ActiveAdmin.register Post, as: "Posts"  do
       row :subject
       row :content
       row :user do |post|
-        post.user.active? ? post.user : post.user.display_name
+        post.user.active? ? post.user : post.user_name
       end
       row :slug
       row :created_at
@@ -51,7 +51,7 @@ ActiveAdmin.register Post, as: "Posts"  do
   controller do
     def destroy
       post = Post.get_post(params[:id])
-      post.destroy if post.deleted_at.blank?
+      post.destroy unless post.deleted_at?
       post.destroy
       flash[:notice] = "Post was successfully destroyed"
       redirect_to admin_posts_path

@@ -24,7 +24,7 @@ class PostsController < ApplicationController
         save_attachments
         load_partials
         format.json { render json: { new_entry: @new_entry, sidebar: @sidebar,
-          activity: @activity } }
+          activities: @activities } }
       else
         format.json { render json: @post.errors, status: :unprocessable_entity}
       end
@@ -64,7 +64,8 @@ class PostsController < ApplicationController
 
   def load_activities
     hide_link = true if @activities.count < ACTIVITIES_PER_PAGE
-    activities = render_to_string(partial: 'posts/activities')
+    activities = render_to_string(partial: 'posts/activities',
+      locals: { activities: @activities })
     render json: { activities: activities, hide_link: hide_link }
   end
 
@@ -74,7 +75,8 @@ class PostsController < ApplicationController
       locals: { post: @post })
     @sidebar = render_to_string( partial: "sidebar",
       locals: { tag_cloud_hash: tag_cloud, users: @users})
-    @activity = render_to_string( partial: "activities")
+    @activity = render_to_string( partial: "activities",
+      locals: { activities: @activities })
   end
 
   def new

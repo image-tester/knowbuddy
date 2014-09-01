@@ -69,7 +69,7 @@ class Post < ActiveRecord::Base
   end
 
   def user
-    User.with_deleted.find(user_id)
+    User.with_deleted.find(user_id) if user_id
   end
 
   def self.search_post(search_key)
@@ -107,7 +107,8 @@ class Post < ActiveRecord::Base
 
     def tag_activity(newTag)
       act_type = ActivityType.get_type('post.newTag')
-      new_act = create_activity key: 'post.newTag', owner: user, params: {"tag"=> newTag}
+      new_act = create_activity key: 'post.newTag', owner: user,
+        params: {"tag"=> newTag}
       new_act.update_column :activity_type_id, act_type.id
     end
 

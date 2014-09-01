@@ -3,10 +3,10 @@ class Comment < ActiveRecord::Base
   attr_accessible :comment, :created_at, :post_id, :updated_at, :user_id
   belongs_to :post
   belongs_to :user
-
   validates_presence_of :comment
 
   delegate :subject, to: :post, prefix: true
+  delegate :display_name, to: :user
 
   default_scope order: 'created_at DESC'
 
@@ -18,7 +18,7 @@ class Comment < ActiveRecord::Base
   before_destroy :destroy_comment_activity
 
   def user
-    User.with_deleted.find(user_id)
+    User.with_deleted.find(user_id) if user_id
   end
 
   def activity_params

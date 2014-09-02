@@ -46,6 +46,16 @@ describe PostsController do
           post = Post.find_by_subject "Swimming"
           post.should_not be_nil
         end
+
+        it 'should update the created draft and make it post' do
+          draft = create :draft
+          fetch_activity_type('post.update')
+          expect{
+            post :create, post: draft.attributes, attachments_field: ""
+          }.to_not change(Post, :count)
+          expect(Post.find(draft.id)[:is_draft]).to eq false
+          expect(Post.find(draft.id).activities).not_to be_nil
+        end
       end
 
       context 'Invalid Attributes' do
@@ -55,6 +65,37 @@ describe PostsController do
             post :create, post: @post, attachments_field: ""
           }.to_not change(Post, :count)
         end
+      end
+    end
+
+    describe 'POST draft' do
+      it 'should create new draft' do
+        draft = attributes_for(:draft,id: '', subject: 'example')
+        expect{
+          post :draft, post: draft, attachments_field: ""
+        }.to change(Post, :count).by(1)
+        expect(Post.find_by_subject('example')[:is_draft]).to eq true
+        expect(Post.find_by_subject('example').activities).to eq []
+      end
+
+      it 'should update the existing draft if draft is present' do
+        draft = create :draft
+        expect{
+          post :draft, post: draft.attributes, attachments_field: ""
+        }.to_not change(Post, :count)
+        expect(Post.find(draft.id)[:is_draft]).to eq true
+        expect(Post.find(draft.id).activities).to eq []
+      end
+    end
+
+    describe 'Get draft_list' do
+      it 'should return entire draft list for the user' do
+        draft1 = create :draft, user_id: @user.id
+        draft2 = create :draft, user_id: @user_2.id
+        get :draft_list
+        response.should be_successful
+        expect(assigns[:posts]).to eq([draft1])
+        expect(assigns[:posts]).to_not include(@post)
       end
     end
 

@@ -21,12 +21,12 @@ class Post < ActiveRecord::Base
 
   delegate :name, :email, to: :user, prefix: true
 
-  after_create :create_post_activity
-  after_update :update_post_activity
+  after_create :post_activity, unless: "is_draft"
+  after_update :post_activity, unless: "is_draft"
   before_create :set_publish_date
   before_destroy :destroy_post_activity, if: "deleted_at.blank?"
   around_save :create_new_tag_activity
-  after_validation :make_is_draft_false
+  after_validation :set_is_draft_false
 
   default_scope order: 'created_at DESC'
   scope :draft, -> { where(is_draft: true) }
@@ -98,12 +98,6 @@ class Post < ActiveRecord::Base
       self.publish_at = Time.now
     end
 
-    def create_post_activity
-      unless self.is_draft
-        Activity.add_activity('create',self)
-      end
-    end
-
     def create_new_tag_activity
       unless self.is_draft
         newTag = self.tag_list - ActsAsTaggableOn::Tag.pluck(:name)
@@ -119,8 +113,10 @@ class Post < ActiveRecord::Base
       new_act.update_column :activity_type_id, act_type.id
     end
 
-    def update_post_activity
-      unless self.is_draft
+    def post_activity
+      if self.is_draft_changed?
+        Activity.add_activity('create',self)
+      else
         Activity.add_activity('update',self)
       end
     end
@@ -129,7 +125,7 @@ class Post < ActiveRecord::Base
       Activity.add_activity('destroy',self)
     end
 
-    def make_is_draft_false
+    def set_is_draft_false
       self.is_draft = false
     end
 end

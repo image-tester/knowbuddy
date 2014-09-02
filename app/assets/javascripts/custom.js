@@ -5,12 +5,15 @@ $(document).ready(function(){
 
   $('#new_kyu').keypress(function(){
     $('#save_as_draft').removeAttr('disabled');
-    $('#save_as_draft').on( "click", function() {
-      $('#save_as_draft').hide();
-      save_draft();
-      $('#loading').show();
-    });
   });
+
+  function save_as_draft() {
+    $('#save_as_draft').click(function(){
+      $('#save_as_draft').hide()
+      $('#loading').show()
+      save_draft()
+    });
+  }
 
   function preview() {
     $("#previewlink").click(function(e) {
@@ -132,6 +135,7 @@ $(document).ready(function(){
       $('#loading').hide();
       $('#textarea_kyu_content').markItUp(mySettings);
       history.pushState({},'','#new_post');
+      save_as_draft()
     }
   });
 

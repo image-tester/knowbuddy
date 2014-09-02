@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+  var strDefaultValForKYUTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
   $('#textarea_kyu_content').markItUp(mySettings);
   $("#formID1").validationEngine();
 
@@ -18,7 +19,6 @@ $(document).ready(function(){
   function preview() {
     $("#previewlink").click(function(e) {
       $(this).facebox();
-      var strDefaultValForKYUTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
       var content = $(".text_area").val();
       if(content == strDefaultValForKYUTextarea)
       { content = "";
@@ -116,7 +116,7 @@ $(document).ready(function(){
   function newpostlink(a1,a2)
   {
     $(a1).removeClass("menu_active")
-    $(a2).addClass("menu_acti#ve")
+    $(a2).addClass("menu_active")
   }
   //end
 
@@ -172,7 +172,8 @@ $(document).ready(function(){
     $('#main').empty().append('<div id="edit_kyu" />')
     $("#edit_kyu").css("display", "none").append(data).show()
     preview()
-
+    $('#save_as_draft').hide()
+    $('#loading').hide()
     makeflieupload()
     defaulttext("#formID")
     $('#textarea_kyu_content').markItUp(mySettings);
@@ -212,34 +213,34 @@ $(document).ready(function(){
   });
 
   if($("#new_kyu").length > 0) {
-    autosave();
-  }
-
-  function autosave() {
     setInterval( function(){ save_draft(); }, 30000 );
   }
 
   function save_draft() {
     var new_kyu = $("#new_kyu");
-    subject1 = new_kyu.find('#post_subject').val();
-    var strDefaultValForKYUTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
-    content2 = new_kyu.find('#textarea_kyu_content').val();
-    if ( content2 == strDefaultValForKYUTextarea ){
-      content2 = "";
+    post_subject = new_kyu.find('#post_subject').val();
+    post_content = new_kyu.find('#textarea_kyu_content').val();
+    if ( post_content == strDefaultValForKYUTextarea ){
+      post_content = "";
     }
     user = new_kyu.find('#post_user_id').val();
     post_id = new_kyu.find('#post_id').val();
-    array = ""
+    var attachment_values = ""
     if ( new_kyu.find('#attach-content').length > 0) {
-      array = attachments_field.value
+      attachment_values = attachments_field.value
     }
     var tags = post_tag_list.value
-    if( subject1.length > 0 || content2.length >0 || new_kyu.find('#attach-content').length > 0) {
+    if( post_subject.length > 0 || post_content.length >0 || new_kyu.find('#attach-content').length > 0) {
       $.ajax({
         type: "POST",
         dataType: "JSON",
         url: "/posts/draft",
-        data: { post: { id: post_id, subject: subject1, content: content2, user_id: user, tag_list: tags },attachments_field: array },
+        data: { post: { id: post_id,
+          subject: post_subject,
+          content: post_content,
+          user_id: user, tag_list: tags },
+          attachments_field: attachment_values
+        },
         success: function(data){
           new_kyu.find('#post_id').val(data.new_post);
           $('.draft').html('Saved');

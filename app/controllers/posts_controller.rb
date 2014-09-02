@@ -21,7 +21,7 @@ class PostsController < ApplicationController
     if params[:post][:id].empty?
       @post = Post.new(params[:post])
     else
-      update_without_validation
+      assign_post_attributes
     end
     respond_to do |format|
       if @post.save
@@ -36,18 +36,15 @@ class PostsController < ApplicationController
     end
   end
 
-  def update_without_validation
+  def assign_post_attributes
     @post = Post.find(params[:post][:id])
     @post.subject = params[:post][:subject]
     @post.content = params[:post][:content]
   end
 
   def draft
-    if params[:post][:id].empty?
-      @post = Post.new(params[:post])
-    else
-      update_without_validation
-    end
+    params[:post][:id].empty? ?
+      @post = Post.new(params[:post]) : assign_post_attributes
     @post.save(validate: false)
     save_attachments
     render json: { new_post: @post.id }

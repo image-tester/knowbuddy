@@ -114,11 +114,8 @@ class Post < ActiveRecord::Base
     end
 
     def post_activity
-      if self.is_draft_changed?
-        Activity.add_activity('create',self)
-      else
-        Activity.add_activity('update',self)
-      end
+      action = self.is_draft_changed? ? 'create' : 'update'
+      Activity.add_activity(action, self)
     end
 
     def destroy_post_activity

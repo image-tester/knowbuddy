@@ -14,7 +14,7 @@ feature "Post" do
 
     click_link 'New Post'
 
-    page.should have_selector("#formID1", text: "Subject")
+    page.should have_selector("#new_kyu", text: "New Post")
 
     fill_in 'post[subject]', with: 'My First Post'
     fill_in 'post[content]', with: 'Content Example'
@@ -23,6 +23,28 @@ feature "Post" do
     page.should_not have_selector('#new_kyu', visible: true)
     page.should have_content('My First Post')
     Post.last.subject == 'My First Post'
+    Post.last.is_draft == false
+  end
+
+  scenario "draft creation", js: true do
+    visit posts_path
+
+    click_link 'New Post'
+
+    page.should have_selector("#new_kyu", text: "New Post")
+
+    fill_in 'post[subject]', with: 'My First Draft'
+    fill_in 'post[content]', with: 'Content Example'
+    click_on 'Save to Draft'
+
+    page.should have_selector('#new_kyu', visible: true)
+    page.should_not have_selector('#loading', visible: true)
+    page.should have_selector('.draft', visible: true )
+    Post.last.subject == 'My First Draft'
+    Post.last.is_draft == true
+
+    visit draft_list_posts_path
+    page.should have_content('My First Draft')
   end
 
   scenario "Updation", js: true do
@@ -38,7 +60,7 @@ feature "Post" do
     fill_in 'post[content]', with: updated_content
     click_on 'Save'
 
-    page.should have_selector("#formID")
+    page.should_not have_selector("#formID")
     page.should have_selector("#kyu-post", text: updated_content)
   end
 

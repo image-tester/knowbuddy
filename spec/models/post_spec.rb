@@ -108,4 +108,40 @@ describe Post do
       end
     end
   end
+
+  describe 'Instance Methods' do
+    describe 'to_s' do
+      it 'should return subject' do
+        post = create :post
+        expect(post.to_s).to eq post.subject
+      end
+    end
+  end
+
+  describe 'Class Methods' do
+    describe 'get_post(post_id)' do
+      it 'should' do
+        post = create :post
+        expect(Post.get_post(post.id)).to eq post
+      end
+    end
+
+    describe 'invalid_attachments' do
+      it 'should delete invalid attachments' do
+        attachment1 = Attachment.create()
+        attachment2 = Attachment.create()
+        expect(Post.invalid_attachments).to eq [attachment1,attachment2]
+      end
+    end
+
+    describe 'tag_cloud' do
+      it 'should show tags in order' do
+        fetch_activity_type('post.newTag')
+        create_list(:post, 5, tag_list: "a")
+        create_list(:post, 2, tag_list: "b")
+        create :post, tag_list: "c"
+        expect(Post.tag_cloud.keys.map(&:name)).to include("a","b","c")
+      end
+    end
+  end
 end

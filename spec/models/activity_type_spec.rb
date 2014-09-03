@@ -24,7 +24,7 @@ describe ActivityType do
     end
   end
 
-  describe 'instance methods' do
+  describe 'Instance Methods' do
     let(:type) { create :activity_type }
 
     describe 'activate' do
@@ -38,6 +38,22 @@ describe ActivityType do
       it 'should mark is_active false' do
         type.deactivate
         type.is_active.should be_false
+      end
+    end
+  end
+
+  describe 'Validations' do
+    it { should validate_presence_of(:activity_type) }
+    it { should validate_uniqueness_of(:activity_type) }
+    it { should allow_value(true, false).for(:is_active) }
+  end
+
+  describe 'Class Methods' do
+    describe '.get_type(key)' do
+      it 'should return the matched record' do
+        activity = create :activity
+        activity_type = create :activity_type, activity_type: "test.create"
+        expect(ActivityType.get_type(activity.key)).to eq activity_type
       end
     end
   end

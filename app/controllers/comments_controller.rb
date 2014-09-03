@@ -21,10 +21,6 @@ class CommentsController < ApplicationController
     end
   end
 
-  def index
-    @post = comment.post
-  end
-
   def new
   end
 

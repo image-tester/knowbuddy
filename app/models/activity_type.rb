@@ -4,7 +4,7 @@ class ActivityType < ActiveRecord::Base
   has_many :activities, dependent: :destroy
 
   validates :activity_type, presence: true, uniqueness: true
-  validates_inclusion_of :is_active, in: [true, false]
+  validates :is_active, inclusion: { in: [true, false] }
 
   def activate
     update_attribute :is_active, true

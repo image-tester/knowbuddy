@@ -18,11 +18,7 @@ class PostsController < ApplicationController
 
   def create
     attachment = params[:post].delete :attachment
-    if params[:post][:id].empty?
-      @post = Post.new(params[:post])
-    else
-      assign_post_attributes
-    end
+    get_current_post
     respond_to do |format|
       if @post.save
         save_attachments
@@ -43,8 +39,7 @@ class PostsController < ApplicationController
   end
 
   def draft
-    params[:post][:id].empty? ?
-      @post = Post.new(params[:post]) : assign_post_attributes
+    get_current_post
     @post.save(validate: false)
     save_attachments
     render json: { new_post: @post.id }
@@ -212,5 +207,10 @@ class PostsController < ApplicationController
     def tag_cloud
       @posts = Post.published
       @tag_cloud_hash = @posts.tag_cloud
+    end
+
+    def get_current_post
+      params[:post][:id].empty? ?
+        @post = Post.new(params[:post]) : assign_post_attributes
     end
 end

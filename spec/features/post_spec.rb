@@ -20,10 +20,10 @@ feature "Post" do
     fill_in 'post[content]', with: 'Content Example'
     click_on 'Save'
 
-    page.should_not have_selector('#new_kyu', visible: true)
     page.should have_content('My First Post')
     Post.last.subject == 'My First Post'
     Post.last.is_draft == false
+    page.should_not have_selector('#new_kyu', visible: true)
   end
 
   scenario "draft creation", js: true do

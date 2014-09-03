@@ -2,7 +2,6 @@ class CommentsController < ApplicationController
 
   before_filter :find_comment, only: [:destroy, :edit, :show, :new, :update]
   before_filter :find_post, only: [:create, :destroy]
-  after_filter :comment_redirect, only: [:new, :show]
 
   def create
     @comment = @post.comments.build(params[:comment])
@@ -22,9 +21,11 @@ class CommentsController < ApplicationController
   end
 
   def new
+    redirect_comment
   end
 
   def show
+    redirect_comment
   end
 
   def update
@@ -52,7 +53,7 @@ class CommentsController < ApplicationController
       @post = Post.find(params[:post_id])
     end
 
-    def comment_redirect
+    def redirect_comment
       respond_to do |format|
         format.html
         format.json { render json: @comment }

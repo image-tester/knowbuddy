@@ -91,16 +91,19 @@ describe PostsController do
 
     describe "GET load_activities" do
       it 'should hide View More link if activities are less than ACTIVITIES_PER_PAGE' do
-        controller.instance_variable_set(:@activities, (create_list :activity, 4))
-        get :load_activities, format: :js
+        create_list :activity, 30
+        xhr :get, :index, format: :js, page_3: "2"
+        expect(assigns[:posts]).to include(post_two)
         expect(JSON.parse(response.body)["hide_link"]).to be_true
         expect(response).to render_template(partial: 'posts/_activities', format: :js)
       end
 
       it 'should not hide View More link if activities are more than ACTIVITIES_PER_PAGE' do
-        controller.instance_variable_set(:@activities, (create_list :activity, 22))
-        get :load_activities, format: :js
+        create_list :activity, 40
+        xhr :get, :index, format: :js, page_3: "2"
+        expect(assigns[:posts]).to include(post_two)
         expect(JSON.parse(response.body)["hide_link"]).to be_false
+        expect(response).to render_template(partial: 'posts/_activities', format: :js)
       end
     end
 

@@ -156,7 +156,7 @@ $(document).ready(function(){
       $('tr:even').removeClass('odd').addClass('even');
       $('tr:odd').removeClass('even').addClass('odd');
       $(".block2").show();
-      $(".new table").empty().append(data.activity)
+      $(".new table").html(data.activities)
       $("#new_kyu").empty()
       $("#sidebar").empty().append(data.sidebar)
       newpostlink('#new_entry','#home_pg')

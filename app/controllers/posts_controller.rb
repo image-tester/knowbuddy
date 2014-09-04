@@ -23,8 +23,8 @@ class PostsController < ApplicationController
       if @post.save
         save_attachments
         load_partials
-        format.json { render json: { new_entry: @new_entry, sidebar: @sidebar,
-          activities: @activities } }
+        format.json { render json: { new_entry: @new_entry,
+         activities: @activities_html, sidebar: @sidebar } }
       else
         format.json { render json: @post.errors, status: :unprocessable_entity}
       end
@@ -94,7 +94,7 @@ class PostsController < ApplicationController
       locals: { post: @post })
     @sidebar = render_to_string( partial: "sidebar",
       locals: { tag_cloud_hash: tag_cloud, users: @users})
-    @activity = render_to_string( partial: "activities",
+    @activities_html = render_to_string( partial: "activities",
       locals: { activities: @activities })
   end
 

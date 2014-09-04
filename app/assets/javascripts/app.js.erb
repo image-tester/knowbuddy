@@ -45,7 +45,7 @@ $(document).ready(function() {
     var id = $(this).parent().attr("post_id");
     var temp = $(this);
     $.ajax({
-      type: "POST",
+      type: "GET",
       url: "/posts/remove_tag",
       dataType: "json",
       data: {"id": id, "tag": tag},

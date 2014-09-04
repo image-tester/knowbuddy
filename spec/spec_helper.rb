@@ -45,3 +45,7 @@ end
 def fetch_activity_type(type)
   ActivityType.where(activity_type: type, is_active: true).first_or_create
 end
+
+def find_activity(user, key)
+  PublicActivity::Activity.find_by_owner_id_and_key(user.id, key)
+end

@@ -26,8 +26,7 @@ class PostsController < ApplicationController
         format.json { render json: { new_entry: @new_entry, sidebar: @sidebar,
           activities: @activities } }
       else
-        format.json { render json: @post.errors,
-          status: :unprocessable_entity}
+        format.json { render json: @post.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -36,6 +35,8 @@ class PostsController < ApplicationController
     @post = Post.find(params[:post][:id])
     @post.subject = params[:post][:subject]
     @post.content = params[:post][:content]
+    @post.is_draft = params[:post][:is_draft]
+    @post.tag_list = params[:post][:tag_list]
   end
 
   def draft
@@ -132,7 +133,7 @@ class PostsController < ApplicationController
 
   def save_attachments
     attachments = params[:attachments_field].split(",")
-    unless attachments.blank?
+    if attachments.present?
       attachments.each do |attachment|
         @post.attachments << Attachment.find(attachment)
       end
@@ -140,7 +141,7 @@ class PostsController < ApplicationController
   end
 
   def search
-    unless params[:search].blank?
+    if params[:search].present?
       @posts_searched = Post.published.search_post(params[:search])
       respond_to do |format|
         format.html
@@ -168,12 +169,10 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.update_attributes(params[:post])
         save_attachments
-        update_entry = render_to_string(partial: "post",
-          locals:{post: @post})
+        update_entry = render_to_string(partial: "post", locals:{post: @post})
         format.json { render json: update_entry.to_json}
       else
-        format.json { render json: @post.errors,
-          status: :unprocessable_entity }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
   end

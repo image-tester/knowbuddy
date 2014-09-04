@@ -48,7 +48,7 @@ describe Activity do
       it 'should add new activity with owner as post' do
         post = create :post
         activity = Activity.add_activity('create', post)
-        expect(Activity.count).to eq(3)
+        expect(Activity.count).to eq(4)
         expect(activity).to eq true
       end
     end

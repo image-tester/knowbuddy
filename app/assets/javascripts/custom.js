@@ -136,6 +136,7 @@ $(document).ready(function(){
       $('#textarea_kyu_content').markItUp(mySettings);
       history.pushState({},'','#new_post');
       save_as_draft()
+      autosave()
     }
   });
 
@@ -172,11 +173,12 @@ $(document).ready(function(){
     $('#main').empty().append('<div id="edit_kyu" />')
     $("#edit_kyu").css("display", "none").append(data).show()
     preview()
-    $('#save_as_draft').hide()
+    $('#save_as_draft').show()
     $('#loading').hide()
     makeflieupload()
-    defaulttext("#formID")
     $('#textarea_kyu_content').markItUp(mySettings);
+    save_as_draft()
+    autosave()
   });
 
   $('body').on('ajax:success', '#formID', function(xhr, data, status) {
@@ -212,25 +214,27 @@ $(document).ready(function(){
     }
   });
 
-  if($("#new_kyu").length > 0) {
-    setInterval( function(){ save_draft(); }, 30000 );
+  function autosave() {
+    if($("#new_kyu").length > 0) {
+      setInterval( function(){ save_draft(); }, 30000 );
+    }
   }
 
   function save_draft() {
-    var new_kyu = $("#new_kyu");
-    post_subject = new_kyu.find('#post_subject').val();
-    post_content = new_kyu.find('#textarea_kyu_content').val();
+    var kyu = ($("#new_kyu").length > 0) ? $("#new_kyu") : $("#edit_kyu")
+    post_subject = kyu.find('#post_subject').val();
+    post_content = kyu.find('#textarea_kyu_content').val();
     if ( post_content == strDefaultValForKYUTextarea ){
       post_content = "";
     }
-    user = new_kyu.find('#post_user_id').val();
-    post_id = new_kyu.find('#post_id').val();
+    user = kyu.find('#post_user_id').val();
+    post_id = kyu.find('#post_id').val();
     var attachment_values = ""
-    if ( new_kyu.find('#attach-content').length > 0) {
+    if ( kyu.find('#attach-content').length > 0) {
       attachment_values = attachments_field.value
     }
     var tags = post_tag_list.value
-    if( post_subject.length > 0 || post_content.length >0 || new_kyu.find('#attach-content').length > 0) {
+    if( post_subject.length > 0 || post_content.length >0 || kyu.find('#attach-content').length > 0) {
       $.ajax({
         type: "POST",
         dataType: "JSON",
@@ -238,11 +242,13 @@ $(document).ready(function(){
         data: { post: { id: post_id,
           subject: post_subject,
           content: post_content,
-          user_id: user, tag_list: tags },
+          user_id: user,
+          tag_list: tags,
+          is_draft: true },
           attachments_field: attachment_values
         },
         success: function(data){
-          new_kyu.find('#post_id').val(data.new_post);
+          kyu.find('#post_id').val(data.new_post);
           $('.draft').html('Saved');
           $('#save_as_draft').show();
           $('#loading').hide();

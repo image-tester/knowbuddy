@@ -99,11 +99,11 @@ class Post < ActiveRecord::Base
     end
 
     def create_new_tag_activity
-      unless self.is_draft
-        newTag = self.tag_list - ActsAsTaggableOn::Tag.pluck(:name)
-      end
+      newTag = self.tag_list - ActsAsTaggableOn::Tag.pluck(:name)
       yield
-      tag_activity(newTag) if newTag.present?
+      unless  self.is_draft
+        tag_activity(newTag) if newTag.present?
+      end
     end
 
     def tag_activity(newTag)

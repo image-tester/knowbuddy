@@ -231,7 +231,7 @@ describe PostsController do
 
     describe "Get post for date" do
       it "should get all post's for particular date" do
-        post1 = create :post, created_at: 1.day.ago
+        post1 = create :post, updated_at: 1.day.ago
         post2 = create :post
         get :post_date, post_id: post2.id
         expect(assigns[:posts]).to include(post2)

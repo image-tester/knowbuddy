@@ -81,8 +81,8 @@ class Post < ActiveRecord::Base
   end
 
   def self.post_date(post)
-    current_date = post.created_at.to_date
-    where("created_at >= ? and created_at <= ?",
+    current_date = post.updated_at.to_date
+    where("updated_at >= ? and updated_at <= ?",
       current_date.beginning_of_day, current_date.end_of_day)
   end
 

@@ -215,7 +215,7 @@ $(document).ready(function(){
   });
 
   function autosave() {
-    if($("#new_kyu").length > 0) {
+    if($("#new_kyu").length > 0 || $("#edit_kyu").length > 0 ) {
       setInterval( function(){ save_draft(); }, 30000 );
     }
   }

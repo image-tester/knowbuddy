@@ -1,7 +1,7 @@
 ActiveAdmin.register Post, as: "Posts"  do
 
   menu priority: 1
-
+  config.sort_order = "updated_at_desc"
   filter :subject
   filter :user , as: :select,
     collection: User.with_deleted.user_collection_email_name
@@ -22,11 +22,12 @@ ActiveAdmin.register Post, as: "Posts"  do
 
   index do
     id_column
-    column :subject
+    column :subject, sortable: 'updated_at'
     column :user do |post|
       post.user_name
     end
-    column :publish_at
+
+    column :publish_at, sortable: 'updated_at'
     column "Actions" do |post|
       raw "#{link_to 'View', admin_post_path(post), method: :get}
         #{link_to 'Edit', edit_admin_post_path(post), method: :get}

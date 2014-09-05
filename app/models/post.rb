@@ -21,13 +21,16 @@ class Post < ActiveRecord::Base
 
   delegate :name, :email, to: :user, prefix: true
 
-  after_create :create_post_activity
-  after_update :update_post_activity
+  after_create :post_activity, unless: "is_draft"
+  after_update :post_activity, unless: "is_draft"
   before_create :set_publish_date
   before_destroy :destroy_post_activity, if: "deleted_at.blank?"
   around_save :create_new_tag_activity
+  after_validation :set_is_draft_false
 
   default_scope order: 'updated_at DESC'
+  scope :draft, -> { where(is_draft: true) }
+  scope :published, -> { where(is_draft: false) }
 
   searchable do
     text :content, :subject
@@ -95,14 +98,12 @@ class Post < ActiveRecord::Base
       self.publish_at = Time.now
     end
 
-    def create_post_activity
-      Activity.add_activity('create',self)
-    end
-
     def create_new_tag_activity
       newTag = self.tag_list - ActsAsTaggableOn::Tag.pluck(:name)
       yield
-      tag_activity(newTag) if newTag.present?
+      unless  self.is_draft
+        tag_activity(newTag) if newTag.present?
+      end
     end
 
     def tag_activity(newTag)
@@ -112,11 +113,16 @@ class Post < ActiveRecord::Base
       new_act.update_column :activity_type_id, act_type.id
     end
 
-    def update_post_activity
-      Activity.add_activity('update',self)
+    def post_activity
+      action = self.is_draft_changed? ? 'create' : 'update'
+      Activity.add_activity(action, self)
     end
 
     def destroy_post_activity
       Activity.add_activity('destroy',self)
+    end
+
+    def set_is_draft_false
+      self.is_draft = false
     end
 end

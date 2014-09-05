@@ -1,11 +1,14 @@
 .group
+  %div#draft2
+    %div.draft
+.group
   = f.label :subject, t("activerecord.attributes.post.subject", default: "Subject"), class: :label
   = f.text_field :subject, class: 'text_field validate[required] text-input'
 .group
   = f.label :content, t("activerecord.attributes.post.content", default: "Content"), class: :label
   = f.text_area :content, class: 'text_area validate[funcCall[checkContent]]', id: 'textarea_kyu_content'
   = f.hidden_field :user_id, { value: current_user.id }
-
+  = f.hidden_field :id, { value: post.id }
 // ATTACHMENTS
 .group
   = f.label :content, t("activerecord.attributes.post.content", default: "Attachments"), class: :label
@@ -34,3 +37,8 @@
     = t("web-app-theme.save", default: "Save")
   %span.text_button_padding= t("web-app-theme.or", default: "or")
   = link_to t("web-app-theme.cancel", default: "Cancel"), "#", class: "text_button_padding link_button", id: 'kyu_cancel'
+  %span.text_button_padding= t("web-app-theme.or", default: "")
+  = button_tag id: "save_as_draft", type: "button" do
+    = "Save to Draft"
+  %img#loading{src: "/assets/loading.gif"}
+  %div.draft

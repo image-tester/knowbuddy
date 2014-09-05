@@ -1,31 +1,44 @@
 $(document).ready(function(){
 
+  var strDefaultValForKYUTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
   $('#textarea_kyu_content').markItUp(mySettings);
   $("#formID1").validationEngine();
 
-  function preview() {
-  $("#previewlink").click(function(e) {
-    $(this).facebox();
-    var strDefaultValForKYUTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
-    var content = $(".text_area").val();
-    if(content == strDefaultValForKYUTextarea)
-    { content = "";
-      $("#textarea_kyu_content").validationEngine('validate');
-      $(this).stopPropagation();
-    }
-    else {
-      $.ajax({
-        type: 'POST',
-        url: '/posts/parse_content',
-        data: { divcontent: content},
-        dataType: 'json',
-        success: function(data){
-          $("#default_preview").html(data);
-          jQuery.facebox({ div: '#default_preview' });
-       },
-       error: function(error) { alert(error)}
-    });}
+  $('#new_kyu').keypress(function(){
+    $('#save_as_draft').removeAttr('disabled');
   });
+
+  function save_as_draft() {
+    $('#save_as_draft').click(function(){
+      $('#save_as_draft').hide()
+      $('#loading').show()
+      save_draft()
+    });
+  }
+
+  function preview() {
+    $("#previewlink").click(function(e) {
+      $(this).facebox();
+      var content = $(".text_area").val();
+      if(content == strDefaultValForKYUTextarea)
+      { content = "";
+        $("#textarea_kyu_content").validationEngine('validate');
+        $(this).stopPropagation();
+      }
+      else {
+
+        $.ajax({
+          type: 'POST',
+          url: '/posts/parse_content',
+          data: { divcontent: content},
+          dataType: 'json',
+          success: function(data){
+            $("#default_preview").html(data);
+            jQuery.facebox({ div: '#default_preview' });
+         },
+         error: function(error) { alert(error)}
+      });}
+    });
   }
   $("#formIDRegi").validationEngine({
   'customFunctions': {
@@ -117,8 +130,12 @@ $(document).ready(function(){
       $("#new_kyu").empty().append(data.new_post).slideDown(2000)
       preview()
       makeflieupload()
+      $('#save_as_draft').attr('disabled','disabled');
+      $('#loading').hide();
       $('#textarea_kyu_content').markItUp(mySettings);
       history.pushState({},'','#new_post');
+      save_as_draft()
+      autosave()
     }
   });
 
@@ -138,7 +155,7 @@ $(document).ready(function(){
       $('tr:even').removeClass('odd').addClass('even');
       $('tr:odd').removeClass('even').addClass('odd');
       $(".block2").show();
-      $(".new table").empty().append(data.activity)
+      $(".new table").html(data.activities)
       $("#new_kyu").empty()
       $("#sidebar").empty().append(data.sidebar)
       newpostlink('#new_entry','#home_pg')
@@ -153,9 +170,12 @@ $(document).ready(function(){
     $('#main').empty().append('<div id="edit_kyu" />')
     $("#edit_kyu").css("display", "none").append(data).show()
     preview()
+    $('#save_as_draft').show()
+    $('#loading').hide()
     makeflieupload()
-    defaulttext("#formID")
     $('#textarea_kyu_content').markItUp(mySettings);
+    save_as_draft()
+    autosave()
   });
 
   $('body').on('ajax:success', '#formID', function(xhr, data, status) {
@@ -191,4 +211,49 @@ $(document).ready(function(){
       $(this).attr("href", current_link[0] + "=" + next_page_number);
     }
   });
+
+  function autosave() {
+    if($("#new_kyu").length > 0 || $("#edit_kyu").length > 0 ) {
+      setInterval( function(){ save_draft(); }, 30000 );
+    }
+  }
+
+  function save_draft() {
+    var kyu = ($("#new_kyu").length > 0) ? $("#new_kyu") : $("#edit_kyu")
+    post_subject = kyu.find('#post_subject').val();
+    post_content = kyu.find('#textarea_kyu_content').val();
+    if ( post_content == strDefaultValForKYUTextarea ){
+      post_content = "";
+    }
+    user = kyu.find('#post_user_id').val();
+    post_id = kyu.find('#post_id').val();
+    var attachment_values = ""
+    if ( kyu.find('#attach-content').length > 0) {
+      attachment_values = attachments_field.value
+    }
+    var tags = post_tag_list.value
+    if( post_subject.length > 0 || post_content.length >0 || kyu.find('#attach-content').length > 0) {
+      $.ajax({
+        type: "POST",
+        dataType: "JSON",
+        url: "/posts/draft",
+        data: { post: { id: post_id,
+          subject: post_subject,
+          content: post_content,
+          user_id: user,
+          tag_list: tags,
+          is_draft: true },
+          attachments_field: attachment_values
+        },
+        success: function(data){
+          kyu.find('#post_id').val(data.new_post);
+          $('.draft').html('Saved');
+          $('#save_as_draft').show();
+          $('#loading').hide();
+        }
+      });
+    }
+  }
+
+
 });

@@ -20,6 +20,9 @@
                 = link_to t("web-app-theme.newpost", default: "New Post"),
                   new_post_path(new_post: true), id: 'new_entry', remote: true
               %li
+                = link_to t("web-app-theme.newpost", default: "Drafts"),
+                  draft_list_posts_path, class: is_active?("draft_list"), id: 'draft_list'
+              %li
                 = link_to t("web-app-thme.profile", default: "Profile"),
                   edit_user_path(current_user), class: is_active?("edit")
               %li

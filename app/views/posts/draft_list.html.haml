@@ -1,0 +1,24 @@
+.block
+  .secondary-navigation
+  .content
+    #new_kyu
+
+    %h2.title
+      = t("web-app-theme.all", default: "All")
+      Drafts
+    .inner
+      %table.table
+        %tr
+          %th
+            = t("activerecord.attributes.post.subject", default: t("activerecord.labels.subject", default: "Subject"))
+          %th
+            = t("activerecord.attributes.post.content", default: t("activerecord.labels.content", default: "Content"))
+          %th= t("web-app-theme.created_at", default: "Date")
+          %th= t("web-app-theme.created_at", default: "Edit")
+        - @posts.each do |post|
+          %tr{class: cycle("odd", "even")}
+            %td= post_link(post)
+            %td= truncate(post.content, length: 17)
+            %td= post_date_link(post)
+            %td= link_to 'Edit', edit_post_path(post, edit_post: true),
+              id: 'edit_entry' , remote:true

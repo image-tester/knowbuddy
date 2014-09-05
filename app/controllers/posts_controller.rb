@@ -9,7 +9,7 @@ class PostsController < ApplicationController
 
   before_filter :tag_cloud,
     only: [ :edit, :index, :post_date, :new, :related_tag, :search,
-      :show, :user_posts, :create]
+      :show, :user_posts, :create, :draft]
 
   before_filter :user_list,
     only: [ :index, :post_date, :related_tag, :show, :user_posts ]
@@ -18,17 +18,36 @@ class PostsController < ApplicationController
 
   def create
     attachment = params[:post].delete :attachment
-    @post = Post.new(params[:post])
+    get_current_post
     respond_to do |format|
       if @post.save
         save_attachments
         load_partials
-        format.json { render json: { new_entry: @new_entry, sidebar: @sidebar,
-          activities: @activities } }
+        format.json { render json: { new_entry: @new_entry,
+         activities: @activities_html, sidebar: @sidebar } }
       else
         format.json { render json: @post.errors, status: :unprocessable_entity}
       end
     end
+  end
+
+  def assign_post_attributes
+    @post = Post.find(params[:post][:id])
+    @post.subject = params[:post][:subject]
+    @post.content = params[:post][:content]
+    @post.is_draft = params[:post][:is_draft]
+    @post.tag_list = params[:post][:tag_list]
+  end
+
+  def draft
+    get_current_post
+    @post.save(validate: false)
+    save_attachments
+    render json: { new_post: @post.id }
+  end
+
+  def draft_list
+    @posts = current_user.posts.draft
   end
 
   def destroy
@@ -47,7 +66,7 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.page(params[:page_2])
+    @posts = Post.published.page(params[:page_2])
     @post = Post.new(params[:post])
     @activities = Activity.latest_activities(params[:page_3])
     @attachment = @post.attachments
@@ -75,7 +94,7 @@ class PostsController < ApplicationController
       locals: { post: @post })
     @sidebar = render_to_string( partial: "sidebar",
       locals: { tag_cloud_hash: tag_cloud, users: @users})
-    @activity = render_to_string( partial: "activities",
+    @activities_html = render_to_string( partial: "activities",
       locals: { activities: @activities })
   end
 
@@ -123,7 +142,7 @@ class PostsController < ApplicationController
 
   def search
     if params[:search].present?
-      @posts_searched = Post.search_post(params[:search])
+      @posts_searched = Post.published.search_post(params[:search])
       respond_to do |format|
         format.html
         format.js {render :render_contributors_pagination}
@@ -185,6 +204,12 @@ class PostsController < ApplicationController
     end
 
     def tag_cloud
-      @tag_cloud_hash = Post.tag_cloud
+      @posts = Post.published
+      @tag_cloud_hash = @posts.tag_cloud
+    end
+
+    def get_current_post
+      params[:post][:id].empty? ?
+        @post = Post.new(params[:post]) : assign_post_attributes
     end
 end

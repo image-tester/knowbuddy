@@ -17,6 +17,7 @@ describe Post do
     it { should have_db_column(:publish_at).of_type(:datetime) }
     it { should have_db_column(:updated_at).of_type(:datetime) }
     it { should have_db_column(:deleted_at).of_type(:datetime) }
+    it { should have_db_column(:is_draft).of_type(:boolean) }
   end
 
   describe 'Validations' do
@@ -52,7 +53,7 @@ describe Post do
       end
     end
 
-    describe 'update_post_activity' do
+    describe 'post_activity' do
       it 'should update post activity' do
         fetch_activity_type('post.update')
         post.update_attributes(subject: "post update")
@@ -76,7 +77,7 @@ describe Post do
 
     describe 'after_create' do
       it 'should run the proper callbacks' do
-        post.should_receive(:create_post_activity)
+        post.should_receive(:post_activity)
         post.run_callbacks(:create)
       end
     end
@@ -90,7 +91,7 @@ describe Post do
 
     describe 'after_update' do
       it 'should run the proper callbacks' do
-        post.should_receive(:update_post_activity)
+        post.should_receive(:post_activity)
         post.run_callbacks(:update)
       end
     end
@@ -99,6 +100,32 @@ describe Post do
       it 'should run the proper callbacks' do
         post.should_receive(:destroy_post_activity)
         post.run_callbacks(:destroy)
+      end
+    end
+
+    describe 'after_validation' do
+      it 'should save the post' do
+        post.should_receive(:set_is_draft_false)
+        post.run_callbacks(:validation)
+      end
+    end
+  end
+
+  describe 'Scope' do
+    let!(:post) { create :post }
+    let!(:draft) { create :draft, user_id: post.user_id }
+
+    describe 'draft' do
+      it 'should return all draft' do
+        expect(Post.draft).to eq [draft]
+        expect(Post.draft).to_not include(post)
+      end
+    end
+
+    describe 'published' do
+      it 'should return all published post' do
+        expect(Post.published).to eq [post]
+        expect(Post.published).to_not include(draft)
       end
     end
   end

@@ -26,7 +26,7 @@ module ApplicationHelper
   end
 
   def post_date_link(post)
-    capture { link_to (timeago_date_format(post.created_at)),
+    capture { link_to (timeago_date_format(post.updated_at)),
       post_date_posts_path(post_id: post.id) }
   end
 

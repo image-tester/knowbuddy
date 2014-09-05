@@ -28,7 +28,7 @@ class Post < ActiveRecord::Base
   around_save :create_new_tag_activity
   after_validation :set_is_draft_false
 
-  default_scope order: 'created_at DESC'
+  default_scope order: 'updated_at DESC'
   scope :draft, -> { where(is_draft: true) }
   scope :published, -> { where(is_draft: false) }
 
@@ -84,8 +84,8 @@ class Post < ActiveRecord::Base
   end
 
   def self.post_date(post)
-    current_date = post.created_at.to_date
-    where("created_at >= ? and created_at <= ?",
+    current_date = post.updated_at.to_date
+    where("updated_at >= ? and updated_at <= ?",
       current_date.beginning_of_day, current_date.end_of_day)
   end
 

@@ -10,7 +10,8 @@ describe "posts/show" do
         subject: "Subject",
         content: "MyText",
         user: @user,
-        created_at: Time.now
+        created_at: Time.now,
+        updated_at: Time.now
       ))
     assign(:users,
       Kaminari.paginate_array([stub_model(User, name: "xyz",

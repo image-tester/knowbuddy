@@ -8,7 +8,7 @@ class Comment < ActiveRecord::Base
   delegate :subject, to: :post, prefix: true
   delegate :display_name, to: :user
 
-  default_scope order: 'created_at DESC'
+  default_scope order: 'updated_at DESC'
 
   after_save :solr_reindex_post
   after_destroy :solr_reindex_post

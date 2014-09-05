@@ -8,7 +8,7 @@
     .contributor_pic
       = image_tag avatar_url(post.user, 70)
     .postDetails
-      = timeago_date_format(post.created_at)
+      = timeago_date_format(post.updated_at)
   #kyu-details
     #kyu-subject
       = post.subject
@@ -50,5 +50,5 @@
   = render "comments/form", post: post
   %br
   %br
-= render partial: "comments/comments", locals: { comments: post.comments.order("comments.created_at DESC"), post: post }
+= render partial: "comments/comments", locals: { comments: post.comments.order("comments.updated_at DESC"), post: post }
 %input#kyu_slug{ name: "kyu_slug", type: "hidden", value: post.slug }

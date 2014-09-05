@@ -27,7 +27,7 @@ class Post < ActiveRecord::Base
   before_destroy :destroy_post_activity, if: "deleted_at.blank?"
   around_save :create_new_tag_activity
 
-  default_scope order: 'created_at DESC'
+  default_scope order: 'updated_at DESC'
 
   searchable do
     text :content, :subject
@@ -81,8 +81,8 @@ class Post < ActiveRecord::Base
   end
 
   def self.post_date(post)
-    current_date = post.created_at.to_date
-    where("created_at >= ? and created_at <= ?",
+    current_date = post.updated_at.to_date
+    where("updated_at >= ? and updated_at <= ?",
       current_date.beginning_of_day, current_date.end_of_day)
   end
 

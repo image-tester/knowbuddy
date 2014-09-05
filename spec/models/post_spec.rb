@@ -26,43 +26,37 @@ describe Post do
   end
 
   describe 'scope::post_date' do
-    before do
-      4.times do |n|
-        @user = create :user
-        @post = create :post, created_at: Time.now, user: @user
-      end
-
-      @user = create :user
-      post = create :post, created_at: 2.days.ago, user: @user
-    end
+    let!(:old_posts)    { create_list :post, 4, updated_at: 2.days.ago }
+    let!(:latest_posts) { create_list :post, 2 }
 
     it "should return post's for date" do
-      posts = Post.post_date(Post.first)
-      posts.count.should == 4
-      Post.count.should == 5
+      posts = Post.post_date(old_posts.first)
+      expect(posts.count).to eq(4)
+      expect(Post.count).to eq(6)
     end
   end
 
   describe 'activity creation' do
+    let!(:user) { create :user }
+    let!(:post) { create :post, tag_list: "new tag after create", user: user }
+
     before do
       fetch_activity_type('post.newTag')
-      @user = create :user
-      @post = create :post, tag_list: "new tag after create", user: @user
     end
 
     describe 'create_new_tag_actvitiy' do
       it 'should create new_tag actvitiy on create' do
-        act = PublicActivity::Activity.find_by_owner_id_and_key(@user.id, "post.newTag")
-        expect(act.parameters).not_to be_empty
+        act = find_activity(user, "post.newTag")
         act.should_not be_nil
+        expect(act.parameters).not_to be_empty
       end
     end
 
     describe 'update_post_activity' do
       it 'should update post activity' do
         fetch_activity_type('post.update')
-        @post.update_attributes(subject: "post update")
-        act = PublicActivity::Activity.find_by_owner_id_and_key(@user.id, "post.update")
+        post.update_attributes(subject: "post update")
+        act = find_activity(user, "post.update")
         act.should_not be_nil
       end
     end
@@ -70,8 +64,8 @@ describe Post do
     describe 'destroy_post_activity' do
       it 'should destroy post activity' do
         fetch_activity_type('post.destroy')
-        @post.destroy
-        act = PublicActivity::Activity.find_by_owner_id_and_key(@user.id, "post.destroy")
+        post.destroy
+        act = find_activity(user, "post.destroy")
         act.should_not be_nil
       end
     end

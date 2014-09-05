@@ -62,10 +62,9 @@ $(document).ready(function(){
   $('body').on('ajax:success', '#new_comment', function(xhr, data, status) {
     $("#latest_comment").prepend(data.new_comment).fadeOut(200).fadeIn(2000)
     $('#comment_comment').val('')
-    $("time.comment_time_ago").timeago();
+    $('.time_ago').timeago()
   });
   //end
-
 
   //File Preview icon display
   //start
@@ -146,8 +145,6 @@ $(document).ready(function(){
       $(".btn_kyu_save").text("Save").removeClass("disable-button")
     });
   });
-
-
   // end
 
   // edit entry ajaxify
@@ -165,6 +162,7 @@ $(document).ready(function(){
     $("#edit_kyu").slideUp(100,function(){
       $("#edit_kyu").remove()
       $("#main").append(data)
+      $('.time_ago').timeago();
       history.pushState({},'',$('#kyu_slug').val());
     });
   });

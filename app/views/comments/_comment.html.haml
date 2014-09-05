@@ -9,7 +9,7 @@
     #comment_email
       by
       = link_to user.display_name, controller: "comments", action: "user_comment", id: comment.user_id
-      = timeago_date_format(comment.created_at)
+      = timeago_date_format(comment.updated_at)
     #comment_edit
       - if current_user == comment.user
         = link_to image_tag("edit-pencil-icon.gif"), edit_post_comment_path(post, comment)

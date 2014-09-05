@@ -15,4 +15,4 @@
           %tr{class: cycle("odd", "even")}
             %td{class: "special"}= comment.comment
             %td= link_to truncate(post.subject, length: 70), post_path(post)
-            %td= timeago_date_format(comment.created_at)
+            %td= timeago_date_format(comment.updated_at)

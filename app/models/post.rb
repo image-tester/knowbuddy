@@ -27,7 +27,7 @@ class Post < ActiveRecord::Base
   before_destroy :destroy_post_activity, if: "deleted_at.blank?"
   around_save :create_new_tag_activity
 
-  default_scope order: 'created_at DESC'
+  default_scope order: 'updated_at DESC'
 
   searchable do
     text :content, :subject

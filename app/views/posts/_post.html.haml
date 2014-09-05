@@ -8,7 +8,7 @@
     .contributor_pic
       = image_tag avatar_url(post.user, 70)
     .postDetails
-      = timeago_date_format(post.created_at)
+      = timeago_date_format(post.updated_at)
   #kyu-details
     #kyu-subject
       = post.subject

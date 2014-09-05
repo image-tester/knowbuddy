@@ -22,12 +22,12 @@ ActiveAdmin.register Post, as: "Posts"  do
 
   index do
     id_column
-    column :subject, sortable: 'updated_at'
+    column :subject
     column :user do |post|
       post.user_name
     end
 
-    column :publish_at, sortable: 'updated_at'
+    column 'Date', :updated_at
     column "Actions" do |post|
       raw "#{link_to 'View', admin_post_path(post), method: :get}
         #{link_to 'Edit', edit_admin_post_path(post), method: :get}

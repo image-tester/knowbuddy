@@ -27,9 +27,9 @@ describe "posts/show" do
 
   it "renders attributes in a div" do
     render
-    assert_select "div#kyu-details" do
-      assert_select "div#kyu-subject", text: "Subject"
-      assert_select "div#kyu-content", text: "MyText"
+    assert_select "div#post-details" do
+      assert_select "div#post-subject", text: "Subject"
+      assert_select "div#post-content", text: "MyText"
     end
   end
 end

@@ -5,30 +5,30 @@ $(document).ready(function() {
   //end
   function defaulttext(form) {
   // define a default textile template so that user can understand simple format as we have not used HTML editor purposely here
-  var strDefaultValForKYUTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
+  var strDefaultValForPostTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
   // set this default value to textarea if its empty
-  if ($(".text_area").val() == "" || $(".text_area").val() == strDefaultValForKYUTextarea){
-  $(".text_area").addClass("watermarkOn").val(strDefaultValForKYUTextarea);
+  if ($(".text_area").val() == "" || $(".text_area").val() == strDefaultValForPostTextarea){
+  $(".text_area").addClass("watermarkOn").val(strDefaultValForPostTextarea);
   }
   // Watermark snippet for text area
   // Start snippet
   $(".text_area").focus(function() {
     $(this).filter(function() {
-      return $(this).val() == "" || $(this).val() == strDefaultValForKYUTextarea
+      return $(this).val() == "" || $(this).val() == strDefaultValForPostTextarea
     }).removeClass("watermarkOn").val("");
   });
 
   $(".text_area").blur(function() {
     $(this).filter(function() {
       return $(this).val() == ""
-    }).addClass("watermarkOn").val(strDefaultValForKYUTextarea);
+    }).addClass("watermarkOn").val(strDefaultValForPostTextarea);
   });
 
   $(form).validationEngine({
   'customFunctions': {
       'checkContent': function (field, rules, i, options){
-          if ($('#textarea_kyu_content').val() == strDefaultValForKYUTextarea ||
-              $('#textarea_kyu_content').val() == ''
+          if ($('#textarea_post_content').val() == strDefaultValForPostTextarea ||
+              $('#textarea_post_content').val() == ''
               ) {
               return options.allrules.required.alertText;
           }
@@ -40,7 +40,7 @@ $(document).ready(function() {
 
   // Added on 21st April 2012 by yatish to delete tags on dblclick
   // Start
-  $("div.kyuContent span#kyu-tag").dblclick(function(){
+  $("div.postContent span#post-tag").dblclick(function(){
     var tag = $(this).text().trim();
     var id = $(this).parent().attr("post_id");
     var temp = $(this);

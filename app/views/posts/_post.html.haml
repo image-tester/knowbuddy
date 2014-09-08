@@ -1,23 +1,23 @@
-#kyu-edit-back-link
+#post-edit-back-link
   - if current_user == post.user
     = link_to 'Edit', edit_post_path(post, edit_post: true), id: 'edit_entry' , remote:true
     \|
     = link_to 'Delete', post_path(post), confirm: 'Are you sure you want to delete this Post?', method: :delete
-#kyu-post
-  #kyu-header
+#post-post
+  #post-header
     .contributor_pic
       = image_tag avatar_url(post.user, 70)
     .postDetails
       = timeago_date_format(post.updated_at)
-  #kyu-details
-    #kyu-subject
+  #post-details
+    #post-subject
       = post.subject
-    #kyu-content
-      .kyuContent
+    #post-content
+      .postContent
         = raw RedCloth.new(post.content).to_html
       #right
         .rightCorner
-#kyu-attachment
+#post-attachment
   - unless post.attachments.blank?
     %h3 Attachments
     - post.attachments.each do |a|
@@ -32,16 +32,16 @@
     %h3 Tags
     -# Added on 21st April 2012 by yatish to display tags
     -# Start
-    #kyu-content
+    #post-content
       - if current_user == post.user
-        .kyuContent{post_id: post.id}
+        .postContent{post_id: post.id}
           - post.tag_list.each do |tag|
-            %span#kyu-tag
+            %span#post-tag
               = tag
       - else
-        .kyuContent
+        .postContent
           - post.tag_list.each do |tag|
-            %span#kyu-tag-els
+            %span#post-tag-els
               = tag
     -# End
 %br
@@ -51,4 +51,4 @@
   %br
   %br
 = render partial: "comments/comments", locals: { comments: post.comments.order("comments.updated_at DESC"), post: post }
-%input#kyu_slug{ name: "kyu_slug", type: "hidden", value: post.slug }
+%input#post_slug{ name: "post_slug", type: "hidden", value: post.slug }

@@ -2,10 +2,7 @@
 .block#block-login
   %h2 Sign in
   .content.login
-    .flash
-      - flash.each do |type, message|
-        %div{ class: "message #{type}" }
-          %p= message
+    = render partial: "error_message", flash: flash
     = form_for(resource, as: resource_name, url: session_path(resource_name), html: { id: "formIDRegi", class: "form login" }) do |f|
       .group.wat-cf
         .left= f.label :email, class: "label right"

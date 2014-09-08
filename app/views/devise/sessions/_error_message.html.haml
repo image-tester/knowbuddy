@@ -1,0 +1,5 @@
+.flash
+  - flash.each do |type, message|
+    - unless type == :timedout
+      %div{ class: "message #{type}"}
+        %p= message

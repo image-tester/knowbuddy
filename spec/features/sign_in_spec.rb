@@ -25,4 +25,10 @@ feature "Sign in" do
 
     expect(page).to have_content 'Invalid email or password.'
   end
+
+  scenario "visit posts without Login" do
+    visit '/posts'
+    expect(current_path).to eq(new_user_session_path)
+    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+  end
 end

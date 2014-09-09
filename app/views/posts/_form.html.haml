@@ -29,16 +29,17 @@
 
 //BUTTONS
 .group.navform.wat-cf
-  %a.button{href: "#", rel: "facebox", id: "previewlink", class: "text_button_padding link_button"} Preview
-  %span.text_button_padding= t("web-app-theme.or", default: "")
-  = button_tag class: "button btn_post_save", type: "submit" do
-    = image_tag("web-app-theme/icons/tick.png", alt: "#{t("web-app-theme.save",
-      default: "Save")}")
-    = t("web-app-theme.save", default: "Save")
-  %span.text_button_padding= t("web-app-theme.or", default: "or")
-  = link_to t("web-app-theme.cancel", default: "Cancel"), "#", class: "text_button_padding link_button", id: 'post_cancel'
-  %span.text_button_padding= t("web-app-theme.or", default: "")
-  = button_tag id: "save_as_draft", type: "button" do
-    = "Save to Draft"
-  %img#loading{src: "/assets/loading.gif"}
+  %span
+    %a.button{href: "#", rel: "facebox", id: "previewlink", class: "text_button_padding link_button"} Preview
+    = button_tag id: "save_as_draft_button", class: "draft_button button text_button_padding", type: "button" do
+      = content_tag(:div,"Save as Draft",class: "draft_button", id: "save_as_draft")
+      .draft_button#loading
+        = image_tag "/assets/loading.gif"
+        = "Saving..."
+    = button_tag class: "button btn_post_save", type: "submit" do
+      = image_tag("web-app-theme/icons/tick.png", alt: "#{t("web-app-theme.save",
+        default: "Save")}")
+      = t("web-app-theme.save", default: "Publish")
+    = button_tag id: "post_cancel", class: " post_cancel button text_button_padding" do
+      = "Cancel"
   %div.draft

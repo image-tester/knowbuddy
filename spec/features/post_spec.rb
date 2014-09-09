@@ -18,7 +18,7 @@ feature "Post" do
 
     fill_in 'post[subject]', with: 'My First Post'
     fill_in 'post[content]', with: 'Content Example'
-    click_on 'Save'
+    click_on 'Publish'
 
     page.should_not have_selector('#new_post', visible: true)
     page.should have_content('My First Post')
@@ -35,7 +35,7 @@ feature "Post" do
 
     fill_in 'post[subject]', with: 'My First Draft'
     fill_in 'post[content]', with: 'Content Example'
-    click_on 'Save to Draft'
+    click_on 'save_as_draft_button'
 
     page.should have_selector('#new_post', visible: true)
     page.should_not have_selector('#loading', visible: true)
@@ -58,7 +58,7 @@ feature "Post" do
     page.should have_selector("#formID", text: "Subject")
 
     fill_in 'post[content]', with: updated_content
-    click_on 'Save'
+    click_on 'Publish'
 
     page.should_not have_selector("#formID")
     page.should have_selector("#post-post", text: updated_content)

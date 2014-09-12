@@ -1,0 +1,9 @@
+#contributer.block
+  %h3 Contributors
+  %ul#namelist.navigation
+    - users.each do |user|
+      %li= user_link(user)
+
+  %div#paginator
+    = paginate users, params: {controller: 'posts', action: 'contributors_pagination'}, remote: true
+

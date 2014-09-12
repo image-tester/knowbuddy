@@ -1,0 +1,25 @@
+.block
+  .secondary-navigation
+  .content
+    - if params[:search].blank? || @posts_searched.blank?
+      #search_error
+        Sorry no matching results for keyword '#{params[:search]}'
+    - else
+      %h2.title
+        All articles containing keyword '#{params[:search]}'
+      .inner
+        %table.table
+          %tr
+            %th= t("web-app-theme.created_at", default: "")
+            %th
+              = t("activerecord.attributes.post.subject", default: t("activerecord.labels.subject", default: "Subject"))
+            %th= t("web-app-theme.created_at", default: "Date")
+            %th= t("web-app-theme.created_at", default: "Contributor")
+
+          - @posts_searched.each do |post|
+            %tr{class: cycle("odd", "even")}
+              - if post.user
+                %td= image_tag avatar_url(post.user, 45)
+                %td= post_link(post)
+                %td= timeago_date_format(post.updated_at)
+                %td= post.user_name

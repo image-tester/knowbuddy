@@ -1,0 +1,19 @@
+.block
+  .secondary-navigation
+    %ul.wat-cf
+  .content
+    %h2.title
+      All articles posted as on #{@post.updated_at.strftime('%d-%b-%Y')}
+    .inner
+      %table.table
+        %tr
+          %th= t("web-app-theme.created_at", default: "")
+          %th
+            = t("activerecord.attributes.post.subject", default: t("activerecord.labels.subject", default: "Subject"))
+          %th= t("web-app-theme.created_at", default: "Contributor")
+
+        - @posts.each do |post|
+          %tr{class: cycle("odd", "even")}
+            %td= image_tag avatar_url(post.user, 45)
+            %td= post_link(post)
+            %td= user_link(post.user)

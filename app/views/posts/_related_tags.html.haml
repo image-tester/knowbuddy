@@ -1,0 +1,22 @@
+.block
+  .secondary-navigation
+    %ul.wat-cf
+  .content
+    %h2.title
+      All articles tagged as '#{params[:name]}'
+    .inner
+      %table.table
+        %tr
+          %th= t("web-app-theme.created_at", default: "")
+          %th
+            = t("activerecord.attributes.post.subject", default: t("activerecord.labels.subject", default: "Subject"))
+          %th= t("web-app-theme.created_at", default: "Date")
+          %th= t("web-app-theme.created_at", default: "Contributor")
+
+        - @related_tags.each do |post|
+          %tr{class: cycle("odd", "even")}
+            - if post.user
+              %td= image_tag avatar_url(post.user, 45)
+              %td= post_link(post)
+              %td= post_date_link(post)
+              %td= user_link(post.user)

@@ -37,6 +37,8 @@ KYU::Application.routes.draw do
       post :parse_content
       post :draft
       get :draft_list
+      get :contributors_pagination
+      get :load_activities
     end
     resources :comments, except: [:index]
   end

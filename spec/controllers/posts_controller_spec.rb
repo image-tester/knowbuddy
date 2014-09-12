@@ -3,11 +3,11 @@ require 'spec_helper'
 
 describe PostsController do
   describe 'actions' do
-    let!(:user)   { create :user }
-    let!(:user_one) { create :user }
-    let!(:post_two) { create :post, user: user_one }
-    let!(:post_one) { create :post, subject: 'Test', content: 'demo', user: user, tag_list: "newtag" }
-    let!(:file) { File.new('spec/fixtures/docs/sample.txt')}
+    let!(:user)       { create :user }
+    let!(:user_one)   { create :user }
+    let!(:post_two)   { create :post, user: user_one }
+    let!(:post_one)   { create :post, subject: 'Test', content: 'demo', user: user, tag_list: "newtag" }
+    let!(:file)       { File.new('spec/fixtures/docs/sample.txt')}
     let!(:post_third) { create :post, subject: 'Test content', content: 'demo content', user: user, tag_list: "tag" }
 
     before do
@@ -31,26 +31,14 @@ describe PostsController do
       let!(:post_forth) { create :post, subject: 'Test Subject', is_draft: false }
 
       it "should return posts with given search key in html format" do
-        get :search, search: "Test Subject"
-        expect(response).to render_template('posts/search',format: :html)
-        expect(Post.search_post(search_key)).to eq [post_forth]
-      end
-
-      it "should return posts with given search key in json format" do
-        get :search, search: "Test Subject", format: :json
-        response.body.should have_content post_forth.to_json
-        expect(Post.search_post(search_key)).to eq [post_forth]
-      end
-
-      it "should return posts with given search key in js format" do
-        xhr :get, :search, search: "Test Subject"
-        expect(response).to render_template('render_contributors_pagination', format: :js)
+        xhr :get, :search, search: "Test Subject", format: :js
+        expect(response).to render_template('posts/search',format: :js)
         expect(Post.search_post(search_key)).to eq [post_forth]
       end
 
       it "should not return posts with given search " do
-        get :search, search: "search text"
-        expect(response).to render_template('posts/search', format: :html)
+        xhr :get, :search, search: "search text", format: :js
+        expect(response).to render_template('posts/search', format: :js)
         expect(response.body).to be_blank
       end
     end
@@ -68,42 +56,29 @@ describe PostsController do
       end
     end
 
-    describe "GET render_contributors_pagination" do
-      it "should respond with javascript" do
-        xhr :get, :render_contributors_pagination
-        response.should be_success
+    describe "GET contributors_pagination" do
+      it "should respond with users on page 1" do
+        xhr :get, :contributors_pagination, page:"1"
+        expect(assigns[:users]).to include(user,user_one)
+      end
+
+      it "should not respond with users of page 1" do
+        xhr :get, :contributors_pagination, page:"2"
+        expect(assigns[:users]).to_not include(user,user_one)
       end
     end
 
     describe "GET related_tag"  do
       it "should return posts tagged with given tag" do
-        get :related_tag, name: "newtag"
-        expect(response).to render_template('posts/related_tag',format: :html)
+        xhr :get, :related_tag, name: "newtag", format: :js
+        expect(response).to render_template('posts/related_tag',format: :js)
         expect(assigns[:related_tags]).to eq([post_one])
       end
 
       it "should not include posts with other tags" do
-        get :related_tag, name: "abc"
+        xhr :get, :related_tag, name: "abc", format: :js
         expect(assigns[:related_tags]).to_not eq([post_one])
-        expect(response).to render_template('posts/related_tag',format: :html)
-      end
-    end
-
-    describe "GET load_activities" do
-      it 'should hide View More link if activities are less than ACTIVITIES_PER_PAGE' do
-        create_list :activity, 30
-        xhr :get, :index, format: :js, page_3: "2"
-        expect(assigns[:posts]).to include(post_two)
-        expect(JSON.parse(response.body)["hide_link"]).to be_true
-        expect(response).to render_template(partial: 'posts/_activities', format: :js)
-      end
-
-      it 'should not hide View More link if activities are more than ACTIVITIES_PER_PAGE' do
-        create_list :activity, 40
-        xhr :get, :index, format: :js, page_3: "2"
-        expect(assigns[:posts]).to include(post_two)
-        expect(JSON.parse(response.body)["hide_link"]).to be_false
-        expect(response).to render_template(partial: 'posts/_activities', format: :js)
+        expect(response).to render_template('posts/related_tag',format: :js)
       end
     end
 
@@ -129,12 +104,6 @@ describe PostsController do
         get :index
         expect(assigns[:posts]).to include(post_two)
         expect(response).to render_template('posts/index')
-      end
-
-      it "respond successfully for js request " do
-        xhr :get, :index
-        expect(assigns[:posts]).to include(post_two)
-        expect(response).to render_template('posts/render_contributors_pagination', format: :js)
       end
     end
 
@@ -286,7 +255,7 @@ describe PostsController do
         act.should_not be_nil
       end
 
-      it "shold render error templete" do
+      it "should render error templete" do
         expect{
           put :update, post: { subject: ""}, attachments_field: "",
             post_id: current_post.id, id: current_post.slug, format: :js
@@ -299,9 +268,9 @@ describe PostsController do
       it "should get all post's for particular date" do
         post1 = create :post, updated_at: 1.day.ago
         post2 = create :post
-        get :post_date, post_id: post2.id
+        xhr :get, :post_date, post_id: post2.id,format: :js
         expect(assigns[:posts]).to include(post2)
-        expect(response).to render_template('posts/post_date', format: :html)
+        expect(response).to render_template('posts/post_date', format: :js)
 
         expect(assigns[:posts]).to_not include(post1)
       end
@@ -311,9 +280,9 @@ describe PostsController do
       it "should get all post's for particular user" do
         post1 = create :post, user: user_one
         post2 = create :post, user: user
-        get :user_posts, user_id: user_one.id
+        xhr :get, :user_posts, user_id: user_one.id, format: :js
         expect(assigns[:posts]).to include(post1)
-        expect(response).to render_template('posts/user_posts', format: :html)
+        expect(response).to render_template('posts/user_posts', format: :js)
 
         expect(assigns[:posts]).to_not include(post2)
       end

@@ -5,11 +5,11 @@ $(document).ready(function(){
   $("#formID1").validationEngine();
 
   $('#new_post').keypress(function(){
-    $('#save_as_draft').removeAttr('disabled');
+    $('.draft_button').removeAttr('disabled');
   });
 
   function save_as_draft() {
-    $('#save_as_draft').click(function(){
+    $('#save_as_draft_button').click(function(){
       $('#save_as_draft').hide()
       $('#loading').show()
       save_draft()
@@ -130,7 +130,7 @@ $(document).ready(function(){
       $("#new_post").empty().append(data.new_post).slideDown(2000)
       preview()
       makeflieupload()
-      $('#save_as_draft').attr('disabled','disabled');
+      $('.draft_button').attr('disabled','disabled');
       $('#loading').hide();
       $('#textarea_post_content').markItUp(mySettings);
       history.pushState({},'','#new_post');
@@ -189,7 +189,7 @@ $(document).ready(function(){
   // end
 
   // cancel for new and edit entry
-  $('body').on('click', '#post_cancel', function() {
+  $('body').on('click', '.post_cancel', function() {
     $("#new_post").slideUp(800, function(){
       $("#new_post").empty()
       newpostlink('#new_entry','#home_pg')

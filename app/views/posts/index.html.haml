@@ -28,7 +28,7 @@
       %table#activity
         = render 'activities', activities: @activities
     #view_more.bottom
-      = view_more_activities_link(2)
+      = view_more_activities_link()
 
 - content_for :sidebar, render(partial: 'sidebar',
 locals: {tag_cloud_hash: @tag_cloud_hash, users: @users })

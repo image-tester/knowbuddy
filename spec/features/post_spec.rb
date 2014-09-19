@@ -14,13 +14,13 @@ feature "Post" do
 
     click_link 'New Post'
 
-    page.should have_selector("#new_kyu", text: "New Post")
+    page.should have_selector("#new_post", text: "New Post")
 
     fill_in 'post[subject]', with: 'My First Post'
     fill_in 'post[content]', with: 'Content Example'
-    click_on 'Save'
+    click_on 'Publish'
 
-    page.should_not have_selector('#new_kyu', visible: true)
+    page.should_not have_selector('#new_post', visible: true)
     page.should have_content('My First Post')
     Post.last.subject == 'My First Post'
     Post.last.is_draft == false
@@ -31,13 +31,13 @@ feature "Post" do
 
     click_link 'New Post'
 
-    page.should have_selector("#new_kyu")
+    page.should have_selector("#new_post")
 
     fill_in 'post[subject]', with: 'My First Draft'
     fill_in 'post[content]', with: 'Content Example'
-    click_on 'Save to Draft'
+    click_on 'save_as_draft_button'
 
-    page.should have_selector('#new_kyu', visible: true)
+    page.should have_selector('#new_post', visible: true)
     page.should_not have_selector('#loading', visible: true)
     page.should have_selector('.draft', visible: true )
     Post.last.subject == 'My First Draft'
@@ -58,10 +58,10 @@ feature "Post" do
     page.should have_selector("#formID", text: "Subject")
 
     fill_in 'post[content]', with: updated_content
-    click_on 'Save'
+    click_on 'Publish'
 
     page.should_not have_selector("#formID")
-    page.should have_selector("#kyu-post", text: updated_content)
+    page.should have_selector("#post-post", text: updated_content)
   end
 
   scenario "Deletion" do
@@ -77,7 +77,7 @@ feature "Post" do
     my_post = create :post, user: @user, subject: 'Content Example'
     visit post_path(my_post)
 
-    page.should have_selector("#kyu-subject", text: 'Content Example')
+    page.should have_selector("#post-subject", text: 'Content Example')
     page.should have_selector(:link_or_button, 'Edit')
     page.should have_selector(:link_or_button, 'Delete')
   end

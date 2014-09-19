@@ -1,15 +1,15 @@
 $(document).ready(function(){
 
-  var strDefaultValForKYUTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
-  $('#textarea_kyu_content').markItUp(mySettings);
+  var strDefaultValForPostTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
+  $('#textarea_post_content').markItUp(mySettings);
   $("#formID1").validationEngine();
 
-  $('#new_kyu').keypress(function(){
-    $('#save_as_draft').removeAttr('disabled');
+  $('#new_post').keypress(function(){
+    $('.draft_button').removeAttr('disabled');
   });
 
   function save_as_draft() {
-    $('#save_as_draft').click(function(){
+    $('#save_as_draft_button').click(function(){
       $('#save_as_draft').hide()
       $('#loading').show()
       save_draft()
@@ -20,9 +20,9 @@ $(document).ready(function(){
     $("#previewlink").click(function(e) {
       $(this).facebox();
       var content = $(".text_area").val();
-      if(content == strDefaultValForKYUTextarea)
+      if(content == strDefaultValForPostTextarea)
       { content = "";
-        $("#textarea_kyu_content").validationEngine('validate');
+        $("#textarea_post_content").validationEngine('validate');
         $(this).stopPropagation();
       }
       else {
@@ -105,7 +105,7 @@ $(document).ready(function(){
       done: function (e, data) {
         $('#load').hide()
         var id = $('#attachments_field').val();
-        $('#kyu_attachment').append(data.result.attachment)
+        $('#post_attachment').append(data.result.attachment)
         $('#attachments_field').val(data.result.id + ',' + id);
       }
       });
@@ -128,12 +128,12 @@ $(document).ready(function(){
     else
     {
       newpostlink('#home_pg',this)
-      $("#new_kyu").empty().append(data.new_post).slideDown(2000)
+      $("#new_post").empty().append(data.new_post).slideDown(2000)
       preview()
       makeflieupload()
-      $('#save_as_draft').attr('disabled','disabled');
+      $('.draft_button').attr('disabled','disabled');
       $('#loading').hide();
-      $('#textarea_kyu_content').markItUp(mySettings);
+      $('#textarea_post_content').markItUp(mySettings);
       history.pushState({},'','#new_post');
       save_as_draft()
       autosave()
@@ -142,7 +142,7 @@ $(document).ready(function(){
 
   $('body').on('ajax:beforeSend', '#formID1', function() {
     location.hash = '#';
-    $(".btn_kyu_save").text("Saving...").addClass("disable-button")
+    $(".btn_post_save").text("Saving...").addClass("disable-button")
   })
 
   $('body').on('ajax:success', '.disable-button', function() {
@@ -150,79 +150,79 @@ $(document).ready(function(){
   });
 
   $('body').on('ajax:success', '#formID1', function(xhr, data, status) {
-    $("#new_kyu").slideUp(800,function(){
+    $("#new_post").slideUp(800,function(){
       $(data.new_entry).insertAfter("tr:first");
       $("time.time_ago").timeago();
       $('tr:even').removeClass('odd').addClass('even');
       $('tr:odd').removeClass('even').addClass('odd');
       $(".block2").show();
       $(".new table").html(data.activities)
-      $("#new_kyu").empty()
+      $("#new_post").empty()
       $("#sidebar").empty().append(data.sidebar)
       newpostlink('#new_entry','#home_pg')
-      $(".btn_kyu_save").text("Save").removeClass("disable-button")
+      $(".btn_post_save").text("Save").removeClass("disable-button")
     });
   });
   // end
 
   // edit entry ajaxify
   $('body').on('ajax:success', '#edit_entry', function(xhr, data, status) {
-    show_kyu = $("#main").html()
-    $('#main').empty().append('<div id="edit_kyu" />')
-    $("#edit_kyu").css("display", "none").append(data).show()
+    show_post = $("#main").html()
+    $('#main').empty().append('<div id="edit_post" />')
+    $("#edit_post").css("display", "none").append(data).show()
     preview()
     $('#save_as_draft').show()
     $('#loading').hide()
     makeflieupload()
-    $('#textarea_kyu_content').markItUp(mySettings);
+    $('#textarea_post_content').markItUp(mySettings);
     save_as_draft()
     autosave()
   });
 
   $('body').on('ajax:success', '#formID', function(xhr, data, status) {
-    $("#edit_kyu").slideUp(100,function(){
-      $("#edit_kyu").remove()
+    $("#edit_post").slideUp(100,function(){
+      $("#edit_post").remove()
       $("#main").append(data)
       $('.time_ago').timeago();
-      history.pushState({},'',$('#kyu_slug').val());
+      history.pushState({},'',$('#post_slug').val());
     });
   });
   // end
 
   // cancel for new and edit entry
-  $('body').on('click', '#kyu_cancel', function() {
-    $("#new_kyu").slideUp(800, function(){
-      $("#new_kyu").empty()
+  $('body').on('click', '.post_cancel', function() {
+    $("#new_post").slideUp(800, function(){
+      $("#new_post").empty()
       newpostlink('#new_entry','#home_pg')
     });
-    $("#edit_kyu").slideUp(800, function(){
-      $("#edit_kyu").remove()
-      $("#main").empty().append(show_kyu)
+    $("#edit_post").slideUp(800, function(){
+      $("#edit_post").remove()
+      $("#main").empty().append(show_post)
     })
   //end
   });
 
   function autosave() {
-    if($("#new_kyu").length > 0 || $("#edit_kyu").length > 0 ) {
+    if($("#new_post").length > 0 || $("#edit_post").length > 0 ) {
       setInterval( function(){ save_draft(); }, 30000 );
     }
   }
 
   function save_draft() {
-    var kyu = ($("#new_kyu").length > 0) ? $("#new_kyu") : $("#edit_kyu")
-    post_subject = kyu.find('#post_subject').val();
-    post_content = kyu.find('#textarea_kyu_content').val();
-    if ( post_content == strDefaultValForKYUTextarea ){
+    var post = ($("#new_post").length > 0) ? $("#new_post") : $("#edit_post")
+    post_subject = post.find('#post_subject').val();
+    post_content = post.find('#textarea_post_content').val();
+    if ( post_content == strDefaultValForPostTextarea ){
       post_content = "";
     }
-    user = kyu.find('#post_user_id').val();
-    post_id = kyu.find('#post_id').val();
+    user = post.find('#post_user_id').val();
+    post_id = post.find('#post_id').val();
     var attachment_values = ""
-    if ( kyu.find('#attach-content').length > 0) {
+    if ( post.find('#attach-content').length > 0) {
       attachment_values = attachments_field.value
     }
     var tags = post_tag_list.value
-    if( post_subject.length > 0 || post_content.length >0 || kyu.find('#attach-content').length > 0) {
+    if( post_subject.length > 0 || post_content.length >0 || post.find('#attach-content').length > 0) {
       $.ajax({
         type: "POST",
         dataType: "JSON",
@@ -236,7 +236,7 @@ $(document).ready(function(){
           attachments_field: attachment_values
         },
         success: function(data){
-          kyu.find('#post_id').val(data.new_post);
+          post.find('#post_id').val(data.new_post);
           $('.draft').html('Saved');
           $('#save_as_draft').show();
           $('#loading').hide();

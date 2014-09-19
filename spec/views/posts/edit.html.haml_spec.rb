@@ -22,7 +22,7 @@ describe "posts/edit.html.haml" do
     render
     assert_select "form", :action => posts_path(@post), :method => "post" do
       assert_select "input#post_subject", :name => "post[subject]"
-      assert_select "textarea#textarea_kyu_content", :name => "post[content]"
+      assert_select "textarea#textarea_post_content", :name => "post[content]"
     end
   end
 end

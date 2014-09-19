@@ -1,7 +1,6 @@
 class PostsController < ApplicationController
-
-  ACTIVITIES_PER_PAGE = 20
-  before_filter :find_post, only: [ :destroy, :edit, :remove_tag, :update ]
+  add_template_helper(PostHelper)
+  before_filter :find_post, only: [:destroy, :edit, :remove_tag, :update]
 
   before_filter :order_by_name_email,
     only: [ :edit, :index, :post_date, :new, :search, :user_posts, :show,
@@ -12,9 +11,13 @@ class PostsController < ApplicationController
       :show, :user_posts, :create, :draft]
 
   before_filter :user_list,
-    only: [ :index, :post_date, :related_tag, :show, :user_posts ]
+    only: [ :index, :post_date, :contributors_pagination, :related_tag, :show, :user_posts ]
+
+  before_filter :find_activities, only:[:index, :load_activities, :load_partials]
 
   autocomplete :tag, :name, class_name: 'ActsAsTaggableOn::Tag', full: true
+
+  respond_to :js, only: [:load_activities, :contributors_pagination]
 
   def create
     attachment = params[:post].delete :attachment
@@ -24,19 +27,11 @@ class PostsController < ApplicationController
         save_attachments
         load_partials
         format.json { render json: { new_entry: @new_entry,
-         activities: @activities_html, sidebar: @sidebar } }
+          activities: @activities_html, sidebar: @sidebar } }
       else
         format.json { render json: @post.errors, status: :unprocessable_entity}
       end
     end
-  end
-
-  def assign_post_attributes
-    @post = Post.find(params[:post][:id])
-    @post.subject = params[:post][:subject]
-    @post.content = params[:post][:content]
-    @post.is_draft = params[:post][:is_draft]
-    @post.tag_list = params[:post][:tag_list]
   end
 
   def draft
@@ -66,14 +61,9 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.published.page(params[:page_2])
+    @posts = Post.published.page(params[:page_2]).per(10)
     @post = Post.new(params[:post])
-    @activities = Activity.latest_activities(params[:page_3])
     @attachment = @post.attachments
-    if request.xhr?
-      params[:page_3].present? ? load_activities :
-        (render :render_contributors_pagination)
-    end
   end
 
   def post_date
@@ -81,15 +71,7 @@ class PostsController < ApplicationController
     @posts = Post.post_date(@post)
   end
 
-  def load_activities
-    hide_link = true if @activities.count < ACTIVITIES_PER_PAGE
-    activities = render_to_string(partial: 'posts/activities',
-      locals: { activities: @activities })
-    render json: { activities: activities, hide_link: hide_link }
-  end
-
   def load_partials
-    @activities = Activity.latest_activities(params[:page_3])
     @new_entry = render_to_string(partial: "entries",
       locals: { post: @post })
     @sidebar = render_to_string( partial: "sidebar",
@@ -113,16 +95,6 @@ class PostsController < ApplicationController
 
   def related_tag
     @related_tags = Post.tagged_with(params[:name])
-    respond_to do |format|
-      format.html
-      format.js {render :render_contributors_pagination}
-    end
-  end
-
-  def render_contributors_pagination
-    respond_to do |format|
-      format.js
-    end
   end
 
   def remove_tag
@@ -141,14 +113,7 @@ class PostsController < ApplicationController
   end
 
   def search
-    if params[:search].present?
-      @posts_searched = Post.published.search_post(params[:search])
-      respond_to do |format|
-        format.html
-        format.js {render :render_contributors_pagination}
-        format.json { render json: @posts_searched }
-      end
-    end
+    @posts_searched = Post.published.search_post(params[:search]) if params[:search].present?
   end
 
   def show
@@ -180,13 +145,13 @@ class PostsController < ApplicationController
   def user_posts
     @post_user = User.get_user(params[:user_id])
     @posts = @post_user.posts
-    respond_to do |format|
-      format.html
-      format.js {render :render_contributors_pagination}
-    end
   end
 
   protected
+    def find_activities
+      @activities = Activity.latest_activities(params[:page_3])
+    end
+
     def find_post
       @post = Post.find(params[:id])
     end
@@ -200,7 +165,7 @@ class PostsController < ApplicationController
     end
 
     def user_list
-      @user = User.with_deleted
+      @users = User.with_deleted.page(params[:page]).per(5)
     end
 
     def tag_cloud
@@ -209,7 +174,12 @@ class PostsController < ApplicationController
     end
 
     def get_current_post
-      params[:post][:id].empty? ?
-        @post = Post.new(params[:post]) : assign_post_attributes
+      post = params[:post]
+      if post[:id].empty?
+        @post = Post.new(post)
+      else
+        @post = Post.find(post[:id])
+        @post.assign_attributes(params[:post])
+      end
     end
 end

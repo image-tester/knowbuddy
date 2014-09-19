@@ -17,20 +17,12 @@ module ApplicationHelper
   end
 
   def post_link(post)
-    capture { link_to truncate(post.subject, length: 70), post_path(post) }
-  end
-
-  def user_link(user)
-    capture { link_to user.display_name,
-      user_posts_posts_path(user_id: user.id) }
-  end
-
-  def post_date_link(post)
-    capture { link_to (timeago_date_format(post.updated_at)),
-      post_date_posts_path(post_id: post.id) }
+    link_to truncate(post.subject, length: 70), post_path(post)
   end
 
   def post_exist?(post)
     post && Post.find(post) rescue false
   end
 end
+
+

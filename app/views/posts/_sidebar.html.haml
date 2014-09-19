@@ -1,6 +1,6 @@
 .block
   #search
-    = form_tag '/posts/search', method: :get, class: :form do
+    = form_tag '/posts/search', method: :get, remote: true,  class: :form do
       = text_field_tag :search, params[:search], autocomplete: "off", class: 'text_field'
       = submit_tag "Search"
 .block
@@ -10,20 +10,15 @@
     - if tag_cloud_hash != nil
       - tag_cloud_hash.each_pair do |tag,size|
         .tag_block
-          .cloud_element= content_tag(:a, tag.name.downcase, {href: "#{related_tag_posts_path}?name=#{tag.name}", style: "font-size:#{size}px;"})
+          .cloud_element
+            = link_to tag.name.downcase, "#{related_tag_posts_path}?name=#{tag.name}", style: "font-size:#{size}px;", remote: true
+
 .block
   %h3 Top Contributors
-  %ul.navigation
+  %ul#top_contributer.navigation
     - top3_contributors = User.top3
-    - top3_contributors.each do |top|
+    - top3_contributors.each do |top3|
       %li
-        = link_to "#{top.display_name} (#{top.total})", user_posts_posts_path(user_id: top.id)
+        = user_link(top3, top = true)
 
-.block
-  %h3 Contributors
-  %ul.navigation#namelist
-    - users.each do |user|
-      %li= user_link(user)
-
-  %div#paginator
-    = paginate users, remote: true
+= render partial: "contributors", locals: { users: users }

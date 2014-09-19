@@ -30,6 +30,7 @@ group :development, :test do
   gem 'debugger'
   gem 'factory_girl_rails'
   gem 'faker'
+  gem 'flog'
   gem 'haml-rails'
   gem 'hpricot'
   gem 'rails_best_practices'
@@ -40,8 +41,8 @@ group :development, :test do
   gem 'sextant'
   gem 'sunspot_solr', '~> 1.3.3'
   gem 'web-app-theme', git: 'git://github.com/pilu/web-app-theme.git'
+  gem 'webrick', '~> 1.3.1'
 end
-
 group :assets do
   gem 'coffee-rails', '~> 3.2.2'
   gem 'therubyracer', '~> 0.12.1'

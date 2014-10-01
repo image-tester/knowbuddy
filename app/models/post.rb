@@ -24,7 +24,7 @@ class Post < ActiveRecord::Base
   after_create :post_activity, unless: "is_draft"
   after_update :post_activity, unless: "is_draft"
   before_create :set_publish_date
-  before_destroy :destroy_post_activity, if: "deleted_at.blank?"
+  before_destroy :destroy_post_activity, if: :destroy_activity?
   around_save :create_new_tag_activity
   after_validation :set_is_draft_false
 
@@ -116,6 +116,10 @@ class Post < ActiveRecord::Base
     def post_activity
       action = self.is_draft_changed? ? 'create' : 'update'
       Activity.add_activity(action, self)
+    end
+
+    def destroy_activity?
+      deleted_at.blank? && !is_draft
     end
 
     def destroy_post_activity

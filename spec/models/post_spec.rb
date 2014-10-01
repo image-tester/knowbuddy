@@ -40,13 +40,14 @@ describe Post do
   describe 'activity creation' do
     let!(:user) { create :user }
     let!(:post) { create :post, tag_list: "new tag after create", user: user }
+    let!(:draft) { create :draft, user: user }
 
     before do
       fetch_activity_type('post.newTag')
     end
 
     describe 'create_new_tag_actvitiy' do
-      it 'should create new_tag actvitiy on create' do
+      it "should create 'new_tag actvitiy' on create" do
         act = find_activity(user, "post.newTag")
         act.should_not be_nil
         expect(act.parameters).not_to be_empty
@@ -54,7 +55,7 @@ describe Post do
     end
 
     describe 'post_activity' do
-      it 'should update post activity' do
+      it "should create 'update post activity'" do
         fetch_activity_type('post.update')
         post.update_attributes(subject: "post update")
         act = find_activity(user, "post.update")
@@ -63,11 +64,17 @@ describe Post do
     end
 
     describe 'destroy_post_activity' do
-      it 'should destroy post activity' do
+      it "should create 'destroy post activity'" do
         fetch_activity_type('post.destroy')
         post.destroy
         act = find_activity(user, "post.destroy")
         act.should_not be_nil
+      end
+
+      it "should not create 'destroy post activity'" do
+        draft.destroy
+        act = find_activity(user, "post.destroy")
+        act.should be_nil
       end
     end
   end

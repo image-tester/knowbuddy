@@ -13,7 +13,7 @@ class PostsController < ApplicationController
   before_filter :user_list,
     only: [ :index, :post_date, :contributors_pagination, :related_tag, :show, :user_posts ]
 
-  before_filter :find_activities, only:[:index, :load_activities, :load_partials]
+  before_filter :find_activities, only:[:index, :load_activities, :load_partials, :create]
 
   autocomplete :tag, :name, class_name: 'ActsAsTaggableOn::Tag', full: true
 

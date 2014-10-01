@@ -7,7 +7,7 @@ module PostHelper
 
   def user_link(user, top = false)
     link_to "#{user.display_name} #{post_count(user, top)}",
-      user_posts_posts_path(user_id: user.id), remote: true
+      user_posts_posts_path(user_id: user.id)
   end
 
   def post_count(user, top)

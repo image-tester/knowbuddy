@@ -280,9 +280,9 @@ describe PostsController do
       it "should get all post's for particular user" do
         post1 = create :post, user: user_one
         post2 = create :post, user: user
-        xhr :get, :user_posts, user_id: user_one.id, format: :js
+        get :user_posts, user_id: user_one.id
         expect(assigns[:posts]).to include(post1)
-        expect(response).to render_template('posts/user_posts', format: :js)
+        expect(response).to render_template('posts/user_posts')
 
         expect(assigns[:posts]).to_not include(post2)
       end

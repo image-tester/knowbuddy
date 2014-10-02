@@ -34,13 +34,14 @@
     %a.button{href: "#", rel: "facebox", id: "previewlink", class: "text_button_padding link_button"} Preview
 
     // Save as Draft Button
-    = button_tag id: "save_as_draft_button", class: "draft_button button text_button_padding", type: "button" do
-      = content_tag(:div,"Save as Draft",class: "draft_button", id: "save_as_draft")
-      .draft_button#loading
-        = image_tag "/assets/loading.gif"
-        = "Saving..."
+    - if f.object.new_record? || f.object.is_draft
+      = button_tag id: "save_as_draft_button", class: "draft_button button text_button_padding", type: "button" do
+        = content_tag(:div,"Save as Draft",class: "draft_button", id: "save_as_draft")
+        .draft_button#loading
+          = image_tag "/assets/loading.gif"
+          = "Saving..."
 
-    // Publish Button
+    // Publish button
     = button_tag class: "button btn_post_save", type: "submit" do
       = image_tag("web-app-theme/icons/tick.png", alt: "#{t("web-app-theme.save",
         default: "Save")}")

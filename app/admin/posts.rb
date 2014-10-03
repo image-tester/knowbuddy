@@ -1,5 +1,11 @@
 ActiveAdmin.register Post, as: "Posts"  do
 
+  scope :published, default: true do |posts|
+    posts = Post.published
+  end
+
+  scope(:drafted) { |posts| posts = Post.draft }
+
   menu priority: 1
   config.sort_order = "updated_at_desc"
   filter :subject
@@ -10,9 +16,9 @@ ActiveAdmin.register Post, as: "Posts"  do
     f.inputs "Details" do
       f.input :user,
         collection: User.with_deleted.user_collection_email_name
+      f.input :subject
       f.input :content
-      f.input :publish_at
-      f.input :slug
+      f.input :is_draft, as: :radio
     end
     f.buttons do
       f.commit_button "Submit"
@@ -44,6 +50,7 @@ ActiveAdmin.register Post, as: "Posts"  do
         post.user.active? ? post.user : post.user_name
       end
       row :slug
+      row :is_draft
       row :created_at
       row :updated_at
     end

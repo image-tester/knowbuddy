@@ -5,7 +5,7 @@ class Post < ActiveRecord::Base
   MAXFONTSIZE = 23
 
   attr_accessible :content, :created_at, :publish_at, :subject,
-    :tag_list, :updated_at, :user_id
+    :tag_list, :updated_at, :user_id, :slug, :is_draft
 
   belongs_to :user
   has_many :attachments, dependent: :destroy

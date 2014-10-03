@@ -5,11 +5,11 @@ ActiveAdmin.register ActivityType do
   filter :activity_type, as: :string
 
   form do |f|
-   f.inputs "Details" do
-     f.input :activity_type, as: :string
-     f.input :is_active, as: :radio
-   end
-     f.buttons
+    f.inputs "Details" do
+      f.input :activity_type, as: :string
+      f.input :is_active, as: :radio
+    end
+    f.buttons
   end
 
   index do

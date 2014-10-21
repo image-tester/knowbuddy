@@ -59,7 +59,7 @@
     <!-- *** This fieldType is used by Sunspot! *** -->
     <fieldType name="rand" class="solr.RandomSortField" omitNorms="true"/>
     <!-- *** This fieldType is used by Sunspot! *** -->
-    <fieldType name="text" class="solr.TextField" omitNorms="false">    
+    <fieldType name="text" class="solr.TextField" omitNorms="false">
 
       <analyzer type="index">
         <tokenizer class="solr.StandardTokenizerFactory"/>

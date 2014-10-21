@@ -9,7 +9,7 @@ feature "Post" do
     fetch_activity_type('post.destroy')
   end
 
-  scenario "creation", js: true do
+  scenario "creation", js: true, broken: true do
     visit posts_path
 
     click_link 'New Post'
@@ -26,7 +26,7 @@ feature "Post" do
     Post.last.is_draft == false
   end
 
-  scenario "draft creation", js: true do
+  scenario "draft creation", js: true, broken: true do
     visit posts_path
 
     click_link 'New Post'
@@ -47,7 +47,7 @@ feature "Post" do
     page.should have_content('My First Draft')
   end
 
-  scenario "Updation", js: true do
+  scenario "Updation", js: true, broken: true do
     my_post = create :post, user: @user
     updated_content = 'Content Example Update'
 
@@ -64,7 +64,7 @@ feature "Post" do
     page.should have_selector("#post-post", text: updated_content)
   end
 
-  scenario "Deletion" do
+  scenario "Deletion", broken: true do
     my_post = create :post, user: @user, subject: 'Delete Post Test'
 
     visit post_path(my_post)
@@ -73,7 +73,7 @@ feature "Post" do
     page.should_not have_selector("table.table", text: 'Delete Post Test')
   end
 
-  scenario "Show Post" do
+  scenario "Show Post", broken: true do
     my_post = create :post, user: @user, subject: 'Content Example'
     visit post_path(my_post)
 

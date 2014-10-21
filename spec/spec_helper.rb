@@ -40,6 +40,8 @@ RSpec.configure do |config|
   config.before(:each) do
     DatabaseCleaner.clean
   end
+
+  config.filter_run_excluding :broken => true
 end
 
 def fetch_activity_type(type)

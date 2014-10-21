@@ -28,6 +28,7 @@ RSpec.configure do |config|
   config.include Capybara::DSL
 
   Warden.test_mode!
+  Capybara.default_wait_time = 5
 
   config.use_transactional_fixtures = false
   config.infer_base_class_for_anonymous_controllers = false

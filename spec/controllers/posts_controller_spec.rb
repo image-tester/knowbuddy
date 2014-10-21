@@ -23,9 +23,9 @@ describe PostsController do
         solr_setup
       end
 
-      # after(:all) do
-      #   Post.remove_all_from_index!
-      # end
+      after(:all) do
+        Post.remove_all_from_index!
+      end
 
       let!(:search_key) { "Test Subject" }
       let!(:post_forth) { create :post, subject: 'Test Subject', is_draft: false }

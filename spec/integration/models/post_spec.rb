@@ -7,9 +7,9 @@ describe Post do
     solr_setup
   end
 
-  # after(:all) do
-  #   Post.remove_all_from_index!
-  # end
+  after(:all) do
+    Post.remove_all_from_index!
+  end
 
   describe 'search_post(search_key)' do
     it 'should get the posts which matches keyword' do

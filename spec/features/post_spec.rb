@@ -9,7 +9,7 @@ feature "Post" do
     fetch_activity_type('post.destroy')
   end
 
-  scenario "creation", js: true do
+  scenario "Creation", js: true do
     visit posts_path
 
     click_link 'New Post'
@@ -26,7 +26,7 @@ feature "Post" do
     Post.last.is_draft == false
   end
 
-  scenario "draft creation", js: true do
+  scenario "Draft Creation", js: true do
     visit posts_path
 
     click_link 'New Post'
@@ -73,7 +73,7 @@ feature "Post" do
     expect(page).not_to have_selector("table.table", text: 'Delete Post Test')
   end
 
-  scenario "Show Post" do
+  scenario "Show" do
     my_post = create :post, user: @user, subject: 'Content Example'
     visit post_path(my_post)
 

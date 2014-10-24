@@ -37,7 +37,7 @@ describe Post do
     end
   end
 
-  describe 'activity creation' do
+  describe 'Activity Creation' do
     let!(:user) { create :user }
     let!(:post) { create :post, tag_list: "new tag after create", user: user }
     let!(:draft) { create :draft, user: user }
@@ -79,7 +79,7 @@ describe Post do
     end
   end
 
-  describe 'review callbacks' do
+  describe 'Review Callbacks' do
     let!(:post) { create :post }
 
     describe 'after_create' do

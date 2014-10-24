@@ -19,8 +19,8 @@ ActiveRecord::Schema.define(:version => 20140821151406) do
     t.integer  "author_id"
     t.string   "author_type"
     t.text     "body"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "namespace"
   end
 
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(:version => 20140821151406) do
     t.integer  "activity_type_id"
   end
 
+  add_index "activities", ["activity_type_id"], :name => "index_activities_on_activity_type_id"
   add_index "activities", ["owner_id", "owner_type"], :name => "index_activities_on_owner_id_and_owner_type"
   add_index "activities", ["recipient_id", "recipient_type"], :name => "index_activities_on_recipient_id_and_recipient_type"
   add_index "activities", ["trackable_id", "trackable_type"], :name => "index_activities_on_trackable_id_and_trackable_type"
@@ -64,8 +65,8 @@ ActiveRecord::Schema.define(:version => 20140821151406) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
@@ -73,19 +74,21 @@ ActiveRecord::Schema.define(:version => 20140821151406) do
 
   create_table "attachments", :force => true do |t|
     t.integer  "post_id"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "post_file_name"
     t.string   "post_content_type"
     t.integer  "post_file_size"
     t.datetime "post_updated_at"
   end
 
+  add_index "attachments", ["post_id"], :name => "index_attachments_on_post_id"
+
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
     t.text     "comment"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "post_id"
   end
 
@@ -96,8 +99,8 @@ ActiveRecord::Schema.define(:version => 20140821151406) do
     t.string   "subject"
     t.text     "content"
     t.datetime "publish_at"
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "user_id"
     t.string   "slug"
     t.datetime "deleted_at"
@@ -119,6 +122,8 @@ ActiveRecord::Schema.define(:version => 20140821151406) do
 
   add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
   add_index "taggings", ["taggable_id", "taggable_type", "context"], :name => "index_taggings_on_taggable_id_and_taggable_type_and_context"
+  add_index "taggings", ["tagger_id"], :name => "index_taggings_on_tagger_id"
+  add_index "taggings", ["tagger_type"], :name => "index_taggings_on_tagger_type"
 
   create_table "tags", :force => true do |t|
     t.string "name"
@@ -135,8 +140,8 @@ ActiveRecord::Schema.define(:version => 20140821151406) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "name"
     t.datetime "deleted_at"
   end

@@ -61,8 +61,6 @@ class User < ActiveRecord::Base
   end
 
   private
-    #Added by Rohan.
-    #Functionality - Send email notification to user upon new account signup
     def send_email_password_changed
       Resque.enqueue(PasswordNotification,self)
     end
@@ -72,6 +70,6 @@ class User < ActiveRecord::Base
     end
 
     def create_user_activity
-      Activity.add_activity('create',self)
+      Activity.add_activity("create", self)
     end
 end

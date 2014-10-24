@@ -20,4 +20,3 @@ module PostHelper
   end
 
 end
-

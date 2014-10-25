@@ -245,3 +245,6 @@ Devise.setup do |config|
   # end
 end
 
+Devise::Mailer.class_eval do
+  helper :mail # includes "MailHelper"
+end

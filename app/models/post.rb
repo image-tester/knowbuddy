@@ -23,6 +23,7 @@ class Post < ActiveRecord::Base
 
   after_create :post_activity, unless: "is_draft"
   after_update :post_activity, unless: "is_draft"
+  after_save :send_email_notification, if: "is_draft_changed?"
   before_create :set_publish_date
   before_destroy :destroy_post_activity, if: :destroy_activity?
   around_save :create_new_tag_activity
@@ -128,5 +129,10 @@ class Post < ActiveRecord::Base
 
     def set_is_draft_false
       self.is_draft = false
+    end
+
+    def send_email_notification
+      users = User.where("id != ?", user_id)
+      Resque.enqueue(PostNotification, users, self)
     end
 end

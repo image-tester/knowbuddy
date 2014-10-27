@@ -42,6 +42,10 @@ class Post < ActiveRecord::Base
     text(:comments) { comments.pluck(:comment) }
   end
 
+  def published?
+    !is_draft
+  end
+
   def to_s
     subject
   end

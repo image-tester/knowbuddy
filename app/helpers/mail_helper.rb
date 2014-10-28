@@ -1,8 +1,8 @@
 module MailHelper
   def kiprosh_page_link
     capture do
-      link_to 'KIPROSH', 'http://kiprosh.com/',
-        {style: 'color:white; text-decoration:none'}
+      link_to "KIPROSH",  "http://kiprosh.com/",
+        {style: "color:white; text-decoration:none"}
     end
   end
 
@@ -12,7 +12,7 @@ module MailHelper
 
   def link_to_post
     capture do
-      link_to 'click here', "#{@link_to_post}"
+      link_to "click here", "#{@link_to_post}"
     end
   end
 

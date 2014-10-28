@@ -138,10 +138,30 @@ describe Post do
   end
 
   describe 'Instance Methods' do
+    before :all do
+      @post = create :post, user: @user
+      @draft = create :draft, user: @user
+    end
+
+    describe 'allowed?' do
+      it 'should return weather user is allowed to see post' do
+        expect(@post.allowed?(@user)).to be true
+        other_user = create :user
+        expect(@draft.allowed?(@user)).to be true
+        expect(@draft.allowed?(other_user)).to be false
+      end
+    end
+
+    describe 'published?' do
+      it 'should return post is published or not' do
+        expect(@post.published?).to be true
+        expect(@draft.published?).to be false
+      end
+    end
+
     describe 'to_s' do
       it 'should return subject' do
-        post = create :post
-        expect(post.to_s).to eq post.subject
+        expect(@post.to_s).to eq @post.subject
       end
     end
   end

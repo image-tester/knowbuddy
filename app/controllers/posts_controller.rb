@@ -154,7 +154,7 @@ class PostsController < ApplicationController
 
     def find_post
       @post = Post.find(params[:id])
-      raise 'An error has occured.' unless @post.published? || @post.user == current_user
+      raise 'Invalid Post.' unless @post.allowed?(current_user)
     end
 
     def order_by_name_email

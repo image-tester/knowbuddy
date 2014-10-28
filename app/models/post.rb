@@ -42,6 +42,10 @@ class Post < ActiveRecord::Base
     text(:comments) { comments.pluck(:comment) }
   end
 
+  def allowed?(current_user)
+    published? || user == current_user
+  end
+
   def published?
     !is_draft
   end

@@ -20,7 +20,7 @@ class UserMailer < ActionMailer::Base
     comment_user = User.find(comment["user_id"])
     @url = APP_CONFIG['url']
     post = Post.find(comment["post_id"])
-    @link_to_comment = @url + post_path(post)
+    @link_to_post = user_post_url(post)
     @users_list = users.map{|user| user["email"]}
     @user_name = comment_user.name.try(:titleize) || comment_user.email
     @subject = @user_name + " posted a comment for " + post.subject
@@ -32,7 +32,7 @@ class UserMailer < ActionMailer::Base
     post_user = User.find(post["user_id"])
     @url = APP_CONFIG['url']
     post = Post.find(post["id"])
-    @link_to_post = @url + post_path(post)
+    @link_to_post = user_post_url(post)
     @users_list = users.map{|user| user["email"]}
     @subject_name = post["subject"]
     user_name = post_user.name.try(:titleize) || post_user.email
@@ -58,6 +58,10 @@ class UserMailer < ActionMailer::Base
     (Rails.env == "development") ?
       mail(to: EMAIL_TO_SENDTO_IN_DEVLOPMENT_MODE, subject: subject) :
       mail(to: user["email"], subject: subject)
+  end
+
+  def user_post_url(post)
+    APP_CONFIG['url'] + post_path(post)
   end
 
   def app_login_url

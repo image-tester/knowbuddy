@@ -8,3 +8,6 @@
     <%= sanitize(@content) %>
   </td>
 </tr>
+<% content_for :user_post_link do %>
+  <%= link_text %>
+<% end %>

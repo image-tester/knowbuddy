@@ -1,3 +1,4 @@
-EMAIL_TO_SENDTO_IN_DEVLOPMENT_MODE = "rohan_daxini@yahoo.com"
+EMAIL_TO_SENDTO_IN_DEVLOPMENT_MODE = "swati.jadhav@kiprosh.com"
 TEN_ARTICLES = 10
 ACTIVITIES_PER_PAGE = 20
+KIPROSH_WEBSITE = "http://kiprosh.com/"

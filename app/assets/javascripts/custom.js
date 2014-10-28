@@ -237,7 +237,7 @@ $(document).ready(function(){
         },
         success: function(data){
           post.find('#post_id').val(data.new_post);
-          $('.draft').html('Saved');
+          $('.draft').html('Saved as Draft');
           $('#save_as_draft').show();
           $('#loading').hide();
         }

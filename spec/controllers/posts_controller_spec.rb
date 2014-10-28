@@ -9,7 +9,7 @@ describe PostsController, type: :controller do
     let!(:post_one)   { create :post, subject: 'Test', content: 'demo', user: user, tag_list: "newtag" }
     let!(:file)       { File.new('spec/fixtures/docs/sample.txt')}
     let!(:post_third) { create :post, subject: 'Test content', content: 'demo content', user: user, tag_list: "tag" }
-    let!(:draft)      { create :draft, user: user}
+    let!(:draft)      { create :draft, user: user }
 
     before do
       user_one.destroy
@@ -116,29 +116,29 @@ describe PostsController, type: :controller do
     end
 
     describe "GET show" do
-      context 'Post' do
+      context "Post" do
         it "should response successfully to show" do
           get :show, id: post_two.id
-          expect(response).to render_template('posts/show')
+          expect(response).to render_template("posts/show")
           expect(assigns[:post]).to eq(post_two)
         end
 
         it "should not response to show " do
           get :show, id: 1000
-          expect(response).to render_template('posts/post_not_found')
+          expect(response).to render_template("posts/post_not_found")
         end
       end
 
-      context 'Draft' do
-        it 'should show draft of the user' do
+      context "Draft" do
+        it "should show draft of the user" do
           get :show, id: draft.id
-          expect(response).to render_template('posts/show')
+          expect(response).to render_template("posts/show")
         end
 
-        it 'should not show draft of other users' do
+        it "should not show draft of other users" do
           other_draft = create :draft
           get :show, id: other_draft.id
-          expect(response).to render_template('posts/post_not_found')
+          expect(response).to render_template("posts/post_not_found")
         end
       end
     end

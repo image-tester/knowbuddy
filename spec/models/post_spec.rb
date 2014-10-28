@@ -143,8 +143,8 @@ describe Post do
       @draft = create :draft, user: @user
     end
 
-    describe 'allowed?' do
-      it 'should return weather user is allowed to see post' do
+    describe "allowed?" do
+      it "should return weather user is allowed to see post" do
         expect(@post.allowed?(@user)).to be true
         other_user = create :user
         expect(@draft.allowed?(@user)).to be true
@@ -152,8 +152,8 @@ describe Post do
       end
     end
 
-    describe 'published?' do
-      it 'should return post is published or not' do
+    describe "published?" do
+      it "should return post is published or not" do
         expect(@post.published?).to be true
         expect(@draft.published?).to be false
       end

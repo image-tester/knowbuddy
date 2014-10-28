@@ -1,7 +1,7 @@
 module MailHelper
   def kiprosh_page_link
     capture do
-      link_to "KIPROSH",  "http://kiprosh.com/", class: 'kiprosh_link'
+      link_to "KIPROSH",  "http://kiprosh.com/", class: "kiprosh_link"
     end
   end
 

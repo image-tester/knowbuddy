@@ -60,7 +60,7 @@ feature "Post" do
     fill_in 'post[content]', with: updated_content
     click_on 'Publish'
 
-    expect(page).to have_selector("#formID", visible: true)
+    page.assert_no_selector("#formID")
     expect(page).to have_selector("#post-post", text: updated_content)
   end
 

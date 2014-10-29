@@ -21,13 +21,14 @@ class Post < ActiveRecord::Base
 
   delegate :name, :email, to: :user, prefix: true
 
-  after_create :post_activity, unless: "is_draft"
-  after_update :post_activity, unless: "is_draft"
-  after_save :send_email_notification, if: "is_draft_changed?"
-  before_create :set_publish_date
-  before_destroy :destroy_post_activity, if: :destroy_activity?
-  around_save :create_new_tag_activity
+  after_create     :post_activity,          unless: "is_draft"
+  after_update     :post_activity,          unless: "is_draft"
+  before_destroy   :destroy_post_activity,  if: :destroy_activity?
+  around_save      :create_new_tag_activity
   after_validation :set_is_draft_false
+  after_validation :set_publish_date
+  after_validation :change_is_published
+  after_validation :send_email_notification, if: "is_published_changed?"
 
   default_scope order: 'updated_at DESC'
   scope :draft, -> { where(is_draft: true) }
@@ -95,6 +96,10 @@ class Post < ActiveRecord::Base
   end
 
   private
+    def change_is_published
+      self.is_published = true unless self.is_published
+    end
+
     def set_publish_date
       self.publish_at = Time.now
     end
@@ -115,7 +120,7 @@ class Post < ActiveRecord::Base
     end
 
     def post_activity
-      action = self.is_draft_changed? ? 'create' : 'update'
+      action = self.is_published_changed? ? 'create' : 'update'
       Activity.add_activity(action, self)
     end
 

@@ -1,8 +1,8 @@
 module PostHelper
 
   def view_more_activities_link(next_page = 2)
-    link_to 'View More', load_activities_posts_path(page_3: next_page), remote: true,
-      id: "load_more_link"
+    link_to 'View More', load_activities_posts_path(page_3: next_page),
+      remote: true, id: "load_more_link"
   end
 
   def user_link(user, top = false)

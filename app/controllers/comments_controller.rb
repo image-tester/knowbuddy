@@ -29,14 +29,12 @@ class CommentsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
       if @comment.update_attributes(params[:comment])
-        format.html { redirect_to @comment.post,
-          notice: 'Comment was successfully updated.' }
+        redirect_to @comment.post, format: 'html',
+          notice: 'Comment was successfully updated.'
       else
-        format.html { render 'edit' }
+        render 'edit', format: :html
       end
-    end
   end
 
   def user_comment

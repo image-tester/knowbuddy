@@ -24,5 +24,3 @@ module ApplicationHelper
     post && Post.find(post) rescue false
   end
 end
-
-

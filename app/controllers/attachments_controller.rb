@@ -1,37 +1,28 @@
 class AttachmentsController < ApplicationController
 
-  before_filter :find_attachment, only:  [:create, :update]
+  before_filter :find_attachment, only: [:create]
 
   def create
-    render_output(@attachment)
-  end
-
-  def update
-    @attachment.post_id = params[:post_id]
-    render_output(@attachment)
+    respond_to do |format|
+      if @attachment.save
+        format.json {
+          attachment = render_to_string(
+            partial: "posts/attachments.html.haml",
+            locals: { a: @attachment })
+          render json: { attachment: attachment, id: @attachment.id }
+        }
+      else
+        format.html { render 'new' }
+        format.json { render json: @attachment.errors,
+          status: :unprocessable_entity }
+      end
+    end
   end
 
   def destroy
     attachment = Attachment.find params[:id]
     attachment.destroy
     render json: true
-  end
-
-  def render_output(attach)
-    respond_to do |format|
-      if attach.save
-        format.json {
-          attachment = render_to_string(
-            partial: "posts/attachments.html.haml",
-            locals: { a: attach })
-          render json: { attachment: attachment, id: attach.id }
-        }
-      else
-        format.html { render 'new' }
-        format.json { render json: attach.errors,
-          status: :unprocessable_entity }
-      end
-    end
   end
 
   private

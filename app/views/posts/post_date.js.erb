@@ -1,1 +1,1 @@
-$('#main').html("<%= escape_javascript render(partial: 'post_date')%>")
+$('#main').html("<%= j (render 'post_date', current_post: @post, posts: @posts ) %>")

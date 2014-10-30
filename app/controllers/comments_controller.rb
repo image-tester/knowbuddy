@@ -30,10 +30,10 @@ class CommentsController < ApplicationController
 
   def update
       if @comment.update_attributes(params[:comment])
-        redirect_to @comment.post, format: 'html',
-          notice: 'Comment was successfully updated.'
+        redirect_to @comment.post, format: "html",
+          notice: "Comment was successfully updated."
       else
-        render 'edit', format: :html
+        render "edit", format: :html
       end
   end
 

@@ -1,1 +1,1 @@
-$('#main').html("<%= escape_javascript render(partial: 'related_tags')%>")
+$('#main').html("<%= j(render 'related_tags', related_tags: @related_tags) %>")

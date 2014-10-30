@@ -233,7 +233,7 @@ describe PostsController, type: :controller do
         draft2 = create :draft, user_id: user_one.id
         get :draft_list
         response.should be_successful
-        expect(assigns[:posts]).to eq([draft,draft1])
+        expect(assigns[:posts]).to match_array([draft,draft1])
         expect(assigns[:posts]).to_not include(post_one)
       end
     end

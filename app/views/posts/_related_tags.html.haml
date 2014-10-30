@@ -12,8 +12,7 @@
             = t("activerecord.attributes.post.subject", default: t("activerecord.labels.subject", default: "Subject"))
           %th= t("web-app-theme.created_at", default: "Date")
           %th= t("web-app-theme.created_at", default: "Contributor")
-
-        - @related_tags.each do |post|
+        - related_tags.each do |post|
           %tr{class: cycle("odd", "even")}
             - if post.user
               %td= image_tag avatar_url(post.user, 45)

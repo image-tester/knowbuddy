@@ -1,9 +1,9 @@
 :plain
-  $('#activity').append("#{escape_javascript(render(partial: 'activities', locals: { activities: @activities }))}");
+  $('#activity').append("#{ j (render 'activities', activities: @activities )}");
 
   if("#{@activities.count < ACTIVITIES_PER_PAGE}" == "true")
     content = ""
   else
-    content = "#{escape_javascript(view_more_activities_link(params[:page_3].to_i + 1))}"
+    content = "#{ j (view_more_activities_link(params[:page_3].to_i + 1))}"
 
   $('#view_more').html(content)

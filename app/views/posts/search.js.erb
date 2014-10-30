@@ -1,2 +1,2 @@
-$('#main').html("<%= escape_javascript render(partial: 'search')%>")
+$('#main').html("<%= j (render 'search', posts_searched: @posts_searched ) %>")
 

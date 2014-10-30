@@ -1,6 +1,6 @@
 class UserMailer < ActionMailer::Base
   add_template_helper(MailHelper)
-  layout 'notification_email'
+  layout "notification_email"
   default from: "notifications@kiprosh.com"
 
   def welcome_email(user)
@@ -18,9 +18,9 @@ class UserMailer < ActionMailer::Base
   def send_notification_on_new_Comment(users, comment)
     @comment = comment["comment"]
     comment_user = User.find(comment["user_id"])
-    @url = APP_CONFIG['url']
+    @url = APP_CONFIG["url"]
     post = Post.find(comment["post_id"])
-    @link_to_comment = @url + post_path(post)
+    @link_to_post = user_post_url(post)
     @users_list = users.map{|user| user["email"]}
     @user_name = comment_user.name.try(:titleize) || comment_user.email
     @subject = @user_name + " posted a comment for " + post.subject
@@ -30,9 +30,9 @@ class UserMailer < ActionMailer::Base
   def send_notification_on_new_Post(users, post)
     @content = RedCloth.new(post["content"]).to_html
     post_user = User.find(post["user_id"])
-    @url = APP_CONFIG['url']
+    @url = APP_CONFIG["url"]
     post = Post.find(post["id"])
-    @link_to_post = @url + post_path(post)
+    @link_to_post = user_post_url(post)
     @users_list = users.map{|user| user["email"]}
     @subject_name = post["subject"]
     user_name = post_user.name.try(:titleize) || post_user.email
@@ -60,7 +60,11 @@ class UserMailer < ActionMailer::Base
       mail(to: user["email"], subject: subject)
   end
 
+  def user_post_url(post)
+    APP_CONFIG["url"] + post_path(post)
+  end
+
   def app_login_url
-    APP_CONFIG['url'] + "/users/sign_in"
+    APP_CONFIG["url"] + "/users/sign_in"
   end
 end

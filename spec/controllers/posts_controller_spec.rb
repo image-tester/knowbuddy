@@ -1,7 +1,7 @@
 
 require 'spec_helper'
 
-describe PostsController do
+describe PostsController, type: :controller do
   describe 'actions' do
     let!(:user)       { create :user }
     let!(:user_one)   { create :user }
@@ -9,6 +9,7 @@ describe PostsController do
     let!(:post_one)   { create :post, subject: 'Test', content: 'demo', user: user, tag_list: "newtag" }
     let!(:file)       { File.new('spec/fixtures/docs/sample.txt')}
     let!(:post_third) { create :post, subject: 'Test content', content: 'demo content', user: user, tag_list: "tag" }
+    let!(:draft)      { create :draft, user: user }
 
     before do
       user_one.destroy
@@ -115,15 +116,30 @@ describe PostsController do
     end
 
     describe "GET show" do
-      it "should response successfully to show" do
-        get :show, id: post_two.id
-        expect(response).to render_template('posts/show')
-        expect(assigns[:post]).to eq(post_two)
+      context "Post" do
+        it "should response successfully to show" do
+          get :show, id: post_two.id
+          expect(response).to render_template("posts/show")
+          expect(assigns[:post]).to eq(post_two)
+        end
+
+        it "should not response to show " do
+          get :show, id: 1000
+          expect(response).to render_template("posts/post_not_found")
+        end
       end
 
-      it "should not response to show " do
-        get :show, id: 1000
-        expect(response).to render_template('posts/post_not_found')
+      context "Draft" do
+        it "should show draft of the user" do
+          get :show, id: draft.id
+          expect(response).to render_template("posts/show")
+        end
+
+        it "should not show draft of other users" do
+          other_draft = create :draft
+          get :show, id: other_draft.id
+          expect(response).to render_template("posts/post_not_found")
+        end
       end
     end
 
@@ -217,7 +233,7 @@ describe PostsController do
         draft2 = create :draft, user_id: user_one.id
         get :draft_list
         response.should be_successful
-        expect(assigns[:posts]).to eq([draft1])
+        expect(assigns[:posts]).to match_array([draft,draft1])
         expect(assigns[:posts]).to_not include(post_one)
       end
     end

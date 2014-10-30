@@ -53,5 +53,5 @@
     = render "comments/form", post: post
     %br
     %br
-  = render partial: "comments/comments", locals: { comments: post.comments.order("comments.updated_at DESC"), post: post }
+  = render "comments/comments", comments: post.comments.order("comments.updated_at DESC"), post: post
   %input#post_slug{ name: "post_slug", type: "hidden", value: post.slug }

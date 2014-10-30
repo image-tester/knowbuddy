@@ -1,7 +1,7 @@
 .block
   .secondary-navigation
   .content
-    - if params[:search].blank? || @posts_searched.blank?
+    - if params[:search].blank? || posts_searched.blank?
       #search_error
         Sorry no matching results for keyword '#{params[:search]}'
     - else
@@ -16,7 +16,7 @@
             %th= t("web-app-theme.created_at", default: "Date")
             %th= t("web-app-theme.created_at", default: "Contributor")
 
-          - @posts_searched.each do |post|
+          - posts_searched.each do |post|
             %tr{class: cycle("odd", "even")}
               - if post.user
                 %td= image_tag avatar_url(post.user, 45)

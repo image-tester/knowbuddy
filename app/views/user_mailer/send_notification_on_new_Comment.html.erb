@@ -4,7 +4,10 @@
   </td>
 </tr>
 <tr>
-  <td class="content-copy" valign="top" style="padding: 0 20px 20px 20px; color: #000; font-size: 14px; font-family: Georgia; line-height: 20px;" colspan="2">
+  <td class="content-copy" valign="top" style="padding: 0 20px 20px 20px; color: #000; font-size: 14px; font-family: Georgia; line-height: 20px;" >
     <%= @comment %>
   </td>
 </tr>
+<% content_for :user_post_link do %>
+  <%= link_text %>
+<% end %>

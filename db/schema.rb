@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140821151406) do
+ActiveRecord::Schema.define(:version => 20141029074344) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -19,8 +19,8 @@ ActiveRecord::Schema.define(:version => 20140821151406) do
     t.integer  "author_id"
     t.string   "author_type"
     t.text     "body"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.string   "namespace"
   end
 
@@ -65,8 +65,8 @@ ActiveRecord::Schema.define(:version => 20140821151406) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
   end
 
   add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
@@ -74,8 +74,8 @@ ActiveRecord::Schema.define(:version => 20140821151406) do
 
   create_table "attachments", :force => true do |t|
     t.integer  "post_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
     t.string   "post_file_name"
     t.string   "post_content_type"
     t.integer  "post_file_size"
@@ -87,8 +87,8 @@ ActiveRecord::Schema.define(:version => 20140821151406) do
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
     t.text     "comment"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
     t.integer  "post_id"
   end
 
@@ -99,12 +99,13 @@ ActiveRecord::Schema.define(:version => 20140821151406) do
     t.string   "subject"
     t.text     "content"
     t.datetime "publish_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
     t.integer  "user_id"
     t.string   "slug"
     t.datetime "deleted_at"
-    t.boolean  "is_draft",   :default => true
+    t.boolean  "is_draft",     :default => true
+    t.boolean  "is_published", :default => false
   end
 
   add_index "posts", ["slug"], :name => "index_kyu_entries_on_slug", :unique => true
@@ -140,8 +141,8 @@ ActiveRecord::Schema.define(:version => 20140821151406) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
     t.string   "name"
     t.datetime "deleted_at"
   end

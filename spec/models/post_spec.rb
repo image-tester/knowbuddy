@@ -112,7 +112,7 @@ describe Post do
 
     describe 'after_validation' do
       it 'should save the post' do
-        post.should_receive(:set_is_draft_false)
+        post.should_receive(:set_is_draft)
         post.run_callbacks(:validation)
       end
     end

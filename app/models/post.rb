@@ -25,9 +25,8 @@ class Post < ActiveRecord::Base
   after_update     :post_activity,          unless: "is_draft"
   before_destroy   :destroy_post_activity,  if: :destroy_activity?
   around_save      :create_new_tag_activity
-  after_validation :set_is_draft_false
-  after_validation :set_publish_date
-  after_validation :change_is_published
+  after_validation :set_is_draft
+  after_validation :set_published
   after_validation :send_email_notification, if: "is_published_changed?"
 
   default_scope order: 'updated_at DESC'
@@ -104,11 +103,8 @@ class Post < ActiveRecord::Base
   end
 
   private
-    def change_is_published
+    def set_published
       self.is_published = true unless self.is_published
-    end
-
-    def set_publish_date
       self.publish_at = Time.now
     end
 
@@ -140,7 +136,7 @@ class Post < ActiveRecord::Base
       Activity.add_activity('destroy',self)
     end
 
-    def set_is_draft_false
+    def set_is_draft
       self.is_draft = false
     end
 

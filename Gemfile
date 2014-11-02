@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'acts-as-taggable-on', '~> 2.4.0'
 gem 'activeadmin', github: 'gregbell/active_admin', branch: '0-6-stable'
+gem 'active_skin'
 gem 'devise'
 gem 'friendly_id', '~> 4.0.9'
 gem 'griddler'

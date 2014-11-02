@@ -6,9 +6,11 @@ FactoryGirl.define do
     created_at { Time.now }
     tag_list { Faker::Name.name }
     is_draft false
+    is_published true
 
     factory :draft do
       is_draft true
+      is_published false
       to_create do |instance|
         instance.save(validate: false)
       end

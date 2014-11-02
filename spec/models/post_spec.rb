@@ -192,4 +192,17 @@ describe Post do
       end
     end
   end
+
+  describe 'publish post' do
+    it 'should set is_draft false' do
+      post = create :draft
+      expect{ post.save }.to change(post, :is_draft).from(true).to(false)
+    end
+
+    it 'should set published details' do
+      post = create :draft
+      expect{ post.save }.to change(post, :publish_at)
+      expect(post.is_published).to eq(true)
+    end
+  end
 end

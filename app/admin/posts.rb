@@ -18,7 +18,6 @@ ActiveAdmin.register Post, as: "Posts"  do
         collection: User.with_deleted.user_collection_email_name
       f.input :subject
       f.input :content
-      f.input :is_draft, as: :radio
     end
     f.buttons do
       f.commit_button "Submit"
@@ -36,9 +35,9 @@ ActiveAdmin.register Post, as: "Posts"  do
     column 'Date', :updated_at
     column "Actions" do |post|
       raw "#{link_to 'View', admin_post_path(post), method: :get}
-        #{link_to 'Edit', edit_admin_post_path(post), method: :get}
+        #{(link_to 'Edit', edit_admin_post_path(post), method: :get) unless post.is_draft}
         #{link_to 'Delete', admin_post_path(post), method: :delete,
-        confirm: "Are you sure you want to delete this Post permanently ?"}"
+        confirm: 'Are you sure you want to delete this Post permanently ?'}"
     end
   end
 

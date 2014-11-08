@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   validates :name, presence: true
 
   acts_as_paranoid
+  acts_as_voter
 
   after_create :send_welcome_email
   after_update :send_email_password_changed, if: :encrypted_password_changed?
@@ -58,6 +59,10 @@ class User < ActiveRecord::Base
 
   def active?
     deleted_at.blank?
+  end
+
+  def is_voted?(post, type)
+    self.send("voted_#{type}_on?", post)
   end
 
   private

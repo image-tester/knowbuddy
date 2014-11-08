@@ -1,5 +1,6 @@
 class Post < ActiveRecord::Base
   include PublicActivity::Common
+  acts_as_votable
 
   MINFONTSIZE = 10
   MAXFONTSIZE = 23

@@ -9,5 +9,6 @@
  *= require style
  *= require facebox
  *= require validationEngine.jquery
+ *= require css/font-awesome.min
 */
 

@@ -308,6 +308,8 @@ describe PostsController, type: :controller do
       let!(:post2) { create :post }
 
       before do
+        fetch_activity_type('post.like')
+        fetch_activity_type('post.dislike')
         post1.liked_by user
         post2.downvote_from user
       end

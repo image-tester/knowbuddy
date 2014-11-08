@@ -103,6 +103,11 @@ class Post < ActiveRecord::Base
     {"post_subject"=> subject, "post_id" => id}
   end
 
+  def vote_activity(action, user)
+    action = action == 'like' ? 'like' : 'dislike'
+    Activity.add_activity(action, self, user)
+  end
+
   private
     def set_published
       self.is_published = true unless self.is_published

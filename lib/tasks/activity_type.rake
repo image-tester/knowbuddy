@@ -29,4 +29,18 @@ namespace :populate do
     end
     puts "End rake task..."
   end
+
+  # rake populate:vote_activity_types
+  desc "Voye Activities"
+  task vote_activity_types: :environment do
+    puts "Start rake task..."
+    [
+      [activity_type: 'post.like', is_active: true],
+      [activity_type: 'post.dislike', is_active: true]
+    ].each do |activity|
+      ActivityType.create(activity)
+      puts "Actvity type #{activity[0].flatten[1]} is created."
+    end
+    puts "End rake task..."
+  end
 end

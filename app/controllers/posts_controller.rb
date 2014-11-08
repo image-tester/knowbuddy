@@ -25,6 +25,7 @@ class PostsController < ApplicationController
   def assign_vote
     type = params[:vote_type] == "like" ? "liked_by" : "downvote_from"
     @post.send(type, current_user)
+    @post.vote_activity(params[:vote_type], current_user)
     render json: { likes: @post.get_likes.size,
       dislikes: @post.get_dislikes.size }
   end

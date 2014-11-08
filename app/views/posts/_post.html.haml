@@ -10,15 +10,16 @@
     .postDetails
       = timeago_date_format(post.updated_at)
 
-    .voterDetails
-      .up_rate
-        %span
-          %i.fa.fa-thumbs-o-up.fa-2x{ id: 'like', class: voted(current_user, post, 'up') }
-          .vote= post.get_likes.size
-      .down_rate
-        %span
-          %i.fa.fa-thumbs-o-down.fa-2x{ id: 'dislike', class: voted(current_user, post, 'down') }
-          .vote= post.get_dislikes.size
+    - unless post.is_draft
+      .voterDetails
+        .up_rate
+          %span
+            %i.fa.fa-thumbs-o-up.fa-2x{ id: 'like', class: voted(current_user, post, 'up') }
+            .vote= post.get_likes.size
+        .down_rate
+          %span
+            %i.fa.fa-thumbs-o-down.fa-2x{ id: 'dislike', class: voted(current_user, post, 'down') }
+            .vote= post.get_dislikes.size
 
   #post-details
     #post-subject{'data-id' => post.id}

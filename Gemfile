@@ -6,12 +6,10 @@ gem 'active_skin'
 gem 'acts_as_votable', '~> 0.10.0'
 gem 'devise'
 gem 'friendly_id', '~> 4.0.9'
-gem 'font-awesome-less'
 gem 'griddler'
 gem 'haml'
 gem 'jquery-rails', '2.3.0'
 gem 'kaminari'
-gem 'less-rails'
 gem 'meta_search',    '>= 1.1.0.pre'
 gem 'mysql2'
 gem 'paperclip'
@@ -49,6 +47,7 @@ group :development, :test do
 end
 group :assets do
   gem 'coffee-rails', '~> 3.2.2'
+  gem 'font-awesome-rails'
   gem 'therubyracer', '~> 0.12.1'
   gem 'uglifier'
 end

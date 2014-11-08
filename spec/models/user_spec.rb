@@ -120,5 +120,26 @@ describe User do
         expect(user.active?).to eq true
       end
     end
+
+    describe 'is_voted?' do
+      let!(:post1) { create :post }
+      let!(:post2) { create :post }
+      let!(:user)  { create :user }
+
+      before do
+        post1.liked_by user
+        post2.downvote_from user
+      end
+
+      it "should check users like" do
+        expect(user.voted_up_on? post1).to eq true
+        expect(user.voted_up_on? post2).to eq false
+      end
+
+      it "should check users dislike" do
+        expect(user.voted_down_on? post1).to eq false
+        expect(user.voted_down_on? post2).to eq true
+      end
+    end
   end
 end

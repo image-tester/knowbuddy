@@ -16,7 +16,6 @@ describe PostsController, type: :controller do
       sign_in user
     end
 
-
     describe "GET search ", search: true do
       include SolrSpecHelper
 
@@ -227,7 +226,7 @@ describe PostsController, type: :controller do
       end
     end
 
-    describe 'Get draft_list' do
+    describe 'GET draft_list' do
       it 'should return entire draft list for the user' do
         draft1 = create :draft, user_id: user.id
         draft2 = create :draft, user_id: user_one.id
@@ -280,7 +279,7 @@ describe PostsController, type: :controller do
       end
     end
 
-    describe "Get post for date" do
+    describe "GET post for date" do
       it "should get all post's for particular date" do
         post1 = create :post, updated_at: 1.day.ago
         post2 = create :post
@@ -292,7 +291,7 @@ describe PostsController, type: :controller do
       end
     end
 
-    describe "Get post for user" do
+    describe "GET post for user" do
       it "should get all post's for particular user" do
         post1 = create :post, user: user_one
         post2 = create :post, user: user
@@ -301,6 +300,54 @@ describe PostsController, type: :controller do
         expect(response).to render_template('posts/user_posts')
 
         expect(assigns[:posts]).to_not include(post2)
+      end
+    end
+
+    describe "GET assign_vote " do
+      let!(:post1) { create :post }
+      let!(:post2) { create :post }
+
+      before do
+        post1.liked_by user
+        post2.downvote_from user
+      end
+
+      it "like post" do
+        expect{
+          get :assign_vote, vote_type: "like", id: post_one.id, format: :json
+        }.to change(post_one.get_likes, :count).by(1)
+      end
+
+      it "should not increase like-count if already liked" do
+        expect{
+          get :assign_vote, vote_type: "like", id: post1.id, format: :json
+        }.to_not change(post1.get_likes, :count)
+      end
+
+      it "dislike post" do
+        expect{
+          get :assign_vote, vote_type: "dislike", id: post_one.id, format: :json
+        }.to change(post_one.get_dislikes, :count).by(1)
+      end
+
+      it "should not increase dislike-count if already disliked" do
+        expect{
+          get :assign_vote, vote_type: "dislike", id: post2.id, format: :json
+        }.to_not change(post2.get_dislikes, :count)
+      end
+
+      it "changes the dislike count after upvote " do
+        expect{
+          get :assign_vote, vote_type: "like", id: post2.id, format: :json
+        }.to change(post2.get_dislikes, :count).by(-1)
+        expect(post2.get_likes.size).to eq(1)
+      end
+
+      it "changes the like-count after downvote " do
+        expect{
+          get :assign_vote, vote_type: "dislike", id: post1.id, format: :json
+        }.to change(post1.get_likes, :count).by(-1)
+        expect(post1.get_dislikes.size).to eq(1)
       end
     end
   end

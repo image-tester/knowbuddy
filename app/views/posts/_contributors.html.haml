@@ -1,8 +1,8 @@
 #contributer.block
   %h3 Contributors
   %ul#namelist.navigation
-    - users.only_active.each do |user|
+    - users.each do |user|
       %li= user_link(user)
 
   %div#paginator
-    = paginate users.only_active, params: {controller: 'posts', action: 'contributors_pagination'}, remote: true
+    = paginate users, params: {controller: 'posts', action: 'contributors_pagination'}, remote: true

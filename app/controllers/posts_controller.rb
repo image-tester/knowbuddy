@@ -4,15 +4,11 @@ class PostsController < ApplicationController
 
   before_filter :order_by_name_email,
     only: [ :edit, :index, :post_date, :new, :search, :user_posts, :show,
-      :create, :related_tag ]
+      :create, :related_tag, :contributors_pagination]
 
   before_filter :tag_cloud,
     only: [ :edit, :index, :post_date, :new, :related_tag, :search,
       :show, :user_posts, :create, :draft]
-
-  before_filter :user_list,
-    only: [ :index, :post_date, :contributors_pagination,
-      :related_tag, :show, :user_posts ]
 
   before_filter :find_activities, only: [:index, :load_activities,
     :load_partials, :create]
@@ -166,10 +162,6 @@ class PostsController < ApplicationController
 
     def remove_orphan_attachments
       Post.invalid_attachments
-    end
-
-    def user_list
-      @users = User.with_deleted.page(params[:page]).per(5)
     end
 
     def tag_cloud

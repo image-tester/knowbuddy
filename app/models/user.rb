@@ -18,10 +18,8 @@ class User < ActiveRecord::Base
 
   after_create :create_user_activity
 
-  scope :only_active, -> { where("deleted_at is NULL") }
-
   def self.by_name_email
-    with_deleted.joins(:posts).where('posts.deleted_at IS NULL').
+    joins(:posts).where('posts.deleted_at IS NULL').
     order('name, email').uniq
   end
 

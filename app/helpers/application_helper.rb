@@ -23,4 +23,13 @@ module ApplicationHelper
   def post_exist?(post)
     post && Post.find(post) rescue false
   end
+
+  def voter_url(type = "")
+    "#{type}like_icon.png"
+  end
+
+  def voted(user, post, type)
+    user.is_voted?(post, type) ? "voted" : ""
+  end
+
 end

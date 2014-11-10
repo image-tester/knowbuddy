@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   add_template_helper(PostHelper)
-  before_filter :find_post, only: [:destroy, :edit, :remove_tag, :update]
+  before_filter :find_post, only: [:destroy, :edit, :remove_tag, :update,
+    :assign_vote]
 
   before_filter :order_by_name_email,
     only: [ :edit, :index, :post_date, :new, :search, :user_posts, :show,
@@ -16,6 +17,14 @@ class PostsController < ApplicationController
   autocomplete :tag, :name, class_name: 'ActsAsTaggableOn::Tag', full: true
 
   respond_to :js, only: [:load_activities, :contributors_pagination]
+
+  def assign_vote
+    type = params[:vote_type] == "like" ? "liked_by" : "downvote_from"
+    @post.send(type, current_user)
+    @post.vote_activity(params[:vote_type], current_user)
+    render json: { likes: @post.get_likes.size,
+      dislikes: @post.get_dislikes.size }
+  end
 
   def create
     attachment = params[:post].delete :attachment

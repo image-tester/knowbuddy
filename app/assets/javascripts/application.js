@@ -9,6 +9,7 @@
 //= require jquery-ui
 //= require facebox
 //= require custom
+//= require like_post
 //= require jquery.validationEngine
 //= require jquery.validationEngine-en
 //= require jquery.markitup

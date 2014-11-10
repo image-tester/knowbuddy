@@ -1,5 +1,6 @@
 class Post < ActiveRecord::Base
   include PublicActivity::Common
+  acts_as_votable
 
   MINFONTSIZE = 10
   MAXFONTSIZE = 23
@@ -100,6 +101,11 @@ class Post < ActiveRecord::Base
 
   def activity_params
     {"post_subject"=> subject, "post_id" => id}
+  end
+
+  def vote_activity(action, user)
+    action = action == 'like' ? 'like' : 'dislike'
+    Activity.add_activity(action, self, user)
   end
 
   private

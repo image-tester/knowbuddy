@@ -7,6 +7,8 @@ feature "Post" do
     fetch_activity_type('post.create')
     fetch_activity_type('post.update')
     fetch_activity_type('post.destroy')
+    fetch_activity_type('post.like')
+    fetch_activity_type('post.dislike')
   end
 
   scenario "Creation", js: true do
@@ -80,5 +82,31 @@ feature "Post" do
     expect(page).to have_selector("#post-subject", text: 'Content Example')
     expect(page).to have_selector(:link_or_button, 'Edit')
     expect(page).to have_selector(:link_or_button, 'Delete')
+  end
+
+  scenario "like post", js: true do
+    my_post = create :post
+    visit post_path(my_post)
+    find('i#like').click
+    expect(page).to have_selector(".up_rate .vote", text: "1")
+
+    visit posts_path
+    expect(page).to have_selector("table#activity",
+      text: "#{@user.name.titleize} liked an article #{my_post}")
+
+    expect(my_post.get_likes.size).to eq(1)
+  end
+
+  scenario "like post", js: true do
+    my_post = create :post
+    visit post_path(my_post)
+    find('i#dislike').click
+    expect(page).to have_selector(".down_rate .vote", text: "1")
+
+    visit posts_path
+    expect(page).to have_selector("table#activity",
+      text: "#{@user.name.titleize} disliked an article #{my_post}")
+
+    expect(my_post.get_dislikes.size).to eq(1)
   end
 end

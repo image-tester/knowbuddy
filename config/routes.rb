@@ -39,6 +39,7 @@ KYU::Application.routes.draw do
       get :draft_list
       get :contributors_pagination
       get :load_activities
+      post :assign_vote
     end
     resources :comments, except: [:index]
   end

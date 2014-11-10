@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'acts-as-taggable-on', '~> 2.4.0'
 gem 'activeadmin', github: 'gregbell/active_admin', branch: '0-6-stable'
 gem 'active_skin'
+gem 'acts_as_votable', '~> 0.10.0'
 gem 'devise'
 gem 'friendly_id', '~> 4.0.9'
 gem 'griddler'
@@ -46,6 +47,7 @@ group :development, :test do
 end
 group :assets do
   gem 'coffee-rails', '~> 3.2.2'
+  gem 'font-awesome-rails'
   gem 'therubyracer', '~> 0.12.1'
   gem 'uglifier'
 end

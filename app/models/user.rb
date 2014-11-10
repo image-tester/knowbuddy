@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   validates :name, presence: true
 
   acts_as_paranoid
+  acts_as_voter
 
   after_create :send_welcome_email
   after_update :send_email_password_changed, if: :encrypted_password_changed?
@@ -60,16 +61,20 @@ class User < ActiveRecord::Base
     name.try(:titleize) || email
   end
 
+  def is_voted?(post, type)
+    self.send("voted_#{type}_on?", post)
+  end
+
   private
-    def send_email_password_changed
-      Resque.enqueue(PasswordNotification,self)
-    end
+  def send_email_password_changed
+    Resque.enqueue(PasswordNotification,self)
+  end
 
-    def send_welcome_email
-      Resque.enqueue(WelcomeNotification,self)
-    end
+  def send_welcome_email
+    Resque.enqueue(WelcomeNotification,self)
+  end
 
-    def create_user_activity
-      Activity.add_activity("create", self)
-    end
+  def create_user_activity
+    Activity.add_activity("create", self)
+  end
 end

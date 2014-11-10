@@ -20,8 +20,13 @@ class User < ActiveRecord::Base
 
   scope :only_active, -> { where("deleted_at is NULL") }
 
-  def self.user_collection_email_name
-    self.all.map{|v| [v.name || v.email, v.id] } if User.table_exists?
+  def self.by_name_email
+    with_deleted.joins(:posts).where('posts.deleted_at IS NULL').
+    order('name, email').uniq
+  end
+
+  def self.get_user(user_id)
+    self.with_deleted.find(user_id)
   end
 
   def self.top3
@@ -32,8 +37,8 @@ class User < ActiveRecord::Base
       group('posts.user_id').order('total DESC').limit(3)
   end
 
-  def self.get_user(user_id)
-    self.with_deleted.find(user_id)
+  def self.user_collection_email_name
+    self.all.map{|v| [v.name || v.email, v.id] } if User.table_exists?
   end
 
   def activate
@@ -43,11 +48,6 @@ class User < ActiveRecord::Base
       self.deleted_at = nil
       save(validate: false)
     end
-  end
-
-  def self.by_name_email
-    with_deleted.joins(:posts).where('posts.deleted_at IS NULL').
-    order('name, email').uniq
   end
 
   def activity_params

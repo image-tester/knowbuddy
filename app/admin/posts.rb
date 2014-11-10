@@ -44,7 +44,9 @@ ActiveAdmin.register Post, as: "Posts"  do
   show do |post|
     attributes_table do
       row :subject
-      row :content
+      row :content do |post|
+        raw RedCloth.new(post.content).to_html
+      end
       row :user do |post|
         post.user.active? ? post.user : post.user_name
       end

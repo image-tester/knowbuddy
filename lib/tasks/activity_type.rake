@@ -10,7 +10,9 @@ namespace :populate do
       [activity_type: 'comment.update', is_active: true],
       [activity_type: 'comment.destroy', is_active: true],
       [activity_type: 'user.create', is_active: true],
-      [activity_type: 'post.newTag', is_active: true]
+      [activity_type: 'post.newTag', is_active: true],
+      [activity_type: 'post.like', is_active: true],
+      [activity_type: 'post.dislike', is_active: true]
     ].each do |activity|
       ActivityType.create(activity)
       puts "Actvity type #{activity[0].flatten[1]} is created."

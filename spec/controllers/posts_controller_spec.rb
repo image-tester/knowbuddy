@@ -60,12 +60,12 @@ describe PostsController, type: :controller do
     describe "GET contributors_pagination" do
       it "should respond with users on page 1" do
         xhr :get, :contributors_pagination, page:"1"
-        expect(assigns[:users]).to include(user,user_one)
+        expect(assigns[:users]).to_not include(user_one)
       end
 
       it "should not respond with users of page 1" do
         xhr :get, :contributors_pagination, page:"2"
-        expect(assigns[:users]).to_not include(user,user_one)
+        expect(assigns[:users]).to_not include(user_one)
       end
     end
 

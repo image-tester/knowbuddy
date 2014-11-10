@@ -18,8 +18,13 @@ class User < ActiveRecord::Base
 
   after_create :create_user_activity
 
-  def self.user_collection_email_name
-    self.all.map{|v| [v.name || v.email, v.id] } if User.table_exists?
+  def self.by_name_email
+    joins(:posts).where('posts.deleted_at IS NULL').
+    order('name, email').uniq
+  end
+
+  def self.get_user(user_id)
+    self.with_deleted.find(user_id)
   end
 
   def self.top3
@@ -30,8 +35,8 @@ class User < ActiveRecord::Base
       group('posts.user_id').order('total DESC').limit(3)
   end
 
-  def self.get_user(user_id)
-    self.with_deleted.find(user_id)
+  def self.user_collection_email_name
+    self.all.map{|v| [v.name || v.email, v.id] } if User.table_exists?
   end
 
   def activate
@@ -43,21 +48,16 @@ class User < ActiveRecord::Base
     end
   end
 
-  def display_name
-    name.try(:titleize) || email
-  end
-
-  def self.by_name_email
-    with_deleted.joins(:posts).where('posts.deleted_at IS NULL').
-    order('name, email').uniq
-  end
-
   def activity_params
     { "user" => name }
   end
 
   def active?
     deleted_at.blank?
+  end
+
+  def display_name
+    name.try(:titleize) || email
   end
 
   private

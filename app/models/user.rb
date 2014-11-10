@@ -18,6 +18,8 @@ class User < ActiveRecord::Base
 
   after_create :create_user_activity
 
+  scope :only_active, -> { where("deleted_at is NULL") }
+
   def self.user_collection_email_name
     self.all.map{|v| [v.name || v.email, v.id] } if User.table_exists?
   end
@@ -43,10 +45,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def display_name
-    name.try(:titleize) || email
-  end
-
   def self.by_name_email
     with_deleted.joins(:posts).where('posts.deleted_at IS NULL').
     order('name, email').uniq
@@ -58,6 +56,10 @@ class User < ActiveRecord::Base
 
   def active?
     deleted_at.blank?
+  end
+
+  def display_name
+    name.try(:titleize) || email
   end
 
   private

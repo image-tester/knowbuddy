@@ -13,9 +13,9 @@
 .group
   = f.label :content, t("activerecord.attributes.post.content", default: "Attachments"), class: :label
   - if params[:new_post].present?
-    = render "newform"
+    = render "new_attachment"
   - elsif params[:edit_post].present?
-    = render "editform"
+    = render "edit_attachment"
     #post_attachment
       - post.attachments.each do |a|
         = render "attachments", a: a

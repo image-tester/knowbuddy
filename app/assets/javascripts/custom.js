@@ -2,7 +2,6 @@ $(document).ready(function(){
 
   var strDefaultValForPostTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
   $('#textarea_post_content').markItUp(mySettings);
-  $("#formID1").validationEngine();
 
   $('#new_post').keypress(function(){
     $('.draft_button').removeAttr('disabled');
@@ -140,7 +139,7 @@ $(document).ready(function(){
     }
   });
 
-  $('body').on('ajax:beforeSend', '#formID1', function() {
+  $('body').on('ajax:beforeSend', '#new_post_form', function() {
     location.hash = '#';
     $(".btn_post_save").text("Saving...").addClass("disable-button")
   })
@@ -149,7 +148,7 @@ $(document).ready(function(){
     return false
   });
 
-  $('body').on('ajax:success', '#formID1', function(xhr, data, status) {
+  $('body').on('ajax:success', '#new_post_form', function(xhr, data, status) {
     $("#new_post").slideUp(800,function(){
       $(data.new_entry).insertAfter("tr:first");
       $("time.time_ago").timeago();
@@ -176,9 +175,10 @@ $(document).ready(function(){
     makeflieupload()
     $('#textarea_post_content').markItUp(mySettings);
     save_as_draft()
+    autosave()
   });
 
-  $('body').on('ajax:success', '#formID', function(xhr, data, status) {
+  $('body').on('ajax:success', '#edit_post_form', function(xhr, data, status) {
     $("#edit_post").slideUp(100,function(){
       $("#edit_post").remove()
       $("#main").append(data)
@@ -202,7 +202,7 @@ $(document).ready(function(){
   });
 
   function autosave() {
-    if($("#new_post").length > 0 ) {
+    if($("#new_post").length > 0 || $("#edit_post").length > 0) {
       setInterval( function(){ save_draft(); }, 30000 );
     }
   }

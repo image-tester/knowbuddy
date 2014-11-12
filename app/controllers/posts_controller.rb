@@ -62,7 +62,7 @@ class PostsController < ApplicationController
 
   def edit
     remove_orphan_attachments
-    edit_post = render_to_string(partial: "editentry",
+    edit_post = render_to_string(partial: "edit_post",
       locals: {post: @post})
     render json: edit_post.to_json
   end
@@ -90,7 +90,7 @@ class PostsController < ApplicationController
   def new
     remove_orphan_attachments
     @post = Post.new
-    new_post = render_to_string(partial: "newentry",
+    new_post = render_to_string(partial: "new_post",
       locals: {post: @post})
     render json: { new_post: new_post }
   end

@@ -201,6 +201,7 @@ $(document).ready(function(){
       $("#edit_post").remove()
       $("#main").empty().append(show_post)
     })
+    clearInterval(interval_id);
   //end
   });
 

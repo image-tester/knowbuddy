@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
   var strDefaultValForPostTextarea = "h1. This is Textile markup. Give it a try! \n \n A *simple* paragraph with a line break, some _emphasis_ and a \"link\":http://redcloth.org \n\n * an item \n * and another \n\n # one \n # two";
+  var interval_id;
   $('#textarea_post_content').markItUp(mySettings);
 
   $('#new_post').keypress(function(){
@@ -160,6 +161,7 @@ $(document).ready(function(){
       $("#sidebar").empty().append(data.sidebar)
       newpostlink('#new_entry','#home_pg')
       $(".btn_post_save").text("Save").removeClass("disable-button")
+      clearInterval(interval_id);
     });
   });
   // end
@@ -184,6 +186,7 @@ $(document).ready(function(){
       $("#main").append(data)
       $('.time_ago').timeago();
       history.pushState({},'',$('#post_slug').val());
+      clearInterval(interval_id);
     });
   });
   // end
@@ -203,7 +206,7 @@ $(document).ready(function(){
 
   function autosave() {
     if($("#new_post").length > 0 || $("#edit_post").length > 0) {
-      setInterval( function(){ save_draft(); }, 30000 );
+      interval_id = setInterval( function(){ save_draft(); }, 30000 );
     }
   }
 

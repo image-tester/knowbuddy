@@ -95,7 +95,7 @@ describe PostsController, type: :controller do
         expect{
           xhr :get, :new, new_post: true
         }.to_not change(Post, :count).by(1)
-        expect(response).to render_template( partial: 'posts/_newentry', format: :js)
+        expect(response).to render_template( partial: 'posts/_new_post', format: :js)
       end
     end
 
@@ -110,7 +110,7 @@ describe PostsController, type: :controller do
     describe "GET edit" do
       it "should response successfully to edit" do
         xhr :get, :edit, id: post_two.id
-        expect(response).to render_template('posts/_editentry', format: :js)
+        expect(response).to render_template('posts/_edit_post', format: :js)
       end
     end
 

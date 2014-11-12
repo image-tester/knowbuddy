@@ -2,7 +2,7 @@ $(document).ready(function(){
 
   var post_id = $("#post-subject").data('id');
 
-  $(".voterDetails span i").click(function(event) {
+  $('body').on('click','.voterDetails span i', function(event) {
     $.ajax({
       type: "POST",
       dataType: "JSON",

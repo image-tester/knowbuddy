@@ -176,7 +176,6 @@ $(document).ready(function(){
     makeflieupload()
     $('#textarea_post_content').markItUp(mySettings);
     save_as_draft()
-    autosave()
   });
 
   $('body').on('ajax:success', '#formID', function(xhr, data, status) {
@@ -203,7 +202,7 @@ $(document).ready(function(){
   });
 
   function autosave() {
-    if($("#new_post").length > 0 || $("#edit_post").length > 0 ) {
+    if($("#new_post").length > 0 ) {
       setInterval( function(){ save_draft(); }, 30000 );
     }
   }

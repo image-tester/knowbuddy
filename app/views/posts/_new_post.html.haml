@@ -4,6 +4,6 @@
   = t("web-app-theme.new", default: "New")
   Post
 .inner
-  = form_for post, remote: true, url: posts_path, html: { class: :form, id: "formID1", multipart: true } do |f|
+  = form_for post, remote: true, url: posts_path, html: { class: :form, id: "new_post_form", multipart: true } do |f|
     = render 'form', f: f, post: post
 #default_preview

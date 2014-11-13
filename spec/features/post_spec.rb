@@ -57,12 +57,12 @@ feature "Post" do
 
     click_link 'Edit'
 
-    expect(page).to have_selector("#formID", text: "Subject")
+    expect(page).to have_selector("#edit_post_form", text: "Subject")
 
     fill_in 'post[content]', with: updated_content
     click_on 'Publish'
 
-    page.assert_no_selector("#formID")
+    page.assert_no_selector("#edit_post_form")
     expect(page).to have_selector("#post-post", text: updated_content)
   end
 

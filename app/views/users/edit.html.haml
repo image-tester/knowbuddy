@@ -6,7 +6,7 @@
   .content
     %br
     .profile
-      = form_for @user, html: { class: :form, id: "formID" } do |f|
+      = form_for @user, html: { class: :form, id: "user_edit_form" } do |f|
         .group
           = image_tag avatar_url(@user, 45)
         .group

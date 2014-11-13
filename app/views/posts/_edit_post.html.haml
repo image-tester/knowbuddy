@@ -4,6 +4,6 @@
   = t("web-app-theme.edit", default: "Edit")
   Post
 .inner
-  = form_for post, remote: true, url: post_path(post), html: { class: :form, id: "formID" } do |f|
+  = form_for post, remote: true, url: post_path(post), html: { class: :form, id: "edit_post_form" } do |f|
     = render 'form', f: f, post: post
 #default_preview

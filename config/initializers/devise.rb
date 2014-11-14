@@ -244,7 +244,3 @@ Devise.setup do |config|
   # unshift :some_external_strategy
   # end
 end
-
-Devise::Mailer.class_eval do
-  helper :mail # includes "MailHelper"
-end

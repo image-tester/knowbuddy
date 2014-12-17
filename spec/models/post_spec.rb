@@ -49,7 +49,7 @@ describe Post do
     describe 'create_new_tag_actvitiy' do
       it "should create 'new_tag actvitiy' on create" do
         act = find_activity(user, "post.newTag")
-        act.should_not be_nil
+        expect(act).to_not be_nil
         expect(act.parameters).not_to be_empty
       end
     end
@@ -59,7 +59,7 @@ describe Post do
         fetch_activity_type('post.update')
         post.update_attributes(subject: "post update")
         act = find_activity(user, "post.update")
-        act.should_not be_nil
+        expect(act).to_not be_nil
       end
     end
 
@@ -68,13 +68,13 @@ describe Post do
         fetch_activity_type('post.destroy')
         post.destroy
         act = find_activity(user, "post.destroy")
-        act.should_not be_nil
+        expect(act).to_not be_nil
       end
 
       it "should not create 'destroy post activity'" do
         draft.destroy
         act = find_activity(user, "post.destroy")
-        act.should be_nil
+        expect(act).to be_nil
       end
     end
   end
@@ -84,35 +84,35 @@ describe Post do
 
     describe 'after_create' do
       it 'should run the proper callbacks' do
-        post.should_receive(:post_activity)
+        expect(post).to receive(:post_activity)
         post.run_callbacks(:create)
       end
     end
 
     describe 'around_save' do
       it 'should run the proper callbacks' do
-        post.should_receive(:create_new_tag_activity)
+        expect(post).to receive(:create_new_tag_activity)
         post.run_callbacks(:save)
       end
     end
 
     describe 'after_update' do
       it 'should run the proper callbacks' do
-        post.should_receive(:post_activity)
+        expect(post).to receive(:post_activity)
         post.run_callbacks(:update)
       end
     end
 
     describe 'before_destroy' do
       it 'should run the proper callbacks' do
-        post.should_receive(:destroy_post_activity)
+        expect(post).to receive(:destroy_post_activity)
         post.run_callbacks(:destroy)
       end
     end
 
     describe 'after_validation' do
       it 'should save the post' do
-        post.should_receive(:set_is_draft)
+        expect(post).to receive(:set_is_draft)
         post.run_callbacks(:validation)
       end
     end

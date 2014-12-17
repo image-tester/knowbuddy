@@ -33,7 +33,7 @@ describe Activity do
         activity3 = create :activity, created_at: Time.now
         latest_activities = Activity.latest_activities(1,3)
         expect(latest_activities).to eq [activity3, activity1]
-        latest_activities.should_not include activity2
+        expect(latest_activities).to_not include activity2
       end
     end
 

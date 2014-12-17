@@ -15,12 +15,12 @@ describe ActivityType do
   describe 'others' do
     it "is invalid without an activity_type" do
       activity = build :activity_type, activity_type: nil
-      activity.should_not be_valid
+      expect(activity).to_not be_valid
     end
 
     it "is invalid without is_active" do
       activity = build :activity_type, is_active: nil
-      activity.should_not be_valid
+      expect(activity).to_not be_valid
     end
   end
 
@@ -30,14 +30,14 @@ describe ActivityType do
     describe 'activate' do
       it 'should mark is_active true' do
         type.activate
-        type.is_active.should be_true
+        expect(type.is_active).to eq true
       end
     end
 
     describe 'deactivate' do
       it 'should mark is_active false' do
         type.deactivate
-        type.is_active.should be_false
+        expect(type.is_active).to eq false
       end
     end
   end

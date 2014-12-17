@@ -19,10 +19,7 @@ ActiveAdmin.register Post, as: "Posts"  do
       f.input :subject
       f.input :content
     end
-    f.buttons do
-      f.commit_button "Submit"
-      f.commit_button "Cancel"
-    end
+    actions
   end
 
   index do

@@ -9,7 +9,7 @@ ActiveAdmin.register ActivityType do
       f.input :activity_type, as: :string
       f.input :is_active, as: :radio
     end
-    f.buttons
+    f.actions
   end
 
   index do

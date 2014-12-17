@@ -41,7 +41,7 @@ ActiveAdmin.register Post, as: "Deleted Posts" do
 
   controller do
     def restore
-      get_current_post.recover
+      get_current_post.restore
       flash[:notice] = "Post was successfully restored"
       redirect_to controller: "admin/posts", action: "index"
     end

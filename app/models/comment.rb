@@ -1,6 +1,6 @@
 class Comment < ActiveRecord::Base
   include PublicActivity::Common
-  attr_accessible :comment, :created_at, :post_id, :updated_at, :user_id
+
   belongs_to :post
   belongs_to :user
   validates_presence_of :comment
@@ -8,7 +8,7 @@ class Comment < ActiveRecord::Base
   delegate :subject, to: :post, prefix: true
   delegate :display_name, to: :user
 
-  default_scope order: 'updated_at DESC'
+  default_scope { order('updated_at DESC') }
 
   after_save :solr_reindex_post
   after_destroy :solr_reindex_post

@@ -1,8 +1,6 @@
 class User < ActiveRecord::Base
   include PublicActivity::Common
 
-  attr_accessible :email, :name, :password, :password_confirmation,
-    :remember_me
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable, :timeoutable
 
@@ -42,7 +40,7 @@ class User < ActiveRecord::Base
 
   def activate
     if valid?
-      recover
+      restore
     else
       self.deleted_at = nil
       save(validate: false)

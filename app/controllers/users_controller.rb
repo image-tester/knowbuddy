@@ -22,12 +22,11 @@ class UsersController < ApplicationController
     end
 
     def skip_password
-      params[:user] = params[:user].
-        slice!(:password, :password_confirmation, :current_password)
+     user_params.slice!(:password, :password_confirmation, :current_password)
     end
 
     def password_blank?
-      user = params[:user]
+      user = user_params
       user[:current_password].blank? && user[:password].blank? &&
         user[:password_confirmation].blank?
     end
@@ -35,9 +34,14 @@ class UsersController < ApplicationController
     def update_user
       if password_blank?
         skip_password
-        @user.update_without_password(params[:user])
+        @user.update_without_password(user_params)
       else
-        @user.update_with_password(params[:user])
+        @user.update_with_password(user_params)
       end
+    end
+
+  private
+    def user_params
+      params.require(:user).permit(:email, :name, :current_password, :password, :password_confirmation, :remember_me)
     end
 end

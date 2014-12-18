@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
   before_filter :find_post, only: [:create, :destroy]
 
   def create
-    @comment = @post.comments.build(params[:comment])
+    @comment = @post.comments.build(comment_params)
     if @comment.save
       new_comment = render_to_string(partial: "comment",
         locals: {comment: @comment, post: @comment.post})
@@ -29,7 +29,7 @@ class CommentsController < ApplicationController
   end
 
   def update
-      if @comment.update_attributes(params[:comment])
+      if @comment.update_attributes(comment_params)
         redirect_to @comment.post, format: "html",
           notice: "Comment was successfully updated."
       else
@@ -48,7 +48,7 @@ class CommentsController < ApplicationController
     end
 
     def find_post
-      @post = Post.find(params[:post_id])
+      @post = Post.friendly.find(params[:post_id])
     end
 
     def redirect_comment
@@ -58,4 +58,7 @@ class CommentsController < ApplicationController
       end
     end
 
+    def comment_params
+      params.require(:comment).permit(:comment, :created_at, :post_id, :updated_at, :user_id)
+    end
 end

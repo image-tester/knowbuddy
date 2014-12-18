@@ -4,7 +4,6 @@ require 'simplecov'
 SimpleCov.start
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'rspec/autorun'
 require 'database_cleaner'
 require 'faker'
 require 'sunspot'
@@ -15,24 +14,23 @@ require 'public_activity/testing'
 # Requires supporting ruby files with custom matchers and macros, etc,
 
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 PublicActivity.enabled = true
 
 RSpec.configure do |config|
-  config.include Devise::TestHelpers, type: :controller
-  config.include Devise::TestHelpers, type: :view
+
   config.include SunspotMatchers
   config.include FactoryGirl::Syntax::Methods
   config.include Warden::Test::Helpers
   config.include Capybara::DSL
 
+  include Warden::Test::Helpers
   Warden.test_mode!
+
   Capybara.default_wait_time = 5
 
-  config.use_transactional_fixtures = false
-  config.infer_base_class_for_anonymous_controllers = false
-  config.order = "random"
+  config.infer_spec_type_from_file_location!
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation

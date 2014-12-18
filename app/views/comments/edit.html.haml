@@ -1,10 +1,11 @@
 %h1 Edit Comment
 %h4 Post: #{@comment.post_subject}
-= form_for([:post, @comment], html: { class: :form, id: "formID" }) do |f|
+= form_for([@comment.post, @comment], html: { class: :form, id: "formID" }) do |f|
   .group
     = f.hidden_field :user_id, {value: current_user.id }
   .group
     = f.text_area :comment, class: 'comment_field validate[required] text-input'
     %br
     = f.submit "Update"
-    = button_to_function "Cancel", "history.back()"
+    = link_to 'Back', :back
+    / = button_to_function "Cancel", href="javascript:history.back()"

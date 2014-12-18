@@ -9,6 +9,6 @@
  *= require style
  *= require facebox
  *= require validationEngine.jquery
- *= require font-awesome
+ @import "font-awesome";
 */
 

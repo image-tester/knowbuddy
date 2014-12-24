@@ -1,28 +1,25 @@
 KYU::Application.routes.draw do
   mount Resque::Server.new, at: "/resque"
 
-  match '/comments/user_comment/:id' => 'comments#user_comment'
-  match '/admin/deleted_posts/restore/:id' =>
+  get '/comments/user_comment/:id', to: 'comments#user_comment'
+  get '/admin/deleted_posts/restore/:id', to:
                               'admin/deleted_posts#restore'
 
-  match '/admin/deleted_posts/deleted_post/:id' =>
+  get '/admin/deleted_posts/deleted_post/:id', to:
                               'admin/deleted_posts#deleted_post'
-  match '/admin/deleted_posts/deleted_post' =>
+  get '/admin/deleted_posts/deleted_post', to:
                               'admin/deleted_posts#index'
-
-  match '/admin/inactive_users/activate/:id' =>
+  get '/admin/inactive_users/activate/:id', to:
                               'admin/inactive_users#activate'
 
-  match '/admin/users/delete/:id' =>
-                              'admin/users#delete'
-
-  match '/admin/activity_types/activate/:id' =>
+  get '/admin/activity_types/activate/:id', to:
                               'admin/activity_types#activate'
 
-  match '/admin/activity_types/deactivate/:id' =>
+  get '/admin/activity_types/deactivate/:id', to:
                               'admin/activity_types#deactivate'
 
- match '/attachments/edit' => 'attachments#create'
+  patch'/attachments/edit', to: 'attachments#create'
+
 
   resources :attachments, only: [:create, :destroy]
   resources :posts do
@@ -54,6 +51,5 @@ KYU::Application.routes.draw do
 
   get "home/index"
 
-  #root to: "home#index"
   root to: "posts#index"
 end

@@ -1,4 +1,6 @@
 ActiveAdmin.register Post, as: "Posts"  do
+  # permit_params :id, :publish_at, :subject, :tag_list,
+  #      :user_id, :slug, :is_draft, :content
 
   scope :published, default: true do |posts|
     posts = Post.published
@@ -61,6 +63,10 @@ ActiveAdmin.register Post, as: "Posts"  do
       post.destroy
       flash[:notice] = "Post was successfully destroyed"
       redirect_to admin_posts_path
+    end
+
+    def find_resource
+      scoped_collection.friendly.find(params[:id])
     end
   end
 end

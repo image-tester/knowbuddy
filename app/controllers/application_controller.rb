@@ -1,8 +1,9 @@
 class ApplicationController < ActionController::Base
 
-  protect_from_forgery
+  # protect_from_forgery
+  protect_from_forgery with: :exception
 
-  before_filter :authenticate_user!, unless: :active_admin_request?
+  before_action :authenticate_user!, unless: :active_admin_request?
 
   helper_method :tag_cloud
 

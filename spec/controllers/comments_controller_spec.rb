@@ -1,5 +1,4 @@
-require 'spec_helper'
-include Devise::TestHelpers
+require 'rails_helper'
 
 describe CommentsController do
   before do
@@ -66,7 +65,6 @@ describe CommentsController do
       fetch_activity_type('comment.update')
       get :show, id: @comment, post_id: post1, format: :json
       expect(response.content_type).to include("json")
-      byebug
       response_data = JSON.parse(response.body)
       expect(response_data["comment"]).to eq(@comment.comment)
       # expect(response.body).to have_content @comment.to_json

@@ -5,8 +5,8 @@ class Post < ActiveRecord::Base
   MINFONTSIZE = 10
   MAXFONTSIZE = 23
 
-  attr_accessible :content, :created_at, :publish_at, :subject,
-    :tag_list, :updated_at, :user_id, :slug, :is_draft
+  # attr_accessible :content, :created_at, :publish_at, :subject,
+  #   :tag_list, :updated_at, :user_id, :slug, :is_draft
 
   belongs_to :user
   has_many :attachments, dependent: :destroy
@@ -30,7 +30,7 @@ class Post < ActiveRecord::Base
   after_validation :set_published
   after_validation :send_email_notification, if: "is_published_changed?"
 
-  default_scope order: 'updated_at DESC'
+  default_scope { order('updated_at DESC') }
   scope :draft, -> { where(is_draft: true) }
   scope :published, -> { where(is_draft: false) }
 
@@ -56,6 +56,7 @@ class Post < ActiveRecord::Base
   end
 
   def self.get_post(post_id)
+    byebug
     self.with_deleted.find(post_id)
   end
 
@@ -100,7 +101,7 @@ class Post < ActiveRecord::Base
   end
 
   def activity_params
-    {"post_subject"=> subject, "post_id" => id}
+    { post_subject: subject, post_id: id }
   end
 
   def vote_activity(action, user)

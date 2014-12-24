@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
 
-  before_filter :find_comment, only: [:destroy, :edit, :show, :new, :update]
-  before_filter :find_post, only: [:create, :destroy]
+  before_action :find_comment, only: [:destroy, :edit, :show, :new, :update]
+  before_action :find_post, only: [:create, :destroy]
 
   def create
     @comment = @post.comments.build(comment_params)

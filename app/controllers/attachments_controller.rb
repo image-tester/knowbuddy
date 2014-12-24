@@ -1,9 +1,10 @@
 class AttachmentsController < ApplicationController
 
-  before_filter :find_attachment, only: [:create]
+  before_action :find_attachment, only: [:create]
 
   def create
     respond_to do |format|
+      byebug
       if @attachment.save
         format.json {
           attachment = render_to_string(
@@ -20,6 +21,7 @@ class AttachmentsController < ApplicationController
   end
 
   def destroy
+    byebug
     attachment = Attachment.find params[:id]
     attachment.destroy
     render json: true
@@ -27,8 +29,12 @@ class AttachmentsController < ApplicationController
 
   private
     def find_attachment
+      # debugger
       attachment = params[:files].first
       @attachment = Attachment.create(post: attachment)
     end
 
+    def attachment_params
+      params.require(:attachment).permit(:post_id, :created_at, :updated_at, :post)
+    end
 end

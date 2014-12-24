@@ -1,18 +1,18 @@
 class PostsController < ApplicationController
   add_template_helper(PostHelper)
-  before_filter :find_post, only: [:destroy, :edit, :remove_tag, :update,
+  before_action :find_post, only: [:destroy, :edit, :remove_tag, :update,
     :assign_vote]
 
-  before_filter :order_by_name_email,
+  before_action :order_by_name_email,
     only: [ :edit, :index, :post_date, :new, :search, :user_posts, :show,
       :create, :related_tag, :contributors_pagination]
 
-  before_filter :tag_cloud,
+  before_action :tag_cloud,
     only: [ :edit, :index, :post_date, :new, :related_tag, :search,
       :show, :user_posts, :create, :draft]
 
-  before_filter :find_activities, only: [:index, :load_activities,
-    :load_partials, :create]
+  before_action :find_activities, only: [:index, :load_activities,
+     :create]
 
   autocomplete :tag, :name, class_name: 'ActsAsTaggableOn::Tag', full: true
 
@@ -27,13 +27,15 @@ class PostsController < ApplicationController
   end
 
   def create
+    byebug
     attachment = params[:post].delete :attachment
     get_current_post
     respond_to do |format|
       if @post.save
         save_attachments
         load_partials
-        format.json { render json: { new_entry: @new_entry,
+        byebug
+        format.js { render json: { new_entry: @new_entry,
           activities: @activities_html, sidebar: @sidebar } }
       else
         format.json { render json: @post.errors, status: :unprocessable_entity}
@@ -79,7 +81,8 @@ class PostsController < ApplicationController
   end
 
   def load_partials
-    @new_entry = render_to_string(partial: "entries",
+     byebug
+    @new_entry = render_to_string(partial: "posts/entries",
       locals: { post: @post })
     @sidebar = render_to_string( partial: "sidebar",
       locals: { tag_cloud_hash: tag_cloud, users: @users})
@@ -138,9 +141,10 @@ class PostsController < ApplicationController
   end
 
   def update
+    # byebug
     attachment = params[:post].delete :attachment
     respond_to do |format|
-      if @post.update_attributes(params[:post])
+      if @post.update_attributes(post_params)
         save_attachments
         update_entry = render_to_string(partial: "post", locals:{post: @post})
         format.json { render json: update_entry.to_json}
@@ -161,7 +165,7 @@ class PostsController < ApplicationController
     end
 
     def find_post
-      @post = Post.find(params[:id])
+      @post = Post.friendly.find(params[:id])
       raise "Invalid Post." unless @post.allowed?(current_user)
     end
 
@@ -179,12 +183,19 @@ class PostsController < ApplicationController
     end
 
     def get_current_post
-      post = params[:post]
+      post = post_params
+      byebug
       if post[:id].empty?
         @post = Post.new(post)
       else
         @post = Post.find(post[:id])
-        @post.assign_attributes(params[:post])
+        @post.assign_attributes(post)
       end
+    end
+
+    private
+    def post_params
+      params.require(:post).permit(:id, :publish_at, :subject, :tag_list,
+       :user_id, :slug, :is_draft, :content)
     end
 end

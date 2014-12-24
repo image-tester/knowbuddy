@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe User do
   describe 'scope::top3' do
@@ -110,7 +110,7 @@ describe User do
     describe 'activity_params' do
       it 'should display user name' do
         user = create :user
-        expect(user.activity_params).to eq("user" => "#{user.name}")
+        expect(user.activity_params).to eq(user: "#{user.name}")
       end
     end
 

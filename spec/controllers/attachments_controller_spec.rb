@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe AttachmentsController do
 
@@ -17,7 +17,7 @@ describe AttachmentsController do
       expect{
         put :destroy, id: Attachment.first.id
       }.to change(Attachment, :count).by(-1)
-      expect(response.body).to be_true
+      expect(response.body).to eq "true"
     end
   end
 
@@ -26,17 +26,15 @@ describe AttachmentsController do
 
     it "should create attachment" do
       expect {
-        post :create, post: {subject: "New Test", content: "test content" },
-          post_id: post2.id, attachments_field: "", files: [file], format: :JSON
+        post :create, format: :json, post: {subject: "New Test", content: "test content" }, post_id: post2.id, attachments_field: "", files: [file]
       }.to change(Attachment, :count).by(1)
     end
 
     it "should not create attachment" do
       expect {
-        post :create, post: {subject: "New Test", content: "test content" },
-          post_id: post2.id, attachments_field: "", files: [invalid_file], format: :JSON
+        post :create, format: :json, post: {subject: "New Test", content: "test content" }, post_id: post2.id, attachments_field: "", files: [invalid_file]
       }.to_not change(Attachment, :count)
-      expect(response.status).to eq(406)
+      expect(response.status).to eq(422)
     end
   end
 end

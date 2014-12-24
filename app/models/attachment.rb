@@ -1,5 +1,5 @@
 class Attachment < ActiveRecord::Base
-  attr_accessible :post_id, :created_at, :updated_at, :post
+  # attr_accessible :post_id, :created_at, :updated_at, :post
 
   belongs_to :post
 

@@ -1,5 +1,5 @@
 class ActivityType < ActiveRecord::Base
-  attr_accessible :is_active, :activity_type
+  # attr_accessible :is_active, :activity_type
 
   has_many :activities, dependent: :destroy
 

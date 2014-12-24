@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
   end
 
   def activity_params
-    { "user" => name }
+    { user: name }
   end
 
   def active?

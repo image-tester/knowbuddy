@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :find_user
+  before_action :find_user
 
   def update
     respond_to do |format|
@@ -33,8 +33,7 @@ class UsersController < ApplicationController
 
     def update_user
       if password_blank?
-        skip_password
-        @user.update_without_password(user_params)
+        @user.update_without_password(skip_password)
       else
         @user.update_with_password(user_params)
       end

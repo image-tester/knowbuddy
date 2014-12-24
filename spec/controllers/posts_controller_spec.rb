@@ -1,7 +1,8 @@
-
-require 'spec_helper'
+require 'rails_helper'
 
 describe PostsController, type: :controller do
+  render_views
+
   describe 'actions' do
     let!(:user)       { create :user }
     let!(:user_one)   { create :user }
@@ -47,12 +48,12 @@ describe PostsController, type: :controller do
       it "should remove tag" do
         fetch_activity_type('post.update')
         get :remove_tag, tag: "Test", id: post_one.id, format: :json
-        expect(response.body).to be_true
+        expect(response.body).to eq "true"
         post_one.reload
         expect(post_one.tag_list).to_not eq(["Test"])
 
         act = find_activity(post_one.user, "post.update")
-        act.should_not be_nil
+        expect(act).to_not be_nil
       end
     end
 
@@ -94,7 +95,7 @@ describe PostsController, type: :controller do
       it "creates a new post with tag" do
         expect{
           xhr :get, :new, new_post: true
-        }.to_not change(Post, :count).by(1)
+        }.to_not change(Post, :count)
         expect(response).to render_template("posts/_new_post", format: :js)
       end
     end
@@ -145,11 +146,11 @@ describe PostsController, type: :controller do
     describe "POST create" do
       context 'Valid Attributes' do
         it 'should save post to database' do
-          @post = {id: '', subject: 'Swimming', content: 'freestyle', user_id: user.id}
-          expect{
-            post :create, post: @post, attachments_field: ""
-          }.to change(Post, :count).by(1)
-
+          debugger
+          @post = {id: '', subject: 'Swimming', content: 'freestyle',
+           user_id: user.id}
+          post :create, format: :json, post: @post, attachments_field: ""
+          # expect{  }.to change(Post, :count).by(1)
           post = Post.find_by_subject "Swimming"
           post.should_not be_nil
         end
@@ -157,9 +158,8 @@ describe PostsController, type: :controller do
         it 'should update the created draft and make it post' do
           draft = create :draft
           fetch_activity_type('post.update')
-          expect{
-            post :create, post: draft.attributes, attachments_field: ""
-          }.to_not change(Post, :count)
+          post_attributes = post_attributes = draft.attributes.map { |k, v| k=='id' ? [k, v.to_s] : [k,v] }.to_h
+          post :create, format: :json, post: post_attributes, attachments_field: ""
           expect(Post.find(draft.id)[:is_draft]).to eq false
           expect(Post.find(draft.id).activities).not_to be_nil
         end
@@ -168,8 +168,8 @@ describe PostsController, type: :controller do
       context 'Invalid Attributes' do
         it 'Should not create post' do
           @post = {id: '', subject: '', content: 'freestyle', user_id: user.id}
-          expect{
-            post :create, post: @post, attachments_field: ""
+          expect {
+            post :create,  format: :json, post: @post, attachments_field: ""
           }.to_not change(Post, :count)
         end
       end
@@ -182,7 +182,7 @@ describe PostsController, type: :controller do
         @post = { id: '', subject: 'New Post', content: 'New', user_id: user.id, is_draft: false }
         fetch_activity_type('post.create')
         expect{
-          post :create, post: @post, attachments_field: [attachment.id], format: :js
+          post :create, format: :json, post: @post, attachments_field: [attachment.id]
         }.to change(Post, :count).by(1)
 
         new_post = Post.find_by_subject "New Post"
@@ -190,7 +190,6 @@ describe PostsController, type: :controller do
         expect(response).to render_template('posts/_sidebar', format: :js)
         expect(response).to render_template('posts/_entries', format: :js)
         expect(response).to render_template('posts/_activities', format: :js)
-
         act = find_activity(new_post.user, "post.create")
         act.should_not be_nil
       end
@@ -198,9 +197,9 @@ describe PostsController, type: :controller do
       it 'Should not create post' do
         @post = {subject: '', content: 'freestyle', user_id: user.id, id: ''}
         expect{
-          post :create, post: @post, attachments_field: "", format: :js
+          post :create, format: :json, post: @post, attachments_field: ""
         }.to_not change(Post, :count)
-        expect(response.status).to eq(406)
+        expect(response.status).to eq(422)
       end
 
       # END
@@ -244,7 +243,7 @@ describe PostsController, type: :controller do
           delete :destroy, id: post_two
         }.to change(Post, :count).by(-1)
         expect { Post.find(post_two) }.to raise_error(ActiveRecord::RecordNotFound)
-        expect { Post.with_deleted.find(post_two.id) }.not_to be_nil
+        expect(Post.with_deleted.find(post_two.id)).not_to be_nil
         response.should redirect_to posts_path
 
         act = find_activity(post_two.user, "post.destroy")
@@ -258,8 +257,8 @@ describe PostsController, type: :controller do
 
       it "should create 'update' activity" do
         fetch_activity_type('post.update')
-        put :update, post: { subject: "new updated post"}, attachments_field: [attachment.id],
-          post_id: current_post.id, id: current_post.slug, format: :js
+        put :update, format: :json, post: { subject: "new updated post"}, attachments_field: [attachment.id],
+          post_id: current_post.id, id: current_post.slug
 
         current_post.reload
         expect(current_post.subject).to eq("new updated post")
@@ -272,10 +271,9 @@ describe PostsController, type: :controller do
 
       it "should render error templete" do
         expect{
-          put :update, post: { subject: ""}, attachments_field: "",
-            post_id: current_post.id, id: current_post.slug, format: :js
+          put :update, format: :json, post: { subject: ""}, attachments_field: "", post_id: current_post.id, id: current_post.slug
         }.to_not change{current_post.subject}
-        expect(response.status).to eq(406)
+        expect(response.status).to eq(422)
       end
     end
 
@@ -298,7 +296,6 @@ describe PostsController, type: :controller do
         get :user_posts, user_id: user_one.id
         expect(assigns[:posts]).to include(post1)
         expect(response).to render_template('posts/user_posts')
-
         expect(assigns[:posts]).to_not include(post2)
       end
     end

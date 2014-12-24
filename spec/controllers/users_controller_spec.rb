@@ -1,5 +1,4 @@
-require 'spec_helper'
-include Devise::TestHelpers
+require 'rails_helper'
 
 describe UsersController do
   let!(:user) {create :user}

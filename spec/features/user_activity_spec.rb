@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 feature "Sign Up" do
   background do
@@ -18,6 +18,6 @@ feature "Sign Up" do
     expect(page).to have_content 'You have signed up successfully.'
 
     User.last.activities.count.should eq(1)
-    page.should have_selector(".block2", text: "John just joined KnowBuddy.")
+    expect(page).to have_selector(".block2", text: "John just joined KnowBuddy.")
   end
 end

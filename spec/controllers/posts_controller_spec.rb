@@ -38,9 +38,10 @@ describe PostsController, type: :controller do
       end
 
       it "should not return posts with given search " do
-        xhr :get, :search, search: "search text", format: :js
+        xhr :get, :search, search: "search text"
         expect(response).to render_template('posts/search', format: :js)
-        expect(response.body).to be_blank
+        # expect(response.body).to eq ""
+        expect(response.body).to include("Sorry no matching results for keyword")
       end
     end
 
@@ -51,7 +52,6 @@ describe PostsController, type: :controller do
         expect(response.body).to eq "true"
         post_one.reload
         expect(post_one.tag_list).to_not eq(["Test"])
-
         act = find_activity(post_one.user, "post.update")
         expect(act).to_not be_nil
       end
@@ -145,21 +145,20 @@ describe PostsController, type: :controller do
 
     describe "POST create" do
       context 'Valid Attributes' do
-        it 'should save post to database' do
-          debugger
-          @post = {id: '', subject: 'Swimming', content: 'freestyle',
-           user_id: user.id}
-          post :create, format: :json, post: @post, attachments_field: ""
-          # expect{  }.to change(Post, :count).by(1)
+         it 'should save post to database' do
+          @post = {id: '', subject: 'Swimming', content: 'freestyle', user_id: user.id}
+          expect{
+            post :create, post: @post, attachments_field: ""
+          }.to change(Post, :count).by(1)
           post = Post.find_by_subject "Swimming"
-          post.should_not be_nil
+          expect(post).to_not be_nil
         end
 
         it 'should update the created draft and make it post' do
           draft = create :draft
           fetch_activity_type('post.update')
           post_attributes = post_attributes = draft.attributes.map { |k, v| k=='id' ? [k, v.to_s] : [k,v] }.to_h
-          post :create, format: :json, post: post_attributes, attachments_field: ""
+          post :create, post: post_attributes, attachments_field: ""
           expect(Post.find(draft.id)[:is_draft]).to eq false
           expect(Post.find(draft.id).activities).not_to be_nil
         end
@@ -169,7 +168,7 @@ describe PostsController, type: :controller do
         it 'Should not create post' do
           @post = {id: '', subject: '', content: 'freestyle', user_id: user.id}
           expect {
-            post :create,  format: :json, post: @post, attachments_field: ""
+            post :create, post: @post, attachments_field: ""
           }.to_not change(Post, :count)
         end
       end
@@ -182,7 +181,7 @@ describe PostsController, type: :controller do
         @post = { id: '', subject: 'New Post', content: 'New', user_id: user.id, is_draft: false }
         fetch_activity_type('post.create')
         expect{
-          post :create, format: :json, post: @post, attachments_field: [attachment.id]
+          post :create, post: @post, attachments_field: [attachment.id]
         }.to change(Post, :count).by(1)
 
         new_post = Post.find_by_subject "New Post"
@@ -191,7 +190,7 @@ describe PostsController, type: :controller do
         expect(response).to render_template('posts/_entries', format: :js)
         expect(response).to render_template('posts/_activities', format: :js)
         act = find_activity(new_post.user, "post.create")
-        act.should_not be_nil
+        expect(act).to_not be_nil
       end
 
       it 'Should not create post' do
@@ -244,10 +243,9 @@ describe PostsController, type: :controller do
         }.to change(Post, :count).by(-1)
         expect { Post.find(post_two) }.to raise_error(ActiveRecord::RecordNotFound)
         expect(Post.with_deleted.find(post_two.id)).not_to be_nil
-        response.should redirect_to posts_path
-
+        expect(response).to redirect_to(posts_path)
         act = find_activity(post_two.user, "post.destroy")
-        act.should_not be_nil
+        expect(act).to_not be_nil
       end
     end
 
@@ -257,7 +255,7 @@ describe PostsController, type: :controller do
 
       it "should create 'update' activity" do
         fetch_activity_type('post.update')
-        put :update, format: :json, post: { subject: "new updated post"}, attachments_field: [attachment.id],
+        patch :update, post: { subject: "new updated post"}, attachments_field: [attachment.id],
           post_id: current_post.id, id: current_post.slug
 
         current_post.reload
@@ -266,7 +264,7 @@ describe PostsController, type: :controller do
         expect(response).to render_template('posts/_post', format: :js)
 
         act = find_activity(current_post.user, "post.update")
-        act.should_not be_nil
+        expect(act).to_not be_nil
       end
 
       it "should render error templete" do

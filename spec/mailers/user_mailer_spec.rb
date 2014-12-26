@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe UserMailer do
 
@@ -22,7 +22,7 @@ describe UserMailer do
 
     it "User who posted comment should not receive mail" do
       mail.subject.should eq(@user_1.name + " posted a comment for " + @post.subject)
-      expect(mail.bcc.include?(@user_1.email)).to be_false
+      expect(mail.bcc.include?(@user_1.email)).to eq false
     end
   end
 
@@ -36,7 +36,7 @@ describe UserMailer do
 
     it "User who posted post should not receive mail" do
       mail.subject.should eq(@user_1.name + " posted a new article on KnowBuddy")
-      expect(mail.bcc.include?(@user_1.email)).to be_false
+      expect(mail.bcc.include?(@user_1.email)).to eq false
     end
   end
 

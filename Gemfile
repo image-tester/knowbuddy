@@ -8,7 +8,7 @@ gem 'devise'
 gem 'friendly_id'
 gem 'griddler'
 gem 'haml'
-gem 'jquery-rails', '2.3.0'
+gem 'jquery-rails'
 gem 'kaminari'
 gem 'mysql2'
 gem 'paperclip'
@@ -25,8 +25,12 @@ gem 'sass'
 gem 'sass-rails'
 gem 'sunspot_rails'
 gem 'whenever', require:  false
+gem 'coffee-rails'
+gem 'font-awesome-rails'
+gem 'therubyracer', '~> 0.12.1'
+gem 'uglifier'
 
-gem 'protected_attributes'
+# gem 'protected_attributes'
 gem 'rails-observers'
 gem 'actionpack-page_caching'
 gem 'activerecord-deprecated_finders'
@@ -51,15 +55,10 @@ group :development, :test do
   gem 'web-app-theme'
   gem 'webrick', '~> 1.3.1'
 end
-group :assets do
-  gem 'coffee-rails'
-  gem 'font-awesome-rails'
-  gem 'therubyracer', '~> 0.12.1'
-  gem 'uglifier'
-end
 
 group :test do
   gem 'database_cleaner'
   gem 'sunspot_matchers'
   gem 'simplecov', '~> 0.7.1'
+  # gem 'rspec-activemodel-mocks'
 end

@@ -21,7 +21,6 @@ class AttachmentsController < ApplicationController
   end
 
   def destroy
-    byebug
     attachment = Attachment.find params[:id]
     attachment.destroy
     render json: true
@@ -29,7 +28,6 @@ class AttachmentsController < ApplicationController
 
   private
     def find_attachment
-      # debugger
       attachment = params[:files].first
       @attachment = Attachment.create(post: attachment)
     end

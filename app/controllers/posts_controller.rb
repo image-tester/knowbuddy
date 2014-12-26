@@ -27,19 +27,15 @@ class PostsController < ApplicationController
   end
 
   def create
-    byebug
     attachment = params[:post].delete :attachment
     get_current_post
-    respond_to do |format|
-      if @post.save
-        save_attachments
-        load_partials
-        byebug
-        format.js { render json: { new_entry: @new_entry,
-          activities: @activities_html, sidebar: @sidebar } }
-      else
-        format.json { render json: @post.errors, status: :unprocessable_entity}
-      end
+    if @post.save
+      save_attachments
+      load_partials
+      render json: { new_entry: @new_entry,
+        activities: @activities_html, sidebar: @sidebar }
+    else
+      render json: @post.errors, status: :unprocessable_entity
     end
   end
 
@@ -81,7 +77,6 @@ class PostsController < ApplicationController
   end
 
   def load_partials
-     byebug
     @new_entry = render_to_string(partial: "posts/entries",
       locals: { post: @post })
     @sidebar = render_to_string( partial: "sidebar",
@@ -141,17 +136,14 @@ class PostsController < ApplicationController
   end
 
   def update
-    # byebug
     attachment = params[:post].delete :attachment
-    respond_to do |format|
       if @post.update_attributes(post_params)
         save_attachments
         update_entry = render_to_string(partial: "post", locals:{post: @post})
-        format.json { render json: update_entry.to_json}
+        render json: update_entry.to_json
       else
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        render json: @post.errors, status: :unprocessable_entity
       end
-    end
   end
 
   def user_posts
@@ -184,7 +176,6 @@ class PostsController < ApplicationController
 
     def get_current_post
       post = post_params
-      byebug
       if post[:id].empty?
         @post = Post.new(post)
       else

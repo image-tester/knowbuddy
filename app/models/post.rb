@@ -5,9 +5,6 @@ class Post < ActiveRecord::Base
   MINFONTSIZE = 10
   MAXFONTSIZE = 23
 
-  # attr_accessible :content, :created_at, :publish_at, :subject,
-  #   :tag_list, :updated_at, :user_id, :slug, :is_draft
-
   belongs_to :user
   has_many :attachments, dependent: :destroy
   has_many :comments, dependent: :destroy
@@ -56,8 +53,7 @@ class Post < ActiveRecord::Base
   end
 
   def self.get_post(post_id)
-    byebug
-    self.with_deleted.find(post_id)
+    self.with_deleted.friendly.find(post_id)
   end
 
   def self.invalid_attachments

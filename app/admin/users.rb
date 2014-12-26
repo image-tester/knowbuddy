@@ -1,5 +1,6 @@
 ActiveAdmin.register User do
-  # permit_params :email, :password, :password_confirmation, :remember_me
+  permit_params :name, :email, :password, :password_confirmation, :remember_me
+
   menu priority: 4
 
   filter :name_or_email, as: :string

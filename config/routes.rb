@@ -18,7 +18,7 @@ KYU::Application.routes.draw do
   get '/admin/activity_types/deactivate/:id', to:
                               'admin/activity_types#deactivate'
 
-  patch'/attachments/edit', to: 'attachments#create'
+  patch '/attachments/edit', to: 'attachments#create'
 
 
   resources :attachments, only: [:create, :destroy]

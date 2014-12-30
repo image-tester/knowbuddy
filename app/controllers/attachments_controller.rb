@@ -4,7 +4,6 @@ class AttachmentsController < ApplicationController
 
   def create
     respond_to do |format|
-      byebug
       if @attachment.save
         format.json {
           attachment = render_to_string(

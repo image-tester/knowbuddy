@@ -29,7 +29,7 @@ class CommentsController < ApplicationController
   end
 
   def update
-      if @comment.update_attributes(comment_params)
+      if @comment.update(comment_params)
         redirect_to @comment.post, format: "html",
           notice: "Comment was successfully updated."
       else
@@ -59,6 +59,7 @@ class CommentsController < ApplicationController
     end
 
     def comment_params
-      params.require(:comment).permit(:comment, :created_at, :post_id, :updated_at, :user_id)
+      params.require(:comment).permit(:comment, :created_at, :post_id,
+        :updated_at, :user_id)
     end
 end

@@ -52,10 +52,7 @@ class PostsController < ApplicationController
 
   def destroy
     @post.destroy
-    respond_to do |format|
-      format.html { redirect_to posts_url }
-      format.json { head :ok }
-    end
+    redirect_to posts_url
   end
 
   def edit
@@ -137,7 +134,7 @@ class PostsController < ApplicationController
 
   def update
     attachment = params[:post].delete :attachment
-      if @post.update_attributes(post_params)
+      if @post.update(post_params)
         save_attachments
         update_entry = render_to_string(partial: "post", locals:{post: @post})
         render json: update_entry.to_json

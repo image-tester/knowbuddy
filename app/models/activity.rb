@@ -1,7 +1,4 @@
 class Activity < PublicActivity::Activity
-  # attr_accessible :trackable_id, :trackable_type, :owner_id, :owner_type,
-  #   :key, :parameters,:recipient_id, :recipient_type, :activity_type_id
-
   belongs_to :activity_type
 
   def self.latest_activities(at_page = 1, per_page =  ACTIVITIES_PER_PAGE)

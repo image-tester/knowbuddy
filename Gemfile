@@ -33,7 +33,7 @@ gem 'uglifier'
 # gem 'protected_attributes'
 gem 'rails-observers'
 gem 'actionpack-page_caching'
-gem 'activerecord-deprecated_finders'
+# gem 'activerecord-deprecated_finders'
 gem 'turbolinks'
 # gem "strong_parameters"
 
@@ -53,7 +53,7 @@ group :development, :test do
   gem 'sextant'
   gem 'sunspot_solr'
   gem 'web-app-theme'
-  gem 'webrick', '~> 1.3.1'
+  # gem 'webrick', '~> 1.3.1'
 end
 
 group :test do

@@ -6,6 +6,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require_tree .
 //= require turbolinks
 //= require jquery-ui
 //= require facebox
@@ -19,4 +20,4 @@
 //= require app
 //= require jquery.fileupload
 //= require active_admin
-//= require_tree .
+

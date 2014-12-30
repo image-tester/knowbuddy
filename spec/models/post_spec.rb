@@ -57,7 +57,7 @@ describe Post do
     describe 'post_activity' do
       it "should create 'update post activity'" do
         fetch_activity_type('post.update')
-        post.update_attributes(subject: "post update")
+        post.update(subject: "post update")
         act = find_activity(user, "post.update")
         expect(act).to_not be_nil
       end

@@ -35,7 +35,7 @@ describe Comment do
   describe "update_comment_activity" do
     it "should create 'update' activity" do
       fetch_activity_type('comment.update')
-      @comment.update_attributes(:comment => "Good")
+      @comment.update(:comment => "Good")
       act = PublicActivity::Activity.find_by_owner_id_and_key(@user.id, "comment.update")
       expect(act).to_not be_nil
     end

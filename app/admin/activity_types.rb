@@ -1,5 +1,5 @@
 ActiveAdmin.register ActivityType do
-
+  permit_params :is_active, :activity_type
   menu priority: 6
 
   filter :activity_type, as: :string

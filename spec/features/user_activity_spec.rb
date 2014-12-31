@@ -17,7 +17,7 @@ feature "Sign Up" do
 
     expect(page).to have_content 'You have signed up successfully.'
 
-    User.last.activities.count.should eq(1)
+    expect(User.last.activities.count).to eq 1
     expect(page).to have_selector(".block2", text: "John just joined KnowBuddy.")
   end
 end

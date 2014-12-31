@@ -9,13 +9,13 @@ describe UsersController do
 
   describe "Update user" do
     let!(:new_password) { "password123" }
-    let!(:params) {{ password: 'password123', password_confirmation: 'password',
-        current_password: 'passwod'}}
+    let!(:params) {{ password: 'password123',
+      password_confirmation: 'password',
+      current_password: 'passwod'}}
 
     it "should successfully update user name" do
       put :update, id: user, user: {name: "test_name"}, format: 'json'
       expect(response).to be_successful
-
       user.reload
       expect(user.name).to eq("test_name")
     end

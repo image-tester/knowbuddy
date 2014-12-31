@@ -2,9 +2,9 @@ ActiveAdmin.register Post, as: "Posts"  do
   permit_params :id, :publish_at, :subject, :tag_list,
     :user_id, :slug, :is_draft, :content
 
-  # scope :published, default: true do |posts|
-  #   posts = Post.published
-  # end
+  scope :published, default: true do |posts|
+    posts = Post.published
+  end
 
   scope(:drafted) { |posts| posts = Post.draft }
 
@@ -21,7 +21,7 @@ ActiveAdmin.register Post, as: "Posts"  do
       f.input :subject
       f.input :content
     end
-    actions
+    f.actions
   end
 
   index do

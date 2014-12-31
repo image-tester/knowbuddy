@@ -29,13 +29,9 @@ gem 'coffee-rails'
 gem 'font-awesome-rails'
 gem 'therubyracer', '~> 0.12.1'
 gem 'uglifier'
-
-# gem 'protected_attributes'
 gem 'rails-observers'
 gem 'actionpack-page_caching'
-# gem 'activerecord-deprecated_finders'
 gem 'turbolinks'
-# gem "strong_parameters"
 
 group :development, :test do
   gem 'capybara'
@@ -53,12 +49,10 @@ group :development, :test do
   gem 'sextant'
   gem 'sunspot_solr'
   gem 'web-app-theme'
-  # gem 'webrick', '~> 1.3.1'
 end
 
 group :test do
   gem 'database_cleaner'
   gem 'sunspot_matchers'
   gem 'simplecov', '~> 0.7.1'
-  # gem 'rspec-activemodel-mocks'
 end

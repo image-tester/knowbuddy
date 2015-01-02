@@ -37,8 +37,8 @@ ActiveAdmin.register Post, as: "Posts"  do
         #{(link_to 'Edit', edit_admin_post_path(post),
           method: :get) unless post.is_draft}
         #{link_to 'Delete', admin_post_path(post),
-          method: :delete, confirm: 'Are you sure you want to delete
-          this Post permanently ?'}"
+          method: :delete, data: { confirm: 'Are you sure you want to delete
+          this Post permanently ?' } }"
     end
   end
 

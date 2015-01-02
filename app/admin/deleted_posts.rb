@@ -33,7 +33,7 @@ ActiveAdmin.register Post, as: "Deleted Posts" do
       raw "#{link_to 'View', controller: "admin/deleted_posts",
         action: "deleted_post", id: post.id}
         #{link_to 'Delete', admin_post_path(post), method: :delete,
-        confirm: "Are you sure you want to delete this Post permanently ?"}
+        data: { confirm: "Are you sure you want to delete this Post permanently ?" } }
         #{link_to 'Restore', controller: "admin/deleted_posts",
         action: "restore", id: post.id}"
     end

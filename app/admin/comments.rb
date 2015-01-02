@@ -20,7 +20,7 @@ ActiveAdmin.register Comment, as: "PostsComments" do
       comment.display_name
     end
 
-    f.actions
+    actions
   end
 
   show do |comment|

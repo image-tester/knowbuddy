@@ -8,7 +8,6 @@
 //= require jquery_ujs
 //= require_tree .
 //= require turbolinks
-//= require jquery-ui
 //= require facebox
 //= require custom
 //= require like_post

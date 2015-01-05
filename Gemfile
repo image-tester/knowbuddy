@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
+ruby '2.1.5'
+
 gem 'acts-as-taggable-on', '~> 3.0.0.rc1'
 gem 'activeadmin', git: 'https://github.com/gregbell/active_admin.git', ref: 'd11c0a5'
 gem 'active_skin'

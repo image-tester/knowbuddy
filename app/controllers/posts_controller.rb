@@ -11,8 +11,8 @@ class PostsController < ApplicationController
     only: [ :edit, :index, :post_date, :new, :related_tag, :search,
       :show, :user_posts, :create, :draft]
 
-  before_action :find_activities, only: [:index, :load_activities,
-     :create]
+  before_action :find_activities,
+    only: [:index, :load_activities, :create]
 
   autocomplete :tag, :name, class_name: 'ActsAsTaggableOn::Tag', full: true
 
@@ -134,13 +134,13 @@ class PostsController < ApplicationController
 
   def update
     attachment = params[:post].delete :attachment
-      if @post.update(post_params)
-        save_attachments
-        update_entry = render_to_string(partial: "post", locals:{post: @post})
-        render json: update_entry.to_json
-      else
-        render json: @post.errors, status: :unprocessable_entity
-      end
+    if @post.update(post_params)
+      save_attachments
+      update_entry = render_to_string(partial: "post", locals:{post: @post})
+      ender json: update_entry.to_json
+    else
+      render json: @post.errors, status: :unprocessable_entity
+    end
   end
 
   def user_posts
@@ -182,8 +182,10 @@ class PostsController < ApplicationController
     end
 
     private
-    def post_params
-      params.require(:post).permit(:id, :publish_at, :subject, :tag_list,
-       :user_id, :slug, :is_draft, :content)
-    end
+
+      def post_params
+        params.require(:post).permit(:id, :publish_at,
+          :subject, :tag_list, :user_id, :slug, :is_draft,
+          :content)
+      end
 end

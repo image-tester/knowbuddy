@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     end
 
     def skip_password
-     user_params.slice!(:password, :password_confirmation, :current_password)
+      user_params.slice!(:password, :password_confirmation, :current_password)
     end
 
     def password_blank?
@@ -41,9 +41,8 @@ class UsersController < ApplicationController
 
   private
 
-    def user_params
-      params.require(:user).permit(:email, :name,
-        :current_password, :password, :password_confirmation,
-        :remember_me)
-    end
+  def user_params
+    params.require(:user).permit(:email, :name, :current_password, :password,
+      :password_confirmation, :remember_me)
+  end
 end

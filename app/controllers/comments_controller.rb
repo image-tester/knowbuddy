@@ -44,24 +44,23 @@ class CommentsController < ApplicationController
 
   protected
 
-    def find_comment
-      @comment ||= params[:id] ? Comment.find(params[:id]) : Comment.new
-    end
+  def find_comment
+    @comment ||= params[:id] ? Comment.find(params[:id]) : Comment.new
+  end
 
-    def find_post
-      @post = Post.friendly.find(params[:post_id])
-    end
+  def find_post
+    @post = Post.friendly.find(params[:post_id])
+  end
 
-    def redirect_comment
-      respond_to do |format|
-        format.html
-        format.json { render json: @comment }
-      end
+  def redirect_comment
+    respond_to do |format|
+      format.html
+      format.json { render json: @comment }
     end
+  end
 
-    def comment_params
-      params.require(:comment).permit(:comment,
-        :created_at, :post_id, :updated_at,
-        :user_id)
-    end
+  def comment_params
+    params.require(:comment).permit(:comment, :created_at, :post_id,
+      :updated_at, :user_id)
+  end
 end

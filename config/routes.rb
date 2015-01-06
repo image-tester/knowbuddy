@@ -1,26 +1,23 @@
 KYU::Application.routes.draw do
   mount Resque::Server.new, at: "/resque"
 
-  get '/comments/user_comment/:id', to: 'comments#user_comment'
-  get '/admin/deleted_posts/restore/:id',
-    to: 'admin/deleted_posts#restore'
+  get "/comments/user_comment/:id", to: "comments#user_comment"
 
-  get '/admin/deleted_posts/deleted_post/:id',
-    to: 'admin/deleted_posts#deleted_post'
+  get "/admin/deleted_posts/restore/:id", to: "admin/deleted_posts#restore"
 
-  get '/admin/deleted_posts/deleted_post',
-    to: 'admin/deleted_posts#index'
+  get "/admin/deleted_posts/deleted_post/:id",
+    to: "admin/deleted_posts#deleted_post"
 
-  get '/admin/inactive_users/activate/:id',
-    to: 'admin/inactive_users#activate'
+  get "/admin/deleted_posts/deleted_post", to: "admin/deleted_posts#index"
 
-  get '/admin/activity_types/activate/:id',
-    to: 'admin/activity_types#activate'
+  get "/admin/inactive_users/activate/:id", to: "admin/inactive_users#activate"
 
-  get '/admin/activity_types/deactivate/:id',
-    to: 'admin/activity_types#deactivate'
+  get "/admin/activity_types/activate/:id", to: "admin/activity_types#activate"
 
-  patch '/attachments/edit', to: 'attachments#create'
+  get "/admin/activity_types/deactivate/:id",
+    to: "admin/activity_types#deactivate"
+
+  patch "/attachments/edit", to: "attachments#create"
 
 
   resources :attachments, only: [:create, :destroy]

@@ -137,7 +137,7 @@ class PostsController < ApplicationController
     if @post.update(post_params)
       save_attachments
       update_entry = render_to_string(partial: "post", locals:{post: @post})
-      ender json: update_entry.to_json
+      render json: update_entry.to_json
     else
       render json: @post.errors, status: :unprocessable_entity
     end

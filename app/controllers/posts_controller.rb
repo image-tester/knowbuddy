@@ -149,42 +149,43 @@ class PostsController < ApplicationController
   end
 
   protected
-    def find_activities
-      @activities = Activity.latest_activities(params[:page_3])
-    end
 
-    def find_post
-      @post = Post.friendly.find(params[:id])
-      raise "Invalid Post." unless @post.allowed?(current_user)
-    end
+  def find_activities
+    @activities = Activity.latest_activities(params[:page_3])
+  end
 
-    def order_by_name_email
-      @users = User.by_name_email.page(params[:page]).per(5)
-    end
+  def find_post
+    @post = Post.friendly.find(params[:id])
+    raise "Invalid Post." unless @post.allowed?(current_user)
+  end
 
-    def remove_orphan_attachments
-      Post.invalid_attachments
-    end
+  def order_by_name_email
+    @users = User.by_name_email.page(params[:page]).per(5)
+  end
 
-    def tag_cloud
-      @posts = Post.published
-      @tag_cloud_hash = @posts.tag_cloud
-    end
+  def remove_orphan_attachments
+    Post.invalid_attachments
+  end
 
-    def get_current_post
-      post = post_params
-      if post[:id].empty?
-        @post = Post.new(post)
-      else
-        @post = Post.find(post[:id])
-        @post.assign_attributes(post)
-      end
-    end
+  def tag_cloud
+    @posts = Post.published
+    @tag_cloud_hash = @posts.tag_cloud
+  end
 
-    private
-
-    def post_params
-      params.require(:post).permit(:id, :publish_at, :subject, :tag_list,
-        :user_id, :slug, :is_draft, :content)
+  def get_current_post
+    post = post_params
+    if post[:id].empty?
+      @post = Post.new(post)
+    else
+      @post = Post.find(post[:id])
+      @post.assign_attributes(post)
     end
+  end
+
+  private
+
+  def post_params
+    params.require(:post).permit(:id, :publish_at, :subject, :tag_list,
+      :user_id, :slug, :is_draft, :content)
+  end
 end

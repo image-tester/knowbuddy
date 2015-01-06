@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe AttachmentsController do
 
@@ -26,13 +26,17 @@ describe AttachmentsController do
 
     it "should create attachment" do
       expect {
-        post :create, format: :json, post: {subject: "New Test", content: "test content" }, post_id: post2.id, attachments_field: "", files: [file]
+        post :create, format: :json,
+        post: { subject: "New Test", content: "test content" },
+        post_id: post2.id, attachments_field: "", files: [file]
       }.to change(Attachment, :count).by(1)
     end
 
     it "should not create attachment" do
       expect {
-        post :create, format: :json, post: {subject: "New Test", content: "test content" }, post_id: post2.id, attachments_field: "", files: [invalid_file]
+        post :create, format: :json,
+        post: { subject: "New Test", content: "test content" },
+        post_id: post2.id, attachments_field: "", files: [invalid_file]
       }.to_not change(Attachment, :count)
       expect(response.status).to eq(422)
     end

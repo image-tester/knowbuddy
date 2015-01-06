@@ -17,27 +17,28 @@ class UsersController < ApplicationController
   end
 
   protected
-    def find_user
-      @user = User.find(params[:id])
-    end
 
-    def skip_password
-      user_params.slice!(:password, :password_confirmation, :current_password)
-    end
+  def find_user
+    @user = User.find(params[:id])
+  end
 
-    def password_blank?
-      user = user_params
-      user[:current_password].blank? && user[:password].blank? &&
-        user[:password_confirmation].blank?
-    end
+  def skip_password
+    user_params.slice!(:password, :password_confirmation, :current_password)
+  end
 
-    def update_user
-      if password_blank?
-        @user.update_without_password(skip_password)
-      else
-        @user.update_with_password(user_params)
-      end
+  def password_blank?
+    user = user_params
+    user[:current_password].blank? && user[:password].blank? &&
+      user[:password_confirmation].blank?
+  end
+
+  def update_user
+    if password_blank?
+      @user.update_without_password(skip_password)
+    else
+      @user.update_with_password(user_params)
     end
+  end
 
   private
 

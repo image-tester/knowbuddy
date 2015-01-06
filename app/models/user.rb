@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
 
   after_create :create_user_activity
 
-  scope :by_name_email, -> { joins(:posts).where('posts.deleted_at IS NULL').order('name, email').uniq }
+  scope :by_name_email, -> { joins(:posts).where("posts.deleted_at IS NULL").order("name, email").uniq }
 
 
   def self.get_user(user_id)

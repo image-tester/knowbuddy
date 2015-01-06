@@ -32,14 +32,14 @@ class Comment < ActiveRecord::Base
     end
 
     def create_comment_activity
-      Activity.add_activity("create",self)
+      Activity.add_activity("create", self)
     end
 
     def update_comment_activity
-      Activity.add_activity("update",self)
+      Activity.add_activity("update", self)
     end
 
     def destroy_comment_activity
-      Activity.add_activity("destroy",self)
+      Activity.add_activity("destroy", self)
     end
 end

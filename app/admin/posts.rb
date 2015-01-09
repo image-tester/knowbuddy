@@ -1,6 +1,6 @@
 ActiveAdmin.register Post, as: "Posts"  do
-  permit_params :id, :publish_at, :subject, :tag_list,
-    :user_id, :slug, :is_draft, :content
+  permit_params :id, :publish_at, :subject,
+  :tag_list, :user_id, :slug, :is_draft, :content
 
   scope :published, default: true do |posts|
     posts = Post.published
@@ -31,14 +31,15 @@ ActiveAdmin.register Post, as: "Posts"  do
       post.user_name
     end
 
-    column 'Date', :updated_at
+    column "Date", :updated_at
     column "Actions" do |post|
-      raw "#{link_to 'View', admin_post_path(post), method: :get}
-        #{(link_to 'Edit', edit_admin_post_path(post),
+      raw "#{link_to "View", admin_post_path(post), method: :get}
+        #{(link_to "Edit", edit_admin_post_path(post),
           method: :get) unless post.is_draft}
-        #{link_to 'Delete', admin_post_path(post),
-          method: :delete, data: { confirm: 'Are you sure you want to delete
-          this Post permanently ?' } }"
+        #{ link_to "Delete", admin_post_path(post),
+          method: :delete,
+          data: { confirm: "Are you sure you want to delete
+          this Post permanently ?" } }"
     end
   end
 

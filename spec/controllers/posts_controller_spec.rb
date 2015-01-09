@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe PostsController, type: :controller do
   render_views
@@ -40,7 +40,6 @@ describe PostsController, type: :controller do
       it "should not return posts with given search " do
         xhr :get, :search, search: "search text"
         expect(response).to render_template('posts/search', format: :js)
-        # expect(response.body).to eq ""
         expect(response.body).to include("Sorry no matching results for keyword")
       end
     end
@@ -145,7 +144,7 @@ describe PostsController, type: :controller do
 
     describe "POST create" do
       context 'Valid Attributes' do
-         it 'should save post to database' do
+        it 'should save post to database' do
           @post = {id: '', subject: 'Swimming', content: 'freestyle', user_id: user.id}
           expect{
             post :create, post: @post, attachments_field: ""
@@ -157,7 +156,8 @@ describe PostsController, type: :controller do
         it 'should update the created draft and make it post' do
           draft = create :draft
           fetch_activity_type('post.update')
-          post_attributes = post_attributes = draft.attributes.map { |k, v| k=='id' ? [k, v.to_s] : [k,v] }.to_h
+          post_attributes = post_attributes = draft.attributes.map {
+            |k, v| k == 'id' ? [k, v.to_s] : [k,v] }.to_h
           post :create, post: post_attributes, attachments_field: ""
           expect(Post.find(draft.id)[:is_draft]).to eq false
           expect(Post.find(draft.id).activities).not_to be_nil
@@ -194,7 +194,7 @@ describe PostsController, type: :controller do
       end
 
       it 'Should not create post' do
-        @post = {subject: '', content: 'freestyle', user_id: user.id, id: ''}
+        @post = { subject: '', content: 'freestyle', user_id: user.id, id: '' }
         expect{
           post :create, format: :json, post: @post, attachments_field: ""
         }.to_not change(Post, :count)
@@ -255,7 +255,8 @@ describe PostsController, type: :controller do
 
       it "should create 'update' activity" do
         fetch_activity_type('post.update')
-        patch :update, post: { subject: "new updated post"}, attachments_field: [attachment.id],
+        patch :update, post: { subject: "new updated post" },
+          attachments_field: [attachment.id],
           post_id: current_post.id, id: current_post.slug
 
         current_post.reload
@@ -269,8 +270,10 @@ describe PostsController, type: :controller do
 
       it "should render error templete" do
         expect{
-          put :update, format: :json, post: { subject: ""}, attachments_field: "", post_id: current_post.id, id: current_post.slug
-        }.to_not change{current_post.subject}
+          put :update, format: :json, post: { subject: "" },
+          attachments_field: "", post_id: current_post.id,
+          id: current_post.slug
+        }.to_not change{current_post.subject }
         expect(response.status).to eq(422)
       end
     end

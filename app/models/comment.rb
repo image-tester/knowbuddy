@@ -8,7 +8,7 @@ class Comment < ActiveRecord::Base
   delegate :subject, to: :post, prefix: true
   delegate :display_name, to: :user
 
-  default_scope { order('updated_at DESC') }
+  default_scope { order("updated_at DESC") }
 
   after_save :solr_reindex_post
   after_destroy :solr_reindex_post
@@ -32,14 +32,14 @@ class Comment < ActiveRecord::Base
     end
 
     def create_comment_activity
-      Activity.add_activity('create',self)
+      Activity.add_activity("create", self)
     end
 
     def update_comment_activity
-      Activity.add_activity('update',self)
+      Activity.add_activity("update", self)
     end
 
     def destroy_comment_activity
-      Activity.add_activity('destroy',self)
+      Activity.add_activity("destroy", self)
     end
 end

@@ -26,12 +26,14 @@ class AttachmentsController < ApplicationController
   end
 
   private
-    def find_attachment
-      attachment = params[:files].first
-      @attachment = Attachment.create(post: attachment)
-    end
 
-    def attachment_params
-      params.require(:attachment).permit(:post_id, :created_at, :updated_at, :post)
-    end
+  def find_attachment
+    attachment = params[:files].first
+    @attachment = Attachment.create(post: attachment)
+  end
+
+  def attachment_params
+    params.require(:attachment).permit(:post_id, :created_at, :updated_at,
+      :post)
+  end
 end

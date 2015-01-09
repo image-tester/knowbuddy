@@ -6,6 +6,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.widget.js
 //= require turbolinks
 //= require facebox
 //= require custom

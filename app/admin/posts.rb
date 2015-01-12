@@ -2,10 +2,6 @@ ActiveAdmin.register Post, as: "Posts"  do
   permit_params :id, :publish_at, :subject,
   :tag_list, :user_id, :slug, :is_draft, :content
 
-  scope :published, default: true do |posts|
-    posts = Post.published
-  end
-
   scope(:drafted) { |posts| posts = Post.draft }
 
   menu priority: 1
@@ -70,6 +66,10 @@ ActiveAdmin.register Post, as: "Posts"  do
 
     def find_resource
       scoped_collection.friendly.find(params[:id])
+    end
+
+    def scoped_collection
+      Post.unscoped.published
     end
   end
 end

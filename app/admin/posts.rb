@@ -2,7 +2,8 @@ ActiveAdmin.register Post, as: "Posts"  do
   permit_params :id, :publish_at, :subject,
   :tag_list, :user_id, :slug, :is_draft, :content
 
-  scope(:drafted) { |posts| posts = Post.draft }
+  scope :published, default: true
+  scope :draft
 
   menu priority: 1
   config.sort_order = "updated_at_desc"
@@ -66,10 +67,6 @@ ActiveAdmin.register Post, as: "Posts"  do
 
     def find_resource
       scoped_collection.friendly.find(params[:id])
-    end
-
-    def scoped_collection
-      Post.unscoped.published
     end
   end
 end

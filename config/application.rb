@@ -1,11 +1,13 @@
 require File.expand_path('../boot', __FILE__)
 require 'rails/all'
-if defined?(Bundler)
-  # If you precompile assets before deploying to production, use this line
-  Bundler.require *Rails.groups(assets: %w(development test))
-  # If you want your assets lazily compiled in production, use this line
-  # Bundler.require(:default, :assets, Rails.env)
-end
+
+Bundler.require(:default, Rails.env)
+# if defined?(Bundler)
+#   # If you precompile assets before deploying to production, use this line
+#   Bundler.require *Rails.groups(assets: %w(development test))
+#   # If you want your assets lazily compiled in production, use this line
+#   # Bundler.require(:default, :assets, Rails.env)
+# end
 module KYU
   class Application < Rails::Application
     # Settings in config/environments/*
@@ -36,7 +38,7 @@ module KYU
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
     # Enable the asset pipeline
-    config.assets.enabled = true
+    # config.assets.enabled = true
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.1'
     # Added by Rohan on 04-Mar-2012
@@ -57,7 +59,7 @@ module KYU
     # Start
     config.active_record.observers = :auditor_observer
     #end
-    config.active_record.whitelist_attributes = true
+    # config.active_record.whitelist_attributes = false
     # Added to display inline all rails validation error messages
     # Start
     config.action_view.field_error_proc = Proc.new do |html_tag, instance|

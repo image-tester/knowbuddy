@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Comment do
 
@@ -28,16 +28,16 @@ describe Comment do
   describe 'create_comment_activity' do
     it 'should create comment activity' do
       act = PublicActivity::Activity.find_by_owner_id_and_key(@user.id, "comment.create")
-      act.should_not be_nil
+      expect(act).to_not be_nil
     end
   end
 
   describe "update_comment_activity" do
     it "should create 'update' activity" do
       fetch_activity_type('comment.update')
-      @comment.update_attributes(:comment => "Good")
+      @comment.update(:comment => "Good")
       act = PublicActivity::Activity.find_by_owner_id_and_key(@user.id, "comment.update")
-      act.should_not be_nil
+      expect(act).to_not be_nil
     end
   end
 
@@ -46,27 +46,27 @@ describe Comment do
       fetch_activity_type('comment.destroy')
       @comment.destroy
       act = PublicActivity::Activity.find_by_owner_id_and_key(@user.id, "comment.destroy")
-      act.should_not be_nil
+      expect(act).to_not be_nil
     end
   end
 
   describe 'after_create' do
     it 'should run the proper callbacks' do
-      @comment.should_receive(:create_comment_activity)
+      expect(@comment).to receive(:create_comment_activity)
       @comment.run_callbacks(:create)
     end
   end
 
   describe 'after_update' do
     it 'should run the proper callbacks' do
-      @comment.should_receive(:update_comment_activity)
+      expect(@comment).to receive(:update_comment_activity)
       @comment.run_callbacks(:update)
     end
   end
 
   describe 'before_destroy' do
     it 'should run the proper callbacks' do
-      @comment.should_receive(:destroy_comment_activity)
+      expect(@comment).to receive(:destroy_comment_activity)
       @comment.run_callbacks(:destroy)
     end
   end

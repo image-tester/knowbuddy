@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe User do
   describe 'scope::top3' do
@@ -10,16 +10,16 @@ describe User do
     end
 
     it "should return top 3 contributors" do
-      User.top3.should_not be_nil
-      User.top3[3].should be_nil
-      User.top3[0].total.should be >= User.top3[1].total
+      expect(User.top3).to_not be_nil
+      expect(User.top3[3]).to be_nil
+      expect(User.top3[0].total).to be >= User.top3[1].total
     end
   end
 
   describe 'Callbacks' do
     it 'should run create callback' do
       user = create :user
-      user.should_receive(:create_user_activity) #should pass
+      expect(user).to receive(:create_user_activity) #should pass
       user.run_callbacks(:create)
     end
     it 'should run update callback' do
@@ -83,7 +83,7 @@ describe User do
 
       it 'should recover a valid record' do
         user.destroy
-        expect(user.activate).to eq true
+        expect(user.activate).to eq user
       end
 
       it 'should recover a invalid record' do
@@ -110,7 +110,7 @@ describe User do
     describe 'activity_params' do
       it 'should display user name' do
         user = create :user
-        expect(user.activity_params).to eq("user" => "#{user.name}")
+        expect(user.activity_params).to eq(user: "#{user.name}")
       end
     end
 

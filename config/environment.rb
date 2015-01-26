@@ -25,5 +25,6 @@ SMTP_SETTINGS = {
   enable_starttls_auto:  true  }
 
 # Initialize the rails application
-KYU::Application.initialize!
+# KYU::Application.initialize!
+Rails.application.initialize!
 

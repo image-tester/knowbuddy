@@ -1,8 +1,6 @@
 class User < ActiveRecord::Base
   include PublicActivity::Common
 
-  attr_accessible :email, :name, :password, :password_confirmation,
-    :remember_me
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable, :timeoutable
 
@@ -19,10 +17,8 @@ class User < ActiveRecord::Base
 
   after_create :create_user_activity
 
-  def self.by_name_email
-    joins(:posts).where('posts.deleted_at IS NULL').
-    order('name, email').uniq
-  end
+  scope :by_name_email, -> { joins(:posts).where("posts.deleted_at IS NULL").order("name, email").uniq }
+
 
   def self.get_user(user_id)
     self.with_deleted.find(user_id)
@@ -42,7 +38,7 @@ class User < ActiveRecord::Base
 
   def activate
     if valid?
-      recover
+      restore
     else
       self.deleted_at = nil
       save(validate: false)
@@ -50,7 +46,7 @@ class User < ActiveRecord::Base
   end
 
   def activity_params
-    { "user" => name }
+    { user: name }
   end
 
   def active?

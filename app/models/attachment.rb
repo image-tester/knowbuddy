@@ -1,6 +1,4 @@
 class Attachment < ActiveRecord::Base
-  attr_accessible :post_id, :created_at, :updated_at, :post
-
   belongs_to :post
 
   IMAGE_FORMATS = ["image/jpeg", "image/png", "image/gif", "image/jpg"]

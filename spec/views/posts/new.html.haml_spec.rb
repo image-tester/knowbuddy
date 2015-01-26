@@ -1,24 +1,14 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "posts/new" do
   before do
     @user = create :user
     sign_in @user
 
-    assign(:post, stub_model(Post,
-      subject: "MyString",
-      content: "MyText"
-    ).as_new_record)
+    assign(:post, create(:post, subject: "MyString", content: "MyText"))
 
     assign(:users,
-      Kaminari.paginate_array([stub_model(User, name: "xyz",
-        email: 'test@kiprosh.com',
-        password: 'password',
-        password_confirmation: 'password'),
-      stub_model(User, name: "xyz",
-        email: 'test@kiprosh.com',
-        password: 'password',
-        password_confirmation: 'password')]).page(1).per(5)
+      Kaminari.paginate_array(create_list :user, 5).page(1).per(5)
     )
   end
 

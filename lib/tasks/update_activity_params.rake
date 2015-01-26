@@ -31,7 +31,7 @@ namespace :activity do
     post_activities.find_in_batches(batch_size: 100) do |activities|
       activities.each do |activity|
         updated_key = activity.key.gsub("kyu_entry", "post")
-        activity.update_attributes({key: updated_key, trackable_type: "Post"})
+        activity.update({key: updated_key, trackable_type: "Post"})
         puts "Updated activity_#{activity.id}"
       end
     end

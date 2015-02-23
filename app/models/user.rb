@@ -22,12 +22,12 @@ class User < ActiveRecord::Base
     self.all.map{|v| [v.name || v.email, v.id] } if User.table_exists?
   end
 
-  def self.top3
-    self.with_deleted.joins(:posts).
+  def self.top
+    self.joins(:posts).
       select('users.name, users.email, users.id, COUNT(*) as total').
       where('posts.deleted_at IS NULL').
       where('posts.is_draft IS FALSE').
-      group('posts.user_id').order('total DESC').limit(3)
+      group('posts.user_id').order('total DESC').limit(5)
   end
 
   def self.get_user(user_id)

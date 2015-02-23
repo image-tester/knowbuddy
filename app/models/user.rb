@@ -28,12 +28,12 @@ class User < ActiveRecord::Base
     self.with_deleted.find(user_id)
   end
 
-  def self.top3
-    self.with_deleted.joins(:posts).
+  def self.top
+    self.joins(:posts).
       select('users.name, users.email, users.id, COUNT(*) as total').
       where('posts.deleted_at IS NULL').
       where('posts.is_draft IS FALSE').
-      group('posts.user_id').order('total DESC').limit(3)
+      group('posts.user_id').order('total DESC').limit(5)
   end
 
   def self.user_collection_email_name

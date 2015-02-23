@@ -1,18 +1,18 @@
 class PostsController < ApplicationController
   add_template_helper(PostHelper)
-  before_filter :find_post, only: [:destroy, :edit, :remove_tag, :update,
+  before_action :find_post, only: [:destroy, :edit, :remove_tag, :update,
     :assign_vote]
 
-  before_filter :order_by_name_email,
+  before_action :order_by_name_email,
     only: [ :edit, :index, :post_date, :new, :search, :user_posts, :show,
       :create, :related_tag, :contributors_pagination]
 
-  before_filter :tag_cloud,
+  before_action :tag_cloud,
     only: [ :edit, :index, :post_date, :new, :related_tag, :search,
       :show, :user_posts, :create, :draft]
 
-  before_filter :find_activities, only: [:index, :load_activities,
-    :load_partials, :create]
+  before_action :find_activities,
+    only: [:index, :load_activities, :create]
 
   autocomplete :tag, :name, class_name: 'ActsAsTaggableOn::Tag', full: true
 
@@ -29,15 +29,13 @@ class PostsController < ApplicationController
   def create
     attachment = params[:post].delete :attachment
     get_current_post
-    respond_to do |format|
-      if @post.save
-        save_attachments
-        load_partials
-        format.json { render json: { new_entry: @new_entry,
-          activities: @activities_html, sidebar: @sidebar } }
-      else
-        format.json { render json: @post.errors, status: :unprocessable_entity}
-      end
+    if @post.save
+      save_attachments
+      load_partials
+      render json: { new_entry: @new_entry,
+        activities: @activities_html, sidebar: @sidebar }
+    else
+      render json: @post.errors, status: :unprocessable_entity
     end
   end
 
@@ -54,10 +52,7 @@ class PostsController < ApplicationController
 
   def destroy
     @post.destroy
-    respond_to do |format|
-      format.html { redirect_to posts_url }
-      format.json { head :ok }
-    end
+    redirect_to posts_url
   end
 
   def edit
@@ -79,7 +74,7 @@ class PostsController < ApplicationController
   end
 
   def load_partials
-    @new_entry = render_to_string(partial: "entries",
+    @new_entry = render_to_string(partial: "posts/entries",
       locals: { post: @post })
     @sidebar = render_to_string( partial: "sidebar",
       locals: { tag_cloud_hash: tag_cloud, users: @users})
@@ -139,14 +134,12 @@ class PostsController < ApplicationController
 
   def update
     attachment = params[:post].delete :attachment
-    respond_to do |format|
-      if @post.update_attributes(params[:post])
-        save_attachments
-        update_entry = render_to_string(partial: "post", locals:{post: @post})
-        format.json { render json: update_entry.to_json}
-      else
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
+    if @post.update(post_params)
+      save_attachments
+      update_entry = render_to_string(partial: "post", locals: { post: @post })
+      render json: update_entry.to_json
+    else
+      render json: @post.errors, status: :unprocessable_entity
     end
   end
 
@@ -156,35 +149,43 @@ class PostsController < ApplicationController
   end
 
   protected
-    def find_activities
-      @activities = Activity.latest_activities(params[:page_3])
-    end
 
-    def find_post
-      @post = Post.find(params[:id])
-      raise "Invalid Post." unless @post.allowed?(current_user)
-    end
+  def find_activities
+    @activities = Activity.latest_activities(params[:page_3])
+  end
 
-    def order_by_name_email
-      @users = User.by_name_email.page(params[:page]).per(5)
-    end
+  def find_post
+    @post = Post.friendly.find(params[:id])
+    raise "Invalid Post." unless @post.allowed?(current_user)
+  end
 
-    def remove_orphan_attachments
-      Post.invalid_attachments
-    end
+  def order_by_name_email
+    @users = User.by_name_email.page(params[:page]).per(5)
+  end
 
-    def tag_cloud
-      @posts = Post.published
-      @tag_cloud_hash = @posts.tag_cloud
-    end
+  def remove_orphan_attachments
+    Post.invalid_attachments
+  end
 
-    def get_current_post
-      post = params[:post]
-      if post[:id].empty?
-        @post = Post.new(post)
-      else
-        @post = Post.find(post[:id])
-        @post.assign_attributes(params[:post])
-      end
+  def tag_cloud
+    @posts = Post.published
+    @tag_cloud_hash = @posts.tag_cloud
+  end
+
+  def get_current_post
+    post = post_params
+    if post[:id].empty?
+      @post = Post.new(post)
+    else
+      @post = Post.find(post[:id])
+      @post.assign_attributes(post)
     end
+  end
+
+  private
+
+  def post_params
+    params.require(:post).permit(:id, :publish_at, :subject, :tag_list,
+      :user_id, :slug, :is_draft, :content)
+  end
 end

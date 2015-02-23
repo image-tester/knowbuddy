@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "posts/edit.html.haml" do
   before :each do
@@ -7,14 +7,7 @@ describe "posts/edit.html.haml" do
     sign_in @user
 
     assign(:users,
-      Kaminari.paginate_array([stub_model(User, name: "xyz",
-        email: 'test@kiprosh.com',
-        password: 'password',
-        password_confirmation: 'password'),
-      stub_model(User, name: "xyz",
-        email: 'test@kiprosh.com',
-        password: 'password',
-        password_confirmation: 'password')]).page(1).per(5)
+      Kaminari.paginate_array(create_list :user, 5).page(1).per(5)
     )
   end
 

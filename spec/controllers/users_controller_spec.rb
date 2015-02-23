@@ -1,5 +1,4 @@
-require 'spec_helper'
-include Devise::TestHelpers
+require "rails_helper"
 
 describe UsersController do
   let!(:user) {create :user}
@@ -10,13 +9,13 @@ describe UsersController do
 
   describe "Update user" do
     let!(:new_password) { "password123" }
-    let!(:params) {{ password: 'password123', password_confirmation: 'password',
-        current_password: 'passwod'}}
+    let!(:params) {{ password: 'password123',
+      password_confirmation: 'password',
+      current_password: 'passwod'}}
 
     it "should successfully update user name" do
       put :update, id: user, user: {name: "test_name"}, format: 'json'
-      response.should be_successful
-
+      expect(response).to be_successful
       user.reload
       expect(user.name).to eq("test_name")
     end
@@ -33,7 +32,7 @@ describe UsersController do
       put :update, id: user, user: { current_password: "password",
         password: new_password, password_confirmation: new_password,  },
           format: 'json'
-      response.should be_successful
+      expect(response).to be_successful
     end
 
     it "should not update password if password is not confirmed properly" do

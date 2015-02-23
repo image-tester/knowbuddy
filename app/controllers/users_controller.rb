@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :find_user
+  before_action :find_user
 
   def update
     respond_to do |format|
@@ -17,27 +17,33 @@ class UsersController < ApplicationController
   end
 
   protected
-    def find_user
-      @user = User.find(params[:id])
-    end
 
-    def skip_password
-      params[:user] = params[:user].
-        slice!(:password, :password_confirmation, :current_password)
-    end
+  def find_user
+    @user = User.find(params[:id])
+  end
 
-    def password_blank?
-      user = params[:user]
-      user[:current_password].blank? && user[:password].blank? &&
-        user[:password_confirmation].blank?
-    end
+  def skip_password
+    user_params.slice!(:password, :password_confirmation, :current_password)
+  end
 
-    def update_user
-      if password_blank?
-        skip_password
-        @user.update_without_password(params[:user])
-      else
-        @user.update_with_password(params[:user])
-      end
+  def password_blank?
+    user = user_params
+    user[:current_password].blank? && user[:password].blank? &&
+      user[:password_confirmation].blank?
+  end
+
+  def update_user
+    if password_blank?
+      @user.update_without_password(skip_password)
+    else
+      @user.update_with_password(user_params)
     end
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:email, :name, :current_password, :password,
+      :password_confirmation, :remember_me)
+  end
 end

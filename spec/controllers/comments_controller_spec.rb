@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "rails_helper"
 
 describe CommentsController do
   before do
@@ -18,14 +18,14 @@ describe CommentsController do
   describe "display comments of" do
     it "specific active user" do
       get :user_comment, id: @active_user.id
-      response.should be_success
+      expect(response).to be_success
       expect(response).to render_template(:user_comment)
       expect(assigns(:comments)).to eq(@active_user.comments)
     end
 
     it "inactive users" do
       get :user_comment, id: @inactive_user.id
-      response.should be_success
+      expect(response).to be_success
       expect(response).to render_template(:user_comment)
       expect(assigns(:comments)).to eq(@inactive_user.comments)
     end
@@ -37,7 +37,7 @@ describe CommentsController do
       expect{
         post :create, comment: comment_attributes, post_id: post1.slug
       }.to change(Comment, :count).by(1)
-      expect(response).to render_template :comment
+      expect(response).to render_template("comments/_comment")
     end
   end
 
@@ -64,7 +64,10 @@ describe CommentsController do
       @comment = create :comment
       fetch_activity_type('comment.update')
       get :show, id: @comment, post_id: post1, format: :json
-      expect(response.body).to have_content @comment.to_json
+      expect(response.content_type).to include("json")
+      response_data = JSON.parse(response.body)
+      expect(response_data["comment"]).to eq(@comment.comment)
+      # expect(response.body).to have_content @comment.to_json
     end
   end
 

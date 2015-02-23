@@ -2,7 +2,7 @@
   - if current_user == post.user
     = link_to 'Edit', edit_post_path(post, edit_post: true), id: 'edit_entry' , remote:true
     \|
-    = link_to 'Delete', post_path(post), confirm: 'Are you sure you want to delete this Post?', method: :delete
+    = link_to 'Delete', post_path(post), method: :delete, data: { confirm: 'Are you sure you want to delete this Post?' }
 #post-post
   #post-header
     .contributor_pic

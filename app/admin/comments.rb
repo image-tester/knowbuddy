@@ -1,4 +1,5 @@
 ActiveAdmin.register Comment, as: "PostsComments" do
+  permit_params :comment, :created_at, :post_id, :updated_at, :user_id
   menu priority: 3
 
   filter :comment
@@ -19,7 +20,7 @@ ActiveAdmin.register Comment, as: "PostsComments" do
       comment.display_name
     end
 
-    default_actions
+    actions
   end
 
   show do |comment|
@@ -44,6 +45,6 @@ ActiveAdmin.register Comment, as: "PostsComments" do
       f.input :created_at
       f.input :updated_at
     end
-    f.buttons
+    f.actions
   end
 end

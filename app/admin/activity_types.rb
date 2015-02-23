@@ -1,5 +1,5 @@
 ActiveAdmin.register ActivityType do
-
+  permit_params :is_active, :activity_type
   menu priority: 6
 
   filter :activity_type, as: :string
@@ -9,7 +9,7 @@ ActiveAdmin.register ActivityType do
       f.input :activity_type, as: :string
       f.input :is_active, as: :radio
     end
-    f.buttons
+    f.actions
   end
 
   index do

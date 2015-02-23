@@ -6,8 +6,9 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery-ui
+//= require jquery.ui.widget.js
 //= require facebox
+//= require app
 //= require custom
 //= require like_post
 //= require jquery.validationEngine
@@ -15,7 +16,7 @@
 //= require jquery.markitup
 //= require set
 //= require rails-timeago
-//= require app
 //= require jquery.fileupload
 //= require active_admin
 //= require_tree .
+

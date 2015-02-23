@@ -1,18 +1,18 @@
 require "rails_helper"
 
 describe User do
-  describe 'scope::top3' do
+  describe 'scope::top' do
     before do
-      4.times do |n|
+      5.times do |n|
         user = create :user
         user.posts = create_list :post, n, user: user
       end
     end
 
-    it "should return top 3 contributors" do
-      expect(User.top3).to_not be_nil
-      expect(User.top3[3]).to be_nil
-      expect(User.top3[0].total).to be >= User.top3[1].total
+    it "should return top 5 contributors" do
+      User.top.should_not be_nil
+      User.top[5].should be_nil
+      User.top[0].total.should be >= User.top[1].total
     end
   end
 

@@ -69,6 +69,7 @@ class UserMailer < ActionMailer::Base
   end
 
   def flowdock_notification(post)
+    post = Post.find(post["id"])
     body = post.user.display_name +
       " posted a new article on KnowBuddy: \n#{post.subject}"
     mail(to: KIPROSH_MAIN_FLOW_EMAIL, subject: "Knowbuddy Post") do |format|

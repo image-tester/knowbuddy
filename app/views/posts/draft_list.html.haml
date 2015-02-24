@@ -15,6 +15,7 @@
             = t("activerecord.attributes.post.content", default: t("activerecord.labels.content", default: "Content"))
           %th= t("web-app-theme.created_at", default: "Date")
           %th= t("web-app-theme.created_at", default: "Edit")
+          %th= t("web-app-theme.created_at", default: "Delete")
         - @posts.each do |post|
           %tr{class: cycle("odd", "even")}
             %td= post_link(post)
@@ -22,3 +23,4 @@
             %td= post_date_link(post)
             %td= link_to 'Edit', edit_post_path(post, edit_post: true),
               id: 'edit_entry' , remote:true
+            %td= link_to 'Delete', post, method: :delete

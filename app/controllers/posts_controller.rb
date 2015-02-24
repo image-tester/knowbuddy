@@ -53,6 +53,7 @@ class PostsController < ApplicationController
   def destroy
     @post.destroy
     redirect_to posts_url
+    flash[:notice] = "Article successfully deleted."
   end
 
   def edit

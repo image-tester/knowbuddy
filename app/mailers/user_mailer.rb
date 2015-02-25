@@ -67,4 +67,13 @@ class UserMailer < ActionMailer::Base
   def app_login_url
     APP_CONFIG["url"] + "/users/sign_in"
   end
+
+  def flowdock_notification(post)
+    post = Post.find(post["id"])
+    body = post.user.display_name +
+      " posted a new article on KnowBuddy: \n#{post.subject}"
+    mail(to: KIPROSH_MAIN_FLOW_EMAIL, subject: "Knowbuddy Post") do |format|
+      format.text { render text: body }
+    end
+  end
 end

@@ -25,7 +25,7 @@ class Post < ActiveRecord::Base
   around_save      :create_new_tag_activity
   after_validation :set_is_draft
   after_validation :set_published
-  after_validation :send_email_notification, if: "is_published_changed?"
+  after_save       :send_email_notification, if: "is_published_changed?"
 
   default_scope { order("updated_at DESC") }
   scope :draft, -> { where(is_draft: true) }

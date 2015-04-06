@@ -13,8 +13,8 @@ namespace :email do
   desc "send Mail to users who have less post"
   task less_post_notifications: :environment do
     puts "Start task less_post_notifications"
-    user_with_less_posts = User.joins(:kyu_entries).select('users.name, users.email, users.id,
-      COUNT(users.id) as total').where('kyu_entries.deleted_at IS NULL').group('kyu_entries.user_id').
+    user_with_less_posts = User.joins(:posts).select('users.name, users.email, users.id,
+      COUNT(users.id) as total').where('posts.deleted_at IS NULL').group('posts.user_id').
       having("count(users.id) <= #{TEN_ARTICLES}")
     user_with_less_posts.each do |user|
       puts "Enqueued #{user.email}"

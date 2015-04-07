@@ -5,7 +5,7 @@ namespace :email do
     all_active_rules.each do |rule_instance|
       if Utility.schedule_for_today?(rule_instance.frequency, rule_instance.schedule)
         puts "#{rule_instance.rule} rule applied"
-        Resque.enqueue(Notification, rule)
+        Resque.enqueue(Notification, rule_instance)
       end
     end
   end

@@ -55,16 +55,16 @@ describe UserMailer do
   end
 
   describe "send mail to user based on rules set" do
-    let!(:rule1) { create(:no_post_rule) }
-    let!(:rule2) { create(:less_post_rule) }
+    let!(:rule1) { create(:no_post_in_week_rule, rule: "no post in week") }
+    let!(:rule2) { create(:one_post_in_week_rule, rule: "one post in week") }
     let(:ruled_mail1) { UserMailer.ruled_post_notification(@user_3, rule1) }
     let(:ruled_mail2) { UserMailer.ruled_post_notification(@user_1, rule2) }
 
-    it "user should receive notification mail for no post" do
+    it "user should receive notification mail for no post in week" do
       expect(ruled_mail1.subject).to eq(rule1.subject)
     end
 
-    it "user should receive notification mail for less post" do
+    it "user should receive notification mail for 1 post in week" do
       expect(ruled_mail2.subject).to eq(rule2.subject)
     end
   end

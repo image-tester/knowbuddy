@@ -9,20 +9,17 @@ describe RuleEngine do
   end
 
   describe 'Class Methods' do
-    let!(:rules_for) { [["Post","post"],["Top 3 Contributors", "top_3_contributors"],["Recent Activities", "recent_activities"]] }
-    let!(:frequencys) { [["Weekly", "weekly"],["Once in 2 weeks","once_in_2_weeks"],["Monthly", "monthly"]] }
-    let!(:durations) { [["Week", "week"], ["2 weeks", "2_weeks"], ["Month", "month"], ["Quarter", "quarter"], ["6 months", "6_months"], ["Year", "year"]] }
 
     it "should return rule_for_array" do
-      expect(RuleEngine.rule_for_array).to eq(rules_for)
+      expect(RuleEngine.rule_for_array).to eq(RuleEngine.generate_options_array(RULE_ENGINE_PARAMS))
     end
 
     it "should return frequency_array" do
-      expect(RuleEngine.frequency_array).to eq(frequencys)
+      expect(RuleEngine.frequency_array).to eq(RuleEngine.generate_options_array(RULE_ENGINE_SCHEDULE))
     end
 
     it "should return duration_array" do
-      expect(RuleEngine.duration_array).to eq(durations)
+      expect(RuleEngine.duration_array).to eq(RuleEngine.generate_options_array(RULE_ENGINE_DURATION_OPTIONS))
     end
   end
 

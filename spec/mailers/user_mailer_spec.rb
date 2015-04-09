@@ -54,18 +54,18 @@ describe UserMailer do
     end
   end
 
-  describe "send mail to user for no post on knowbuddy" do
-    let(:mail) { UserMailer.no_post_notification(@user_3) }
-    it "user should receive notification mail for no post" do
-      expect(mail.subject).to eq("Your knowledge buddy is waiting for you")
-    end
-  end
+  describe "send mail to user based on rules set" do
+    let!(:rule1) { create(:no_post_rule) }
+    let!(:rule2) { create(:less_post_rule) }
+    let(:ruled_mail1) { UserMailer.ruled_post_notification(@user_3, rule1) }
+    let(:ruled_mail2) { UserMailer.ruled_post_notification(@user_1, rule2) }
 
-  describe "send mail to user for less then five post on knowbuddy" do
-    let(:mail) { UserMailer.less_post_notification(@user_1) }
+    it "user should receive notification mail for no post" do
+      expect(ruled_mail1.subject).to eq(rule1.subject)
+    end
+
     it "user should receive notification mail for less post" do
-      expect(mail.subject).to eq("Please share your knowledge in Knowbuddy")
+      expect(ruled_mail2.subject).to eq(rule2.subject)
     end
   end
 end
-

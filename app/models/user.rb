@@ -19,6 +19,16 @@ class User < ActiveRecord::Base
 
   scope :by_name_email, -> { joins(:posts).where("posts.deleted_at IS NULL").order("name, email").uniq }
 
+  def self.find_gap_boundary(max_duration)
+    case max_duration
+    when "week" then 5.days.ago
+    when "2_weeks" then 14.days.ago
+    when "month" then 1.month.ago
+    when "quarter" then 3.months.ago
+    when "6_months" then 6.months.ago
+    when "year" then 1.year.ago
+    end
+  end
 
   def self.get_user(user_id)
     self.with_deleted.find(user_id)
@@ -34,6 +44,24 @@ class User < ActiveRecord::Base
 
   def self.user_collection_email_name
     self.all.map{|v| [v.name || v.email, v.id] } if User.table_exists?
+  end
+
+  def self.within_rule_range(rule)
+    gap_boundary_date = find_gap_boundary(rule["max_duration"])
+    User.left_join_posts(gap_boundary_date).
+      active_published_posts.
+      where("posts.created_at IS NULL OR posts.created_at >= ?", gap_boundary_date).
+      group("users.id").
+      having("count(posts.id) between ? AND ?", (rule["min_count"].to_i), (rule["max_count"].to_i - 1))
+  end
+
+  def self.active_published_posts
+    where("posts.deleted_at IS NULL AND
+      (posts.is_draft IS FALSE OR posts.is_draft IS NULL)")
+  end
+
+  def self.left_join_posts(gap_boundary_date)
+    joins("LEFT OUTER JOIN posts ON users.id = posts.user_id")
   end
 
   def activate

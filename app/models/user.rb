@@ -47,13 +47,13 @@ class User < ActiveRecord::Base
   end
 
   def self.within_rule_range(rule)
-    User.left_join_posts(rule).
+    User.left_join_posts_after_boundary_date(rule).
       select("users.*, count(p.id) AS p_count").
       group("users.id").
       having("p_count between ? AND ?", (rule["min_count"].to_i), (rule["max_count"].to_i - 1))
   end
 
-  def self.left_join_posts(rule)
+  def self.left_join_posts_after_boundary_date(rule)
     gap_boundary_date = find_gap_boundary(rule["max_duration"])
     posts_after_boundary_date = Post.active_published.
       after_date_boundary(gap_boundary_date.to_s(:db)).to_sql

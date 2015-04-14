@@ -19,10 +19,6 @@ class RuleEngine < ActiveRecord::Base
     param.map { |v| [v, v.parameterize.underscore] }
   end
 
-  def self.rule_for_array
-    generate_options_array(RULE_ENGINE_PARAMS)
-  end
-
   private
 
   def min_max_range

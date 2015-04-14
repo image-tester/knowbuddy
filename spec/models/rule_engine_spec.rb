@@ -9,11 +9,6 @@ describe RuleEngine do
   end
 
   describe 'Class Methods' do
-
-    it "should return rule_for_array" do
-      expect(RuleEngine.rule_for_array).to eq(RuleEngine.generate_options_array(RULE_ENGINE_PARAMS))
-    end
-
     it "should return frequency_array" do
       expect(RuleEngine.frequency_array).to eq(RuleEngine.generate_options_array(RULE_ENGINE_SCHEDULE))
     end
@@ -42,5 +37,11 @@ describe RuleEngine do
     it { should validate_presence_of :subject }
     it { should validate_presence_of :body }
     it { should validate_uniqueness_of :rule }
+
+    it "should validate min-max range" do
+      expect(build(:rule_engine, min_count: 0, max_count: 0)).to_not be_valid
+      expect(build(:rule_engine, min_count: 2, max_count: 1)).to_not be_valid
+      expect(build(:rule_engine, min_count: 0, max_count: 1)).to be_valid
+    end
   end
 end

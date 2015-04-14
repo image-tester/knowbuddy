@@ -55,14 +55,10 @@ class User < ActiveRecord::Base
 
   def self.left_join_posts(rule)
     gap_boundary_date = find_gap_boundary(rule["max_duration"])
-    joins("LEFT OUTER JOIN
-    (
-    select posts.* from posts
-    where (posts.deleted_at IS NULL) AND
-    (posts.is_draft IS FALSE OR posts.is_draft IS NULL) AND
-    posts.created_at > '#{gap_boundary_date.to_s(:db)}'
-    ) as p
-    ON users.id = p.user_id")
+    posts_after_boundary_date = Post.active_published.
+      after_date_boundary(gap_boundary_date.to_s(:db)).to_sql
+    joins("LEFT OUTER JOIN ( #{posts_after_boundary_date} ) as p
+      ON users.id = p.user_id")
   end
 
   def activate

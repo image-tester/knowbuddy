@@ -3,10 +3,10 @@ FactoryGirl.define do
     sequence(:rule) { |n| "testrule#{n}" }
     rule_for "post"
     frequency "weekly"
-    schedule "Tuesday"
+    schedule "Monday"
     max_duration "week"
-    min_count 0
-    max_count 1
+    sequence(:min_count) {|n| n }
+    sequence(:max_count) {|n| min_count+n }
     subject "RuledSubject"
     body "RuledBody"
     active true

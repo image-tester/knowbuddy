@@ -1,7 +1,8 @@
 class RuleEngine < ActiveRecord::Base
   validates :rule, :subject, :body, :rule_for, :frequency, presence: true
   validates :rule, uniqueness: true
-  validates :min_count, :max_count, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, unless: :top_3_contributors_rule?
+  validates :min_count, :max_count, presence: true, uniqueness: true,
+    numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validate :min_max_range , if: ["min_count.present?", "max_count.present?"]
 
   scope :active, -> { where(active: true) }
@@ -28,9 +29,5 @@ class RuleEngine < ActiveRecord::Base
     if min_count >= max_count
       errors.add(:min_count, "max_count should be greater than min_count")
     end
-  end
-
-  def top_3_contributors_rule?
-    rule_for == "top_3_contributors"
   end
 end

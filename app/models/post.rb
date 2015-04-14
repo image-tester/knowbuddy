@@ -31,6 +31,11 @@ class Post < ActiveRecord::Base
   scope :draft, -> { where(is_draft: true) }
   scope :published, -> { where(is_draft: false) }
 
+  scope :active_published, -> { where("posts.is_draft IS FALSE OR
+    posts.is_draft IS NULL") }
+  scope :after_date_boundary, ->(boundary_date) { where("posts.
+    created_at > ?", boundary_date) }
+
   searchable do
     text :content, :subject
     time :publish_at

@@ -48,7 +48,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda'
   gem 'selenium'
-  gem 'selenium-webdriver', '= 2.43.0'
+  gem 'selenium-webdriver', '= 2.45.0'
   gem 'sextant'
   gem 'sunspot_solr', '~> 2.0.0'
   gem 'web-app-theme'

@@ -135,6 +135,22 @@ describe Post do
         expect(Post.published).to_not include(draft)
       end
     end
+
+    describe 'active_published' do
+      it 'should return posts which are not saved as draft' do
+        expect(Post.active_published).to eq [post]
+        expect(Post.active_published).to_not include(draft)
+      end
+    end
+
+    describe 'after_date_boundary' do
+      let!(:old_post) { create(:post, created_at: 8.days.ago) }
+
+      it 'should return posts created after specified date' do
+        expect(Post.after_date_boundary(7.days.ago)).to eq [post,draft]
+        expect(Post.after_date_boundary(7.days.ago)).to_not include(old_post)
+      end
+    end
   end
 
   describe 'Instance Methods' do

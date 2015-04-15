@@ -40,24 +40,19 @@ class UserMailer < ActionMailer::Base
     mail(bcc: @users_list, subject: @subject)
   end
 
-  def no_post_notification(user)
+  def ruled_post_notification(user, rule)
     @user = user
-    @subject = "Your knowledge buddy is waiting for you"
+    @rule = rule
     @url = app_login_url
-    send_mail(@user, @subject)
-  end
-
-  def less_post_notification(user)
-    @user = user
-    @url = app_login_url
-    @subject = "Please share your knowledge in Knowbuddy"
-    send_mail(@user, @subject)
+    send_mail(@user, @rule["subject"])
   end
 
   def send_mail(user, subject)
-    (Rails.env == "development") ?
-      mail(to: EMAIL_TO_SENDTO_IN_DEVLOPMENT_MODE, subject: subject) :
+    if(Rails.env == "development")
+      mail(to: EMAIL_TO_SENDTO_IN_DEVLOPMENT_MODE, subject: subject)
+    else
       mail(to: user["email"], subject: subject)
+    end
   end
 
   def user_post_url(post)

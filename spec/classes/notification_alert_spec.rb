@@ -8,21 +8,21 @@ describe "NotificationAlert" do
     let!(:user1) { create(:user) }
 
     describe 'post_alert' do
-      it "sends post related mails to users falling in rule if passed rule is for 'posts'" do
+      it "sends post related mails to users falling in rule if
+        passed rule is for 'posts'" do
         users_count = User.within_rule_range(rule1).to_a.count
         expect{
           NotificationAlert.post_alert(rule1)
-        }.to change(ActionMailer::Base.deliveries, :count).
-          by(users_count)
+        }.to change(ActionMailer::Base.deliveries, :count).by(users_count)
       end
     end
 
     describe 'general_alert' do
-      it "sends general notification mail to all users if passed rule is for 'general'" do
+      it "sends general notification mail to all users if passed
+        rule is for 'general'" do
         expect{
           NotificationAlert.general_alert(rule2)
-        }.to change(ActionMailer::Base.deliveries, :count).
-          by(User.count)
+        }.to change(ActionMailer::Base.deliveries, :count).by(User.count)
       end
     end
   end

@@ -23,7 +23,8 @@ describe User do
       user.run_callbacks(:create)
     end
     it 'should run update callback' do
-      user = create :user, password: "password", password_confirmation: "password"
+      user = create :user, password: "password",
+        password_confirmation: "password"
       user.password = "new_password"
       user.password_confirmation = "new_password"
       user.save
@@ -64,26 +65,31 @@ describe User do
       let!(:user3_post2) { create(:post, created_at: 9.days.ago, user: user3) }
       let(:rule_for_no_post_in_week) { create :no_post_in_week_rule }
       let(:rule_for_1_post_in_week) { create :one_post_in_week_rule }
-      let(:rule_for_2_posts_in_2_weeks) { create :two_post_rule, max_duration: "2_weeks" }
+      let(:rule_for_2_posts_in_2_weeks) { create :two_post_rule,
+        max_duration: "2_weeks" }
 
       it "should return users who didn't wrote post in last 1 week" do
         expect(User.within_rule_range(rule_for_no_post_in_week)).to eq([user1])
       end
 
       it "should not return users who wrote post in last 1 week" do
-        expect(User.within_rule_range(rule_for_no_post_in_week)).to_not include(user2)
+        expect(User.within_rule_range(rule_for_no_post_in_week)).
+          to_not include(user2)
       end
 
       it "should return users having 1 post in last 1 week" do
-        expect(User.within_rule_range(rule_for_1_post_in_week)).to eq([user2,user3])
+        expect(User.within_rule_range(rule_for_1_post_in_week)).
+          to eq([user2,user3])
       end
 
       it "should return users with 2 posts in last 2 weeks" do
-        expect(User.within_rule_range(rule_for_2_posts_in_2_weeks)).to eq([user3])
+        expect(User.within_rule_range(rule_for_2_posts_in_2_weeks)).
+          to eq([user3])
       end
 
       it "should not return users with 1 post in last 2 weeks" do
-        expect(User.within_rule_range(rule_for_2_posts_in_2_weeks)).to_not include(user2)
+        expect(User.within_rule_range(rule_for_2_posts_in_2_weeks)).
+          to_not include(user2)
       end
     end
 
@@ -91,7 +97,8 @@ describe User do
       let(:rule_for_no_post_in_week) { create :no_post_in_week_rule }
 
       it 'should return gap bondary date based on rule passed' do
-        expect(User.find_gap_boundary(rule_for_no_post_in_week.max_duration).to_date).to eq(7.days.ago.to_date)
+        expect(User.find_gap_boundary(rule_for_no_post_in_week.max_duration).
+          to_date).to eq(7.days.ago.to_date)
       end
     end
 
@@ -145,21 +152,19 @@ describe User do
       end
     end
 
-    describe 'display_first_name' do
-      let!(:user) { create(:user, name: "firstname surname", email: "
-        firstname@xyz.com") }
+    describe 'get_first_name' do
+      let!(:user) { create(:user, name: "firstname surname",
+        email: "firstname@xyz.com") }
       let!(:test_user) { build(:user, name: "firstname") }
 
-      it 'should display first name of user' do
-        expect(user.display_first_name).to eq(test_user.name.titleize
-          )
+      it 'should return first name of user' do
+        expect(user.get_first_name).to eq(test_user.name.titleize)
       end
 
       it 'should return name from email if name is not present' do
         user.name = nil
         user.save(validate: false)
-        expect(user.display_first_name).to eq(test_user.name.titleize
-          )
+        expect(user.get_first_name).to eq(test_user.name.titleize)
       end
     end
 

@@ -52,14 +52,11 @@ describe Activity do
 
     describe 'with_active_activity_types' do
       let(:activity1) { create :activity }
-      let(:activity2) { create :activity, activity_type:
-        (create :inactive) }
+      let(:activity2) { create :activity, activity_type: (create :inactive) }
 
       it 'should return all active activities' do
-        expect(Activity.with_active_activity_types).to include
-          activity1
-        expect(Activity.with_active_activity_types).to_not include
-          activity2
+        expect(Activity.with_active_activity_types).to include activity1
+        expect(Activity.with_active_activity_types).to_not include activity2
       end
     end
 

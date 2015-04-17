@@ -13,21 +13,25 @@ describe UserMailer do
   end
 
   describe "send notification on new Comment " do
-    let(:mail) { UserMailer.send_notification_on_new_Comment(@mail_receivers, @comment) }
+    let(:mail) { UserMailer.send_notification_on_new_Comment(@mail_receivers,
+      @comment) }
     it "inactive user should not receive notification email" do
-      expect(mail.subject).to eq(@user_1.name + " posted a comment for " + @post.subject)
+      expect(mail.subject).to eq(@user_1.name + " posted a comment for " +
+        @post.subject)
       expect(mail.bcc.first).to eq(@user_3.email)
       expect(mail.bcc.second).to_not eq(@user_2.email)
     end
 
     it "User who posted comment should not receive mail" do
-      expect(mail.subject).to eq(@user_1.name + " posted a comment for " + @post.subject)
+      expect(mail.subject).to eq(@user_1.name + " posted a comment for " +
+        @post.subject)
       expect(mail.bcc.include?(@user_1.email)).to eq false
     end
   end
 
   describe "send notification on new Post " do
-    let(:mail) { UserMailer.send_notification_on_new_Post(@mail_receivers, @post) }
+    let(:mail) { UserMailer.send_notification_on_new_Post(@mail_receivers,
+      @post) }
     it "inactive user should not receive notification email" do
       expect(mail.subject).to eq(@user_1.name + " posted a new article on KnowBuddy")
       expect(mail.bcc.first).to eq(@user_3.email)
@@ -72,8 +76,7 @@ describe UserMailer do
     it "user should receive notification mail as per general rule" do
       recent_activities = Activity.from_past_24_hrs
       top_5 = User.top
-      general_rule_mail =
-      UserMailer.general_rule_notification(@user_1, rule3,
+      general_rule_mail = UserMailer.general_rule_notification(@user_1, rule3,
         recent_activities, top_5)
       expect(general_rule_mail.subject).to eq(rule3.subject)
     end

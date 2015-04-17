@@ -35,7 +35,7 @@ ActiveAdmin.register RuleEngine, as: "Rule" do
         include_blank: "-Select-",
         input_html: { class: "dropdown" }
       f.input :schedule, collection: Date::DAYNAMES,
-        include_blank: false,
+        include_blank: "-Select-",
         input_html: { class: "dropdown schedule_input" }
       f.input :max_duration,
         collection: RuleEngine.duration_array,

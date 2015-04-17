@@ -21,8 +21,7 @@ class Activity < PublicActivity::Activity
   end
 
   def self.with_active_activity_types
-    joins(:activity_type).
-      where("activity_types.is_active IS TRUE")
+    joins(:activity_type).where("activity_types.is_active IS TRUE")
   end
 
   def self.from_past_24_hrs

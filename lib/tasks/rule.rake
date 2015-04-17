@@ -50,8 +50,7 @@ namespace :populate do
       active: false
       )
 
-    puts "Adding general rule for 'Recent activities and Top 5
-      contributors'"
+    puts "Adding 'general' rule for 'Recent activities and Top 5 contributors'"
     RuleEngine.create(
       rule: "Recent activities and Top 5 contributors",
       rule_for: "general",

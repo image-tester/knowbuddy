@@ -4,10 +4,8 @@ class Activity < PublicActivity::Activity
   scope :latest, ->(from_time) { where("activities.created_at >= ?",
     from_time) }
 
-  def self.latest_activities(at_page = 1, per_page =
-    ACTIVITIES_PER_PAGE)
-    with_active_activity_types.
-      order_desc.page(at_page).per(per_page)
+  def self.latest_activities(at_page = 1, per_page = ACTIVITIES_PER_PAGE)
+    with_active_activity_types.order_desc.page(at_page).per(per_page)
   end
 
   def self.add_activity(action, record, user=nil)

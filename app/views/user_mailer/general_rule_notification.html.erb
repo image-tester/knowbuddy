@@ -1,7 +1,6 @@
 <%= render 'user_name', name: @user["name"] %>
 <tr>
-  <td class = "content-copy" valign="top"
-    style = "padding: 0 20px 0 81px;
+  <td class = "content-copy" valign="top" style = "padding: 0 20px 0 81px;
     color: #000; font-size: 15px; font-family: Georgia;
     line-height: 20px;">
     <%= sanitize(@rule["body"]) %>
@@ -12,8 +11,7 @@
     color: #364b59; font-size:15px;">
     <div style="margin: 20px 0 0 0">
       <div style = "padding: 15px 0 5px 0; text-align:center;
-        text-transform:uppercase;
-        font-weight:bold; font-size:20px">
+        text-transform:uppercase; font-weight:bold; font-size:20px">
         Our Top Contributors
       </div>
       <div style = "padding:20px 40px 20px 40px;
@@ -21,15 +19,13 @@
         display:-webkit-inline-box;display:-moz-inline-box;">
         <% @top_5.each do |user| %>
           <div style = "padding: 0 20px 0 20px; text-align: center">
-            <div style = "width: 60px;
-              height: 60px; border: 3px solid #F1F0E8;
+            <div style = "width: 60px; height: 60px; border: 3px solid #F1F0E8;
               border-radius: 50%;
               -webkit-border-radius: 50%; -moz-border-radius: 50%;">
               <%= image_tag(avatar_url(user,60), alt: "Image",
                 style: "border-radius: 50%;
                 -webkit-border-radius: 50%; -moz-border-radius: 50%;
-                vertical-align: middle;
-                background: no-repeat")  %>
+                vertical-align: middle; background: no-repeat")  %>
             </div>
             <br/>
             <%= user.get_first_name %> (<%= user.total %>)
@@ -43,7 +39,7 @@
   <tr>
     <td style = "background-color: #FFFFFF; font-family:Georgia;
       color: #364b59;">
-      <div style = "padding: 0 10px 20px 0px; margin: 10px 10px 12px 
+      <div style = "padding: 0 10px 20px 0px; margin: 10px 10px 12px
         10px; display:block; font-size: 15px;">
         <div style="padding: 2px 0 30px 0; text-align:center;
           text-transform: uppercase;

@@ -18,8 +18,7 @@ class User < ActiveRecord::Base
   after_create :create_user_activity
 
   scope :by_name_email, -> { joins(:posts).order("name, email").uniq }
-  scope :find_owner, ->(owner_id) { only_deleted.
-    find_by(id: owner_id) }
+  scope :find_owner, ->(owner_id) { only_deleted.find_by(id: owner_id) }
 
   def self.find_gap_boundary(max_duration)
     case max_duration
@@ -50,9 +49,9 @@ class User < ActiveRecord::Base
 
   def self.within_rule_range(rule)
     User.left_join_posts_after_boundary_date(rule).
-      select("users.*, count(p.id) AS p_count").
-      group("users.id").
-      having("p_count between ? AND ?", (rule["min_count"].to_i), (rule["max_count"].to_i - 1))
+      select("users.*, count(p.id) AS p_count").group("users.id").
+      having("p_count between ? AND ?", (rule["min_count"].to_i),
+        (rule["max_count"].to_i - 1))
   end
 
   def self.left_join_posts_after_boundary_date(rule)
@@ -85,8 +84,7 @@ class User < ActiveRecord::Base
   end
 
   def get_first_name
-    first_name = name.present? ? name.split(" ").first :
-      email.split("@").first
+    first_name = name.present? ? name.split.first : email.split("@").first
     first_name.try(:titleize)
   end
 

@@ -13,8 +13,7 @@ describe "NotificationAlert" do
         users_count = User.within_rule_range(rule1).to_a.count
         expect{
           NotificationAlert.post_alert(rule1)
-        }.to change(ActionMailer::Base.deliveries, :count).
-          by(users_count)
+        }.to change(ActionMailer::Base.deliveries, :count).by(users_count)
       end
     end
 
@@ -23,8 +22,7 @@ describe "NotificationAlert" do
         rule is for 'general'" do
         expect{
           NotificationAlert.general_alert(rule2)
-        }.to change(ActionMailer::Base.deliveries, :count).
-          by(User.count)
+        }.to change(ActionMailer::Base.deliveries, :count).by(User.count)
       end
     end
   end

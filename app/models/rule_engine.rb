@@ -2,9 +2,10 @@ class RuleEngine < ActiveRecord::Base
   validates :rule, :subject, :rule_for, :frequency, presence: true
   validates :rule, uniqueness: true
   validates :min_count, :max_count, presence: true, uniqueness: true,
-    numericality: { only_integer: true, greater_than_or_equal_to: 0 } , unless: :general_rule?
+    numericality: { only_integer: true, greater_than_or_equal_to: 0 }, unless: :general_rule?
   validate :min_max_range , if: ["min_count.present?", "max_count.present?"]
   validates :body, presence: true, unless: :general_rule?
+  validates :schedule, presence: true, unless: :daily_frequency?
 
   scope :active, -> { where(active: true) }
 
@@ -34,5 +35,9 @@ class RuleEngine < ActiveRecord::Base
 
   def general_rule?
     rule_for == "general"
+  end
+
+  def daily_frequency?
+    frequency == "daily"
   end
 end

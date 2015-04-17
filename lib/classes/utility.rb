@@ -1,7 +1,7 @@
 class Utility
   def self.schedule_for_today?(frequency, schedule)
     todays_date = Date.today
-    scheduled_day = schedule.to_date.wday
+    scheduled_day = schedule.to_date.wday if schedule.present?
     scheduled_days = case frequency
       when "daily"
         [todays_date]

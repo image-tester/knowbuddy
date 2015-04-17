@@ -10,11 +10,13 @@ describe RuleEngine do
 
   describe 'Class Methods' do
     it "should return frequency array" do
-      expect(RuleEngine.frequency_array).to eq(RuleEngine.generate_options_array(RULE_ENGINE_SCHEDULE))
+      expect(RuleEngine.frequency_array).to eq(RuleEngine.
+        generate_options_array(RULE_ENGINE_SCHEDULE))
     end
 
     it "should return duration array" do
-      expect(RuleEngine.duration_array).to eq(RuleEngine.generate_options_array(RULE_ENGINE_DURATION_OPTIONS))
+      expect(RuleEngine.duration_array).to eq(RuleEngine.
+        generate_options_array(RULE_ENGINE_DURATION_OPTIONS))
     end
 
     it "should return rule_for array" do
@@ -48,5 +50,16 @@ describe RuleEngine do
       expect(build(:rule_engine, min_count: 2, max_count: 1)).to_not be_valid
       expect(build(:rule_engine, min_count: 0, max_count: 1)).to be_valid
     end
+
+    it "should validate schedule presence if frequency is not 'daily'
+      " do
+      expect(build(:rule_engine, schedule: nil)).to_not be_valid
+    end 
+
+    it "should not validate schedule presence if frequency is 'daily'
+      " do
+      expect(build(:rule_engine, frequency: "daily",
+        schedule: nil)).to be_valid
+    end 
   end
 end

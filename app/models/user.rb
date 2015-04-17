@@ -85,7 +85,7 @@ class User < ActiveRecord::Base
     name.try(:titleize) || email
   end
 
-  def display_first_name
+  def get_first_name
     first_name = name.present? ? name.split(" ")[0] :
       email.split("@")[0]
     first_name.try(:titleize)

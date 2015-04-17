@@ -39,7 +39,7 @@ ActiveAdmin.register RuleEngine, as: "Rule" do
         input_html: { class: "dropdown schedule_input" }
       f.input :max_duration,
         collection: RuleEngine.duration_array,
-        include_blank: false,
+        include_blank: "-Select-",
         input_html: { class: "dropdown schedule_input" }
       f.input :subject, as: :text,
         input_html: { class: "text" }

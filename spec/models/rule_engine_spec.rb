@@ -59,5 +59,17 @@ describe RuleEngine do
       expect(build(:rule_engine, frequency: "daily", schedule: nil)).
         to be_valid
     end
+
+    it "should not validate body if rule_for 'general'" do
+      expect(build(:general_rule, body: nil)).to be_valid
+    end
+
+    it "should not validate min_count and max_count if rule_for 'general'" do
+      expect(build(:general_rule, min_count: nil, max_count: nil)).to be_valid
+    end
+
+    it "should not validate max_duration if rule_for 'general'" do
+      expect(build(:general_rule, max_duration: nil)).to be_valid
+    end
   end
 end

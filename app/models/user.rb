@@ -17,8 +17,7 @@ class User < ActiveRecord::Base
 
   after_create :create_user_activity
 
-  scope :by_name_email, -> { joins(:posts).where("posts.deleted_at
-    IS NULL").order("name, email").uniq }
+  scope :by_name_email, -> { joins(:posts).order("name, email").uniq }
   scope :find_owner, ->(owner_id) { only_deleted.
     find_by(id: owner_id) }
 
@@ -86,8 +85,8 @@ class User < ActiveRecord::Base
   end
 
   def get_first_name
-    first_name = name.present? ? name.split(" ")[0] :
-      email.split("@")[0]
+    first_name = name.present? ? name.split(" ").first :
+      email.split("@").first
     first_name.try(:titleize)
   end
 

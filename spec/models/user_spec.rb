@@ -151,15 +151,13 @@ describe User do
       let!(:test_user) { build(:user, name: "firstname") }
 
       it 'should return first name of user' do
-        expect(user.get_first_name).to eq(test_user.name.titleize
-          )
+        expect(user.get_first_name).to eq(test_user.name.titleize)
       end
 
       it 'should return name from email if name is not present' do
         user.name = nil
         user.save(validate: false)
-        expect(user.get_first_name).to eq(test_user.name.titleize
-          )
+        expect(user.get_first_name).to eq(test_user.name.titleize)
       end
     end
 

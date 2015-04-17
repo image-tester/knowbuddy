@@ -51,15 +51,13 @@ describe RuleEngine do
       expect(build(:rule_engine, min_count: 0, max_count: 1)).to be_valid
     end
 
-    it "should validate schedule presence if frequency is not 'daily'
-      " do
+    it "should validate schedule presence if frequency is not 'daily'" do
       expect(build(:rule_engine, schedule: nil)).to_not be_valid
-    end 
+    end
 
-    it "should not validate schedule presence if frequency is 'daily'
-      " do
-      expect(build(:rule_engine, frequency: "daily",
-        schedule: nil)).to be_valid
-    end 
+    it "should not validate schedule presence if frequency is 'daily'" do
+      expect(build(:rule_engine, frequency: "daily", schedule: nil)).
+        to be_valid
+    end
   end
 end

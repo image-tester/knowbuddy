@@ -6,8 +6,8 @@ class Activity < PublicActivity::Activity
 
   def self.latest_activities(at_page = 1, per_page =
     ACTIVITIES_PER_PAGE)
-      with_active_activity_types.
-        order_desc.page(at_page).per(per_page)
+    with_active_activity_types.
+      order_desc.page(at_page).per(per_page)
   end
 
   def self.add_activity(action, record, user=nil)

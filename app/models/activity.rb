@@ -1,8 +1,7 @@
 class Activity < PublicActivity::Activity
   belongs_to :activity_type
   scope :order_desc, -> { order("created_at desc") }
-  scope :latest, ->(from_time) { where("activities.created_at >= ?",
-    from_time) }
+  scope :latest, ->(time) { where("activities.created_at >= ?", time) }
 
   def self.latest_activities(at_page = 1, per_page = ACTIVITIES_PER_PAGE)
     with_active_activity_types.order_desc.page(at_page).per(per_page)

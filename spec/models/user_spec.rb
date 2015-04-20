@@ -10,9 +10,9 @@ describe User do
     end
 
     it "should return top 5 contributors" do
-      User.top.should_not be_nil
-      User.top[5].should be_nil
-      User.top[0].total.should be >= User.top[1].total
+      expect(User.top).to_not be_nil
+      expect(User.top[5]).to be_nil
+      expect(User.top[0].total).to be >= User.top[1].total
     end
   end
 

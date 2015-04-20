@@ -1,6 +1,6 @@
 ActiveAdmin.register Post, as: "Posts"  do
   permit_params :id, :publish_at, :subject,
-  :tag_list, :user_id, :slug, :is_draft, :content
+  :tag_list, :user_id, :slug, :is_draft, :is_internal, :content
 
   scope :published, default: true
   scope :draft
@@ -17,6 +17,7 @@ ActiveAdmin.register Post, as: "Posts"  do
         collection: User.with_deleted.user_collection_email_name
       f.input :subject
       f.input :content
+      f.input :is_internal
     end
     f.actions
   end
@@ -29,6 +30,7 @@ ActiveAdmin.register Post, as: "Posts"  do
     end
 
     column "Date", :updated_at
+    column "Internal", :is_internal
     column "Actions" do |post|
       raw "#{link_to "View", admin_post_path(post), method: :get}
         #{(link_to "Edit", edit_admin_post_path(post),
@@ -50,7 +52,12 @@ ActiveAdmin.register Post, as: "Posts"  do
         post.user.active? ? post.user : post.user_name
       end
       row :slug
-      row :is_draft
+      row :is_draft do
+        post.is_draft? ? "YES" : "NO"
+      end
+      row :is_internal do
+        post.is_internal? ? "YES" : "NO"
+      end
       row :created_at
       row :updated_at
     end

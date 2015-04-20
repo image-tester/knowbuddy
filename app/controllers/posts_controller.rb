@@ -187,6 +187,6 @@ class PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:id, :publish_at, :subject, :tag_list,
-      :user_id, :slug, :is_draft, :content)
+      :user_id, :slug, :is_draft, :is_internal, :content)
   end
 end

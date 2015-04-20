@@ -20,8 +20,10 @@ module MailHelper
   end
 
   def activity_owner_link(owner)
-    link_to(owner.display_name,
+    link_to(
+      owner.display_name,
       user_posts_posts_url(user_id: owner.id),
-      style: "color: #035C78; text-decoration: none")
+      style: "color: #035C78; text-decoration: none"
+    )
   end
 end

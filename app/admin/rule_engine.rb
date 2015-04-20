@@ -26,24 +26,31 @@ ActiveAdmin.register RuleEngine, as: "Rule" do
         collection: RuleEngine.rule_for_array,
         include_blank: "-Select-",
         input_html: { class: "dropdown rule_for" }
-      f.input :min_count, as: :number, min: 0,
+      f.input :min_count,
+        as: :number,
+        min: 0,
         input_html: { class: "min_count" }
-      f.input :max_count, as: :number, min: 1,
+      f.input :max_count,
+        as: :number,
+        min: 1,
         input_html: { class: "min_count" }
       f.input :frequency,
         collection: RuleEngine.frequency_array,
         include_blank: "-Select-",
         input_html: { class: "dropdown" }
-      f.input :schedule, collection: Date::DAYNAMES,
+      f.input :schedule,
+        collection: Date::DAYNAMES,
         include_blank: "-Select-",
         input_html: { class: "dropdown schedule_input" }
       f.input :max_duration,
         collection: RuleEngine.duration_array,
         include_blank: "-Select-",
         input_html: { class: "dropdown schedule_input" }
-      f.input :subject, as: :text,
+      f.input :subject,
+        as: :text,
         input_html: { class: "text" }
-      f.input :body, as: :text,
+      f.input :body,
+        as: :text,
         input_html: { class: "text" }
       f.input :active
       f.actions

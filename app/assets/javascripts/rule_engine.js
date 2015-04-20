@@ -22,16 +22,16 @@ $(document).ready(function(){
   });
 
   $('#rule_min_count').keyup(function(e) {
-    obj = $(this)
-    validate_number_field(obj, e);
+    var obj = $(this);
+    validateNumberField(obj, e);
   });
 
   $('#rule_max_count').keyup(function(e) {
-    obj = $(this)
-    validate_number_field(obj, e);
+    var obj = $(this);
+    validateNumberField(obj, e);
   });
 
-  function validate_number_field(obj, e) {
+  function validateNumberField(obj, e) {
     var $obj;
     $obj = obj;
     if (e.keyCode >= 59 && !(e.keyCode >= 96 && e.keyCode <= 105)) {

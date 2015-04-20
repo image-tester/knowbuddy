@@ -24,7 +24,8 @@ describe 'Utility' do
 
     it "should return first scheduled day in month" do
       allow(Date).to receive(:today).and_return("2015-04-08".to_date)
-      expect(Utility.find_first_scheduled_day(rule.schedule.to_date.wday)).to eq(Date.today.prev_day)
+      expect(Utility.find_first_scheduled_day(rule.schedule.to_date.wday)).
+        to eq(Date.today.prev_day)
     end
   end
 end

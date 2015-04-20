@@ -1,10 +1,10 @@
 created
-- if activity.parameters["tag"]
-  -if activity.parameters["tag"].count > 1
+- if tags = activity.parameters["tag"] || activity.parameters[:tag]
+  -if tags.count > 1
     new tags
-    =[activity.parameters["tag"]]*", "
+    =tags*", "
   -else
     a new tag
-    =[activity.parameters["tag"]]*" "
+    =tags*" "
 %span>.
 

@@ -34,5 +34,12 @@ FactoryGirl.define do
       subject "Please enrich your knowledge buddy more!"
       body "Body_For_Two_Posts"
     end
+
+    factory :general_rule do
+      rule "recent activities and top 5 contributors rule"
+      rule_for "general"
+      frequency "daily"
+      subject "Knowbuddy update!"
+    end
   end
 end

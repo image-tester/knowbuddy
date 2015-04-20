@@ -27,5 +27,4 @@ module PostHelper
       remote: true
     )
   end
-
 end

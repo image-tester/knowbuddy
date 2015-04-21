@@ -3,6 +3,8 @@ class Utility
     todays_date = Date.today
     scheduled_day = schedule.to_date.wday
     scheduled_days = case frequency
+      when "daily"
+        [todays_date]
       when "weekly"
         (scheduled_day == todays_date.wday) ? [todays_date] : []
       when "monthly"

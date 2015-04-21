@@ -49,6 +49,18 @@ namespace :populate do
         Keep it up!",
       active: false
       )
+
+    puts "Adding general rule for 'Recent activities and Top 5
+      contributors'"
+    RuleEngine.create(
+      rule: "Recent activities and Top 5 contributors",
+      rule_for: "general",
+      frequency: "daily",
+      subject: "Knowbuddy update!",
+      body: "This is daily update of top contributors and recent
+        activities for you!",
+      active: false
+      )
     puts "Ending rake task..."
   end
 end

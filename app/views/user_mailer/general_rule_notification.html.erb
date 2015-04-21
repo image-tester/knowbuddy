@@ -1,0 +1,56 @@
+<%= render 'user_name', name: @user["name"] %>
+<tr>
+  <td class = "content-copy" valign="top" style="padding: 0 20px
+    20px 20px; color: #000; font-size: 15px; font-family: Georgia;
+    line-height: 20px;">
+    <%= sanitize(@rule["body"]) %>
+  </td>
+</tr>
+<tr>
+  <td style="font-family:Georgia;background-color: #FFFFFF;color: #364b59;font-size:14px;">
+    <div>
+      <div style="padding: 15px 0 5px 0;text-align:center;
+      font-family:sans-serif;text-transform:uppercase;
+      font-weight:bold;font-size:20px">
+        Our Top Contributors
+      </div>
+      <div style="padding:20px 40px 20px 40px;margin:10px 20px 10px
+        20px;display:-webkit-inline-box;display:-moz-inline-box;display:inline-box">
+        <% @top_5.each do |user| %>
+          <div style="padding: 0 20px 0 20px; text-align: center">
+            <%= image_tag(avatar_url(user,60), style: "width: 60px;
+              height: 60px; border: 3px solid
+              goldenrod; border-radius: 50%;
+              -webkit-border-radius: 50%; -moz-border-radius: 50%;
+              background: no-repeat")  %>
+            <br/>
+                <%= user.display_first_name %> (<%= user.total %>)
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td style="background-color: #FFFFFF;color: #364b59;">
+    <div style="padding: 0 5px 20px 5px;margin: 15px 10px 15px
+      10px;display:block;font-size: 17px;">
+        <% if @activities.present? %>
+          <div style="padding: 5px 0 20px 0;text-align:center;
+            font-family: sans-serif; text-transform: uppercase;
+            font-weight:bold;font-size:20px; color: #364b59;">
+            Recent Activities
+          </div>
+        <% end %>
+        <% @activities.each do |activity| %>
+          <div style="padding: 0 10px 10px 80px;text-align:left">
+            <%= activity_owner_link(activity.owner) if activity.owner
+              %>
+            <%= render_activity activity %>
+          </div>
+       <% end %>
+    </div>
+  </td>
+</tr>
+
+

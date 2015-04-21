@@ -145,6 +145,24 @@ describe User do
       end
     end
 
+    describe 'display_first_name' do
+      let!(:user) { create(:user, name: "firstname surname", email: "
+        firstname@xyz.com") }
+      let!(:test_user) { build(:user, name: "firstname") }
+
+      it 'should display first name of user' do
+        expect(user.display_first_name).to eq(test_user.name.titleize
+          )
+      end
+
+      it 'should return name from email if name is not present' do
+        user.name = nil
+        user.save(validate: false)
+        expect(user.display_first_name).to eq(test_user.name.titleize
+          )
+      end
+    end
+
     describe 'activity_params' do
       it 'should display user name' do
         user = create :user

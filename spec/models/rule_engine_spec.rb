@@ -9,12 +9,17 @@ describe RuleEngine do
   end
 
   describe 'Class Methods' do
-    it "should return frequency_array" do
+    it "should return frequency array" do
       expect(RuleEngine.frequency_array).to eq(RuleEngine.generate_options_array(RULE_ENGINE_SCHEDULE))
     end
 
-    it "should return duration_array" do
+    it "should return duration array" do
       expect(RuleEngine.duration_array).to eq(RuleEngine.generate_options_array(RULE_ENGINE_DURATION_OPTIONS))
+    end
+
+    it "should return rule_for array" do
+      expect(RuleEngine.rule_for_array).to eq(RuleEngine.
+        generate_options_array(RULE_ENGINE_PARAMS))
     end
   end
 

@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
 
   def self.find_gap_boundary(max_duration)
     case max_duration
-    when "week" then 7.days.ago
+    when "week" then 5.days.ago
     when "2_weeks" then 14.days.ago
     when "month" then 1.month.ago
     when "quarter" then 3.months.ago
@@ -47,22 +47,21 @@ class User < ActiveRecord::Base
   end
 
   def self.within_rule_range(rule)
-    User.left_join_posts(rule).
-      select("users.*, count(p.id) AS p_count").
+    gap_boundary_date = find_gap_boundary(rule["max_duration"])
+    User.left_join_posts(gap_boundary_date).
+      active_published_posts.
+      where("posts.created_at IS NULL OR posts.created_at >= ?", gap_boundary_date).
       group("users.id").
-      having("p_count between ? AND ?", (rule["min_count"].to_i), (rule["max_count"].to_i - 1))
+      having("count(posts.id) between ? AND ?", (rule["min_count"].to_i), (rule["max_count"].to_i - 1))
   end
 
-  def self.left_join_posts(rule)
-    gap_boundary_date = find_gap_boundary(rule["max_duration"])
-    joins("LEFT OUTER JOIN
-    (
-    select posts.* from posts
-    where (posts.deleted_at IS NULL) AND
-    (posts.is_draft IS FALSE OR posts.is_draft IS NULL) AND
-    posts.created_at > '#{gap_boundary_date.to_s(:db)}'
-    ) as p
-    ON users.id = p.user_id")
+  def self.active_published_posts
+    where("posts.deleted_at IS NULL AND
+      (posts.is_draft IS FALSE OR posts.is_draft IS NULL)")
+  end
+
+  def self.left_join_posts(gap_boundary_date)
+    joins("LEFT OUTER JOIN posts ON users.id = posts.user_id")
   end
 
   def activate

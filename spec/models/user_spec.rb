@@ -40,11 +40,10 @@ describe User do
   end
 
   describe 'Class Methods' do
-    let!(:user1) { create :user }
-    let!(:user2) { create :user }
-    let(:rule) { create :no_post_rule }
-
     describe 'user_collection_email_name' do
+      let!(:user1) { create :user }
+      let!(:user2) { create :user }
+
       it 'should return user name and id' do
         user2.destroy
         expect(User.user_collection_email_name).to eq [[user1.name,user1.id]]
@@ -55,17 +54,6 @@ describe User do
         user1.save(validate: false)
         user2.destroy
         expect(User.user_collection_email_name).to eq [[user1.email,user1.id]]
-      end
-    end
-    describe 'within_rule_range' do
-      it 'should return users within rule range' do
-        expect(User.within_rule_range(rule)).to eq [user1,user2]
-      end
-    end
-
-    describe 'find_gap_boundary' do
-      it 'should return gap bondary date based on rule passed' do
-        expect(User.find_gap_boundary(rule.max_duration).to_date).to eq(7.days.ago.to_date)
       end
     end
 

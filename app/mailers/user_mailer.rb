@@ -1,5 +1,6 @@
 class UserMailer < ActionMailer::Base
   add_template_helper(MailHelper)
+  add_template_helper(ApplicationHelper)
   layout "notification_email"
   default from: "notifications@kiprosh.com"
 
@@ -40,10 +41,17 @@ class UserMailer < ActionMailer::Base
     mail(bcc: @users_list, subject: @subject)
   end
 
-  def ruled_post_notification(user, rule)
+  def post_rule_notification(user, rule)
     @user = user
     @rule = rule
-    @url = app_login_url
+    send_mail(@user, @rule["subject"])
+  end
+
+  def general_rule_notification(user, rule, recent_activities, top_5)
+    @activities = recent_activities
+    @rule = rule
+    @user = user
+    @top_5 = top_5
     send_mail(@user, @rule["subject"])
   end
 

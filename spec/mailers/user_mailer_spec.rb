@@ -57,8 +57,9 @@ describe UserMailer do
   describe "send mail to user based on rules set" do
     let!(:rule1) { create(:no_post_in_week_rule, rule: "no post in week") }
     let!(:rule2) { create(:one_post_in_week_rule, rule: "one post in week") }
-    let(:ruled_mail1) { UserMailer.ruled_post_notification(@user_3, rule1) }
-    let(:ruled_mail2) { UserMailer.ruled_post_notification(@user_1, rule2) }
+    let!(:rule3) { create(:general_rule) }
+    let(:ruled_mail1) { UserMailer.post_rule_notification(@user_3, rule1) }
+    let(:ruled_mail2) { UserMailer.post_rule_notification(@user_1, rule2) }
 
     it "user should receive notification mail for no post in week" do
       expect(ruled_mail1.subject).to eq(rule1.subject)
@@ -66,6 +67,15 @@ describe UserMailer do
 
     it "user should receive notification mail for 1 post in week" do
       expect(ruled_mail2.subject).to eq(rule2.subject)
+    end
+
+    it "user should receive notification mail as per general rule" do
+      recent_activities = Activity.from_past_24_hrs
+      top_5 = User.top
+      general_rule_mail =
+      UserMailer.general_rule_notification(@user_1, rule3,
+        recent_activities, top_5)
+      expect(general_rule_mail.subject).to eq(rule3.subject)
     end
   end
 end

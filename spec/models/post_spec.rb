@@ -147,7 +147,8 @@ describe Post do
       let!(:old_post) { create(:post, created_at: 8.days.ago) }
 
       it 'should return posts created after specified date' do
-        expect(Post.after_date_boundary(7.days.ago)).to eq [post,draft]
+        expect(Post.after_date_boundary(7.days.ago)).to eq [post,
+          draft]
         expect(Post.after_date_boundary(7.days.ago)).to_not include(old_post)
       end
     end

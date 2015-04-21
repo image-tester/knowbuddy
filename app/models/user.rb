@@ -17,7 +17,10 @@ class User < ActiveRecord::Base
 
   after_create :create_user_activity
 
-  scope :by_name_email, -> { joins(:posts).where("posts.deleted_at IS NULL").order("name, email").uniq }
+  scope :by_name_email, -> { joins(:posts).where("posts.deleted_at
+    IS NULL").order("name, email").uniq }
+  scope :find_owner, ->(owner_id) { only_deleted.
+    find_by(id: owner_id) }
 
   def self.find_gap_boundary(max_duration)
     case max_duration
@@ -80,6 +83,12 @@ class User < ActiveRecord::Base
 
   def display_name
     name.try(:titleize) || email
+  end
+
+  def display_first_name
+    first_name = name.present? ? name.split(" ")[0] :
+      email.split("@")[0]
+    first_name.try(:titleize)
   end
 
   def is_voted?(post, type)

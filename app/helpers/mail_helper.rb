@@ -18,4 +18,10 @@ module MailHelper
   def kiprosh_link_style
     "color:white; text-decoration:none"
   end
+
+  def activity_owner_link(owner)
+    link_to(owner.display_name,
+      user_posts_posts_url(user_id: owner.id),
+      style: "color: #1963B6; text-decoration: none;")
+  end
 end

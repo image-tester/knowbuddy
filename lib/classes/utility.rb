@@ -1,19 +1,17 @@
 class Utility
   def self.schedule_for_today?(frequency, schedule)
     today = Date.today
-    current_day = Date::DAYNAMES[today.wday]
-    scheduled_days = []
-    if (frequency == "weekly" && schedule == current_day)
-      scheduled_days << today
-    end
-    if ((frequency == "monthly") || (frequency == "once_in_2_weeks"))
-      first_day = today.beginning_of_month
-      scheduled_day = schedule.to_date.wday
-      scheduled_days << ((first_day.wday < scheduled_day) ? (first_day + (scheduled_day-first_day.wday)) : (first_day + (8-scheduled_day)))
-    end
-    if (frequency == "once_in_2_weeks")
-      scheduled_days << (scheduled_days[0] + 14)
-    end
+    scheduled_day = schedule.to_date.wday
+    scheduled_days = case frequency
+      when "weekly" then ([today] if scheduled_day == today.wday)
+      when "monthly" then [find_first_scheduled_day(scheduled_day)]
+      when "once_in_2_weeks" then [find_first_scheduled_day(scheduled_day), find_first_scheduled_day(scheduled_day) + 14]
+      end
     scheduled_days.include?(today)
+  end
+
+  def self.find_first_scheduled_day(scheduled_day)
+    first_day = Date.today.beginning_of_month
+    (first_day.wday < scheduled_day) ? (first_day + (scheduled_day-first_day.wday)) : (first_day + (7 - (first_day.wday - scheduled_day)))
   end
 end

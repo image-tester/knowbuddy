@@ -1,8 +1,8 @@
 class RuleEngine < ActiveRecord::Base
-  #before_validation :set_rule_values
   validates :rule, :subject, :body, :rule_for, :frequency, presence: true
   validates :rule, uniqueness: true
-  validates :min_count, :max_count, presence: true, unless: :top_3_contributors_rule?
+  validates :min_count, :max_count, presence: true, uniqueness: true,
+    numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validate :min_max_range , if: ["min_count.present?", "max_count.present?"]
 
   scope :active, -> { where(active: true) }
@@ -19,25 +19,11 @@ class RuleEngine < ActiveRecord::Base
     param.map { |v| [v, v.parameterize.underscore] }
   end
 
-  def self.rule_for_array
-    generate_options_array(RULE_ENGINE_PARAMS)
-  end
-
   private
-  # def set_rule_values
-  #   case rule_for
-  #   when "top_3_contributors" then self.min_count = nil
-  #   when "top_3_contributors" then self.max_count = nil
-  #   end
-  # end
 
   def min_max_range
-    if min_count > max_count
-      errors.add(:min_count, "max_count should not be less than min_count")
+    if min_count >= max_count
+      errors.add(:min_count, "max_count should be greater than min_count")
     end
-  end
-
-  def top_3_contributors_rule?
-    rule_for == "top_3_contributors"
   end
 end

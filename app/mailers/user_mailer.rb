@@ -48,8 +48,11 @@ class UserMailer < ActionMailer::Base
   end
 
   def send_mail(user, subject)
-    (Rails.env == "development") ?
-      mail(to: EMAIL_TO_SENDTO_IN_DEVLOPMENT_MODE, subject: subject) : mail(to: user["email"], subject: subject)
+    if(Rails.env == "development")
+      mail(to: EMAIL_TO_SENDTO_IN_DEVLOPMENT_MODE, subject: subject)
+    else
+      mail(to: user["email"], subject: subject)
+    end
   end
 
   def user_post_url(post)

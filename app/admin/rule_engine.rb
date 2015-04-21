@@ -23,7 +23,7 @@ ActiveAdmin.register RuleEngine, as: "Rule" do
   form do |f|
     f.inputs "Details" do
       f.input :rule
-      f.input :rule_for, collection: RuleEngine.rule_for_array,
+      f.input :rule_for, collection: [["Post","post"]],
         include_blank: "-Select-", input_html: { class: "dropdown rule_for" }
       f.input :min_count, as: :number, min: 0,
         input_html: { class: "min_count" }

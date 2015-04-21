@@ -40,10 +40,10 @@ describe User do
   end
 
   describe 'Class Methods' do
-    describe 'user_collection_email_name' do
-      let!(:user1) { create :user }
-      let!(:user2) { create :user }
+    let!(:user1) { create :user }
+    let!(:user2) { create :user }
 
+    describe 'user_collection_email_name' do
       it 'should return user name and id' do
         user2.destroy
         expect(User.user_collection_email_name).to eq [[user1.name,user1.id]]
@@ -54,6 +54,44 @@ describe User do
         user1.save(validate: false)
         user2.destroy
         expect(User.user_collection_email_name).to eq [[user1.email,user1.id]]
+      end
+    end
+
+    describe 'within_rule_range' do
+      let!(:user3) { create :user }
+      let!(:user2_post) { create(:post, user: user2) }
+      let!(:user3_post1) { create(:post, user: user3) }
+      let!(:user3_post2) { create(:post, created_at: 9.days.ago, user: user3) }
+      let(:rule_for_no_post_in_week) { create :no_post_in_week_rule }
+      let(:rule_for_1_post_in_week) { create :one_post_in_week_rule }
+      let(:rule_for_2_posts_in_2_weeks) { create :two_post_rule, max_duration: "2_weeks" }
+
+      it "should return users who didn't wrote post in last 1 week" do
+        expect(User.within_rule_range(rule_for_no_post_in_week)).to eq([user1])
+      end
+
+      it "should not return users who wrote post in last 1 week" do
+        expect(User.within_rule_range(rule_for_no_post_in_week)).to_not include(user2)
+      end
+
+      it "should return users having 1 post in last 1 week" do
+        expect(User.within_rule_range(rule_for_1_post_in_week)).to eq([user2,user3])
+      end
+
+      it "should return users with 2 posts in last 2 weeks" do
+        expect(User.within_rule_range(rule_for_2_posts_in_2_weeks)).to eq([user3])
+      end
+
+      it "should not return users with 1 post in last 2 weeks" do
+        expect(User.within_rule_range(rule_for_2_posts_in_2_weeks)).to_not include(user2)
+      end
+    end
+
+    describe 'find_gap_boundary' do
+      let(:rule_for_no_post_in_week) { create :no_post_in_week_rule }
+
+      it 'should return gap bondary date based on rule passed' do
+        expect(User.find_gap_boundary(rule_for_no_post_in_week.max_duration).to_date).to eq(7.days.ago.to_date)
       end
     end
 

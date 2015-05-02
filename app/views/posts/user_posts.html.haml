@@ -19,12 +19,14 @@
           %tr
             %th
               = t("activerecord.attributes.post.subject", default: t("activerecord.labels.subject", default: "Subject"))
+            %th= t("web-app-theme", default: "Created On")
             %th= t("web-app-theme", default: "Published On")
             %th= t("web-app-theme", default: "Updated On")
 
           - @posts.published.each do |post|
             %tr{class: cycle("odd", "even")}
               %td= post_link(post)
+              %td= timeago_date_format(post.created_at)
               %td= timeago_date_format(post.publish_at)
               %td= timeago_date_format(post.updated_at)
 

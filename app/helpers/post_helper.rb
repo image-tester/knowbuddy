@@ -21,8 +21,9 @@ module PostHelper
   end
 
   def post_date_link(post)
+    date = post.is_draft? ? post.created_at : post.publish_at
     link_to(
-      timeago_date_format(post.updated_at),
+      timeago_date_format(date),
       post_date_posts_path(post_id: post.id),
       remote: true
     )

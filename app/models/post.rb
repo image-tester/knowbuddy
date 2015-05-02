@@ -27,7 +27,7 @@ class Post < ActiveRecord::Base
   after_validation :set_published
   after_save       :send_email_notification, if: "is_published_changed?"
 
-  default_scope { order("created_at DESC") }
+  default_scope { order("publish_at DESC") }
   scope :draft, -> { where(is_draft: true) }
   scope :published, -> { where(is_draft: false) }
 
@@ -113,7 +113,7 @@ class Post < ActiveRecord::Base
   private
     def set_published
       self.is_published = true unless self.is_published
-      self.publish_at = Time.now
+      self.publish_at ||= Time.now
     end
 
     def create_new_tag_activity

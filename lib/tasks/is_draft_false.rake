@@ -15,4 +15,14 @@ namespace :post do
       puts "updated_post_#{post.id}"
     end
   end
+
+  # rake post:set_publish_at_time
+  desc "Set publish_at time for old published posts."
+  task set_publish_at_time: :environment do
+    published_posts = Post.published.where("publish_at IS NULL")
+    published_posts.find_each do |post|
+      post.update(publish_at: post.created_at)
+      puts "updated_post_#{post.id}"
+    end
+  end
 end

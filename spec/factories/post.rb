@@ -7,6 +7,7 @@ FactoryGirl.define do
     tag_list { Faker::Name.name }
     is_draft false
     is_published true
+    is_internal false
 
     factory :draft do
       is_draft true

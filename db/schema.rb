@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150407071453) do
+ActiveRecord::Schema.define(version: 20150420083003) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "resource_id",   null: false
@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(version: 20150407071453) do
     t.datetime "deleted_at"
     t.boolean  "is_draft",     default: true
     t.boolean  "is_published", default: false
+    t.boolean  "is_internal",  default: false
   end
 
   add_index "posts", ["slug"], name: "index_posts_on_slug", unique: true, using: :btree

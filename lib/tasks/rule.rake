@@ -56,7 +56,7 @@ namespace :populate do
       rule_for: "general",
       frequency: "daily",
       subject: "Knowbuddy update!",
-      body: "This is daily update of top contributors and recent
+      body: "This is daily update of top contributors and recent\
         activities for you!",
       active: false
       )

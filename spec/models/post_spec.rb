@@ -18,6 +18,8 @@ describe Post do
     it { should have_db_column(:updated_at).of_type(:datetime) }
     it { should have_db_column(:deleted_at).of_type(:datetime) }
     it { should have_db_column(:is_draft).of_type(:boolean) }
+    it { should have_db_column(:is_internal).of_type(:boolean).
+      with_options(default: false) }
   end
 
   describe 'Validations' do

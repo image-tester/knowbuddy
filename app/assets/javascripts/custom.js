@@ -225,6 +225,7 @@ $(document).ready(function(){
       attachment_values = attachments_field.value
     }
     var tags = post_tag_list.value
+    var is_internal_val = $('#post_is_internal').is(':checked');
     if( post_subject.length > 0 || post_content.length >0 || post.find('#attach-content').length > 0) {
       $.ajax({
         type: "POST",
@@ -235,7 +236,8 @@ $(document).ready(function(){
           content: post_content,
           user_id: user,
           tag_list: tags,
-          is_draft: true },
+          is_draft: true,
+          is_internal: is_internal_val },
           attachments_field: attachment_values
         },
         success: function(data){

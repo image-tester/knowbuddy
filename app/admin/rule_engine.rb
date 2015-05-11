@@ -15,7 +15,9 @@ ActiveAdmin.register RuleEngine, as: "Rule" do
     column :body do |c|
       sanitize(c.body)
     end
-    column :active
+    column "Active" do |rule_engine|
+      status_tag (rule_engine.active ? "YES" : "NO")
+    end
     default_actions
   end
 

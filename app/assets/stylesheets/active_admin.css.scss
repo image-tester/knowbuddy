@@ -10,4 +10,12 @@ $skinActiveColor: #05B6C7;
 $skinHeaderBck: #000000;
 $panelHeaderBck: #000000;
 
+.status_tag.no{
+  background: #D02312 ;
+}
+
+.status_tag.yes{
+  background: #198E4B ;
+}
+
 @import "active_skin";

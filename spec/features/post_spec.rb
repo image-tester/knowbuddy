@@ -20,7 +20,7 @@ feature "Post" do
 
     fill_in 'post[subject]', with: 'My First Post'
     fill_in 'post[content]', with: 'Content Example'
-    check 'Mark As Internal'
+    check 'Mark this article as Internal'
     click_on 'Publish'
 
     expect(page).to have_selector('#new_post', visible: false)

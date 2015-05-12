@@ -39,9 +39,9 @@ module KYU
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
     # Enable the asset pipeline
-    # config.assets.enabled = true
+    config.assets.enabled = true
     # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.1'
+    config.assets.version = '1.2'
     # Added by Rohan on 04-Mar-2012
     # Start
     #config.assets.paths << "#{Rails.root}/public/assets/fonts"

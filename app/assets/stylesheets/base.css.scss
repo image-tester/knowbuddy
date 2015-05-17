@@ -1,0 +1,728 @@
+$black: #222;
+$black_first: #000;
+$dark_blue: #3C769D;
+$dark_grey: #666666;
+$lightest_grey: #eee;
+$light_grey: #dddddd;
+$light_grey_2: #dedede;
+$light_grey_3: #e5e5e5;
+$medium_grey: #bfbfbf;
+$red: #ff0000;
+$white_shade: #F5F5F5;
+$white: #FFFFFF;
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.clear {
+  clear: both;
+  height: 0;
+}
+
+.wat-cf {
+  &:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+  display: inline-block;
+}
+
+// Hides from IE-mac
+
+* html .wat-cf {
+  height: 1%;
+}
+
+.wat-cf {
+  display: block;
+}
+
+// End hide from IE-mac
+
+h1 {
+  margin: 15px 0;
+  font-size: 22px;
+  font-weight: normal;
+}
+
+h2 {
+  font-size: 22px;
+  margin: 15px 0;
+  font-weight: normal;
+}
+
+h3 {
+  font-size: 18px;
+  margin: 10px 0;
+  font-weight: normal;
+}
+
+h4 {
+  font-size: 16px;
+  margin: 10px 0;
+  font-weight: normal;
+}
+
+hr {
+  height: 1px;
+  border: 0;
+}
+
+p {
+  margin: 15px 0;
+}
+
+a img {
+  border: none;
+}
+
+body {
+  font-size: 12px;
+  font-family: sans-serif;
+}
+
+#container {
+  min-width: 960px;
+}
+
+#header, #wrapper {
+  padding: 0 20px;
+}
+
+#header {
+  position: relative;
+  padding-top: 1px;
+  h1 {
+    margin: 0;
+    padding: 10px 0;
+    font-size: 26px;
+    a {
+      &:link, &:active, &:hover, &:visited {
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+#main {
+  width: 70%;
+  float: left;
+}
+
+.actions-bar {
+  padding: 10px 1px;
+  .actions {
+    float: left;
+  }
+  .pagination {
+    float: right;
+    padding: 1px 0;
+  }
+}
+
+#sidebar {
+  width: 25%;
+  float: right;
+  h3 {
+    padding: 10px 15px;
+    margin: 0;
+    font-size: 13px;
+  }
+  .block {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    .content {
+      padding: 0 15px;
+    }
+  }
+  ul.navigation li a {
+    &:link, &:visited {
+      display: block;
+      padding: 10px 15px;
+    }
+  }
+  .block .sidebar-block, .notice {
+    padding: 10px;
+  }
+}
+
+#wrapper {
+  padding-top: 20px;
+}
+
+#main {
+  .block {
+    margin-bottom: 20px;
+    padding-top: 1px;
+    .content .inner {
+      padding: 0 15px 15px;
+    }
+  }
+  .main p.first {
+    margin-top: 0;
+  }
+}
+
+#user-navigation {
+  position: absolute;
+  top: 0px;
+  right: 20px;
+}
+
+#main-navigation {
+  width: 100%;
+}
+
+#user-navigation ul, #main-navigation ul, .secondary-navigation ul, #sidebar ul.navigation {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+#user-navigation ul li, #main-navigation ul li, .secondary-navigation ul li {
+  float: left;
+}
+
+#main-navigation ul li {
+  margin-right: 5px;
+}
+
+#user-navigation ul li {
+  padding: 5px 10px;
+}
+
+#main-navigation ul li a {
+  &:link, &:visited, &:hover, &:active {
+    text-decoration: none;
+  }
+}
+
+.secondary-navigation ul li a {
+  &:link, &:visited, &:hover, &:active {
+    text-decoration: none;
+  }
+}
+
+#user-navigation ul li a {
+  &:link, &:visited, &:hover, &:active {
+    text-decoration: none;
+  }
+}
+
+#main-navigation ul li a {
+  font-size: 14px;
+  line-height: 14px;
+  display: block;
+  padding: 8px 15px;
+}
+
+.secondary-navigation {
+  font-size: 13px;
+  border-bottom-width: 10px;
+  border-bottom-style: solid;
+  ul li a {
+    display: block;
+    padding: 10px 15px;
+  }
+}
+
+#footer {
+  padding-bottom: 20px;
+}
+
+#search_error {
+  color: $dark_grey;
+  font-family: "MuseoSans500",helvetica,arial,sans-serif;
+  font-weight: normal;
+  font-size: 15px;
+  padding: 40px;
+}
+
+// pagination
+
+.pagination {
+  a, span {
+    padding: 2px 5px;
+    margin-right: 5px;
+    display: block;
+    float: left;
+    border-style: solid;
+    border-width: 1px;
+  }
+  em {
+    padding: 2px 5px;
+    margin-right: 5px;
+    display: block;
+    float: left;
+    border-style: solid;
+    border-width: 1px;
+    font-weight: bold;
+  }
+  a {
+    text-decoration: none;
+  }
+}
+
+// tables
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+  th {
+    padding: 10px;
+    font-weight: bold;
+    text-align: left;
+    &.first {
+      width: 30px;
+    }
+    &.last {
+      width: 200px;
+    }
+  }
+  .checkbox {
+    margin-left: 10px;
+  }
+  td {
+    padding: 10px;
+    &.last {
+      text-align: right;
+    }
+  }
+}
+
+// forms
+
+input.checkbox {
+  margin: 0;
+  padding: 0;
+}
+
+.form {
+  .group {
+    margin-bottom: 15px;
+  }
+  div {
+    &.left {
+      width: 20%;
+      float: left;
+    }
+    &.right {
+      width: 75%;
+      float: right;
+    }
+  }
+  .columns {
+    .column {
+      width: 48%;
+    }
+    .left {
+      float: left;
+    }
+    .right {
+      float: right;
+    }
+  }
+  label.label, input.text_field, textarea.text_area {
+    font-size: 1.2em;
+    padding: 1px 0;
+    margin: 0;
+  }
+  label.right {
+    text-align: right;
+  }
+  input {
+    &.checkbox, &.radio {
+      margin-right: 5px;
+    }
+  }
+  label {
+    &.checkbox, &.radio {
+      line-height: 1.5em;
+    }
+    &.label {
+      display: block;
+      padding-bottom: 2px;
+      font-weight: bold;
+    }
+  }
+  div.fieldWithErrors label.label {
+    display: inline;
+  }
+  .fieldWithErrors .error {
+    color: $red;
+  }
+  input.text_field, textarea.text_area {
+    width: 100%;
+    border-width: 1px;
+    border-style: solid;
+  }
+}
+
+#search .form input.text_field {
+  width: 75%;
+  border: 1px solid $light_grey;
+  -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+// lists
+
+ul.list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  li {
+    clear: left;
+    padding-bottom: 5px;
+    .left {
+      float: left;
+      .avatar {
+        width: 50px;
+        height: 50px;
+      }
+    }
+    .item {
+      margin-left: 80px;
+      .avatar {
+        float: left;
+        margin: 0 5px 5px 0;
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+}
+
+// box
+
+#box {
+  width: 500px;
+  margin: 50px auto;
+  .block {
+    margin-bottom: 20px;
+    h2 {
+      padding: 10px 15px;
+      margin: 0;
+    }
+    .content {
+      padding: 10px 20px;
+    }
+  }
+}
+
+//  Inspired by http://particletree.com/features/rediscovering-the-button-element
+
+a.button {
+  &:link,
+  &:visited,
+  &:hover,
+  &:active {
+    background-color: $lightest_grey;
+    border: 1px solid $medium_grey;
+    color: $black;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 1.3em;
+    margin: 0 7px 0 0;
+    padding: 5px 10px 6px 7px;
+    text-decoration: none;
+  }
+}
+
+button.button {
+  color: $black;
+  display: block;
+  float: left;
+  margin: 0 7px 0 0;
+  background-color: $lightest_grey;
+  border: 1px solid $medium_grey;
+  font-size: 1em;
+  line-height: 1.3em;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 5px 10px 6px 7px;
+  text-decoration: none;
+  width: auto;
+  overflow: visible;
+  padding: 4px 10px 3px 7px;
+  // IE6
+  &[type] {
+    padding: 5px 10px 5px 7px;
+    // Firefox
+    line-height: 17px;
+    // Safari
+  }
+}
+
+*:first-child + html button.button[type] {
+  padding: 4px 10px 3px 7px;
+  // IE7
+}
+
+button.button img, a.button img {
+  margin: 0 3px -3px 0 !important;
+  padding: 0;
+  border: none;
+  width: 16px;
+  height: 16px;
+}
+
+button.button:hover, a.button:hover {
+  background-color: $light_grey_2;
+}
+
+button.button:active, a.button:active {
+  background-color: $light_grey_3;
+}
+
+.text_button_padding {
+  color: $black;
+  display: block;
+  float: left;
+  font-size: 1em;
+  line-height: 2em;
+  margin: 0 7px 0 0;
+  padding: 5px 0 6px 7px;
+  text-decoration: none;
+}
+
+.link_button {
+  cursor: pointer;
+}
+
+// -------------------------------------------------------------------
+//markItUp! Universal MarkUp Engine, JQuery plugin
+//By Jay Salvat - http://markitup.jaysalvat.com/
+//------------------------------------------------------------------
+
+.markItUp {
+  * {
+    margin: 0px;
+    padding: 0px;
+    outline: none;
+  }
+  a {
+    &:link, &:visited {
+      color: $black_first;
+      text-decoration: none;
+    }
+  }
+  width: 100%;
+  margin: 5px 0 5px 0;
+  border: 5px solid $white_shade;
+}
+
+.markItUpContainer {
+  background: $lightest_grey;
+  padding: 5px 5px 2px 5px;
+  font: 11px Verdana, Arial, Helvetica, sans-serif;
+}
+
+.markItUpEditor {
+  font: 12px 'Courier New', Courier, monospace;
+  padding: 5px 5px 5px 5px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  width: 677px;
+  height: 320px;
+  background: $white;
+  clear: both;
+  line-height: 18px;
+  overflow: auto;
+}
+
+.markItUpPreviewFrame {
+  overflow: auto;
+  background-color: $white;
+  width: 99.9%;
+  height: 300px;
+  margin: 5px 0;
+}
+
+.markItUpFooter {
+  width: 100%;
+  cursor: n-resize;
+}
+
+.markItUpResizeHandle {
+  overflow: hidden;
+  width: 22px;
+  height: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  background-image: image-url('handle.png');
+  cursor: n-resize;
+}
+
+//*************************************************************************************
+// first row of buttons
+
+.markItUpHeader ul {
+  li {
+    list-style: none;
+    float: left;
+    position: relative;
+    ul {
+      display: none;
+    }
+    &:hover > ul {
+      display: block;
+    }
+  }
+  .markItUpDropMenu {
+    background: transparent image-url('menu.png') no-repeat 115% 50%;
+    margin-right: 5px;
+    li {
+      margin-right: 0px;
+    }
+  }
+  .markItUpSeparator {
+    margin: 0 10px;
+    width: 1px;
+    height: 16px;
+    overflow: hidden;
+    background-color: $lightest_grey;
+  }
+  ul {
+    .markItUpSeparator {
+      width: auto;
+      height: 1px;
+      margin: 0px;
+    }
+    display: none;
+    position: absolute;
+    top: 18px;
+    left: 0px;
+    background: $white_shade;
+    border: 1px solid $dark_blue;
+    height: inherit;
+    li {
+      float: none;
+      border-bottom: 1px solid $dark_blue;
+    }
+    .markItUpDropMenu {
+      background: $white_shade image-url('submenu.png') no-repeat 100% 50%;
+    }
+    ul {
+      position: absolute;
+      top: -1px;
+      left: 150px;
+      li {
+        float: none;
+      }
+    }
+  }
+  a {
+    display: block;
+    width: 16px;
+    height: 16px;
+    text-indent: -10000px;
+    background-repeat: no-repeat;
+    padding: 3px;
+    margin: 0px;
+  }
+  ul a {
+    display: block;
+    padding-left: 0px;
+    text-indent: 0;
+    width: 120px;
+    padding: 5px 5px 5px 25px;
+    background-position: 2px 50%;
+    &:hover {
+      color: $white;
+      background-color: $dark_blue;
+    }
+  }
+}
+
+// next rows of buttons
+
+// next rows of buttons
+
+//*************************************************************************************
+
+.html .markItUpEditor {
+  background-image: image-url('bg-editor-html.png');
+}
+
+.markdown .markItUpEditor {
+  background-image: image-url('bg-editor-markdown.png');
+}
+
+.textile .markItUpEditor {
+  background-image: image-url('bg-editor-textile.png');
+}
+
+.bbcode .markItUpEditor {
+  background-image: image-url('bg-editor-bbcode.png');
+}
+
+.wiki .markItUpEditor, .dotclear .markItUpEditor {
+  background-image: image-url('bg-editor-wiki.png');
+}
+
+// -------------------------------------------------------------------
+//markItUp!
+//By Jay Salvat - http://markitup.jaysalvat.com/
+//------------------------------------------------------------------
+
+.markItUp {
+  .markItUpButton1 a {
+    background-image: image-url('h1.png');
+  }
+  .markItUpButton2 a {
+    background-image: image-url('h2.png');
+  }
+  .markItUpButton3 a {
+    background-image: image-url('h3.png');
+  }
+  .markItUpButton4 a {
+    background-image: image-url('h4.png');
+  }
+  .markItUpButton5 a {
+    background-image: image-url('h5.png');
+  }
+  .markItUpButton6 a {
+    background-image: image-url('h6.png');
+  }
+  .markItUpButton7 a {
+    background-image: image-url('paragraph.png');
+  }
+  .markItUpButton8 a {
+    background-image: image-url('bold.png');
+  }
+  .markItUpButton9 a {
+    background-image: image-url('italic.png');
+  }
+  .markItUpButton10 a {
+    background-image: image-url('stroke.png');
+  }
+  .markItUpButton11 a {
+    background-image: image-url('list-bullet.png');
+  }
+  .markItUpButton12 a {
+    background-image: image-url('list-numeric.png');
+  }
+  .markItUpButton13 a {
+    background-image: image-url('picture.png');
+  }
+  .markItUpButton14 a {
+    background-image: image-url('link.png');
+  }
+}
+
+//***********************************************************
+
+#default_preview {
+  display: none;
+}

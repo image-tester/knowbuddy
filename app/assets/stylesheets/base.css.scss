@@ -32,7 +32,7 @@ $white: #FFFFFF;
   display: inline-block;
 }
 
-/* Hides from IE-mac \*/
+// Hides from IE-mac
 
 * html .wat-cf {
   height: 1%;
@@ -42,7 +42,7 @@ $white: #FFFFFF;
   display: block;
 }
 
-/* End hide from IE-mac */
+// End hide from IE-mac
 
 h1 {
   margin: 15px 0;
@@ -243,7 +243,7 @@ body {
   padding: 40px;
 }
 
-/* pagination */
+// pagination
 
 .pagination {
   a, span {
@@ -268,7 +268,7 @@ body {
   }
 }
 
-/* tables */
+// tables
 
 .table {
   width: 100%;
@@ -296,7 +296,7 @@ body {
   }
 }
 
-/* forms */
+// forms
 
 input.checkbox {
   margin: 0;
@@ -372,7 +372,7 @@ input.checkbox {
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* lists */
+// lists
 
 ul.list {
   margin: 0;
@@ -400,7 +400,7 @@ ul.list {
   }
 }
 
-/* box */
+// box
 
 #box {
   width: 500px;
@@ -417,7 +417,7 @@ ul.list {
   }
 }
 
-/*  Inspired by http://particletree.com/features/rediscovering-the-button-element */
+//  Inspired by http://particletree.com/features/rediscovering-the-button-element
 
 a.button {
   &:link,
@@ -455,18 +455,18 @@ button.button {
   width: auto;
   overflow: visible;
   padding: 4px 10px 3px 7px;
-  /* IE6 */
+  // IE6
   &[type] {
     padding: 5px 10px 5px 7px;
-    /* Firefox */
+    // Firefox
     line-height: 17px;
-    /* Safari */
+    // Safari
   }
 }
 
 *:first-child + html button.button[type] {
   padding: 4px 10px 3px 7px;
-  /* IE7 */
+  // IE7
 }
 
 button.button img, a.button img {
@@ -500,10 +500,10 @@ button.button:active, a.button:active {
   cursor: pointer;
 }
 
-/* -------------------------------------------------------------------
-// markItUp! Universal MarkUp Engine, JQuery plugin
-// By Jay Salvat - http://markitup.jaysalvat.com/
-// ------------------------------------------------------------------*/
+// -------------------------------------------------------------------
+//markItUp! Universal MarkUp Engine, JQuery plugin
+//By Jay Salvat - http://markitup.jaysalvat.com/
+//------------------------------------------------------------------
 
 .markItUp {
   * {
@@ -535,7 +535,7 @@ button.button:active, a.button:active {
   border-radius: 5px;
   width: 677px;
   height: 320px;
-  background: #fff;
+  background: $white;
   clear: both;
   line-height: 18px;
   overflow: auto;
@@ -564,8 +564,8 @@ button.button:active, a.button:active {
   cursor: n-resize;
 }
 
-/***************************************************************************************/
-/* first row of buttons */
+//*************************************************************************************
+// first row of buttons
 
 .markItUpHeader ul {
   li {
@@ -645,11 +645,11 @@ button.button:active, a.button:active {
   }
 }
 
-/* next rows of buttons */
+// next rows of buttons
 
-/* next rows of buttons */
+// next rows of buttons
 
-/***************************************************************************************/
+//*************************************************************************************
 
 .html .markItUpEditor {
   background-image: image-url('bg-editor-html.png');
@@ -671,10 +671,10 @@ button.button:active, a.button:active {
   background-image: image-url('bg-editor-wiki.png');
 }
 
-/* -------------------------------------------------------------------
-// markItUp!
-// By Jay Salvat - http://markitup.jaysalvat.com/
-// ------------------------------------------------------------------*/
+// -------------------------------------------------------------------
+//markItUp!
+//By Jay Salvat - http://markitup.jaysalvat.com/
+//------------------------------------------------------------------
 
 .markItUp {
   .markItUpButton1 a {
@@ -721,7 +721,7 @@ button.button:active, a.button:active {
   }
 }
 
-/*************************************************************/
+//***********************************************************
 
 #default_preview {
   display: none;

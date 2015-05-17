@@ -2,10 +2,10 @@
 .clear { clear: both; height: 0; }
 
 .wat-cf:after {
-     content: "."; 
-     display: block; 
-     height: 0; 
-     clear: both; 
+     content: ".";
+     display: block;
+     height: 0;
+     clear: both;
      visibility: hidden;
 }
 
@@ -26,7 +26,7 @@ a img { border: none; }
 
 body {
   font-size: 12px;
-  font-family: sans-serif;  
+  font-family: sans-serif;
 }
 
 #container {
@@ -39,12 +39,12 @@ body {
 
 #header {
   position: relative;
-  padding-top: 1px;  
+  padding-top: 1px;
 }
 
 #header h1 {
   margin: 0;
-  padding: 10px 0;  
+  padding: 10px 0;
   font-size: 26px;
 }
 
@@ -52,9 +52,9 @@ body {
   text-decoration: none;
 }
 
-#main {  
+#main {
   width: 70%;
-  float: left;    
+  float: left;
 }
 
 .actions-bar {
@@ -73,10 +73,10 @@ body {
 
 #sidebar {
   width: 25%;
-  float: right;      
+  float: right;
 }
 
-#sidebar h3 {  
+#sidebar h3 {
   padding: 10px 15px;
   margin: 0;
   font-size: 13px;
@@ -110,7 +110,7 @@ body {
 }
 
 #main .block .content .inner {
-  padding: 0 15px 15px;  
+  padding: 0 15px 15px;
 }
 
 #main .main p.first {
@@ -120,7 +120,7 @@ body {
 #user-navigation {
   position: absolute;
   top: 0px;
-  right: 20px;  
+  right: 20px;
 }
 
 #main-navigation {
@@ -134,7 +134,7 @@ body {
 }
 
 #user-navigation ul li, #main-navigation ul li, .secondary-navigation ul li {
-  float: left;  
+  float: left;
 }
 
 #main-navigation ul li {
@@ -159,14 +159,14 @@ body {
 }
 
 .secondary-navigation {
-  font-size: 13px;  
+  font-size: 13px;
   border-bottom-width: 10px;
   border-bottom-style: solid;
 }
 
 .secondary-navigation ul li a {
   display: block;
-  padding: 10px 15px;  
+  padding: 10px 15px;
 }
 
 #footer {
@@ -185,7 +185,7 @@ body {
 
 .pagination a, .pagination span, .pagination em {
   padding: 2px 5px;
-  margin-right: 5px; 
+  margin-right: 5px;
   display: block;
   float: left;
   border-style: solid;
@@ -193,17 +193,17 @@ body {
 }
 
 .pagination em {
-  font-weight: bold;  
+  font-weight: bold;
 }
 
 .pagination a {
-  text-decoration: none;  
+  text-decoration: none;
 }
 
 /* tables */
 .table {
   width: 100%;
-  border-collapse: collapse;  
+  border-collapse: collapse;
   margin-bottom: 15px;
 }
 
@@ -218,7 +218,7 @@ body {
 }
 
 .table th.last {
-  width: 200px;  
+  width: 200px;
 }
 
 .table .checkbox {
@@ -286,7 +286,7 @@ input.checkbox {
 
 .form label.label {
   display: block;
-  padding-bottom: 2px;  
+  padding-bottom: 2px;
   font-weight: bold;
 }
 
@@ -326,7 +326,7 @@ ul.list li {
 }
 
 ul.list li .left {
-  float: left;  
+  float: left;
 }
 
 ul.list li .left .avatar {
@@ -349,7 +349,7 @@ ul.list li .item .avatar {
 
 #box {
   width: 500px;
-  margin: 50px auto;  
+  margin: 50px auto;
 }
 
 #box .block {
@@ -358,7 +358,7 @@ ul.list li .item .avatar {
 
 #box .block h2 {
   padding: 10px 15px;
-  margin: 0;  
+  margin: 0;
 }
 
 #box .block .content {
@@ -475,7 +475,7 @@ button.button:active, a.button:active {
   width:22px; height:5px;
   margin-left:auto;
   margin-right:auto;
-  background-image:url(../assets/handle.png);
+  background-image:url(/assets/handle.png);
   cursor:n-resize;
 }
 /***************************************************************************************/
@@ -492,7 +492,7 @@ button.button:active, a.button:active {
   display:block;
 }
 .markItUpHeader ul .markItUpDropMenu {
-  background:transparent url(../assets/menu.png) no-repeat 115% 50%;
+  background:transparent url(/assets/menu.png) no-repeat 115% 50%;
   margin-right:5px;
 }
 .markItUpHeader ul .markItUpDropMenu li {
@@ -523,7 +523,7 @@ button.button:active, a.button:active {
   border-bottom:1px solid #3C769D;
 }
 .markItUpHeader ul ul .markItUpDropMenu {
-  background:#F5F5F5 url(../assets/submenu.png) no-repeat 100% 50%;
+  background:#F5F5F5 url(/assets/submenu.png) no-repeat 100% 50%;
 }
 /* next rows of buttons */
 .markItUpHeader ul ul ul {
@@ -555,20 +555,20 @@ button.button:active, a.button:active {
 }
 /***************************************************************************************/
 .html .markItUpEditor {
-  background-image:url(../assets/bg-editor-html.png);
+  background-image:url(/assets/bg-editor-html.png);
 }
 .markdown .markItUpEditor {
-  background-image:url(../assets/bg-editor-markdown.png);
+  background-image:url(/assets/bg-editor-markdown.png);
 }
 .textile .markItUpEditor {
-  background-image:url(../assets/bg-editor-textile.png);
+  background-image:url(/assets/bg-editor-textile.png);
 }
 .bbcode .markItUpEditor {
-  background-image:url(../assets/bg-editor-bbcode.png);
+  background-image:url(/assets/bg-editor-bbcode.png);
 }
 .wiki .markItUpEditor,
 .dotclear .markItUpEditor {
-  background-image:url(../assets/bg-editor-wiki.png);
+  background-image:url(/assets/bg-editor-wiki.png);
 }
 
 /* -------------------------------------------------------------------
@@ -576,49 +576,49 @@ button.button:active, a.button:active {
 // By Jay Salvat - http://markitup.jaysalvat.com/
 // ------------------------------------------------------------------*/
 .markItUp .markItUpButton1 a {
-  background-image:url(../assets/h1.png);
+  background-image:url(/assets/h1.png);
 }
 .markItUp .markItUpButton2 a {
-  background-image:url(../assets/h2.png);
+  background-image:url(/assets/h2.png);
 }
 .markItUp .markItUpButton3 a {
-  background-image:url(../assets/h3.png);
+  background-image:url(/assets/h3.png);
 }
 .markItUp .markItUpButton4 a {
-  background-image:url(../assets/h4.png);
+  background-image:url(/assets/h4.png);
 }
 .markItUp .markItUpButton5 a {
-  background-image:url(../assets/h5.png);
+  background-image:url(/assets/h5.png);
 }
 .markItUp .markItUpButton6 a {
-  background-image:url(../assets/h6.png);
+  background-image:url(/assets/h6.png);
 }
 .markItUp .markItUpButton7 a {
-  background-image:url(../assets/paragraph.png);
+  background-image:url(/assets/paragraph.png);
 }
 
 .markItUp .markItUpButton8 a {
-  background-image:url(../assets/bold.png);
+  background-image:url(/assets/bold.png);
 }
 .markItUp .markItUpButton9 a {
-  background-image:url(../assets/italic.png);
+  background-image:url(/assets/italic.png);
 }
 .markItUp .markItUpButton10 a {
-  background-image:url(../assets/stroke.png);
+  background-image:url(/assets/stroke.png);
 }
 
 .markItUp .markItUpButton11 a {
-  background-image:url(../assets/list-bullet.png);
+  background-image:url(/assets/list-bullet.png);
 }
 .markItUp .markItUpButton12 a {
-  background-image:url(../assets/list-numeric.png);
+  background-image:url(/assets/list-numeric.png);
 }
 
 .markItUp .markItUpButton13 a {
-  background-image:url(../assets/picture.png);
+  background-image:url(/assets/picture.png);
 }
 .markItUp .markItUpButton14 a {
-  background-image:url(../assets/link.png);
+  background-image:url(/assets/link.png);
 }
 /*************************************************************/
 #default_preview {

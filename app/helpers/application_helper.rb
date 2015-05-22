@@ -32,4 +32,9 @@ module ApplicationHelper
     user.is_voted?(post, type) ? "voted" : ""
   end
 
+  def change_button_caption(params)
+    resource_name = params[:controller].split("/")[1].singularize.titleize
+    action_name = params[:action] == "new" ? "Create" : "Update"
+    [action_name, resource_name].join(" ")
+  end
 end

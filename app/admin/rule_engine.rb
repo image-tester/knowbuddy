@@ -55,7 +55,10 @@ ActiveAdmin.register RuleEngine, as: "Rule" do
         as: :text,
         input_html: { class: "text" }
       f.input :active
-      f.actions
+      f.actions do
+        f.action :submit, label: change_button_caption(params)
+        f.action :cancel, label: 'Cancel', wrapper_html: { class: 'cancel' }
+      end
     end
   end
 

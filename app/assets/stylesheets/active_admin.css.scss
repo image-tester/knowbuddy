@@ -1,5 +1,6 @@
 @import "active_admin/mixins";
 @import "active_admin/base";
+@import "active_skin";
 
 $skinLogo: "";
 
@@ -10,12 +11,15 @@ $skinActiveColor: #05B6C7;
 $skinHeaderBck: #000000;
 $panelHeaderBck: #000000;
 
+.status_tag {
+  font-weight: bold;
+}
 .status_tag.no{
   background: #D02312 ;
 }
-
 .status_tag.yes{
   background: #198E4B ;
 }
-
-@import "active_skin";
+#rule_submit_action {
+  margin-left: 20.6%;
+}

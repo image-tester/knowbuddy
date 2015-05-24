@@ -1,0 +1,44 @@
+.pagination {
+  span {
+    background: #dddddd;
+    background-image: url("<%= asset_path 'web-app-theme/themes/default/images/button-background.png' %>");
+    border: 1px solid #c3c4ba;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    color: #111111;
+    display: block;
+    float: left;
+    margin-right: 5px;
+    min-width: 15px;
+    padding: 7px;
+    text-align: center;
+
+    &:hover {
+      background: #dddddd;
+      -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+      -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    }
+
+    &.current {
+      background: #261f1f;
+      border: 1px solid #261f1f;
+      color: #ffffff;
+    }
+  }
+
+  a {
+    margin-right: 0px;
+    padding: 0 5px;
+
+    &:hover {
+      background: #dddddd;
+    }
+
+    &:active {
+      background-image: url("<%= asset_path 'web-app-theme/themes/default/images/button-background-active.png' %>");
+      outline: none;
+    }
+  }
+}

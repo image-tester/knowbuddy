@@ -1,30 +1,35 @@
+$black: #111111;
+$black_shade: #261f1f;
+$grey_light: #dddddd;
+$grey_shade: #c3c4ba;
+$white: #ffffff;
 .pagination {
   span {
-    background: #dddddd;
+    background: $grey_light;
     background-image: url("<%= asset_path 'web-app-theme/themes/default/images/button-background.png' %>");
-    border: 1px solid #c3c4ba;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
+    border: 1px solid $grey_shade;
     border-radius: 2px;
-    color: #111111;
+    color: $black;
     display: block;
     float: left;
     margin-right: 5px;
     min-width: 15px;
+    -moz-border-radius: 2px;
     padding: 7px;
     text-align: center;
+    -webkit-border-radius: 2px;
 
     &:hover {
-      background: #dddddd;
+      background: $grey_light;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
       -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
       -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
-      box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
     }
 
     &.current {
-      background: #261f1f;
-      border: 1px solid #261f1f;
-      color: #ffffff;
+      background: $black_shade;
+      border: 1px solid $black_shade;
+      color: $white;
     }
   }
 
@@ -33,7 +38,7 @@
     padding: 0 5px;
 
     &:hover {
-      background: #dddddd;
+      background: $grey_light;
     }
 
     &:active {

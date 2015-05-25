@@ -1,13 +1,14 @@
 $black: #111111;
-$black_shade: #261f1f;
-$grey_light: #dddddd;
-$grey_shade: #c3c4ba;
+$black-shade: #261f1f;
+$grey-light: #dddddd;
+$grey-shade: #c3c4ba;
 $white: #ffffff;
+
 .pagination {
   span {
-    background: $grey_light;
+    background: $grey-light;
     background-image: url("<%= asset_path 'web-app-theme/themes/default/images/button-background.png' %>");
-    border: 1px solid $grey_shade;
+    border: 1px solid $grey-shade;
     border-radius: 2px;
     color: $black;
     display: block;
@@ -20,15 +21,15 @@ $white: #ffffff;
     -webkit-border-radius: 2px;
 
     &:hover {
-      background: $grey_light;
+      background: $grey-light;
       box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
       -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
       -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
     }
 
     &.current {
-      background: $black_shade;
-      border: 1px solid $black_shade;
+      background: $black-shade;
+      border: 1px solid $black-shade;
       color: $white;
     }
   }
@@ -38,7 +39,7 @@ $white: #ffffff;
     padding: 0 5px;
 
     &:hover {
-      background: $grey_light;
+      background: $grey-light;
     }
 
     &:active {

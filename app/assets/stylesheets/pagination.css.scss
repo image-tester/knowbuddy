@@ -16,7 +16,7 @@ $white: #ffffff;
     margin-right: 5px;
     min-width: 15px;
     -moz-border-radius: 2px;
-    padding: 7px;
+    padding: 8px 0px;
     text-align: center;
     -webkit-border-radius: 2px;
 
@@ -31,12 +31,17 @@ $white: #ffffff;
       background: $black-shade;
       border: 1px solid $black-shade;
       color: $white;
+      padding: 8px 10px;
+    }
+
+    &.gap {
+      padding: 8px;
     }
   }
 
   a {
     margin-right: 0;
-    padding: 0 5px;
+    padding: 9px 14px;
 
     &:hover {
       background: $grey-light;

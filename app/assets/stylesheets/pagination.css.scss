@@ -7,7 +7,7 @@ $white: #ffffff;
 .pagination {
   span {
     background: $grey-light;
-    background-image: url(asset-path('web-app-theme/themes/default/images/button-background.png'));
+    background-image: url(asset-path("web-app-theme/themes/default/images/button-background.png"));
     border: 1px solid $grey-shade;
     border-radius: 2px;
     color: $black;
@@ -43,7 +43,7 @@ $white: #ffffff;
     }
 
     &:active {
-      background-image: url(asset-path('web-app-theme/themes/default/images/button-background-active.png'));
+      background-image: url(asset-path("web-app-theme/themes/default/images/button-background-active.png"));
       outline: none;
     }
   }

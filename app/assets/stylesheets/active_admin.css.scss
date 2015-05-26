@@ -1,6 +1,5 @@
 @import "active_admin/mixins";
 @import "active_admin/base";
-@import "active_skin";
 
 $skinLogo: "";
 
@@ -10,6 +9,8 @@ $skinTextTable: #000000;
 $skinActiveColor: #05B6C7;
 $skinHeaderBck: #000000;
 $panelHeaderBck: #000000;
+
+@import "active_skin";
 
 .status_tag {
   font-weight: bold;

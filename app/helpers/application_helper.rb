@@ -33,8 +33,6 @@ module ApplicationHelper
   end
 
   def change_button_caption(params)
-    resource_name = params[:controller].split("/")[1].singularize.titleize
-    action_name = params[:action] == "new" ? "Create" : "Update"
-    [action_name, resource_name].join(" ")
+    params[:action] == "new" ? "Create Rule" : "Update Rule"
   end
 end

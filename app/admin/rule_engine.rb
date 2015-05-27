@@ -15,7 +15,9 @@ ActiveAdmin.register RuleEngine, as: "Rule" do
     column :body do |c|
       sanitize(c.body)
     end
-    column :active
+    column "Active" do |rule_engine|
+      status_tag (rule_engine.active ? "YES" : "NO")
+    end
     default_actions
   end
 
@@ -53,7 +55,11 @@ ActiveAdmin.register RuleEngine, as: "Rule" do
         as: :text,
         input_html: { class: "text" }
       f.input :active
-      f.actions
+      f.actions do
+        f.action :submit, label: change_button_caption(params),
+          wrapper_html: { class: "rule-engine-submit-button" }
+        f.action :cancel, label: "Cancel", wrapper_html: { class: "cancel" }
+      end
     end
   end
 

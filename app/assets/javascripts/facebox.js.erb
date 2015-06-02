@@ -84,8 +84,8 @@
     settings: {
       opacity      : 0.2,
       overlay      : true,
-      loadingImage : '/assets/loading.gif',
-      closeImage   : '/assets/close_icon.png',
+      loadingImage : "<%= asset_path('loading.gif') %>",
+      closeImage   : "<%= asset_path('close_icon.png') %>",
       imageTypes   : [ 'png', 'jpg', 'jpeg', 'gif' ],
       faceboxHtml  : '\
     <div id="facebox" style="display:none;"> \

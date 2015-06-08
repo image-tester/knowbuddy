@@ -69,7 +69,7 @@ describe RuleEngine do
     end
 
     it "should not validate max_duration if rule_for 'general'" do
-      expect(build(:general_rule, max_duration: nil)).to be_valid
+      expect(build(:general_rule, max_duration: nil)).to_not be_valid
     end
   end
 end

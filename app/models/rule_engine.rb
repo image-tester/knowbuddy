@@ -1,11 +1,12 @@
 class RuleEngine < ActiveRecord::Base
-  validates :rule, :subject, :rule_for, :frequency, presence: true
+  validates :rule, :subject, :rule_for, :frequency,
+    :max_duration, presence: true
   validates :rule, uniqueness: true
   validates :min_count, :max_count, presence: true, uniqueness: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 0 },
     unless: :general_rule?
   validate :min_max_range , if: ["min_count.present?", "max_count.present?"]
-  validates :body, :max_duration, presence: true, unless: :general_rule?
+  validates :body, presence: true, unless: :general_rule?
   validates :schedule, presence: true, unless: :daily_frequency?
 
   scope :active, -> { where(active: true) }

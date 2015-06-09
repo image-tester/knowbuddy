@@ -55,6 +55,7 @@ namespace :populate do
       rule: "Recent activities and Top 5 contributors",
       rule_for: "general",
       frequency: "daily",
+      max_duration: "month",
       subject: "Knowbuddy update!",
       body: "This is daily update of top contributors and recent\
         activities for you!",

@@ -351,4 +351,27 @@ describe PostsController, type: :controller do
       end
     end
   end
+
+  describe "protected methods" do
+    describe "fetch_top_contributors" do
+      before do
+        3.times do
+          user = create :user
+          create :post, publish_at: 2.months.ago, user: user
+        end
+        3.times do
+          user = create :user
+          create :post, publish_at: 2.weeks.ago, user: user
+        end
+        user = create :user
+        create :post, publish_at: 3.days.ago, user: user
+      end
+
+      it "fetches top contributors by iterating over CONTRIBUTION_PERIOD till
+        it finds at-least 3 top contributors in particular period" do
+        top_contributors = PostsController.new.send(:fetch_top_contributors)
+        expect(top_contributors.length).to eq(4)
+      end
+    end
+  end
 end

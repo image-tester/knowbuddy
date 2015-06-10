@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   before_action :find_post, only: [:destroy, :edit, :remove_tag, :update,
     :assign_vote]
 
-  before_action :order_by_name_email, :fetch_top_contributors,
+  before_action :order_by_name_email, :top_contributors,
     only: [ :edit, :index, :post_date, :new, :search, :user_posts, :show,
       :create, :related_tag, :contributors_pagination]
 
@@ -79,7 +79,7 @@ class PostsController < ApplicationController
       locals: { post: @post })
     @sidebar = render_to_string( partial: "sidebar",
       locals: { tag_cloud_hash: tag_cloud, users: @users,
-      top_contributors: fetch_top_contributors })
+      top_contributors: top_contributors })
     @activities_html = render_to_string( partial: "activities",
       locals: { activities: @activities })
   end
@@ -151,10 +151,10 @@ class PostsController < ApplicationController
   end
 
   protected
-  def fetch_top_contributors
+  def top_contributors
     CONTRIBUTION_PERIOD.each do |cp|
       @top_contributors = User.top(cp.ago)
-      break if @top_contributors.length > 2
+      break if @top_contributors.length > 2 # pull at least 3 contributors
     end
     @top_contributors
   end

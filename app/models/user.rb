@@ -35,12 +35,12 @@ class User < ActiveRecord::Base
     self.with_deleted.find(user_id)
   end
 
-  def self.top(start_of_contribution_period)
+  def self.top(start_date_of_contribution_period)
     self.joins(:posts).
       select("users.name, users.email, users.id, COUNT(*) as total").
       where("posts.deleted_at IS NULL").
       where("posts.is_draft IS FALSE").
-      where("posts.publish_at > ?", start_of_contribution_period).
+      where("posts.publish_at > ?", start_date_of_contribution_period).
       group("posts.user_id").order("total DESC").limit(5)
   end
 

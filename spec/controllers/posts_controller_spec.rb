@@ -353,7 +353,7 @@ describe PostsController, type: :controller do
   end
 
   describe "protected methods" do
-    describe "fetch_top_contributors" do
+    describe "top_contributors" do
       before do
         3.times do
           user = create :user
@@ -369,7 +369,7 @@ describe PostsController, type: :controller do
 
       it "fetches top contributors by iterating over CONTRIBUTION_PERIOD till
         it finds at-least 3 top contributors in particular period" do
-        top_contributors = PostsController.new.send(:fetch_top_contributors)
+        top_contributors = PostsController.new.send(:top_contributors)
         expect(top_contributors.length).to eq(4)
       end
     end

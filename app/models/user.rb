@@ -41,7 +41,8 @@ class User < ActiveRecord::Base
       where("posts.deleted_at IS NULL").
       where("posts.is_draft IS FALSE").
       where("posts.publish_at > ?", start_date_of_contribution_period).
-      group("posts.user_id").order("total DESC").limit(5)
+      group("posts.user_id").order("total DESC, posts.publish_at DESC").
+      limit(5)
   end
 
   def self.user_collection_email_name

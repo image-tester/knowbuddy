@@ -9,15 +9,18 @@ module PostHelper
     )
   end
 
-  def user_link(user, top = false)
+  def top_user_link(top_user)
     link_to(
-      "#{user.display_name} #{post_count(user, top)}",
-      user_posts_posts_path(user_id: user.id)
+      "#{top_user.display_name} (#{top_user.total})",
+      user_posts_posts_path(user_id: top_user.id, post_count: top_user.total)
     )
   end
 
-  def post_count(user, top)
-     top ? "(#{user.total})" : ""
+  def user_link(user)
+    link_to(
+      "#{user.display_name}",
+      user_posts_posts_path(user_id: user.id)
+    )
   end
 
   def post_date_link(post)

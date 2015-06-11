@@ -7,4 +7,4 @@ KIPROSH_MAIN_FLOW_EMAIL = "main@kiprosh.flowdock.com"
 RULE_ENGINE_SCHEDULE = ["Daily", "Weekly", "Once in 2 weeks", "Monthly"]
 RULE_ENGINE_DURATION_OPTIONS = ["Week", "2 weeks", "Month", "Quarter", "6 months", "Year"]
 RULE_ENGINE_PARAMS = ["Post", "General"]
-CONTRIBUTION_PERIOD = 7.days
+CONTRIBUTION_PERIOD = [1.week, 1.month, 3.months]

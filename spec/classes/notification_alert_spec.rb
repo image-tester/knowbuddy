@@ -18,8 +18,15 @@ describe "NotificationAlert" do
     end
 
     describe "top_contributors_notification" do
-      it "sends general notification mail to all users if passed
-        rule is for 'general'" do
+      before do
+        3.times do |n|
+          user = create :user
+          user.posts = create_list :post, n, user: user
+        end
+      end
+
+      it "sends top contributors notification mail to all users if passed
+        rule is 'general' and top contributors exists" do
         expect{
           NotificationAlert.top_contributors_notification(rule2)
         }.to change(ActionMailer::Base.deliveries, :count).by(User.count)

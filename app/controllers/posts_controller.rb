@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   before_action :find_post, only: [:destroy, :edit, :remove_tag, :update,
     :assign_vote]
 
-  before_action :order_by_name_email,
+  before_action :order_by_name_email, :top_contributors,
     only: [ :edit, :index, :post_date, :new, :search, :user_posts, :show,
       :create, :related_tag, :contributors_pagination]
 
@@ -78,7 +78,8 @@ class PostsController < ApplicationController
     @new_entry = render_to_string(partial: "posts/entries",
       locals: { post: @post })
     @sidebar = render_to_string( partial: "sidebar",
-      locals: { tag_cloud_hash: tag_cloud, users: @users})
+      locals: { tag_cloud_hash: tag_cloud, users: @users,
+      top_contributors: top_contributors })
     @activities_html = render_to_string( partial: "activities",
       locals: { activities: @activities })
   end
@@ -150,6 +151,13 @@ class PostsController < ApplicationController
   end
 
   protected
+  def top_contributors
+    CONTRIBUTION_PERIOD.each do |cp|
+      @top_contributors = User.top(cp.ago)
+      break if @top_contributors.length > 2 # pull at least 3 contributors
+    end
+    @top_contributors
+  end
 
   def find_activities
     @activities = Activity.latest_activities(params[:page_3])
@@ -184,7 +192,6 @@ class PostsController < ApplicationController
   end
 
   private
-
   def post_params
     params.require(:post).permit(:id, :publish_at, :subject, :tag_list,
       :user_id, :slug, :is_draft, :is_internal, :content)

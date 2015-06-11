@@ -4,12 +4,11 @@ describe "posts/new" do
   before do
     @user = create :user
     sign_in @user
-
     assign(:post, create(:post, subject: "MyString", content: "MyText"))
-
     assign(:users,
       Kaminari.paginate_array(create_list :user, 5).page(1).per(5)
     )
+    assign(:top_contributors, User.top(7.days.ago))
   end
 
   it "renders new post form" do

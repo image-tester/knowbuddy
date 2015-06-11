@@ -1,6 +1,6 @@
 <%= render 'user_name', name: @user["name"] %>
 <tr>
-  <td class = "content-copy" valign="top" style = "padding: 0 20px 0 81px;
+  <td class = "content-copy" valign="top" style = "padding: 0 20px 0 52px;
     color: #000; font-size: 15px; font-family: Georgia;
     line-height: 20px;">
     <%= sanitize(@rule["body"]) %>
@@ -14,11 +14,11 @@
         text-transform:uppercase; font-weight:bold; font-size:20px">
         Our Top Contributors
       </div>
-      <div style = "padding:20px 40px 20px 40px;
-        margin:10px 20px 10px 20px;
-        display:-webkit-inline-box;display:-moz-inline-box;">
+      <div style = "padding:20px 20px 20px 18px; margin:10px 20px 10px 20px;
+        text-align: center">
         <% @top_5.each do |user| %>
-          <div style = "padding: 0 20px 0 20px; text-align: center">
+          <div style = "padding: 0 10px 0 10px; text-align: center;
+            display: inline-block">
             <div style = "width: 60px; height: 60px; border: 3px solid #F1F0E8;
               border-radius: 50%;
               -webkit-border-radius: 50%; -moz-border-radius: 50%;">
@@ -47,7 +47,7 @@
           Recent Activities
         </div>
         <% @activities.each do |activity| %>
-          <div style = "padding: 0 10px 10px 71px; text-align:left">
+          <div style = "padding: 0 10px 10px 45px; text-align:left">
             <%= activity_owner_link(activity.owner) if activity.
               owner %>
             <%= render_activity activity %>

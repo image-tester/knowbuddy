@@ -148,10 +148,8 @@ class PostsController < ApplicationController
   def user_posts
     @post_user = User.get_user(params[:user_id])
     @posts = @post_user.posts.published
-    if params[:post_count].present?
-      @post_count = params[:post_count].to_i
-      @posts = @posts.first(@post_count)
-    end
+    @post_count = params[:post_count].presence.try(:to_i)
+    @posts = @post_count ? @posts.first(@post_count) : @posts
   end
 
   protected

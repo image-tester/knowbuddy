@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
       where("posts.is_draft IS FALSE").
       where("posts.publish_at > ?", start_date_of_contribution_period).
       group("posts.user_id").order("total DESC, posts.publish_at DESC").
-      limit(5)
+      limit(MAX_TOP_CONTRIBUTORS)
   end
 
   def self.user_collection_email_name

@@ -12,8 +12,8 @@
         %div#img
           = image_tag avatar_url(@post_user, 45)
         %h2.tag_name
-          All posts by #{user_name}
-
+          - posts_heading = @post_count.present? ? "Recent posts" : "All posts"
+          #{posts_heading} by #{user_name}
       .inner
         %table.table
           %tr
@@ -23,7 +23,7 @@
             %th= t("web-app-theme", default: "Published On")
             %th= t("web-app-theme", default: "Updated On")
 
-          - @posts.published.each do |post|
+          - @posts.each do |post|
             %tr{class: cycle("odd", "even")}
               %td= post_link(post)
               %td= timeago_date_format(post.created_at)

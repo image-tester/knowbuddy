@@ -3,17 +3,18 @@ require "rails_helper"
 describe User do
   describe 'scope::top' do
     before do
-      5.times do |n|
+      6.times do |n|
         user = create :user
-        user.posts = create_list :post, n, user: user
+        user.posts = create_list :post, n, publish_at: Time.now + n, user: user
       end
     end
 
     it "should return top 5 contributors" do
       top_contributors = User.top(7.days.ago)
-      expect(top_contributors).to_not be_nil
+      expect(top_contributors.length).to eq(5)
       expect(top_contributors[5]).to be_nil
-      expect(top_contributors[0].total).to be >= top_contributors[1].total
+      expect(top_contributors[0].posts.first.publish_at).
+        to be >= top_contributors[1].posts.first.publish_at
     end
   end
 

@@ -51,9 +51,10 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    flash[:notice] = @post.is_draft ? "Draft article successfully deleted." :
+      "Article successfully deleted."
     @post.destroy
     redirect_to posts_url
-    flash[:notice] = "Article successfully deleted."
   end
 
   def edit

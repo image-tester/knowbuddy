@@ -37,12 +37,12 @@ class User < ActiveRecord::Base
 
   def self.top(start_date_of_contribution_period)
     self.joins(:posts).
-    select("users.name, users.email, users.id, COUNT(*) as total,
-    MAX(posts.publish_at) as latest_publish_date").
-    where("posts.deleted_at IS NULL AND posts.is_draft IS FALSE AND
-    posts.publish_at > ?", start_date_of_contribution_period).
-    group("posts.user_id").order("latest_publish_date DESC").
-    limit(MAX_TOP_CONTRIBUTORS)
+      select("users.name, users.email, users.id, COUNT(*) as total,
+        MAX(posts.publish_at) as latest_publish_date").
+      where("posts.deleted_at IS NULL AND posts.is_draft IS FALSE AND
+        posts.publish_at > ?", start_date_of_contribution_period).
+      group("posts.user_id").order("latest_publish_date DESC").
+      limit(MAX_TOP_CONTRIBUTORS)
   end
 
   def self.user_collection_email_name

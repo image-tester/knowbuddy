@@ -37,6 +37,29 @@ describe Activity do
       end
     end
 
+    describe 'from_past_24_hrs' do
+      let(:activity1) { create :activity, created_at: 25.hours.ago }
+      let(:activity2) { create :activity, created_at: 23.hours.ago,
+        activity_type: (create :inactive) }
+      let(:activity3) { create :activity, created_at: 23.hours.ago }
+
+      it 'should return all active activities in last 1 day' do
+        recent_activities = Activity.from_past_24_hrs
+        expect(recent_activities).to eq [activity3]
+        expect(recent_activities).to_not include activity1,activity2
+      end
+    end
+
+    describe 'with_active_activity_types' do
+      let(:activity1) { create :activity }
+      let(:activity2) { create :activity, activity_type: (create :inactive) }
+
+      it 'should return all active activities' do
+        expect(Activity.with_active_activity_types).to include activity1
+        expect(Activity.with_active_activity_types).to_not include activity2
+      end
+    end
+
     describe 'add_activity(action, record)' do
       it 'should add new activity with owner as user' do
         user = create :user

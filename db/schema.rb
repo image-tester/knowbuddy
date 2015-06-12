@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141216073660) do
+ActiveRecord::Schema.define(version: 20150420083003) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "resource_id",   null: false
@@ -19,14 +19,14 @@ ActiveRecord::Schema.define(version: 20141216073660) do
     t.integer  "author_id"
     t.string   "author_type"
     t.text     "body"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "namespace"
   end
 
   add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
-  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_admin_notes_on_resource_type_and_resource_id", using: :btree
+  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -37,8 +37,8 @@ ActiveRecord::Schema.define(version: 20141216073660) do
     t.text     "parameters"
     t.integer  "recipient_id"
     t.string   "recipient_type"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "activity_type_id"
   end
 
@@ -50,8 +50,8 @@ ActiveRecord::Schema.define(version: 20141216073660) do
   create_table "activity_types", force: true do |t|
     t.string   "activity_type"
     t.boolean  "is_active"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "admin_users", force: true do |t|
@@ -65,8 +65,8 @@ ActiveRecord::Schema.define(version: 20141216073660) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -74,8 +74,8 @@ ActiveRecord::Schema.define(version: 20141216073660) do
 
   create_table "attachments", force: true do |t|
     t.integer  "post_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "post_file_name"
     t.string   "post_content_type"
     t.integer  "post_file_size"
@@ -87,29 +87,43 @@ ActiveRecord::Schema.define(version: 20141216073660) do
   create_table "comments", force: true do |t|
     t.integer  "user_id"
     t.text     "comment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "post_id"
   end
 
-  add_index "comments", ["user_id", "post_id"], name: "index_comments_on_user_id_and_kyu_entry_id", using: :btree
   add_index "comments", ["user_id", "post_id"], name: "index_comments_on_user_id_and_post_id", using: :btree
 
   create_table "posts", force: true do |t|
     t.string   "subject"
     t.text     "content"
     t.datetime "publish_at"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "user_id"
     t.string   "slug"
     t.datetime "deleted_at"
     t.boolean  "is_draft",     default: true
     t.boolean  "is_published", default: false
+    t.boolean  "is_internal",  default: false
   end
 
-  add_index "posts", ["slug"], name: "index_kyu_entries_on_slug", unique: true, using: :btree
-  add_index "posts", ["user_id"], name: "index_kyu_entries_on_user_id", using: :btree
+  add_index "posts", ["slug"], name: "index_posts_on_slug", unique: true, using: :btree
+
+  create_table "rule_engines", force: true do |t|
+    t.string   "rule",                        null: false
+    t.string   "rule_for"
+    t.string   "frequency"
+    t.string   "schedule"
+    t.text     "subject"
+    t.text     "body"
+    t.boolean  "active",       default: true
+    t.integer  "min_count"
+    t.integer  "max_count"
+    t.string   "max_duration"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
@@ -144,8 +158,8 @@ ActiveRecord::Schema.define(version: 20141216073660) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "name"
     t.datetime "deleted_at"
   end
@@ -161,13 +175,11 @@ ActiveRecord::Schema.define(version: 20141216073660) do
     t.boolean  "vote_flag"
     t.string   "vote_scope"
     t.integer  "vote_weight"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "votes", ["votable_id", "votable_type", "vote_scope"], name: "index_votes_on_votable_id_and_votable_type_and_vote_scope", using: :btree
-  add_index "votes", ["votable_id", "votable_type"], name: "index_votes_on_votable_id_and_votable_type", using: :btree
   add_index "votes", ["voter_id", "voter_type", "vote_scope"], name: "index_votes_on_voter_id_and_voter_type_and_vote_scope", using: :btree
-  add_index "votes", ["voter_id", "voter_type"], name: "index_votes_on_voter_id_and_voter_type", using: :btree
 
 end

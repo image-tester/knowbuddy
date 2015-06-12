@@ -1,0 +1,55 @@
+$black: #111111;
+$black-shade: #261f1f;
+$grey-light: #dddddd;
+$grey-shade: #c3c4ba;
+$white: #ffffff;
+
+.pagination {
+  span {
+    background: $grey-light;
+    background-image: url(asset-path("web-app-theme/themes/default/images/button-background.png"));
+    border: 1px solid $grey-shade;
+    border-radius: 2px;
+    color: $black;
+    display: block;
+    float: left;
+    margin-right: 5px;
+    min-width: 15px;
+    -moz-border-radius: 2px;
+    padding: 8px 0px;
+    text-align: center;
+    -webkit-border-radius: 2px;
+
+    &:hover {
+      background: $grey-light;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+      -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+      -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    }
+
+    &.current {
+      background: $black-shade;
+      border: 1px solid $black-shade;
+      color: $white;
+      padding: 8px 10px;
+    }
+
+    &.gap {
+      padding: 8px;
+    }
+  }
+
+  a {
+    margin-right: 0;
+    padding: 9px 14px;
+
+    &:hover {
+      background: $grey-light;
+    }
+
+    &:active {
+      background-image: url(asset-path("web-app-theme/themes/default/images/button-background-active.png"));
+      outline: none;
+    }
+  }
+}

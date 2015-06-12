@@ -291,13 +291,27 @@ describe PostsController, type: :controller do
     end
 
     describe "GET post for user" do
-      it "should get all post's for particular user" do
-        post1 = create :post, user: user_one
-        post2 = create :post, user: user
-        get :user_posts, user_id: user_one.id
-        expect(assigns[:posts]).to include(post1)
+      let!(:user_two) { create :user }
+      let!(:post1) { create :post, user: user_one }
+      let!(:post2) { create :post, publish_at: 1.hour.ago, user: user_two }
+      let!(:post3) { create :post, publish_at: 2.hour.ago, user: user_two }
+
+      it "should get all post's for particular user if no post count passed" do
+        get :user_posts, user_id: user_two.id
+        posts = assigns[:posts]
+        expect(posts).to match_array([post2, post3])
+        expect(posts).to_not include(post1)
         expect(response).to render_template('posts/user_posts')
-        expect(assigns[:posts]).to_not include(post2)
+      end
+
+      it "should fetch only recent posts of particular user based on post
+        count if post_count is passed along with user's id" do
+        get :user_posts, user_id: user_two.id, post_count: 1
+        posts = assigns[:posts]
+        expect(posts).to match_array([post2])
+        expect(posts).to_not include(post1)
+        expect(posts).to_not include(post3)
+        expect(response).to render_template('posts/user_posts')
       end
     end
 
@@ -348,6 +362,29 @@ describe PostsController, type: :controller do
           get :assign_vote, vote_type: "dislike", id: post1.id, format: :json
         }.to change(post1.get_likes, :count).by(-1)
         expect(post1.get_dislikes.size).to eq(1)
+      end
+    end
+  end
+
+  describe "protected methods" do
+    describe "top_contributors" do
+      before do
+        3.times do
+          user = create :user
+          create :post, publish_at: 2.months.ago, user: user
+        end
+        3.times do
+          user = create :user
+          create :post, publish_at: 2.weeks.ago, user: user
+        end
+        user = create :user
+        create :post, publish_at: 3.days.ago, user: user
+      end
+
+      it "fetches top contributors by iterating over CONTRIBUTION_PERIOD till
+        it finds at-least 3 top contributors in particular period" do
+        top_contributors = PostsController.new.send(:top_contributors)
+        expect(top_contributors.length).to eq(4)
       end
     end
   end

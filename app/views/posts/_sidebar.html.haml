@@ -15,11 +15,10 @@
 
 
 .block
-  %h3 Top Contributors
+  %h3 Top Contributors (Weekly/Monthly)
   %ul#top_contributer.navigation
-    - top_contributors = User.top
     - top_contributors.each do |top|
       %li
-        = user_link(top, top = true)
+        = top_user_link(top)
 
 = render "contributors", users: users

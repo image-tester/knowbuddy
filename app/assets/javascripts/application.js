@@ -19,4 +19,3 @@
 //= require jquery.fileupload
 //= require active_admin
 //= require_tree .
-

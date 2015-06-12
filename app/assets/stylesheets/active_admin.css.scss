@@ -11,3 +11,22 @@ $skinHeaderBck: #000000;
 $panelHeaderBck: #000000;
 
 @import "active_skin";
+
+$status-tag-no-label-red: #d02312;
+$status-tag-no-label-green: #198e4b;
+
+.status_tag {
+  font-weight: bold;
+}
+
+.status_tag.no {
+  background: $status-tag-no-label-red;
+}
+
+.status_tag.yes {
+  background: $status-tag-no-label-green;
+}
+
+.rule-engine-submit-button {
+  margin-left: 20.6%;
+}

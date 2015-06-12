@@ -1,7 +1,7 @@
 set :cron_log, "log/cronjob.log"
 env :PATH, ENV['PATH']
 
-every :sunday, at: '11pm' do
-  rake "email:no_post_notifications"
-  rake "email:less_post_notifications"
+every 1.day, at:  "4:30 am" do
+  puts "====@@ Notification alert  ===="
+  rake "email:apply_rules"
 end

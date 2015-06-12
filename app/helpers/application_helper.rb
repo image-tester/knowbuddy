@@ -32,4 +32,7 @@ module ApplicationHelper
     user.is_voted?(post, type) ? "voted" : ""
   end
 
+  def change_button_caption(params)
+    params[:action] == "new" ? "Create Rule" : "Update Rule"
+  end
 end

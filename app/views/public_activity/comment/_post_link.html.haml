@@ -1,10 +1,10 @@
-- post_id = activity.parameters['post_id']
-- post_subject = activity.parameters['post_subject']
-
 - if activity.trackable
   = link_to activity.trackable.post.subject, activity.trackable.post
-- elsif post_exist?(post_id)
-  = link_to post_subject , post_path(id: post_id)
 - else
-  = post_subject
+  - post_id = activity.parameters['post_id'] || activity.parameters[:post_id]
+  - post_subject = activity.parameters['post_subject'] || activity.parameters[:post_subject]
+  -if post_exist?(post_id)
+    = link_to post_subject , post_path(id: post_id)
+  - else
+    = post_subject
 %span>.

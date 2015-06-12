@@ -8,7 +8,7 @@
     .contributor_pic
       = image_tag avatar_url(post.user, 70)
     .postDetails
-      = timeago_date_format(post.updated_at)
+      = timeago_date_format(post.publish_at || post.created_at)
 
     - unless post.is_draft
       .voterDetails
@@ -29,6 +29,10 @@
         = raw RedCloth.new(post.content).to_html
       #right
         .rightCorner
+#post-last-updated
+  Last updated:
+  = timeago_date_format(post.updated_at)
+
 #post-attachment
   - unless post.attachments.blank?
     %h3 Attachments

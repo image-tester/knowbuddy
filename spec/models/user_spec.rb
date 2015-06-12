@@ -3,16 +3,18 @@ require "rails_helper"
 describe User do
   describe 'scope::top' do
     before do
-      5.times do |n|
+      6.times do |n|
         user = create :user
-        user.posts = create_list :post, n, user: user
+        user.posts = create_list :post, n, publish_at: Time.now + n, user: user
       end
     end
 
     it "should return top 5 contributors" do
-      User.top.should_not be_nil
-      User.top[5].should be_nil
-      User.top[0].total.should be >= User.top[1].total
+      top_contributors = User.top(7.days.ago)
+      expect(top_contributors.length).to eq(5)
+      expect(top_contributors[5]).to be_nil
+      expect(top_contributors[0].posts.first.publish_at).
+        to be >= top_contributors[1].posts.first.publish_at
     end
   end
 
@@ -23,7 +25,8 @@ describe User do
       user.run_callbacks(:create)
     end
     it 'should run update callback' do
-      user = create :user, password: "password", password_confirmation: "password"
+      user = create :user, password: "password",
+        password_confirmation: "password"
       user.password = "new_password"
       user.password_confirmation = "new_password"
       user.save
@@ -40,10 +43,10 @@ describe User do
   end
 
   describe 'Class Methods' do
-    describe 'user_collection_email_name' do
-      let!(:user1) { create :user }
-      let!(:user2) { create :user }
+    let!(:user1) { create :user }
+    let!(:user2) { create :user }
 
+    describe 'user_collection_email_name' do
       it 'should return user name and id' do
         user2.destroy
         expect(User.user_collection_email_name).to eq [[user1.name,user1.id]]
@@ -54,6 +57,50 @@ describe User do
         user1.save(validate: false)
         user2.destroy
         expect(User.user_collection_email_name).to eq [[user1.email,user1.id]]
+      end
+    end
+
+    describe 'within_rule_range' do
+      let!(:user3) { create :user }
+      let!(:user2_post) { create(:post, user: user2) }
+      let!(:user3_post1) { create(:post, user: user3) }
+      let!(:user3_post2) { create(:post, created_at: 9.days.ago, user: user3) }
+      let(:rule_for_no_post_in_week) { create :no_post_in_week_rule }
+      let(:rule_for_1_post_in_week) { create :one_post_in_week_rule }
+      let(:rule_for_2_posts_in_2_weeks) { create :two_post_rule,
+        max_duration: "2_weeks" }
+
+      it "should return users who didn't wrote post in last 1 week" do
+        expect(User.within_rule_range(rule_for_no_post_in_week)).to eq([user1])
+      end
+
+      it "should not return users who wrote post in last 1 week" do
+        expect(User.within_rule_range(rule_for_no_post_in_week)).
+          to_not include(user2)
+      end
+
+      it "should return users having 1 post in last 1 week" do
+        expect(User.within_rule_range(rule_for_1_post_in_week)).
+          to eq([user2,user3])
+      end
+
+      it "should return users with 2 posts in last 2 weeks" do
+        expect(User.within_rule_range(rule_for_2_posts_in_2_weeks)).
+          to eq([user3])
+      end
+
+      it "should not return users with 1 post in last 2 weeks" do
+        expect(User.within_rule_range(rule_for_2_posts_in_2_weeks)).
+          to_not include(user2)
+      end
+    end
+
+    describe 'find_gap_boundary' do
+      let(:rule_for_no_post_in_week) { create :no_post_in_week_rule }
+
+      it 'should return gap bondary date based on rule passed' do
+        expect(User.find_gap_boundary(rule_for_no_post_in_week.max_duration).
+          to_date).to eq(7.days.ago.to_date)
       end
     end
 
@@ -104,6 +151,22 @@ describe User do
         user.name = nil
         user.save(validate: false)
         expect(user.display_name).to eq user.email
+      end
+    end
+
+    describe 'get_first_name' do
+      let!(:user) { create(:user, name: "firstname surname",
+        email: "firstname@xyz.com") }
+      let!(:test_user) { build(:user, name: "firstname") }
+
+      it 'should return first name of user' do
+        expect(user.get_first_name).to eq(test_user.name.titleize)
+      end
+
+      it 'should return name from email if name is not present' do
+        user.name = nil
+        user.save(validate: false)
+        expect(user.get_first_name).to eq(test_user.name.titleize)
       end
     end
 

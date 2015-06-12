@@ -18,6 +18,8 @@ describe Post do
     it { should have_db_column(:updated_at).of_type(:datetime) }
     it { should have_db_column(:deleted_at).of_type(:datetime) }
     it { should have_db_column(:is_draft).of_type(:boolean) }
+    it { should have_db_column(:is_internal).of_type(:boolean).
+      with_options(default: false) }
   end
 
   describe 'Validations' do
@@ -133,6 +135,23 @@ describe Post do
       it 'should return all published post' do
         expect(Post.published).to eq [post]
         expect(Post.published).to_not include(draft)
+      end
+    end
+
+    describe 'active_published' do
+      it 'should return posts which are not saved as draft' do
+        expect(Post.active_published).to eq [post]
+        expect(Post.active_published).to_not include(draft)
+      end
+    end
+
+    describe 'after_date_boundary' do
+      let!(:old_post) { create(:post, created_at: 8.days.ago) }
+
+      it 'should return posts created after specified date' do
+        expect(Post.after_date_boundary(7.days.ago)).
+          to match_array([post,draft])
+        expect(Post.after_date_boundary(7.days.ago)).to_not include(old_post)
       end
     end
   end

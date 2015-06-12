@@ -29,6 +29,14 @@ ActiveAdmin.register User do
   end
 
   controller do
+    def update
+      if params[:user][:password].blank?
+        params[:user].delete("password")
+        params[:user].delete("password_confirmation")
+      end
+      super
+    end
+
     def destroy
       User.find(params["id"]).destroy
       flash[:notice] = "User was successfully deactivated"

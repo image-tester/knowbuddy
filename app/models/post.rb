@@ -28,7 +28,7 @@ class Post < ActiveRecord::Base
   after_save       :send_email_notification, if: "is_published_changed?"
 
   default_scope { order("publish_at DESC") }
-  scope :draft, -> { where(is_draft: true) }
+  scope :draft, -> { where(is_draft: true).order(created_at: :desc) }
   scope :published, -> { where(is_draft: false) }
 
   scope :active_published, -> { where("posts.is_draft IS FALSE OR

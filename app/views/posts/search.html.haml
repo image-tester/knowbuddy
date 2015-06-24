@@ -24,4 +24,4 @@
                 %td= timeago_date_format(post.updated_at)
                 %td= post.user_name
 
-- content_for :sidebar, render(partial: 'sidebar', locals: {tag_cloud_hash: @tag_cloud_hash, users: @users})
+- content_for :sidebar, render(partial: 'sidebar', locals: { tag_cloud_hash: @tag_cloud_hash, users: @users, top_contributors: @top_contributors })

@@ -10,9 +10,10 @@ describe User do
     end
 
     it "should return top 5 contributors" do
-      expect(User.top).to_not be_nil
-      expect(User.top[5]).to be_nil
-      expect(User.top[0].total).to be >= User.top[1].total
+      top_contributors = User.top(7.days.ago)
+      expect(top_contributors).to_not be_nil
+      expect(top_contributors[5]).to be_nil
+      expect(top_contributors[0].total).to be >= top_contributors[1].total
     end
   end
 

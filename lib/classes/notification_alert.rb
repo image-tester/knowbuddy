@@ -21,6 +21,6 @@ class NotificationAlert
         UserMailer.general_rule_notification(user, rule,
           recent_activities, top_contributors).deliver
       end
-    end
+    end if top_contributors.present?
   end
 end

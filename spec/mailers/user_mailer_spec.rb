@@ -75,7 +75,7 @@ describe UserMailer do
 
     it "user should receive notification mail as per general rule" do
       recent_activities = Activity.from_past_24_hrs
-      top_5 = User.top
+      top_5 = User.top(7.days.ago)
       general_rule_mail = UserMailer.general_rule_notification(@user_1, rule3,
         recent_activities, top_5)
       expect(general_rule_mail.subject).to eq(rule3.subject)

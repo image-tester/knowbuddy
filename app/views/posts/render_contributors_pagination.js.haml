@@ -1,2 +1,2 @@
-$('#sidebar').html("#{ j (render 'sidebar', tag_cloud_hash: @tag_cloud_hash, users: @users )}");
+$('#sidebar').html("#{ j (render 'sidebar', tag_cloud_hash: @tag_cloud_hash, users: @users, top_contributors: @top_contributors)}");
 paginate_change_navigation_links_text();

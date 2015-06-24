@@ -17,7 +17,6 @@
 .block
   %h3 Top Contributors
   %ul#top_contributer.navigation
-    - top_contributors = User.top
     - top_contributors.each do |top|
       %li
         = user_link(top, top = true)
